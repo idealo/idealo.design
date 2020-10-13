@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8">
+  <script type="slot" name="head"></script>
+</head>
+
+<body>
+  <slot name="body-start"></slot>
+  
+  <!-- header -->
+  <meta slot="head" charset="utf-8">
+  <fragment src="http://fragment-server:8081/header.html"></fragment>
+  <!-- /header -->
+
+  <!-- main -->
+  <h1>Meow</h1>
+  <!-- /main -->
+
+  <!-- footer -->
+  <fragment src="http://fragment-server:8081/footer.html"></fragment>
+  <!-- /footer -->
+
+  <slot name="body-start"></slot>
+</body>
+
+</html>
+

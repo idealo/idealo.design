@@ -1,0 +1,22 @@
+FROM node:14 AS builder
+
+WORKDIR /usr/src/app
+
+ADD src/server/layout-service/ .
+ADD package.json .
+ADD package-lock.json .
+
+RUN npm install
+
+
+FROM node:14-alpine
+
+WORKDIR /usr/src/app
+COPY --from=builder /usr/src/app .
+
+EXPOSE 8080
+
+CMD ["node", "/usr/src/app"]
+
+
+

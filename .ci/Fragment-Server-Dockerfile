@@ -1,0 +1,22 @@
+FROM node:14 AS builder
+
+WORKDIR /usr/src/app
+
+ADD src/server/fragment-server/ .
+ADD package.json .
+ADD package-lock.json .
+
+RUN npm install
+
+
+FROM node:14-alpine
+
+WORKDIR /usr/src/app
+COPY --from=builder /usr/src/app .
+
+EXPOSE 8081
+
+CMD ["node", "/usr/src/app"]
+
+
+
