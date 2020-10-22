@@ -1,0 +1,28 @@
+{
+  "title": "Header",
+  "slug": "header",
+  "sections": [
+    {
+      "type": "h1",
+      "content": "`motif-header`"
+    },
+    {
+      "type": "h2",
+      "content": "Installation"
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "content": "yarn add @motif/header\n"
+    },
+    {
+      "type": "h2",
+      "content": "Usage"
+    },
+    {
+      "type": "code",
+      "lang": "js",
+      "content": "import { Header } from '@motif/header';\n\n<Header/>\n"
+    }
+  ]
+}

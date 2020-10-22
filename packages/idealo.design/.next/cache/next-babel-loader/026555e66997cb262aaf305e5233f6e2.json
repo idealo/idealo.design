@@ -1,0 +1,1 @@
+{"ast":null,"code":"\"use strict\";\n\nmodule.exports = [{\n  \"published\": true,\n  \"publishedAt\": \"2019-01-15\",\n  \"title\": \"This is my very first blog post\",\n  \"summary\": \"I am learning how to build a blog using Markdown in a static web page build on top of Next.js\",\n  \"path\": \"index\"\n}];","map":null,"metadata":{},"sourceType":"script"}

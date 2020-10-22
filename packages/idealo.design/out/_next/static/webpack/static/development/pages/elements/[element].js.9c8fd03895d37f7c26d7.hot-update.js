@@ -1,0 +1,15 @@
+webpackHotUpdate("static/development/pages/elements/[element].js",{
+
+/***/ "./data/__generated__elements__/media-query.json":
+/*!*******************************************************!*\
+  !*** ./data/__generated__elements__/media-query.json ***!
+  \*******************************************************/
+/*! exports provided: title, slug, sections, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"title\":\"Media query\",\"slug\":\"media-query\",\"sections\":[{\"type\":\"h1\",\"content\":\"`mdeia-query`\"},{\"type\":\"h2\",\"content\":\"Installation\"},{\"type\":\"code\",\"lang\":\"bash\",\"content\":\"yarn add @motif/media-query\\n\"},{\"type\":\"h2\",\"content\":\"Usage\"},{\"type\":\"code\",\"lang\":\"js\",\"content\":\"import { viewports, media } from '@motif/media-query';\\n\"},{\"type\":\"p\",\"content\":\"To apply styles in accordance with viewport size, use helper x, where x could be\\none of: xs, s, m, l, xl, xxl, x3l, x4l. For example:\"},{\"type\":\"code\",\"lang\":\"js\",\"content\":\"const MyStyledComponent = styled.div`\\n  ${media.s`color: red;`}\\n`;\\n\"},{\"type\":\"p\",\"content\":\"The above code will be applied for s (small) viewports and for all bigger devices, something similar to:\"},{\"type\":\"code\",\"lang\":\"css\",\"content\":\".as4563k6 {\\n  @media (min-width: 480px) {\\n\\tcolor: red;\\n  }\\n}\\n\"},{\"type\":\"p\",\"content\":\"To be able to set styles to specific viewports you may use xOnly helper, where x could be\\none of: xs, s, m, l, xl, xxl, x3l, x4l.\"},{\"type\":\"code\",\"lang\":\"js\",\"content\":\"const MyStyledComponent = styled.div`\\n  \\\\$\\\\{media.sOnly`color: red;`\\\\}\\n`;\\n\"},{\"type\":\"p\",\"content\":\"The above code will generate styles like this:\"},{\"type\":\"code\",\"lang\":\"css\",\"content\":\".as456626 {\\n  @media (min-width: 480px) and (max-width: 599px) {\\n\\tcolor: red;\\n  }\\n}\\n\"}]}");
+
+/***/ })
+
+})
+//# sourceMappingURL=[element].js.9c8fd03895d37f7c26d7.hot-update.js.map

@@ -1,0 +1,28 @@
+{
+  "title": "List",
+  "slug": "list",
+  "sections": [
+    {
+      "type": "h1",
+      "content": "`motif-list`"
+    },
+    {
+      "type": "h2",
+      "content": "Installation"
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "content": "yarn add @motif/list\n"
+    },
+    {
+      "type": "h2",
+      "content": "Usage"
+    },
+    {
+      "type": "code",
+      "lang": "js",
+      "content": "import {List} from './list';\n\nconst listItems = [\n  'one',\n  'two',\n  'three'\n];\n\n<List items={listItems} bulletColor={'palevioletred'}/>\n"
+    }
+  ]
+}

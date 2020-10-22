@@ -1,0 +1,28 @@
+{
+  "title": "Headline",
+  "slug": "headline",
+  "sections": [
+    {
+      "type": "h1",
+      "content": "`headline`"
+    },
+    {
+      "type": "h2",
+      "content": "Installation"
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "content": "yarn add @motif/headline\n"
+    },
+    {
+      "type": "h2",
+      "content": "Usage"
+    },
+    {
+      "type": "code",
+      "lang": "js",
+      "content": "import { Headline } from '@motif/headline';\n\n<Headline>Default Headline is H1</Headline>,\n<Headline level=\"s\">Small headline is H4</Headline>,\n<Headline level=\"m\">Medium headline is H3</Headline>,\n<Headline level=\"l\">Large headline is H2</Headline>,\n<Headline level=\"xl\">Extra large headline is H1</Headline>,\n"
+    }
+  ]
+}

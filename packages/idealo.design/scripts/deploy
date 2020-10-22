@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+REGISTRY=repo.eu.idealo.com:5101
+IMAGE=design-system-ui
+MODULE=.
+
+echo "-> build image"
+docker build --network=host -t $REGISTRY/$IMAGE:latest $MODULE
+
+echo "-> would push image"
+docker push $REGISTRY/$IMAGE:latest
+
+echo "-> would run kubectl"

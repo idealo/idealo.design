@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+
+const path = require('path')
+const fs = require('fs')
+
+const srcDir = path.join(__dirname, '../data/__generated__elements__')
+const outDir = path.join(__dirname, '../pages')
+const outDir_elements = path.join(outDir, 'elements')
+const outDir_components = path.join(outDir, 'components')
+const srcDir_elementBodyPage = path.join(__dirname, '../components/ElementPage/index.js')
+
+// We rely on classic string interpolation for this task
+const elementBodyPageTpl = fs.readFileSync(srcDir_elementBodyPage, {encoding: 'utf8'})
+const REPLACE_REGEX = /OOPS\. SOMETHING WENT WRONG/;
+
+
+
+const data = require(srcDir)
+const items = Object.keys(data)
+
+const renderSections = (item) => {
+    let rendered = item.title
+
+    rendered += item.body.sections
+        .map(section => {
+            return `
+<h1>${section.title}</h1>
+`
+        }).join('')
+
+    rendered = elementBodyPageTpl.replace(REPLACE_REGEX, rendered)
+
+    return rendered
+}
+
+items.forEach(key => {
+    const item = data[key];
+    const outFile = renderSections(item);
+
+    fs.writeFileSync(outDir_elements + '/' + key + '.js', outFile)
+})
+
