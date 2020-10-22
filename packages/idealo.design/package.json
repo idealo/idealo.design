@@ -15,8 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "@mdx-js/loader": "^1.5.7",
-    "@motif/grid": "^0.4.10",
-    "@motif/media-query": "^1.1.1",
     "@next/mdx": "^9.2.2",
     "@storybook/react": "^5.3.18",
     "@storybook/ui": "^5.3.18",
