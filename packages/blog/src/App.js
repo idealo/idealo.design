@@ -1,5 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
+import BoxComponent from "./BoxComponent";
 
 function App() {
   return (
@@ -11,7 +11,8 @@ function App() {
             Sidebar
         </div>
         <main className="content">
-         <h1>Hallo HTW</h1>
+         <h1> "Blog Listing" </h1>
+            <BoxComponent></BoxComponent>
         </main>
     {/*<img src={logo} className="App-logo" alt="logo" />*/}
     </div>

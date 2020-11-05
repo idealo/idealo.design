@@ -1,0 +1,22 @@
+.content {
+    grid-area: content;
+}
+.content h1{
+    padding-left: 24px;
+}
+
+.Content1, .Content2, .Content3, .Content4, .Content5, .Content6{
+    grid-area: flex;
+    border-style: groove;
+    border-color: black;
+    height: 300px;
+    width: 40%;
+    box-sizing: border-box;
+    padding: 20px;
+    margin: 20px;
+}
+
+.ContentBox{
+    display: flex;
+    flex-wrap: wrap;
+}

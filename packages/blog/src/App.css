@@ -13,6 +13,7 @@
   grid-area: header;
   background-color: hotpink;
   height: 5rem;
+  grid-column: 1 / -1;
 }
 
 .Mocked-Sidebar {
@@ -20,9 +21,6 @@
   background-color: #bada55;
 }
 
-.content {
-  grid-area: content;
-}
 
 
 
