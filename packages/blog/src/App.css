@@ -21,6 +21,16 @@
   background-color: #bada55;
 }
 
+.content {
+  grid-area: content;
+}
+.content h1{
+  padding-left: 24px;
+}
+.BlogPostTeaserList{
+  display: flex;
+  flex-wrap: wrap;
+}
 
 
 
