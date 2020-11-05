@@ -12,7 +12,6 @@ function App() {
         </div>
         <main className="content">
          <h1>Hallo HTW</h1>
-
         </main>
     {/*<img src={logo} className="App-logo" alt="logo" />*/}
     </div>
@@ -20,3 +19,5 @@ function App() {
 }
 
 export default App;
+
+

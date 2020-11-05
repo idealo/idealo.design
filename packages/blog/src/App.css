@@ -24,9 +24,5 @@
   grid-area: content;
 }
 
-container{
-  display: flex;
-  border-style: groove;
-  border-color: black;
-}
+
 
