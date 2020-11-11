@@ -1,0 +1,16 @@
+.Content{
+    border: 1px solid black;
+    max-width: 400px;
+    padding: 1rem;
+    margin: 1rem;
+    overflow: hidden;
+}
+
+.Content img{
+    width: 100px;
+    float: left;
+    margin-right: 1rem;
+}
+.Content h2{
+    margin-top: 0;
+}

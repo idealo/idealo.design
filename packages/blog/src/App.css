@@ -13,6 +13,7 @@
   grid-area: header;
   background-color: hotpink;
   height: 5rem;
+  grid-column: 1 / -1;
 }
 
 .Mocked-Sidebar {
@@ -22,6 +23,13 @@
 
 .content {
   grid-area: content;
+}
+.content h1{
+  padding-left: 24px;
+}
+.BlogPostTeaserList{
+  display: flex;
+  flex-wrap: wrap;
 }
 
 
