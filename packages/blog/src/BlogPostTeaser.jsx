@@ -3,7 +3,7 @@ import blogData from './blogData.json';
 
 
 function BlogPostTeaser(){
-        const blogDataList = blogData.map((blogData) => {
+    return blogData.map((blogData) => {
             return (
                 <div className="Content">
                     <h2>{blogData.title}</h2>
@@ -14,8 +14,7 @@ function BlogPostTeaser(){
                 </div>
             )
         }
-        )
-    return blogDataList
+    )
 
 }
 
