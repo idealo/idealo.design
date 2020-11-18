@@ -1,25 +1,54 @@
 import './App.css';
 import BlogPostTeaser from "./BlogPostTeaser";
+import React from "react";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+
+function Home() {
+    return <h1>Home</h1>
+}
 
 function App() {
+
     return (
         <div className="App">
             <div className="Mocked-Header">
                 Header
             </div>
-            <div className="Mocked-Sidebar">
-                Sidebar
-            </div>
-            <main className="content">
-                <h1>Blogs</h1>
-                <div className="BlogPostTeaserList">
-                    <BlogPostTeaser/>
+
+            <Router>
+                <div className="Mocked-Sidebar">
+                    Sidebar
+                    <ul>
+                        <li>
+                            <Link to="/">Home</Link>
+                        </li>
+                        <li>
+                            <Link to="/blog">Blog</Link>
+                        </li>
+                    </ul>
                 </div>
-            </main>
+
+                <main className="content">
+                    <Switch>
+                        <Route path="/blog">
+                            <BlogPostTeaser/>
+                        </Route>
+                        <Route path="/">
+                            <Home/>
+                        </Route>
+                    </Switch>
+                </main>
+            </Router>
         </div>
     );
 }
 
 export default App;
+
 
 
