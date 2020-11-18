@@ -36,7 +36,9 @@ function App() {
                 <main className="content">
                     <Switch>
                         <Route path="/blog">
+                            <div className="BlogPostTeaserList">
                             <BlogPostTeaser/>
+                            </div>
                         </Route>
                         <Route path="/">
                             <Home/>
