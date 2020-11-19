@@ -1,5 +1,6 @@
 import './App.css';
 import BlogPostTeaser from "./BlogPostTeaser";
+import BlogDetailView from "./BlogDetailView";
 import React from "react";
 import {
     BrowserRouter as Router,
@@ -30,6 +31,12 @@ function App() {
                         <li>
                             <Link to="/blog">Blog</Link>
                         </li>
+
+                        {/* new link for blogpost detail site, has to get changed when right link finished */}
+                        <li>
+                            <Link to="/blogpostxy">Blogpost</Link>
+                        </li>
+
                     </ul>
                 </div>
 
@@ -40,9 +47,15 @@ function App() {
                             <BlogPostTeaser/>
                             </div>
                         </Route>
+
+                        <Route path="/blogpostxy">
+                            <BlogDetailView/>
+                        </Route>
+
                         <Route path="/">
                             <Home/>
                         </Route>
+
                     </Switch>
                 </main>
             </Router>
