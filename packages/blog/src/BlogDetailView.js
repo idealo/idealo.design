@@ -1,8 +1,31 @@
 import './BlogDetailView.css';
 import React from "react";
+import { Redirect } from "react-router-dom";
+import blogData from './blogData.json';
 
-function BlogDetailView() {
+const BlogDetailView = (props) => {
+    console.log(props)
+    const validID = parseInt(props.match.params.id)
+    if (!validID) {
+        console.log("not a valid ID")
+        return <Redirect to="/404"/>
+    }
+
+    const fetchedPost = {}
+
+    let postExits = false
+    blogData.forEach((post) => {
+        if (validID === post.id){
+            fetchedPost.title = post.title ? post.title : "Kein Posttitel vorhanden"
+            postExits = true
+        }
+    })
+    if (postExits === false){
+        return <Redirect to="/404"/>
+    }
+
     return (
+
 
         <div className="ContentBox">
             <div className="socialMediaIcons">
@@ -11,7 +34,7 @@ function BlogDetailView() {
                 <img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/>
                 <img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/>
             </div>
-            <h2>Blogpost Titel</h2>
+            <h2>{fetchedPost.title}</h2>
             <h4>dd/mm/yyyy - hh:mm</h4>
             <h4>Autor:in Name</h4>
             <p>
