@@ -3,13 +3,13 @@ import blogData from './blogData.json';
 
 
 function BlogPostTeaser(){
-    return blogData.map((blogData) => {
+    return blogData.map((blog) => {
             return (
-                <div className="Content">
-                    <h2>{blogData.title}</h2>
-                    <img alt="" src={blogData.image}/>
+                <div key={blog.id} className="Content">
+                    <h2>{blog.title}</h2>
+                    <img alt="" src={blog.image}/>
                     <p>
-                        {blogData.text}
+                        {blog.text}
                     </p>
                 </div>
             )

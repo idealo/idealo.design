@@ -48,13 +48,15 @@ function App() {
                             </div>
                         </Route>
 
-                        <Route path="/blogpostxy">
-                            <BlogDetailView/>
-                        </Route>
+                        {/*<Route path="/blogpostxy">*/}
+                        {/*    <BlogDetailView/>*/}
+                        {/*</Route>*/}
 
                         <Route path="/">
                             <Home/>
                         </Route>
+
+                        <Route exact path="/blogpost/:id" render={(props) => <BlogDetailView {...props} />} />
 
                     </Switch>
                 </main>
