@@ -8,11 +8,22 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import {fetchList} from "./blogData";
 
 function Home() {
     return <h1>Home</h1>
 }
 
+function CategoryList() {
+    const cat = fetchList();
+    return cat.map((blog) => {
+        return (
+                    <div key={blog.category.slug}>
+                        <Link to={`/blog/${blog.category.slug}`}>{blog.category.displayValue}</Link>
+                    </div>
+        )
+    })
+}
 function App() {
 
     return (
@@ -30,6 +41,10 @@ function App() {
                         </li>
                         <li>
                             <Link to="/blog">Blog</Link>
+                            <ul>
+                                <div className="ListOfCategories"></div>
+                                <CategoryList/>
+                            </ul>
                         </li>
                     </ul>
                 </div>
