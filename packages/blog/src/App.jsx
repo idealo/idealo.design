@@ -47,9 +47,6 @@ function App() {
                         <Route path="/">
                             <Home/>
                         </Route>
-
-                        {/* <Route exact path="/blogpost/:id" render={(props) => <BlogDetailView {...props} />} /> */}
-
                     </Switch>
                 </main>
             </Router>
