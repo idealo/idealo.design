@@ -2,6 +2,7 @@
 const data = [
   {
     "id": 1,
+    "category": "Kategorie 1",
     "title": "Der Weihnachtsmann",
     "date": "12.11.2020",
     "author": "Theodor Fontane",
@@ -10,6 +11,7 @@ const data = [
   },
   {
     "id": 2,
+    "category": "Kategorie 2",
     "title": "Rudolf the Red Nose Reindeer",
     "date" : "13.11.2020",
     "author" : "Bertolt Brecht",
@@ -18,6 +20,7 @@ const data = [
   },
   {
     "id": 3,
+    "category": "Kategorie 3",
     "title": "Bitte nicht die Cookies löschen",
     "date": "14.10.2020",
     "author": "Friedrich Schiller",
@@ -26,6 +29,7 @@ const data = [
   },
   {
     "id": 4,
+    "category": "Kategorie 4",
     "title": "Über den Weihnachtsbaum",
     "date": "12.10.2020",
     "author": "Thomas Mann",
@@ -34,6 +38,7 @@ const data = [
   },
   {
     "id": 5,
+    "category": "Kategorie 5",
     "title": "Bunte Luftballons",
     "date": "13.10.2020",
     "author": "Johann Wolfgang von Goethe",
@@ -42,6 +47,7 @@ const data = [
   },
   {
     "id": 6,
+    "category": "Kategorie 6",
     "title": "Hurrah",
     "date": "10.10.2020",
     "author": "Heinrich Heine",
