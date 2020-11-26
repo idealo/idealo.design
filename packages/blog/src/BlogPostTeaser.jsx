@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 
 
 function BlogPostTeaser(){
-  const blogData = fetchList()
+  const blogData = fetchList();
 
   return blogData.map((blog) => {
     return (
       <div key={blog.id} className="Content">
         <h2>
-          <Link to={`/blog/${blog.id}`}>{blog.title}</Link>
+          <Link to={`/blog/${blog.slug}`}>{blog.title}</Link>
         </h2>
         <img alt="" src={blog.image}/>
         <p>

@@ -11,6 +11,7 @@
     "react-native": "^0.63.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
+    "slugify": "^1.4.6",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

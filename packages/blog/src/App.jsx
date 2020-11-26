@@ -36,7 +36,7 @@ function App() {
 
                 <main className="content">
                     <Switch>
-                        <Route path="/blog/:id">
+                        <Route path="/blog/:slug">
                           <BlogDetailView/>
                         </Route>
                         <Route path="/blog">
