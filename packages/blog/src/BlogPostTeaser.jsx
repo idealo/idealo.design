@@ -1,21 +1,26 @@
 import './BlogPostTeaser.css';
-import blogData from './blogData.json';
+import { fetchList } from './blogData';
+
+import { Link } from "react-router-dom";
+
 
 
 function BlogPostTeaser(){
-    return blogData.map((blog) => {
-            return (
-                <div key={blog.id} className="Content">
-                    <h2>{blog.title}</h2>
-                    <img alt="" src={blog.image}/>
-                    <p>
-                        {blog.text}
-                    </p>
-                </div>
-            )
-        }
-    )
+  const blogData = fetchList()
 
+  return blogData.map((blog) => {
+    return (
+      <div key={blog.id} className="Content">
+        <h2>
+          <Link to={`/blog/${blog.id}`}>{blog.title}</Link>
+        </h2>
+        <img alt="" src={blog.image}/>
+        <p>
+          {blog.text}
+        </p>
+      </div>
+    )
+  })
 }
 
 
