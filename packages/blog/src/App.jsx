@@ -6,9 +6,9 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link, useParams, Redirect
 } from "react-router-dom";
-import {fetchList} from "./blogData";
+import {fetchList, fetchSinglePost} from "./blogData";
 
 function Home() {
     return <h1>Home</h1>
@@ -18,12 +18,12 @@ function CategoryList() {
     const cat = fetchList();
     return cat.map((blog) => {
         return (
-                    <div key={blog.category.slug}>
-                        <Link to={`/blog/${blog.category.slug}`}>{blog.category.displayValue}</Link>
-                    </div>
-        )
+            <div key={blog.category.slug}>
+                <Link to={`/${blog.category.slug}`}>{blog.category.displayValue}</Link>
+            </div>)
     })
 }
+
 function App() {
 
     return (
@@ -42,6 +42,7 @@ function App() {
                         <li>
                             <Link to="/blog">Blog</Link>
                             <ul>
+                                <Link to={`/${CategoryList.slug}`}>{CategoryList}</Link>
                                 <div className="ListOfCategories"></div>
                                 <CategoryList/>
                             </ul>
@@ -52,11 +53,11 @@ function App() {
                 <main className="content">
                     <Switch>
                         <Route path="/blog/:slug">
-                          <BlogDetailView/>
+                            <BlogDetailView/>
                         </Route>
                         <Route path="/blog">
                             <div className="BlogPostTeaserList">
-                            <BlogPostTeaser/>
+                                <BlogPostTeaser/>
                             </div>
                         </Route>
                         <Route path="/">
