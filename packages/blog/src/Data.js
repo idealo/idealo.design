@@ -51,7 +51,6 @@ const data = [
     "id": 4,
     "title": "Über den Weihnachtsbaum",
     "date": "12.10.2020",
-    "author": {"name":"Thomas Mann", "mediaLinks": autorObj },
     "image" : "https://w7.pngwing.com/pngs/743/651/png-transparent-christmas-tree-and-giftbox-christmas-tree-christmas-day-christmas-eve-christmas-green-tree-with-gifts-decor-christmas-decoration-new-year.png",
     "text" : "Ein Weihnachtsbaum, auch Christbaum (in Österreich, Altbayern, der deutschsprachigen Schweiz und Liechtenstein ausschließlich, im Rheinland häufig) oder Tannenbaum ist ein geschmückter Nadelbaum, der zur Weihnachtszeit in einem Gebäude oder im Freien aufgestellt wird. Traditionelle Aufstellorte sind Kirchen und Wohnungen. Als Baumschmuck dienen meist Lichterketten, Kerzen, Christbaumkugeln, Lametta, Engels- oder andere Figuren. Dieser Weihnachtsbrauch verbreitete sich im 19. Jahrhundert vom deutschsprachigen Raum aus über die ganze Welt. "
     "author": {
