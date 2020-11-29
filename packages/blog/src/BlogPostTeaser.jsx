@@ -1,5 +1,5 @@
 import './BlogPostTeaser.css';
-import { fetchList } from './blogData';
+import { fetchList } from './Data';
 
 import { Link } from "react-router-dom";
 
