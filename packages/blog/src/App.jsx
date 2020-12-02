@@ -8,7 +8,6 @@ import {
     Route,
     Link
 } from "react-router-dom";
-
 function Home() {
     return <h1>Home</h1>
 }
@@ -37,6 +36,11 @@ function App() {
                 <main className="content">
                     <Switch>
                         <Route path="/blog/:id">
+                            <div className="backButton">
+                            <Link to='/blog'>
+                            <button>Go Back</button>
+                            </Link>
+                            </div>
                           <BlogDetailView/>
                         </Route>
                         <Route path="/blog">
