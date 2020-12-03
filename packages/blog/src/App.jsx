@@ -8,7 +8,7 @@ import {
     Route,
     Link, useParams, Redirect
 } from "react-router-dom";
-import {fetchList, fetchSinglePost} from "./blogData";
+import {fetchList, fetchSinglePost} from "./Data";
 
 function Home() {
     return <h1>Home</h1>
