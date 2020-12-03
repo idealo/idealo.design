@@ -71,7 +71,10 @@ function App() {
                         <Route path="/">
                             <Home/>
                         </Route>
+                     </Route>
                     </Switch>
+               
+
                 </main>
             </Router>
         </div>

@@ -5,7 +5,6 @@ import { fetchSinglePost } from './blogData';
 
 const BlogDetailView = (props) => {
   let { id } = useParams();
-  const blogpost = fetchSinglePost({id})
   let { slug } = useParams();
 
   const blogpost = fetchSinglePost({ slug });
