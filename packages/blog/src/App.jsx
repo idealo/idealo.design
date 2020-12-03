@@ -8,8 +8,7 @@ import {
     Route,
     Link, useParams, Redirect
 } from "react-router-dom";
-
-import {fetchList, fetchSinglePost} from "./blogData";
+import {fetchList, fetchSinglePost} from "./Data";
 
 function Home() {
     return <h1>Home</h1>
@@ -53,14 +52,12 @@ function App() {
 
                 <main className="content">
                     <Switch>
-                        <Route path="/blog/:id">
-                            <div className="backButton">
+                        <Route path="/blog/:slug">
+                         <div className="backButton">
                             <Link to='/blog'>
                             <button>Go Back</button>
                             </Link>
                             </div>
-                          <BlogDetailView/>
-                        <Route path="/blog/:slug">
                             <BlogDetailView/>
                         </Route>
                         <Route path="/blog">
@@ -71,10 +68,7 @@ function App() {
                         <Route path="/">
                             <Home/>
                         </Route>
-                     </Route>
                     </Switch>
-               
-
                 </main>
             </Router>
         </div>
@@ -82,6 +76,3 @@ function App() {
 }
 
 export default App;
-
-
-
