@@ -1,9 +1,6 @@
 import './BlogPostTeaser.css';
-import {fetchList, fetchPostByCategorySlug} from './blogData';
-
+import {fetchList, fetchPostByCategorySlug} from './Data';
 import {Link, useParams} from "react-router-dom";
-
-
 
 function BlogPostTeaser(){
     const { slug } = useParams();

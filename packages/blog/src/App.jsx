@@ -8,13 +8,11 @@ import {
     Route,
     Link, useParams, Redirect
 } from "react-router-dom";
-import {fetchList, fetchSinglePost, fetchPostByCategory, fetchAllCategories} from "./blogData";
-
+import {fetchList, fetchSinglePost, fetchPostByCategory, fetchAllCategories} from "./Data";
 
 function Home() {
     return <h1>Home</h1>
 }
-
 
 function CategoryList() {
     const cats = fetchAllCategories();
@@ -60,6 +58,11 @@ function App() {
                             </div>
                         </Route>
                         <Route path="/blog/:slug">
+                         <div className="backButton">
+                            <Link to='/blog'>
+                            <button>Go Back</button>
+                            </Link>
+                            </div>
                             <BlogDetailView/>
                         </Route>
                         <Route path="/blog">
@@ -78,6 +81,3 @@ function App() {
 }
 
 export default App;
-
-
-
