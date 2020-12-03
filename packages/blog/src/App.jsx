@@ -14,15 +14,17 @@ function Home() {
     return <h1>Home</h1>
 }
 
+
 function CategoryList() {
     const cat = fetchList();
     return cat.map((blog) => {
         return (
             <div key={blog.category.slug}>
-                <Link to={`/${blog.category.slug}`}>{blog.category.displayValue}</Link>
+                <Link to={`/blog/${blog.slug}`}>{blog.category.displayValue}</Link>
             </div>)
     })
 }
+
 
 function App() {
 
