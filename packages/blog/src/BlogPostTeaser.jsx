@@ -1,12 +1,19 @@
 import './BlogPostTeaser.css';
-import { fetchList } from './blogData';
+import {fetchList, fetchPostByCategorySlug} from './blogData';
 
-import { Link } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 
 
 function BlogPostTeaser(){
-  const blogData = fetchList();
+    const { slug } = useParams();
+
+    let blogData;
+    if (slug) {
+        blogData = fetchPostByCategorySlug({ categorySlug:slug })
+    } else {
+        blogData = fetchList();
+    }
 
   return blogData.map((blog) => {
     return (
