@@ -8,7 +8,8 @@ import {
     Route,
     Link, useParams, Redirect
 } from "react-router-dom";
-import {fetchList, fetchSinglePost} from "./blogData";
+import {fetchList, fetchSinglePost, fetchPostByCategory, fetchAllCategories} from "./blogData";
+
 
 function Home() {
     return <h1>Home</h1>
@@ -16,13 +17,16 @@ function Home() {
 
 
 function CategoryList() {
-    const cat = fetchList();
-    return cat.map((blog) => {
-        return (
-            <div key={blog.category.slug}>
-                <Link to={`/blog/${blog.slug}`}>{blog.category.displayValue}</Link>
-            </div>)
-    })
+    const cats = fetchAllCategories();
+    return (
+        <ul>
+        {cats.map((category) => (
+            <li>
+                <div key={category.slug}>
+                    <Link to={`/blog/category/${category.slug}`}>{category.displayValue}</Link>
+                </div>
+            </li>))}
+        </ul>)
 }
 
 
@@ -43,17 +47,18 @@ function App() {
                         </li>
                         <li>
                             <Link to="/blog">Blog</Link>
-                            <ul>
-                                <Link to={`/${CategoryList.slug}`}>{CategoryList}</Link>
-                                <div className="ListOfCategories"></div>
                                 <CategoryList/>
-                            </ul>
                         </li>
                     </ul>
                 </div>
 
                 <main className="content">
                     <Switch>
+                        <Route path="/blog/category/:slug">
+                            <div className="BlogPostTeaserList">
+                                <BlogPostTeaser/>
+                            </div>
+                        </Route>
                         <Route path="/blog/:slug">
                             <BlogDetailView/>
                         </Route>
