@@ -53,6 +53,11 @@ function App() {
                 <main className="content">
                     <Switch>
                         <Route path="/blog/:slug">
+                         <div className="backButton">
+                            <Link to='/blog'>
+                            <button>Go Back</button>
+                            </Link>
+                            </div>
                             <BlogDetailView/>
                         </Route>
                         <Route path="/blog">
@@ -71,6 +76,3 @@ function App() {
 }
 
 export default App;
-
-
-
