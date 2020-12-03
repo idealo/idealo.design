@@ -6,10 +6,20 @@ import { fetchSinglePost } from './blogData';
 const BlogDetailView = (props) => {
   let { id } = useParams();
   const blogpost = fetchSinglePost({id})
+  let { slug } = useParams();
+
+  const blogpost = fetchSinglePost({ slug });
+
   if (!blogpost) {
-    console.log("not a valid ID")
     return <Redirect to="/404"/>
   }
+
+  const date = new Date(blogpost.date);
+  const year = date.getFullYear();
+  const month = date.getMonth()+1;
+  const day = date.getDate();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
 
   return (
     <div className="ContentBox">
@@ -20,12 +30,12 @@ const BlogDetailView = (props) => {
         <img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/>
       </div>
       <h2>{blogpost.title}</h2>
-      <h4>{blogpost.date}</h4>
+      <h4>{`${day}.${month}.${year} um ${hour}:${minute} Uhr`}</h4>
       <h4>{blogpost.author}</h4>
       <p>{blogpost.text}</p>
       <img alt="" src={blogpost.image} />
     </div>
   );
-}
+};
 
 export default BlogDetailView;
