@@ -55,32 +55,37 @@ function App() {
                     <Switch>
 
                         <Route path="/blog/category/:slug">
-                            <div className="BlogPostTeaserList">
-                                <BlogPostTeaser/>
-                            </div>
-                     <Route path="/newblogpost">
+                          <div className="BlogPostTeaserList">
+                            <BlogPostTeaser/>
+                          </div>
+                        </Route>
+
+                        <Route path="/newblogpost">
                             <RichTextEditor/>
                         </Route>
+
                         <Route path="/blog/:slug">
-                         <div className="backButton">
+                          <div className="backButton">
                             <Link to='/blog'>
-                            <button>Go Back</button>
+                              <button>Go Back</button>
                             </Link>
-                            </div>
-                            <BlogDetailView/>
+                          </div>
+                          <BlogDetailView/>
                         </Route>
+
                         <Route path="/blog">
-                        <div className="newPostButton">
+                          <div className="newPostButton">
                             <Link to='/newblogpost'>
                             <button>New Post</button>
                             </Link>
                             </div>
                             <div className="BlogPostTeaserList">
                                 <BlogPostTeaser/>
-                            </div>
+                          </div>
                         </Route>
+  
                         <Route path="/">
-                            <Home/>
+                          <Home/>
                         </Route>
                     </Switch>
                 </main>
