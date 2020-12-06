@@ -2,9 +2,7 @@ FROM node:14 AS builder
 
 WORKDIR /usr/src/app
 
-ADD src/server/fragment-server/ .
-ADD package.json .
-ADD package-lock.json .
+ADD packages/fragment-server/ .
 
 RUN npm install
 

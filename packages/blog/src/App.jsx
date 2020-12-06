@@ -1,6 +1,7 @@
 import './App.css';
 import BlogPostTeaser from "./BlogPostTeaser";
 import BlogDetailView from "./BlogDetailView";
+import RichTextEditor from "./components/RichTextEditor"
 import React from "react";
 import {
     BrowserRouter as Router,
@@ -52,10 +53,13 @@ function App() {
 
                 <main className="content">
                     <Switch>
+
                         <Route path="/blog/category/:slug">
                             <div className="BlogPostTeaserList">
                                 <BlogPostTeaser/>
                             </div>
+                     <Route path="/newblogpost">
+                            <RichTextEditor/>
                         </Route>
                         <Route path="/blog/:slug">
                          <div className="backButton">
@@ -66,6 +70,11 @@ function App() {
                             <BlogDetailView/>
                         </Route>
                         <Route path="/blog">
+                        <div className="newPostButton">
+                            <Link to='/newblogpost'>
+                            <button>New Post</button>
+                            </Link>
+                            </div>
                             <div className="BlogPostTeaserList">
                                 <BlogPostTeaser/>
                             </div>
