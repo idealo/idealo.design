@@ -104,8 +104,8 @@ const data = [
     "id": 6,
     "slug": "hurrah",
     "category": {
-      "displayValue": "Kategorie 6",
-      "slug":"kategorie-6",
+      "displayValue": "Kategorie 1",
+      "slug":"kategorie-1",
     },
     "title": "Hurrah",
     "date": "2020-11-26T14:45:45.351Z",
@@ -133,4 +133,28 @@ export function fetchSinglePost({ slug }) {
   if (!slug) return; //gibt null zurück wenn kein Slug definiert ist
 
   return data.filter(post => post.slug === slug).pop();
+}
+
+export function fetchPostByCategorySlug({ categorySlug }) {
+  console.log(categorySlug);
+
+  if (!categorySlug) return; //gibt null zurück wenn kein Category definiert ist
+
+  return data.filter(post => post.category.slug === categorySlug);
+}
+
+export function fetchAllCategories() {
+  const reduced = [];
+
+  data.map(function (post) {
+    return post.category;
+  }).map( cat => {
+    const slug = cat.slug;
+    const isExisting = reduced.filter(cat => cat.slug === slug).length > 0;
+    if (!isExisting) {
+      reduced.push(cat);
+    }
+  })
+
+  return reduced;
 }
