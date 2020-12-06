@@ -22,3 +22,15 @@ img{
     height: 30px;
     display: inline;
 }
+
+.ButtonPrevious{
+    margin: 1rem;
+    margin-right: 2.5rem;
+    float: left;
+}
+
+.ButtonNext{
+    margin: 1rem;
+    margin-right: 2.5rem;
+    float: right;
+}

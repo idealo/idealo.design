@@ -39,19 +39,26 @@ const BlogDetailView = (props) => {
 
 
     return (
-        <div className="ContentBox">
-            <div className="socialMediaIcons">
-                {instagramLink}
-                {twitterLink}
-                {facebookLink}
-                {emailLink}
+        <>
+            <div className="ContentBox">
+                <div className="socialMediaIcons">
+                    {instagramLink}
+                    {twitterLink}
+                    {facebookLink}
+                    {emailLink}
+                </div>
+                <h2>{blogpost.title}</h2>
+                <h4>{`${day}.${month}.${year} um ${hour}:${minute} Uhr`}</h4>
+                <h4>{blogpost.author.name}</h4>
+                <p>{blogpost.text}</p>
+                <img alt="" src={blogpost.image} />
             </div>
-            <h2>{blogpost.title}</h2>
-            <h4>{`${day}.${month}.${year} um ${hour}:${minute} Uhr`}</h4>
-            <h4>{blogpost.author.name}</h4>
-            <p>{blogpost.text}</p>
-            <img alt="" src={blogpost.image} />
-        </div>
+
+            <div className="ButtonNavigation">
+                <button className="ButtonPrevious">Previous</button>
+                <button className="ButtonNext">Next</button>
+            </div>
+        </>
     );
 };
 
