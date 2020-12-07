@@ -2,6 +2,7 @@ import React from "react";
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
 import '../style/RichText.css'
 import '../../node_modules/draft-js/dist/Draft.css'
+import './RichTextEditor.css';
 
 class RichTextEditor extends React.Component {
         constructor(props) {
@@ -73,6 +74,7 @@ class RichTextEditor extends React.Component {
           }
 
           return (
+              <div>
             <div className="RichEditor-root">
               <BlockStyleControls
                 editorState={editorState}
@@ -96,10 +98,14 @@ class RichTextEditor extends React.Component {
                 />
               </div>
             </div>
+                  <div className="newBlogPostButtons">
+                  <button className="SubmitButton">Submit</button>
+                  <button className="CancelButton">Cancel</button>
+                  </div>
+              </div>
           );
         }
       }
-
       // Custom overrides for "code" style.
       const styleMap = {
         CODE: {
@@ -201,4 +207,5 @@ class RichTextEditor extends React.Component {
         );
       };
 
-export default RichTextEditor
+
+export default RichTextEditor;
