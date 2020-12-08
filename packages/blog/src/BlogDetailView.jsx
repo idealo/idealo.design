@@ -1,6 +1,6 @@
 import './BlogDetailView.css';
 import React from "react";
-import { Redirect, useParams } from "react-router-dom";
+import { Redirect, Link, useParams } from "react-router-dom";
 import { fetchSinglePost } from './Data';
 
 const BlogDetailView = (props) => {
@@ -55,8 +55,12 @@ const BlogDetailView = (props) => {
             </div>
 
             <div className="ButtonNavigation">
-                <button className="ButtonPrevious">Previous</button>
-                <button className="ButtonNext">Next</button>
+               {blogpost.previousPost && (<Link to={'/blog/' + blogpost.previousPost}>
+                    <span className="ButtonPrevious">Previous</span>
+                </Link>)}
+               {blogpost.nextPost && (<Link to={'/blog/' + blogpost.nextPost}>
+                    <span className="ButtonNext">Next</span>
+                </Link>)}
             </div>
         </>
     );
