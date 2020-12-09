@@ -2,6 +2,8 @@
 const data = [
   {
     "id": 1,
+    "nextPost": "rudolf-the-red-nose-reindeer",
+    "previousPost": "",
     "slug": "der-weihnachtsmann",
     "category": {
       "displayValue": "Kategorie 1",
@@ -22,13 +24,15 @@ const data = [
   },
   {
     "id": 2,
+    "nextPost": "bitte-nicht-die-cookies-löschen",
+    "previousPost": "der-weihnachtsmann",
     "slug": "rudolf-the-red-nose-reindeer",
     "category": {
       "displayValue": "Kategorie 2",
       "slug":"kategorie-2",
     },
     "title": "Rudolf the Red Nose Reindeer",
-    "date" : "2020-11-26T14:45:45.351Z",
+    "date" : "2020-11-27T14:45:45.351Z",
     "author" : {
       "name": "Bertolt Brecht",
       "instagram" : "https://www.instagram.com/therock/",
@@ -42,13 +46,15 @@ const data = [
   },
   {
     "id": 3,
+    "nextPost": "über-den-weihnachtsbaum",
+    "previousPost": "rudolf-the-red-nose-reindeer",
     "slug":"bitte-nicht-die-cookies-löschen",
     "category": {
       "displayValue": "Kategorie 3",
       "slug": "kategorie-3",
     },
     "title": "Bitte nicht die Cookies löschen",
-    "date": "2020-11-26T14:45:45.351Z",
+    "date": "2020-11-28T14:45:45.351Z",
     "author": {
       "name": "Friedrich Schiller",
       "instagram" : "",
@@ -62,6 +68,8 @@ const data = [
   },
   {
     "id": 4,
+    "nextPost": "bunte-luftballons",
+    "previousPost": "bitte-nicht-die-cookies-löschen",
     "slug": "über-den-weihnachtsbaum",
     "category": {
       "displayValue": "Kategorie 4",
@@ -82,6 +90,8 @@ const data = [
   },
   {
     "id": 5,
+    "nextPost": "hurrah",
+    "previousPost": "über-den-weihnachtsbaum",
     "slug": "bunte-luftballons",
     "category": {
       "displayValue": "Kategorie 5",
@@ -102,6 +112,8 @@ const data = [
   },
   {
     "id": 6,
+    "nextPost": "",
+    "previousPost": "bunte-luftballons",
     "slug": "hurrah",
     "category": {
       "displayValue": "Kategorie 1",

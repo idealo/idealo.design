@@ -7,9 +7,9 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link, useParams, Redirect
+    Link,
 } from "react-router-dom";
-import {fetchList, fetchSinglePost, fetchPostByCategory, fetchAllCategories} from "./Data";
+import { fetchAllCategories } from "./Data";
 
 function Home() {
     return <h1>Home</h1>
@@ -20,8 +20,8 @@ function CategoryList() {
     return (
         <ul>
         {cats.map((category) => (
-            <li>
-                <div key={category.slug}>
+            <li key={category.slug}>
+                <div>
                     <Link to={`/blog/category/${category.slug}`}>{category.displayValue}</Link>
                 </div>
             </li>))}
