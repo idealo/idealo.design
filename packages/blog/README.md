@@ -1,4 +1,45 @@
-# Getting Started with Create React App
+# Setting up your system
+
+## NodeJS
+Open your Terminal (Terminal App on Mac OS and Linux, Command prompt on Windows ("Eingabeaufforderung"))
+Node Version Manager (nvm)
+https://github.com/nvm-sh/nvm#install--update-script
+
+Use Node v15.3.0.
+
+Project page https://nodejs.org/en/.
+
+## Docker
+Open the webpage https://www.docker.com/products/docker-desktop.
+Downlowd the package for your operating system. Execute the downloaded installer and follow the steps.
+
+Open a terminal (Terminal App on Mac OS and Linux, Command prompt on Windows ("Eingabeaufforderung")).
+
+`$ docker run hello-world` 
+
+Then docker downloads the hello-world container image and executes it. You should ultimately see something
+like the following
+
+`
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+`
+
+Now you have docker installed. If you're on Windows or Mac OS, you're done. If you're on linux, you now have
+to install Docker Compose, in order to run the Docker Containers programmatically.
+
+## Linux: Install Docker Compose
+Go to https://docs.docker.com/compose/install/. Follow the installation instructions fo for your platform.
+
+Congrats, you're done!
+
+
+# Run the docker-compose file
+- go to nwp/packages/blog
+- run docker-compose
+
+
+# Frontend: Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
