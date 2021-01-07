@@ -1,4 +1,3 @@
-
 const data = [
   {
     "id": 1,
@@ -134,12 +133,11 @@ const data = [
   }
 ]
 
-
-export function fetchList() {
+function fetchList() {
   return data;
 }
 
-export function fetchSinglePost({ slug }) {
+function fetchSinglePost({ slug }) {
   console.log(slug);
 
   if (!slug) return; //gibt null zurück wenn kein Slug definiert ist
@@ -147,7 +145,7 @@ export function fetchSinglePost({ slug }) {
   return data.filter(post => post.slug === slug).pop();
 }
 
-export function fetchPostByCategorySlug({ categorySlug }) {
+function fetchPostsByCategorySlug({ categorySlug }) {
   console.log(categorySlug);
 
   if (!categorySlug) return; //gibt null zurück wenn kein Category definiert ist
@@ -155,7 +153,7 @@ export function fetchPostByCategorySlug({ categorySlug }) {
   return data.filter(post => post.category.slug === categorySlug);
 }
 
-export function fetchAllCategories() {
+function fetchAllCategories() {
   const reduced = [];
 
   data.map(function (post) {
@@ -169,4 +167,11 @@ export function fetchAllCategories() {
   })
 
   return reduced;
+}
+
+module.exports = {
+  fetchList, 
+  fetchAllCategories,
+  fetchPostsByCategorySlug,
+  fetchSinglePost,
 }
