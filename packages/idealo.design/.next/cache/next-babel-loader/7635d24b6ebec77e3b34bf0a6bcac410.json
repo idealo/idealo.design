@@ -1,1 +1,0 @@
-{"ast":null,"code":"var __jsx = React.createElement;\nimport React from 'react';\nimport styles from './Card.module.scss';\nexport class Card extends React.Component {\n  render() {\n    return __jsx(\"div\", {\n      className: styles.Card\n    }, this.props.children);\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}
