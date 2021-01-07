@@ -1,6 +1,6 @@
 import './BlogPostTeaser.css';
-import { fetchList, fetchPostByCategorySlug } from './Data';
-import { Link, useParams } from "react-router-dom";
+import {fetchList, fetchPostByCategorySlug} from './Data';
+import {Link, useParams} from "react-router-dom";
 
 
 
