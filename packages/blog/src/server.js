@@ -4,7 +4,7 @@ const {
     fetchAllCategories,
     fetchPostsByCategorySlug,
     fetchSinglePost, 
-} = require('./Data');
+} = require('./NodeData');
 const app = express();
 
 

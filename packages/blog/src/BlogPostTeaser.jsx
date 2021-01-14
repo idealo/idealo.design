@@ -1,5 +1,5 @@
 import './BlogPostTeaser.css';
-import {fetchList, fetchPostByCategorySlug} from './Data';
+import {fetchList, fetchPostsByCategorySlug} from './Data';
 import {Link, useParams} from "react-router-dom";
 
 
@@ -9,8 +9,9 @@ function BlogPostTeaser(){
 
     let blogData;
     if (slug) {
-        blogData = fetchPostByCategorySlug({ categorySlug:slug })
-    } else {
+        blogData = fetchPostsByCategorySlug({ categorySlug:slug })
+    }
+    else {
         blogData = fetchList();
     }
 
