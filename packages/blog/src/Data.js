@@ -140,16 +140,12 @@ export function fetchList() {
 }
 
 export function fetchSinglePost({ slug }) {
-  console.log(slug);
-
   if (!slug) return; //gibt null zurück wenn kein Slug definiert ist
 
   return data.filter(post => post.slug === slug).pop();
 }
 
 export function fetchPostByCategorySlug({ categorySlug }) {
-  console.log(categorySlug);
-
   if (!categorySlug) return; //gibt null zurück wenn kein Category definiert ist
 
   return data.filter(post => post.category.slug === categorySlug);

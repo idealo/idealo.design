@@ -12,7 +12,8 @@ class RichTextEditor extends React.Component {
           this.state = {
             editorState: EditorState.createEmpty(),
             isPromptOpen: false,
-            isEdited: false 
+            isEdited: false,
+            lastHistoryLocation: '', 
           };
 
           this.focus = () => this.refs.editor.focus();
@@ -29,6 +30,17 @@ class RichTextEditor extends React.Component {
           this.onModalLeave = this.onModalLeave.bind(this);
           
         }
+
+        componentDidMount() {
+          this.props.history.block((tx) => {
+            if (this.state.isEdited) {
+              this.setState({ lastHistoryLocation: tx.pathname, isPromptOpen: true });
+            
+              return !this.state.isEdited;
+            } 
+            return true;
+          })
+       }
 
         _handleKeyCommand(command, editorState) {
           const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -85,8 +97,11 @@ class RichTextEditor extends React.Component {
         } 
 
         onModalLeave() {
-          this.setState({isPromptOpen: false });
-          this.props.history.push('/blog');
+          this.setState(
+            { isPromptOpen: false, isEdited: false },
+            () => {
+              this.props.history.push(this.state.lastHistoryLocation);
+          });
         }
 
         render() {
