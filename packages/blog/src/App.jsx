@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import { fetchAllCategories } from "./Data";
 
+
 function Home() {
     return <h1>Home</h1>
 }
@@ -60,9 +61,7 @@ function App() {
                           </div>
                         </Route>
 
-                        <Route path="/newblogpost">
-                            <RichTextEditor/>
-                        </Route>
+                        <Route component={RichTextEditor} path="/newblogpost" />
 
                         <Route path="/blog/:slug">
                           <div className="backButton">

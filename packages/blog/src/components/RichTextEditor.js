@@ -3,20 +3,44 @@ import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
 import '../style/RichText.css'
 import '../../node_modules/draft-js/dist/Draft.css'
 import './RichTextEditor.css';
+import Prompt from './Prompt';
 
 class RichTextEditor extends React.Component {
         constructor(props) {
           super(props);
-          this.state = {editorState: EditorState.createEmpty()};
+          
+          this.state = {
+            editorState: EditorState.createEmpty(),
+            isPromptOpen: false,
+            isEdited: false,
+            lastHistoryLocation: '', 
+          };
 
           this.focus = () => this.refs.editor.focus();
-          this.onChange = (editorState) => this.setState({editorState});
+          this.onChange = (editorState) => {
+            this.setState({ editorState, isEdited: true });
+          } 
 
           this.handleKeyCommand = this._handleKeyCommand.bind(this);
           this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
           this.toggleBlockType = this._toggleBlockType.bind(this);
           this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
+          this.handleCanceliation = this.handleCanceliation.bind(this);
+          this.onModalCancel = this.onModalCancel.bind(this);
+          this.onModalLeave = this.onModalLeave.bind(this);
+          
         }
+
+        componentDidMount() {
+          this.props.history.block((tx) => {
+            if (this.state.isEdited) {
+              this.setState({ lastHistoryLocation: tx.pathname, isPromptOpen: true });
+            
+              return !this.state.isEdited;
+            } 
+            return true;
+          })
+       }
 
         _handleKeyCommand(command, editorState) {
           const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -60,6 +84,26 @@ class RichTextEditor extends React.Component {
           );
         }
 
+        handleCanceliation(e) {
+          if(this.state.isEdited) {
+            this.setState({isPromptOpen: true });
+          } else {
+            this.props.history.push('/blog');
+          }
+        }
+
+        onModalCancel() {
+          this.setState({isPromptOpen: false });
+        } 
+
+        onModalLeave() {
+          this.setState(
+            { isPromptOpen: false, isEdited: false },
+            () => {
+              this.props.history.push(this.state.lastHistoryLocation);
+          });
+        }
+
         render() {
           const {editorState} = this.state;
 
@@ -100,9 +144,18 @@ class RichTextEditor extends React.Component {
             </div>
                   <div className="newBlogPostButtons">
                   <button className="SubmitButton">Submit</button>
-                  <button className="CancelButton">Cancel</button>
+                  <button className="CancelButton" onClick={this.handleCanceliation}>Cancel</button>
                   </div>
+
+                  <Prompt 
+                    show={this.state.isPromptOpen} 
+                    onHide={this.onModalCancel}
+                    onLeave={this.onModalLeave}
+                    message='Are you sure you want to leave?'
+
+                  />
               </div>
+
           );
         }
       }

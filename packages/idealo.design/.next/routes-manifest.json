@@ -1,1 +1,0 @@
-{"version":1,"pages404":true,"basePath":"","redirects":[],"rewrites":[],"headers":[],"dynamicRoutes":[{"page":"/elements/[element]","regex":"^\\/elements\\/([^/]+?)(?:\\/)?$","namedRegex":"^/elements/(?<element>[^/]+?)(?:/)?$","routeKeys":["element"]}]}
