@@ -26,6 +26,7 @@ class RichTextEditor extends React.Component {
           this.toggleBlockType = this._toggleBlockType.bind(this);
           this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
           this.handleCanceliation = this.handleCanceliation.bind(this);
+          this.handleSubmit = this.handleSubmit.bind(this);
           this.onModalCancel = this.onModalCancel.bind(this);
           this.onModalLeave = this.onModalLeave.bind(this);
           
@@ -90,6 +91,23 @@ class RichTextEditor extends React.Component {
           } else {
             this.props.history.push('/blog');
           }
+
+        }
+
+        handleSubmit(e){
+          e.preventDefault();
+          console.log(this.state.editorState.getCurrentContent().getPlainText());
+
+          fetch('http://localhost:8080/api/blogposts', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            // We convert the React state to JSON and send it as the POST body
+            body: JSON.stringify({body: this.state.editorState.getCurrentContent().getPlainText()})
+          }).then(function(response) {
+            console.log(response)
+            return response.json();
+          });   
+          this.setState({editorState: EditorState.createEmpty()})  
         }
 
         onModalCancel() {
@@ -143,7 +161,7 @@ class RichTextEditor extends React.Component {
               </div>
             </div>
                   <div className="newBlogPostButtons">
-                  <button className="SubmitButton">Submit</button>
+                  <button className="SubmitButton" onClick={this.handleSubmit}>Submit</button>
                   <button className="CancelButton" onClick={this.handleCanceliation}>Cancel</button>
                   </div>
 
