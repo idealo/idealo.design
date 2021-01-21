@@ -98,7 +98,7 @@ class RichTextEditor extends React.Component {
           e.preventDefault();
           console.log(this.state.editorState.getCurrentContent().getPlainText());
 
-          fetch('/api/blogposts', {
+          fetch('http://localhost:8080/api/blogposts', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             // We convert the React state to JSON and send it as the POST body

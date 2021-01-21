@@ -22,9 +22,41 @@ async function fetchAllCategories() {
   return cats;
 }
 
+async function storeSinglePost({ 
+  title = '', 
+  date,
+  categoryDisplayValue = 'Ohne Kategorie', 
+  categorySlug = 'default', 
+  slug,
+  image = '',
+  body
+ }) {
+  const createdPost = await sql`
+    insert into blogposts (
+      title,
+      categoryDisplayValue,
+      categorySlug,
+      slug,
+      date,
+      image,
+      text
+    ) values (
+      ${title},
+      ${categoryDisplayValue},
+      ${categorySlug},
+      ${slug},
+      ${date},
+      ${image},
+      ${body} 
+    );`;
+
+  return createdPost;
+}
+
 module.exports = {
   fetchList, 
   fetchAllCategories,
   fetchPostsByCategorySlug,
   fetchSinglePost,
+  storeSinglePost,
 }
