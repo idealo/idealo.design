@@ -8,27 +8,27 @@ const {
 const app = express();
 
 
-app.get('/api/blogposts/:slug?', (req, res) => {
+app.get('/api/blogposts/:slug?', async (req, res) => {
     const { slug } = req.params;
     if (!slug) {
         const { byCategorySlug: categorySlug } = req.query;
         let posts = [];
 
         if (categorySlug) {
-            posts = fetchPostsByCategorySlug({categorySlug});
+            posts = await fetchPostsByCategorySlug({categorySlug});
         } else {
-            posts = fetchList();
+            posts = await fetchList();
         }
 
         return res.json(posts);
     }
 
-    const blogpost = fetchSinglePost({ slug });
+    const blogpost = await fetchSinglePost({ slug });
     return res.json(blogpost);
 });
 
-app.get('/api/categories', (req, res) => {
-    const categories = fetchAllCategories();  
+    app.get('/api/categories', async (req, res) => {
+    const categories = await fetchAllCategories();
     return res.json(categories);
 }); 
 
