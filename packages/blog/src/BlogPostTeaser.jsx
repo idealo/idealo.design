@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import './BlogPostTeaser.css';
 import {fetchList, fetchPostsByCategorySlug} from './Data';
 import {Link, useParams} from "react-router-dom";
@@ -5,17 +6,27 @@ import {Link, useParams} from "react-router-dom";
 
 
 function BlogPostTeaser(){
+  const [data, setData] = useState({blogPosts:[]});
     const { slug } = useParams();
 
-    let blogData;
-    if (slug) {
-        blogData = fetchPostsByCategorySlug({ categorySlug:slug })
-    }
-    else {
-        blogData = fetchList();
-    }
+    useEffect( () => {
+      const fetchData = async () => {
+        let blogData;
+        // if (slug) {
+        //  blogData = await fetchPostsByCategorySlug({ categorySlug:slug })
+        // } else {
+        blogData = await fetchList();
+        console.debug(blogData)
+        // }
+        setData(blogData.data);
+      }
+      fetchData();
+      
+    }, []);
+   
+    console.debug('data:',data)
 
-  return blogData.map((blog) => {
+  return data.blogPosts.map((blog) => {
     return (
       <div key={blog.id} className="Content">
         <h2>

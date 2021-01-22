@@ -133,7 +133,10 @@ const data = [
   }
 ]
 
-export function fetchList() {
+export async function fetchList() {
+  const resp = await fetch('http://localhost:8080/api/blogposts');
+  const data = await resp.json();
+  console.debug ('fetched data',data)
   return data;
 }
 
