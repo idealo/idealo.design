@@ -137,6 +137,11 @@ export function fetchList() {
   return data;
 }
 
+export function updateSinglePost({ slug, post }) {
+  const index = data.findIndex((p) => { return p.slug === slug });
+  data[index] = post;
+}
+
 export function fetchSinglePost({ slug }) {
   console.log(slug);
 

@@ -1,14 +1,18 @@
 import React from "react";
-import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
+import { Editor, EditorState, getDefaultKeyBinding, RichUtils, ContentState } from "draft-js";
 import '../style/RichText.css'
 import '../../node_modules/draft-js/dist/Draft.css'
 import './RichTextEditor.css';
 import Prompt from './Prompt';
+import { fetchSinglePost, updateSinglePost } from '../Data';
 
 class RichTextEditor extends React.Component {
         constructor(props) {
           super(props);
-          
+          const searchParams = new URLSearchParams(props.location.search);
+          this.blog = null;
+          this.slug = searchParams.get('slug');
+          this.mode = this.slug ? 'EDIT' : 'CREATE'; 
           this.state = {
             editorState: EditorState.createEmpty(),
             isPromptOpen: false,
@@ -41,6 +45,10 @@ class RichTextEditor extends React.Component {
             } 
             return true;
           })
+          if(this.slug) {
+            this.blog = fetchSinglePost({ slug: this.slug });
+            this.setState({ editorState: EditorState.createWithContent(ContentState.createFromText(this.blog.text)) })
+          }
        }
 
         _handleKeyCommand(command, editorState) {
@@ -96,7 +104,16 @@ class RichTextEditor extends React.Component {
 
         handleSubmit(e){
           e.preventDefault();
-          console.log(this.state.editorState.getCurrentContent().getPlainText());
+          if(this.mode === 'EDIT') {
+            this.props.history.block(() => true);
+            this.blog.text = this.state.editorState.getCurrentContent().getPlainText();
+            updateSinglePost({ 
+              slug: this.slug,
+              post: this.blog
+             })
+             this.props.history.push(`/blog/${this.slug}`);
+             return;
+          }
 
           fetch('http://localhost:8080/api/blogposts', {
             method: 'POST',

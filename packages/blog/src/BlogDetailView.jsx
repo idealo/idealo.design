@@ -1,15 +1,22 @@
 import './BlogDetailView.css';
 import React from "react";
-import { Redirect, Link, useParams } from "react-router-dom";
+import { Redirect, Link, useParams, useHistory } from "react-router-dom";
 import { fetchSinglePost } from './Data';
 
 const BlogDetailView = (props) => {
     let { slug } = useParams();
-
+    const history = useHistory();
     const blogpost = fetchSinglePost({ slug });
 
     if (!blogpost) {
         return <Redirect to="/404"/>
+    }
+
+    const handlePostEdit = () => {
+        history.push({
+            pathname: "/newblogpost",
+            search: `?slug=${slug}`
+        });
     }
 
     const date = new Date(blogpost.date);
@@ -52,6 +59,7 @@ const BlogDetailView = (props) => {
                 <h4>{blogpost.author.name}</h4>
                 <p>{blogpost.text}</p>
                 <img alt="" src={blogpost.image} />
+                <button onClick={handlePostEdit}>Edit</button>
             </div>
 
             <div className="ButtonNavigation">
