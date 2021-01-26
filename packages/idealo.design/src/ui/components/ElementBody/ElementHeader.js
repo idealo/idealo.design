@@ -1,11 +1,12 @@
 import React from 'react'
+import withStyles from 'isomorphic-style-loader/withStyles'
 
 import { Link } from 'react-router-dom'
 
-import styles from 'components/ElementHeader/ElementHeader.module.scss'
+import s from './ElementHeader.module.scss'
 
 
-export default class ElementHeader extends React.Component {
+class ElementHeader extends React.Component {
 
   render() {
     if (!this.props.element) return null
@@ -13,11 +14,11 @@ export default class ElementHeader extends React.Component {
     const element = this.props.element
 
     return (
-      <div className={styles.ElementHeader}>
-        <div className={styles.ElementHeader__Nav}>
+      <div className={s.ElementHeader}>
+        <div className={s.ElementHeader__Nav}>
           <h1>{element.title}</h1>
 
-          <div className={styles.ElementHeader__NavLinks}>
+          <div className={s.ElementHeader__NavLinks}>
             {element.body.sections.map((item, idx) => (
               <Link key={idx} href={`#${item.title}`}><a>{item.title}</a></Link>))}
           </div>
@@ -26,3 +27,5 @@ export default class ElementHeader extends React.Component {
     )
   }
 }
+
+export default withStyles(s)(ElementHeader)

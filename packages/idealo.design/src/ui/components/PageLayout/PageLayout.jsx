@@ -1,8 +1,7 @@
 import React from 'react'
+import withStyles from 'isomorphic-style-loader/withStyles'
 
-import { Container, Row, Column } from '@motif/grid'
-
-import styles from './PageLayout.module.scss'
+import s from './PageLayout.module.scss'
 import MainContent from '../MainContent'
 
 import Header from '../Header'
@@ -19,7 +18,7 @@ function determineViewport() {
   return 'l'
 }
 
-export class PageLayout extends React.Component {
+class PageLayout extends React.Component {
   constructor(props) {
     super(props)
     this.state = { isSidebarOpen: true }
@@ -56,7 +55,7 @@ export class PageLayout extends React.Component {
 
   render() {
     return (
-      <div className={styles.PageLayout}>
+      <div className={s.PageLayout}>
         <Header isSidebarOpen={this.state.isSidebarOpen}/>
 
         <Sidebar isOpen={this.state.isSidebarOpen}/>
@@ -67,3 +66,5 @@ export class PageLayout extends React.Component {
     )
   }
 }
+
+export default withStyles(s)(PageLayout)

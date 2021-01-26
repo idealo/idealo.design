@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import Link from 'next/link'
 
 import blogposts from '../data/blog-posts';
 

@@ -1,19 +1,19 @@
 import React from 'react'
 
-import Link from 'next/link'
+import withStyles from 'isomorphic-style-loader/withStyles'
 
 import Highlight from 'react-highlight'
 
 import Card from 'components/Card'
 
-import styles from 'components/ElementHeader/ElementBody.module.scss'
+import s from './ElementBody.module.scss'
 
 
 const RenderElement = () => {
     return 'OOPS. SOMETHING WENT WRONG'
 }
 
-export default class ElementBody extends React.Component {
+class ElementBody extends React.Component {
 
     constructor(props) {
         super(props)
@@ -55,7 +55,7 @@ export default class ElementBody extends React.Component {
         }
 
         return (
-            <div className={styles.ElementBody}>
+            <div className={s.ElementBody}>
               {sections.map((section, idx) => (
                   <Card key={idx}>
                     <section>
@@ -70,3 +70,5 @@ export default class ElementBody extends React.Component {
         )
     }
 }
+
+export default withStyles(s)(ElementBody)

@@ -1,4 +1,5 @@
 import React from 'react'
+import withStyles from 'isomorphic-style-loader/withStyles'
 
 import { Link } from 'react-router-dom'
 
@@ -10,7 +11,7 @@ import { twilight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 import Card from 'Components/Card'
 
-import styles from './ElementBody.module.scss'
+import s from './ElementBody.module.scss'
 
 // import {Preview as RenderPreview} from './Preview'
 
@@ -61,7 +62,7 @@ function Code(section) {
 
 }
 
-export default class ElementBody extends React.Component {
+class ElementBody extends React.Component {
 
   constructor(props) {
     super(props)
@@ -105,7 +106,7 @@ export default class ElementBody extends React.Component {
     }
 
     return (
-      <div className={styles.ElementBody}>
+      <div className={s.ElementBody}>
         <Card>
           {/* <RenderPreview /> */}
 
@@ -124,3 +125,5 @@ export default class ElementBody extends React.Component {
     )
   }
 }
+
+export default withStyles(s)(ElementBody)

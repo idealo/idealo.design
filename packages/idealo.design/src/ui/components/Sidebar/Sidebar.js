@@ -1,8 +1,9 @@
 import React from 'react'
+import withStyles from 'isomorphic-style-loader/withStyles'
 import cn from 'classnames'
 import { Link } from "react-router-dom";
 
-import styles from './Sidebar.module.scss'
+import s from './Sidebar.module.scss'
 
 import ChevronIcon from './ico_chevron_right.svg'
 import FoundationsIcon from './ico_foundations.svg'
@@ -66,15 +67,15 @@ const sections = [
 function RenderIcon({ name }) {
   switch (name) {
   case 'otherIcon':
-    return <OtherIcon className={styles.VerticalNav__TopLevelIcon}/>
+    return <OtherIcon className={s.VerticalNav__TopLevelIcon}/>
   case 'assetsIcon':
-    return <AssetsIcon className={styles.VerticalNav__TopLevelIcon}/>
+    return <AssetsIcon className={s.VerticalNav__TopLevelIcon}/>
   case 'compoundsIcon':
-    return <CompoundsIcon className={styles.VerticalNav__TopLevelIcon}/>
+    return <CompoundsIcon className={s.VerticalNav__TopLevelIcon}/>
   case 'elementsIcon':
-    return <ElementsIcon className={styles.VerticalNav__TopLevelIcon}/>
+    return <ElementsIcon className={s.VerticalNav__TopLevelIcon}/>
   case 'foundationsIcon':
-    return <FoundationsIcon className={styles.VerticalNav__TopLevelIcon}/>
+    return <FoundationsIcon className={s.VerticalNav__TopLevelIcon}/>
   default:
     return <span />
   }
@@ -123,7 +124,7 @@ class NavSection extends React.Component {
 
     return (
         <>
-        <div className={styles.VerticalNav__TopLevel} onClick={() => {
+        <div className={s.VerticalNav__TopLevel} onClick={() => {
           if (!this.props.isSidebarOpen) {
             const toggleSidebarEvent = new Event('click:toggleSidebar')
             window.document.dispatchEvent(toggleSidebarEvent)
@@ -138,10 +139,10 @@ class NavSection extends React.Component {
 
       {this.props.isSidebarOpen && (
           <>
-          <span className={styles.VerticalNav__TopLevelTitle}>
+          <span className={s.VerticalNav__TopLevelTitle}>
           {this.props.section.title}
         </span>
-          <ChevronIcon style={{transform}} className={styles.VerticalNav__TopLevelAngle} />
+          <ChevronIcon style={{transform}} className={s.VerticalNav__TopLevelAngle} />
           </>)}
 
       </div>
@@ -159,7 +160,7 @@ class NavSection extends React.Component {
   }
 }
 
-export class Sidebar extends React.Component {
+class Sidebar extends React.Component {
 
   constructor(props) {
     super(props)
@@ -189,7 +190,7 @@ export class Sidebar extends React.Component {
 
     return (
         <aside>
-        <nav style={style} className={styles.Sidebar}>
+        <nav style={style} className={s.Sidebar}>
         {sections.map((section, idx) => (
             <NavSection isSidebarOpen={this.props.isOpen} key={idx} section={section} />
         ))}
@@ -198,3 +199,5 @@ export class Sidebar extends React.Component {
     )
   }
 }
+
+export default withStyles(s)(Sidebar)

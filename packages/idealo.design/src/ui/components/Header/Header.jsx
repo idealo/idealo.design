@@ -1,7 +1,8 @@
 import React from 'react'
+import withStyles from 'isomorphic-style-loader/withStyles'
 import { Link } from "react-router-dom";
 
-import styles from './Header.module.scss'
+import s from './Header.module.scss'
 
 import BtnIco from './ico_hamburger.svg'
 import MagnifierIco from './ico_search.svg'
@@ -44,7 +45,7 @@ class Search extends React.Component {
       <>
         <input
           style={searchInputStyle}
-          className={styles.SearchInput}
+          className={s.SearchInput}
           onTransitionEnd={event => {
             event.persist()
             event.target.focus()
@@ -53,8 +54,8 @@ class Search extends React.Component {
           autoFocus />
 
         {this.props.isOpen ?
-         <CloseIco className={styles.SearchToggle} onClick={this.props.onClick} /> :
-         <MagnifierIco className={styles.SearchToggle} onClick={this.props.onClick}/>}
+         <CloseIco className={s.SearchToggle} onClick={this.props.onClick} /> :
+         <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
       </>
     )
   }
@@ -70,7 +71,7 @@ class StickyMenu extends React.Component {
     }
 
     return (
-      <div style={style} className={styles.StickyMenu}>
+      <div style={style} className={s.StickyMenu}>
         {this.props.active && (
           <>
             {element.sections && element.sections
@@ -86,7 +87,7 @@ class StickyMenu extends React.Component {
 }
 
 
-export class Header extends React.Component {
+class Header extends React.Component {
 
   constructor(props) {
     super(props)
@@ -172,8 +173,8 @@ export class Header extends React.Component {
     }
 
     return (
-      <header style={this.state.isStickyMode ? stickyStyle : null} className={styles.Header}>
-        <BtnIco className={styles.SideNavToggle} onClick={this.toggleNavbarState}/>
+      <header style={this.state.isStickyMode ? stickyStyle : null} className={s.Header}>
+        <BtnIco className={s.SideNavToggle} onClick={this.toggleNavbarState}/>
 
         <h1 style={this.state.isStickyMode ? { display: 'none' } : null}>
           <Link style={this.state.isStickyMode ? logoStickyStyle : null} to="/">
@@ -191,3 +192,5 @@ export class Header extends React.Component {
     )
   }
 }
+
+export default withStyles(s)(Header)

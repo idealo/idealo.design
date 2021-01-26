@@ -6,7 +6,7 @@ import ReactDOMServer from 'react-dom/server'
 import { StaticRouter as Router } from 'react-router-dom'
 import StyleContext from 'isomorphic-style-loader/StyleContext'
 
-import { default as App } from '../ui/App'
+import App from '../ui/App'
 
 export default function renderer(req, res) {
 
@@ -26,7 +26,7 @@ export default function renderer(req, res) {
     </StyleContext.Provider>
   )
 
-  fs.readFile('index.html', 'utf8', (err, data) => {
+  fs.readFile('./public/index.html', 'utf8', (err, data) => {
     if (err) {
       console.log('Error: ', err)
       return res.status(500).send('We\'re sorry -_-')

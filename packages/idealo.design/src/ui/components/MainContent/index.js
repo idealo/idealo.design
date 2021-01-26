@@ -1,1 +1,1 @@
-export {MainContent as default} from './MainContent'
+export {default} from './MainContent'
