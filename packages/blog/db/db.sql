@@ -186,3 +186,6 @@ values
     null
 
 );
+
+create sequence blogposts_id_seq;
+alter table blogposts alter id set default nextval('blogposts_id_seq');
