@@ -4,37 +4,39 @@ import {fetchList, fetchPostsByCategorySlug} from './Data';
 import {Link, useParams} from "react-router-dom";
 
 
+function BlogPostTeaser() {
+  const [ list, setList ] = useState([]);
+  const { slug } = useParams();
 
-function BlogPostTeaser(){
-  const [data, setData] = useState({blogPosts:[]});
-    const { slug } = useParams();
+  useEffect(() => {
+    let mounted = true;
 
-    useEffect( () => {
-      const fetchData = async () => {
-        let blogData;
-        // if (slug) {
-        //  blogData = await fetchPostsByCategorySlug({ categorySlug:slug })
-        // } else {
-        blogData = await fetchList();
-        console.debug(blogData)
-        // }
-        setData(blogData.data);
+    const setData = (list) => {
+      if (mounted) {
+        setList(list);
       }
-      fetchData();
-      
-    }, []);
-   
-    console.debug('data:',data)
+    }
 
-  return data.blogPosts.map((blog) => {
+    if (slug) {
+      fetchPostsByCategorySlug({ categorySlug: slug })
+        .then(setData);
+    } else {
+      fetchList()
+        .then(setData);
+    }
+
+    return () => mounted = false;
+  }, [slug]);
+
+  return list.map((blogpost) => {
     return (
-      <div key={blog.id} className="Content">
+      <div key={blogpost.id} className="Content">
         <h2>
-          <Link to={`/blog/${blog.slug}`}>{blog.title}</Link>
+          <Link to={`/blog/${blogpost.slug}`}>{blogpost.title}</Link>
         </h2>
-        <img alt="" src={blog.image}/>
+        <img alt="" src={blogpost.image}/>
         <p>
-          {blog.text}
+          {blogpost.text}
         </p>
       </div>
     )
