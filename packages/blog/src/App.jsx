@@ -2,7 +2,7 @@ import './App.css';
 import BlogPostTeaser from "./BlogPostTeaser";
 import BlogDetailView from "./BlogDetailView";
 import RichTextEditor from "./components/RichTextEditor"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     BrowserRouter as Router,
     Switch,
@@ -17,16 +17,23 @@ function Home() {
 }
 
 function CategoryList() {
-    const cats = fetchAllCategories();
-    return (
-        <ul>
-        {cats.map((category) => (
-            <li key={category.slug}>
-                <div>
-                    <Link to={`/blog/category/${category.slug}`}>{category.displayValue}</Link>
-                </div>
-            </li>))}
-        </ul>)
+  const [ categories, setCategories ] = useState([]);
+
+  useEffect(() => {
+    fetchAllCategories().then(cats => setCategories(cats));
+  }, []);
+
+  // const cats = fetchAllCategories();
+  return (
+    <ul>
+      {categories.map((category) => (
+        <li key={category.categoryslug}>
+          <div>
+            {/* <Link to={`/blog/category/${category.categoryslug}`}>{category.displayValue}</Link> */}
+            <Link to={`/blog/category/${category.categoryslug}`}>{category.categoryslug} ({category.sum})</Link>
+          </div>
+        </li>))}
+    </ul>)
 }
 
 
