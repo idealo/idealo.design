@@ -4,6 +4,13 @@ export async function fetchList() {
   return data;
 }
 
+export function updateSinglePost({ slug, post }) {
+  // const index = data.findIndex((p) => { return p.slug === slug });
+  // data[index] = post;
+
+  alert('implement me')
+}
+
 export async function fetchSinglePost({ slug }) {
   if (!slug) return null;
 

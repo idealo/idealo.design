@@ -1,6 +1,7 @@
-import './BlogDetailView.css';
 import React, { useEffect, useState } from "react";
-import { Redirect, Link, useParams } from "react-router-dom";
+import { Redirect, Link, useParams, useHistory } from "react-router-dom";
+import './BlogDetailView.css';
+
 import { fetchSinglePost } from './Data';
 
 function toDateFormat_de(inp) {
@@ -16,7 +17,9 @@ function toDateFormat_de(inp) {
   return `${day}.${month}.${year} um ${hour}:${minute} Uhr`;
 }
 
+
 const BlogDetailView = (props) => {
+  const history = useHistory();
   const [ blogpost, setBlogpost ] = useState({author: {}});
   let { slug } = useParams();
 
@@ -28,6 +31,7 @@ const BlogDetailView = (props) => {
         .then(blogpost => setBlogpost(blogpost))
     }
 
+
     return () => mounted = false;
   }, [slug]);
 
@@ -36,6 +40,12 @@ const BlogDetailView = (props) => {
     return 'Loading...'
   }
 
+  const handlePostEdit = () => {
+    history.push({
+      pathname: "/newblogpost",
+      search: `?slug=${slug}`
+    });
+  }
 
   let facebookLink
   let instagramLink
@@ -74,6 +84,7 @@ const BlogDetailView = (props) => {
         {blogpost.author && (<h4>{blogpost.author.name}</h4>)}
         <p>{blogpost.text}</p>
         <img alt="" src={blogpost.image} />
+        <button onClick={handlePostEdit}>Edit</button>
       </div>
 
       <div className="ButtonNavigation">
