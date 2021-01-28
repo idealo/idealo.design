@@ -1,29 +1,42 @@
+import React, { useState, useEffect } from 'react';
 import './BlogPostTeaser.css';
 import {fetchList, fetchPostsByCategorySlug} from './Data';
 import {Link, useParams} from "react-router-dom";
 
 
+function BlogPostTeaser() {
+  const [ list, setList ] = useState([]);
+  const { slug } = useParams();
 
-function BlogPostTeaser(){
-    const { slug } = useParams();
+  useEffect(() => {
+    let mounted = true;
 
-    let blogData;
+    const setData = (list) => {
+      if (mounted) {
+        setList(list);
+      }
+    }
+
     if (slug) {
-        blogData = fetchPostsByCategorySlug({ categorySlug:slug })
-    }
-    else {
-        blogData = fetchList();
+      fetchPostsByCategorySlug({ categorySlug: slug })
+        .then(setData);
+    } else {
+      fetchList()
+        .then(setData);
     }
 
-  return blogData.map((blog) => {
+    return () => mounted = false;
+  }, [slug]);
+
+  return list.map((blogpost) => {
     return (
-      <div key={blog.id} className="Content">
+      <div key={blogpost.id} className="Content">
         <h2>
-          <Link to={`/blog/${blog.slug}`}>{blog.title}</Link>
+          <Link to={`/blog/${blogpost.slug}`}>{blogpost.title}</Link>
         </h2>
-        <img alt="" src={blog.image}/>
+        <img alt="" src={blogpost.image}/>
         <p>
-          {blog.text}
+          {blogpost.text}
         </p>
       </div>
     )
