@@ -21,6 +21,9 @@ export default function BlogPage({ match }) {
         <Route exact path='/blog'>
           <ListView />
         </Route>
+        <Route exact path='/blog/categories/:slug'>
+          <ListView />
+        </Route>
         <Route path='/blog/new-post'>
           <EditorView />
         </Route>

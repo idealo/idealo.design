@@ -52,9 +52,10 @@ const sections = [
     title: 'Blog',
     children: [
       { title: 'Overview', href: '/blog' },
-      { title: 'Kategorie 1', href: '/blog/categories/kategorie-2' },
-      { title: 'Kategorie 1', href: '/blog/categories/kategorie-3' },
-      { title: 'Kategorie 1', href: '/blog/categories/kategorie-4' },
+      { title: 'Kategorie 1', href: '/blog/categories/kategorie-1' },
+      { title: 'Kategorie 2', href: '/blog/categories/kategorie-2' },
+      { title: 'Kategorie 3', href: '/blog/categories/kategorie-3' },
+      { title: 'Kategorie 4', href: '/blog/categories/kategorie-4' },
     ]
   },
   {
