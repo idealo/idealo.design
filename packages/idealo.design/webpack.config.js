@@ -19,12 +19,13 @@ const common = {
   },
 
   resolve: {
-    extensions: ['.js', '.jsx', '.scss'],
+    extensions: ['.js', '.jsx', '.scss', '.css'],
     alias: {
       Components: path.resolve(__dirname, 'src/ui/components'),
       Pages: path.resolve(__dirname, 'pages'),
       Data: path.resolve(__dirname, 'data'),
       Styles: path.resolve(__dirname, 'src/ui/styles'),
+      '~': path.resolve(__dirname, 'node_modules'),
     },
   },
 }
@@ -43,6 +44,25 @@ const app = function(env, argv) {
           test: /\.jsx?$/,
           use: 'babel-loader',
           exclude: /node_modules/,
+        },
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: isDevelopment
+                ? 'style-loader'
+                : MiniCssExtractPlugin.loader,
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 1,
+                sourceMap: isDevelopment,
+                esModule: false,
+              }
+            },
+          ],
         },
         {
           test: /\.module\.s[ac]ss$/,
@@ -171,8 +191,25 @@ const server = function(env, argv) {
           use: 'babel-loader',
           exclude: /node_modules/,
         },
-
-
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: isDevelopment
+                ? 'style-loader'
+                : MiniCssExtractPlugin.loader,
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 1,
+                sourceMap: isDevelopment,
+                esModule: false,
+              }
+            },
+          ],
+        },
         {
           test: /\.module\.s[ac]ss$/,
           use: [

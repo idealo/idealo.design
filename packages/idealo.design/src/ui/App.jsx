@@ -11,6 +11,7 @@ import {
 
 import {
   AssetsPage,
+  BlogPage,
   CompoundsPage,
   ElementsPage,
   FoundationsPage,
@@ -35,6 +36,9 @@ function App() {
         </Route>
         <Route path="/compounds/:slug?">
           <CompoundsPage />
+        </Route>
+        <Route path="/blog">
+          <BlogPage />
         </Route>
         <Route path="/assets/:slug?">
           <AssetsPage />

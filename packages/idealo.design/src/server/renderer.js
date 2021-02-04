@@ -10,6 +10,8 @@ import App from '../ui/App'
 
 export default function renderer(req, res) {
 
+  console.log('req.user: ', req.user)
+
   const css = new Set()
   const insertCss = (...styles) => styles.forEach(style => {
     if (style && style._getCss) {

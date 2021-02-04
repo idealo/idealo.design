@@ -48,6 +48,16 @@ const sections = [
     ]
   },
   {
+    icon: 'otherIcon',
+    title: 'Blog',
+    children: [
+      { title: 'Overview', href: '/blog' },
+      { title: 'Kategorie 1', href: '/blog/categories/kategorie-2' },
+      { title: 'Kategorie 1', href: '/blog/categories/kategorie-3' },
+      { title: 'Kategorie 1', href: '/blog/categories/kategorie-4' },
+    ]
+  },
+  {
     icon: 'assetsIcon',
     title: 'Assets',
     children: [

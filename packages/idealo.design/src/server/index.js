@@ -6,24 +6,35 @@ import fetch from 'cross-fetch'
 import redisLib from 'redis'
 import session from 'express-session'
 import connectRedis from 'connect-redis'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import slugify from 'slugify'
 
 import passport  from 'passport'
 import { OAuth2Strategy } from 'passport-oauth'
 
 import Renderer from './renderer'
 
+import {
+  fetchList,
+  fetchAllCategories,
+  fetchPostsByCategorySlug,
+  fetchSinglePost,
+  storeSinglePost,
+} from './db';
+
 const redis = redisLib.createClient()
 const getAsync = promisify(redis.get).bind(redis)
 
-const BASE_URL = 'https://login.microsoftonline.com/21956b19-fed2-44b7-90cf-b6d281c0a42a/oauth2/v2.0'
+// dev env: 'http://localhost:8080/auth/provider/callback'
+const CALLBACK_URL = process.env.CALLBACK_URL || 'https://idealo.design/auth/provider/callback'
+const CLIENT_ID = process.env.OAUTH2_CLIENT_ID
+const CLIENT_SECRET = process.env.OAUTH2_CLIENT_SECRET
+const TENANT_ID = process.env.OAUTH2_TENANT_ID
+
+const BASE_URL = `https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0`
 const TOKEN_URL = `${BASE_URL}/token`
 const AUTHZ_URL = `${BASE_URL}/authorize`
-
-const CLIENT_ID = '8e54d128-ff21-4a9e-8598-6c30f005a6e2'
-const CLIENT_SECRET = '5s1_JWJ6e_6a5w8u3f_18zF.w3lPV8825H'
-
-// const CALLBACK_URL = 'https://idealo.design/auth/provider/callback'
-const CALLBACK_URL = 'http://localhost:8080/auth/provider/callback'
 
 const PROFILE_ENDPOINT = 'https://graph.microsoft.com/v1.0/me'
 
@@ -37,12 +48,12 @@ redis.on('error', err => {
 })
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user.id)
 });
 
 passport.deserializeUser(async (id, done) => {
-  const session = await getAsync(id)
-  done(null, session);
+  const session = await getAsync(`sess:${id}`)
+  done(null, session)
 });
 
 app.use(session({
@@ -57,20 +68,25 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.use(cors());
+app.use(bodyParser.json());
+
 passport.use('provider', new OAuth2Strategy({
     authorizationURL: AUTHZ_URL,
     tokenURL: TOKEN_URL,
     clientID: CLIENT_ID,
     clientSecret: CLIENT_SECRET,
     callbackURL: CALLBACK_URL,
+    passReqToCallback: true,
   },
-  async (accessToken, refreshToken, profile, done) => {
+  async (req, accessToken, refreshToken, profile, done) => {
     console.log('PASSPORT::')
     console.log('accessToken:', accessToken)
     console.log('refreshToken:', refreshToken)
     console.log('done:', done)
+    console.log('req: ', req)
 
-    let fetchedProfile
+    let user
 
     try {
       const resp = await fetch(PROFILE_ENDPOINT, {
@@ -79,14 +95,14 @@ passport.use('provider', new OAuth2Strategy({
         }
       })
 
-      fetchedProfile = await resp.json()
+      user = await resp.json()
     } catch (err) {
       console.log('error fetching profile: ', err)
     }
 
-    console.log('fetchedProfile:', fetchedProfile)
+    console.log('user:', user)
 
-    done(null, fetchedProfile)
+    done(null, user)
   }
 ));
 
@@ -96,12 +112,46 @@ app.get('/auth/provider', passport.authenticate('provider', {
   // scope: 'https://graph.microsoft.com/.default',
   // scope: 'email+profile',
   scope: 'openid',
-}));
+}))
 
 app.get('/auth/provider/callback',
         passport.authenticate('provider', { successRedirect: '/',
-                                            failureRedirect: '/login' }));
+                                            failureRedirect: '/login' }))
 
+
+app.get('/api/blogposts/:slug?', async (req, res) => {
+  const { slug } = req.params;
+  if (!slug) {
+    const { byCategorySlug: categorySlug } = req.query;
+    let posts = [];
+
+    if (categorySlug) {
+      posts = await fetchPostsByCategorySlug({categorySlug});
+    } else {
+      posts = await fetchList();
+    }
+
+    return res.json(posts);
+  }
+
+  const blogpost = await fetchSinglePost({ slug });
+  return res.json(blogpost);
+})
+
+app.post('/api/blogposts', async (req, res) => {
+  const newBlogpost = req.body;
+  newBlogpost.slug = slugify(newBlogpost.title);
+  newBlogpost.date = (new Date()).toISOString();
+
+  const createdBlogpost = await storeSinglePost(newBlogpost);
+
+  return res.json(createdBlogpost);
+});
+
+app.get('/api/categories', async (req, res) => {
+  const categories = await fetchAllCategories();
+  return res.json(categories);
+})
 
 app.get('/*', (req, res) => {
   return Renderer(req, res)

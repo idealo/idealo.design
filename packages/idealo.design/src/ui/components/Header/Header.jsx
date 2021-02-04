@@ -7,6 +7,7 @@ import s from './Header.module.scss'
 import BtnIco from './ico_hamburger.svg'
 import MagnifierIco from './ico_search.svg'
 import CloseIco from './ico_cross_circle_outline.svg'
+import GithubLogo from './github.svg'
 
 import {getElementBySlug} from 'Data/elements'
 
@@ -56,6 +57,12 @@ class Search extends React.Component {
         {this.props.isOpen ?
          <CloseIco className={s.SearchToggle} onClick={this.props.onClick} /> :
          <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
+
+        <a href="https://github.com/idealo/nwp">
+          <GithubLogo className={s.githubLogo}/>
+        </a>
+
+        <a href="/auth/provider">Login</a>
       </>
     )
   }

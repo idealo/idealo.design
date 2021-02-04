@@ -30,6 +30,15 @@ body {
   width: 125px;
 }
 
-/* p { */
-/*     // max-width: 60rem; */
-/* } */
+// begin: prevent overscroll
+html {
+    overflow: hidden;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    overflow: auto;
+}
+
+// end: prevent overscroll

@@ -30,8 +30,6 @@ export default function WelcomePage(props) {
 
   return (
     <>
-      <a href="/auth/provider">Log In with OAuth Provider</a>
-
       {elements.map((elem, idx) => <RenderElement key={idx} elem={elem}/>)}
     </>
   )
