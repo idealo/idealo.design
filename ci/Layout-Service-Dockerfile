@@ -2,9 +2,7 @@ FROM node:14 AS builder
 
 WORKDIR /usr/src/app
 
-ADD src/server/layout-service/ .
-ADD package.json .
-ADD package-lock.json .
+ADD packages/layout-service/ .
 
 RUN npm install
 
