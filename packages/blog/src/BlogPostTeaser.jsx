@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './BlogPostTeaser.css';
+
 import {fetchList, fetchPostsByCategorySlug} from './Data';
 import {Link, useParams} from "react-router-dom";
 

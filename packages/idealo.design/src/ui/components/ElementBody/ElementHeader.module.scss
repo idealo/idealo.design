@@ -1,0 +1,41 @@
+
+.ElementHeader {
+    padding: 2rem 2rem 0 2rem;
+    background-color: #0A3761;
+}
+
+.ElementHeader__Nav {
+
+    width: fit-content;
+    width: -moz-fit-content; // @TODO remove me
+
+    h1 {
+        font-weight: lighter;
+        color: #fff;
+    }
+
+    a {
+        user-select: none;
+
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+
+        margin: 1.5rem;
+        color: #fff;
+        text-decoration: none;
+
+        &:visited, :focus {
+            text-decoration: none;
+        }
+    }
+
+}
+
+.ElementHeader__NavLinks {
+    display: flex;
+    border-top: 1px solid #395F86;
+}
