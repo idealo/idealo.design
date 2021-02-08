@@ -1,4 +1,4 @@
-<img src="idealog_Design_System_icon.png" align="right"/>
+![GitHub Logo](idealo_Design_System_icon.png)
 
 # idealo Next Web Platform
 
