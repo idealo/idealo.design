@@ -185,7 +185,7 @@ class Header extends React.Component {
 
         <h1 style={this.state.isStickyMode ? { display: 'none' } : null}>
           <Link style={this.state.isStickyMode ? logoStickyStyle : null} to="/">
-            idealo design system
+            <span style={{borderBottom: '1px solid orange'}}>idealo</span> <b>Design System</b>
           </Link>
         </h1>
 

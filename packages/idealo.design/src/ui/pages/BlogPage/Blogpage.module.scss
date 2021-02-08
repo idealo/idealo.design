@@ -1,6 +1,7 @@
 .List {
     display: flex;
     flex-wrap: wrap;
+    margin: 0 auto;
 }
 
 .Content {
@@ -67,5 +68,14 @@
         margin-right: 2.5rem;
         float: right;
     }
+}
+
+.HighlightedTeaser {
+    @extend .ContentBox;
+
+    background-color: orange;
+    margin-left: 0;
+    margin-right: 1rem;
+    min-height: 15rem;
 }
 

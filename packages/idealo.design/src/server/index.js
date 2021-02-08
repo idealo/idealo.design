@@ -71,15 +71,15 @@ app.use(passport.session())
 app.use(cors());
 app.use(bodyParser.json());
 
-passport.use('provider', new OAuth2Strategy({
+if (CLIENT_ID) {
+  passport.use('provider', new OAuth2Strategy({
     authorizationURL: AUTHZ_URL,
     tokenURL: TOKEN_URL,
     clientID: CLIENT_ID,
     clientSecret: CLIENT_SECRET,
     callbackURL: CALLBACK_URL,
     passReqToCallback: true,
-  },
-  async (req, accessToken, refreshToken, profile, done) => {
+  }, async (req, accessToken, refreshToken, profile, done) => {
     console.log('PASSPORT::')
     console.log('accessToken:', accessToken)
     console.log('refreshToken:', refreshToken)
@@ -103,8 +103,8 @@ passport.use('provider', new OAuth2Strategy({
     console.log('user:', user)
 
     done(null, user)
-  }
-));
+  }));
+}
 
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
