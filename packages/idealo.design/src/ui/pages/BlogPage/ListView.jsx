@@ -47,6 +47,13 @@ function ListView() {
       <button style={{
         float: 'right',
         marginBottom: '1rem',
+        marginRight: '1rem',
+        backgroundColor: '#395F86',
+        border: 'none',
+        color: 'white',
+        padding: '10px 30px',
+        textAlign: 'center',
+        fontSize: '14px',
       }} onClick={handleNewPost}>New Post</button>
 
       <div style={{ clear: 'both' }}/>
