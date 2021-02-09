@@ -180,12 +180,16 @@ class RichTextEditor extends React.Component {
          ? <h1>Edit blogpost</h1>
          : <h1>Create blogpost</h1>}
 
-        <div>
+        <div className={s.InputFields}>
           <input onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
-        </div>
-
-        <div>
-          <input onChange={this.handleChange} name="category" value={this.state.category} placeholder="Kategorie"/>
+          <form onChange={this.handleChange} name="category" value={this.state.category} placeholder="Kategorie">
+            <select id="kategorie" name="kategorie">
+              <option>kategorie-1</option>
+              <option>kategorie-2</option>
+              <option>kategorie-3</option>
+              <option>kategorie-4</option>
+            </select>
+          </form>
         </div>
 
         <div className={s["RichEditor-root"]}>
