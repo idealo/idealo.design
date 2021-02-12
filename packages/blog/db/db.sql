@@ -191,6 +191,7 @@ create sequence blogposts_id_seq;
 alter table blogposts alter id set default nextval('blogposts_id_seq');
 
 
+
 UPDATE blogposts
 	SET
 		title = 'Docker' ,
@@ -239,7 +240,7 @@ UPDATE blogposts
     		categorySlug = 'kategorie-1',
     		slug = 'Einstieg-in-die-Welt-der-Datenbanken',
     		date = '2021-01-28T14:45:45.351Z',
-    		image = 'https://files.slack.com/files-pri/T01C46S38PP-F01LJJC801X/img_0263.jpeg',
+    		image = 'https://s12.directupload.net/images/210212/bd5j6kn8.jpg',
     		text = 'Für das Erstellen des Weblogs war der nächste Punkt auf der Agenda eine Datenbank einzurichten, sodass die Blogposts und Informationen zu den Autoren unabhängig vom Standort aufgerufen werden können. Eine Aufgabe, welche viele Fragezeichen bei uns Entwicklerinnen aufrief, da es schon eine Weile her war, seitdem wir Datenbanken belegt hatten.
 Der erste Schritt war zu entscheiden, in welcher Umgebung die Datenbank weitergegeben wird. Hierbei entschieden wir uns für Docker und gegen eine virtuelle Maschine, wie es uns vorher bekannt war. Aus dem Grund, dass eine virtuelle Maschine zum Einen langsamer arbeitet, weil sie mit einem eigenem Betriebssystem versehrt ist und zum Anderen weniger Speicher zur Verfügung stellt, aufgrund von Abhängigkeiten, die die virtuelle Maschine benötigt, um zu laufen bevor sie überhaupt eine Datenbank einrichten kann. Docker ist von der Performance her zu vergleichen, wie ein Programm, das auf unserem Betriebssystem ausgeführt wird -  wesentlich schneller und einfacher. Im Übrigen auch spaßiger, da die der Container sehr einfallsreich sind. So heißt der Container auf meinem Rechner “nice_davinci”.
 Als die Vorbereitungen getroffen wurden, wurde postgreSQL aus dem Docker Repository gezogen, sodass wir beginnen konnten unseren Container einzurichten. So wie mySQL, welches wir aus Datenbanken kennen, ist auch postgreSQL ein Datenbanksystem. Die Unterschiede liegen lediglich darin, dass postgreSQL neben JSON auch XML und weitere Features unterstützt, die im Internet gängig sind und, dass postgreSQL kompatibler mit der Arbeit auf verteilten Systemen ist. Da sich unsere Datenbank über HTTP Requests befüllen lässt und jede lokal auf die Datenbank zugreifen soll, war postgres somit die bessere Wahl für uns. Die Datenbanksprache, die verwendet wird, bleibt bei beiden SQL.
