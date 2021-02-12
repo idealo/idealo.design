@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import withStyles from 'isomorphic-style-loader/withStyles'
 
 import {
   Redirect,
@@ -7,7 +8,7 @@ import {
   useHistory
 } from 'react-router-dom'
 
-import './Blogpage.module.scss'
+import s from './Blogpage.module.scss'
 
 import { fetchSinglePost } from './data'
 
@@ -52,6 +53,12 @@ const BlogDetailView = (props) => {
     });
   }
 
+  const goBack = () => {
+  history.push({
+    pathname: `/blog/`,
+  });
+}
+
   let facebookLink
   let instagramLink
   let twitterLink
@@ -75,34 +82,37 @@ const BlogDetailView = (props) => {
   const datetime = toDateFormat_de(blogpost.date)
 
   return (
-    <>
-      <div className="ContentBox">
-        <button style={{float: 'right'}} onClick={handlePostEdit}>Edit</button>
-
-        {blogpost.author && (
-          <div className="socialMediaIcons">
-            {instagramLink}
-            {twitterLink}
-            {facebookLink}
-            {emailLink}
-          </div>)}
-        <h2>{blogpost.title}</h2>
-        <h4>{datetime}</h4>
-        {blogpost.author && (<h4>{blogpost.author.name}</h4>)}
-        <p>{blogpost.text}</p>
-        <img alt="" src={blogpost.image} />
+    <div className={s.ContentBox}>
+      <div className={s.Menu}>
+        <button onClick={goBack}>Go Back</button>
+        <button onClick={handlePostEdit}>Edit</button>
       </div>
 
-      <div className="ButtonNavigation">
-        {blogpost.previousPost && (<Link to={'/blog/' + blogpost.previousPost}>
-                                     <span className="ButtonPrevious">Previous</span>
-                                   </Link>)}
-        {blogpost.nextPost && (<Link to={'/blog/' + blogpost.nextPost}>
-                                 <span className="ButtonNext">Next</span>
-                               </Link>)}
+      <div className={s.ContentDetailView}>
+          {blogpost.author && (
+            <div className={s.SocialMediaIcons}>
+              {instagramLink}
+              {twitterLink}
+              {facebookLink}
+              {emailLink}
+            </div>)}
+          <h2>{blogpost.title}</h2>
+          <h4>{datetime}</h4>
+          {blogpost.author && (<h4>{blogpost.author.name}</h4>)}
+          <p>{blogpost.text}</p>
+          <img alt="" src={blogpost.image} />
       </div>
-    </>
+
+      <div className={s.ButtonNavigation}>
+        {blogpost.previouspost && (<Link className={s.ButtonPrevious} to={'/blog/' + blogpost.previouspost}>
+                                      <span>Previous</span>
+                                    </Link>)}
+        {blogpost.nextpost && (<Link className={s.ButtonNext} to={'/blog/' + blogpost.nextpost}>
+                                  <span>Next</span>
+                                </Link>)}
+      </div>
+    </div>
   );
 };
 
-export default BlogDetailView;
+export default withStyles(s)(BlogDetailView);

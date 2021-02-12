@@ -58,18 +58,7 @@ function ListView() {
 
       <div style={{ clear: 'both' }}/>
 
-      {highlighted && (
-        <div>
-          <div className={s.HighlightedTeaser}>
-            <h2>
-              <Link to={`/blog/${highlighted.slug}`}>{highlighted.title}</Link>
-            </h2>
-            <img alt="" src={highlighted.image}/>
-            <p>
-              {highlighted.text}
-            </p>
-          </div>
-        </div>)}
+    
 
       <div className={s.List}>
         {list.map((blogpost) => (

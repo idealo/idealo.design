@@ -5,10 +5,9 @@
 }
 
 .Content {
-    border: 1px solid black;
     width: 100%;
     padding: 1rem;
-    margin: 0 1rem 1rem 0;
+    margin: 2rem 0;
     overflow: hidden;
     max-height: 300px;
 
@@ -30,10 +29,13 @@
             text-decoration: none;
         }
     }
+
+    &:first-child {
+        margin-top: 0; 
+    }
 }
 
 .ContentBox {
-    border: 1px solid black;
     // padding: 1rem;
     margin: 1rem;
     margin-right: 2.5rem;
@@ -61,11 +63,40 @@
         margin-right: auto;
         width: 90%;
     }
-    .socialMediaIcons img {
+    .SocialMediaIcons img {
         width: 30px;
         height: 30px;
         display: inline;
+    } 
+}
+
+.Menu {
+    display: flex;
+
+    button {
+        background-color: #395F86;
+        border: none;
+        color: white;
+        padding: 10px 30px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+
+        &:last-child {
+            margin-left: auto;
+        }
     }
+
+
+}
+
+.ContentDetailView {
+
+}
+
+.ButtonNavigation {
+    display: flex;
 
     .ButtonPrevious {
         background-color: #395F86;
@@ -79,10 +110,17 @@
     }
 
     .ButtonNext {
-        margin: 1rem;
-        margin-right: 2.5rem;
-        float: right;
+        background-color: #395F86;
+        margin-left: auto;
+        border: none;
+        color: white;
+        padding: 10px 30px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
     }
+
 }
 
 .HighlightedTeaser {
