@@ -58,11 +58,11 @@ class Search extends React.Component {
          <CloseIco className={s.SearchToggle} onClick={this.props.onClick} /> :
          <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
 
-        <a href="https://github.com/idealo/nwp">
+       {/* <a href="https://github.com/idealo/nwp">
           <GithubLogo className={s.githubLogo}/>
-        </a>
+        </a>*/}
 
-        <a href="/auth/provider">Login</a>
+        {/*<a href="/auth/provider">Login</a>*/}
       </>
     )
   }

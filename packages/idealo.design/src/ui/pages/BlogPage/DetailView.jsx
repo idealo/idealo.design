@@ -59,7 +59,7 @@ const BlogDetailView = (props) => {
   });
 }
 
-  let facebookLink
+ /* let facebookLink
   let instagramLink
   let twitterLink
   let emailLink
@@ -77,7 +77,9 @@ const BlogDetailView = (props) => {
     if(blogpost.author.email !== ""){
       emailLink = <a href={blogpost.author.email}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
     }
-  }
+  }*/
+
+
 
   const datetime = toDateFormat_de(blogpost.date)
 
@@ -89,16 +91,23 @@ const BlogDetailView = (props) => {
       </div>
 
       <div className={s.ContentDetailView}>
-          {blogpost.author && (
+       {/*   {blogpost.author && (
             <div className={s.SocialMediaIcons}>
               {instagramLink}
               {twitterLink}
               {facebookLink}
               {emailLink}
-            </div>)}
+            </div>)}*/}
+            <div className={s.SocialMediaIcons}>
+                <a href={'https://de-de.facebook.com/'}><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/></a>
+                <a href={'https://www.instagram.com/?hl=de'}><img alt="" src="https://img.icons8.com/doodle/48/000000/instagram-new.png"/></a>
+                <a href={'https://twitter.com/?lang=de'}><img alt="" src="https://img.icons8.com/doodle/48/000000/twitter--v1.png"/></a>
+                <a href={'https://www.google.com/intl/de/gmail/about/'}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
+            </div>
           <h2>{blogpost.title}</h2>
           <h4>{datetime}</h4>
-          {blogpost.author && (<h4>{blogpost.author.name}</h4>)}
+          <h4>{'Autor:in'}</h4>
+          {/*{blogpost.author && (<h4>{blogpost.author.name}</h4>)}*/}
           <p>{blogpost.text}</p>
           <img alt="" src={blogpost.image} />
       </div>
