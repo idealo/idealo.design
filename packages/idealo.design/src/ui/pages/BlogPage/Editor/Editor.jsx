@@ -6,6 +6,7 @@ import { Editor, EditorState, getDefaultKeyBinding, RichUtils, ContentState } fr
 import '~/draft-js/dist/Draft.css'
 import s from './Editor.module.scss';
 import Prompt from './Prompt';
+import PromptSuccess from "./PromptSuccess";
 import { fetchSinglePost, updateSinglePost } from '../data';
 
 class RichTextEditor extends React.Component {
@@ -226,6 +227,12 @@ class RichTextEditor extends React.Component {
           onLeave={this.onModalLeave}
           message='Are you sure you want to leave?'
 
+        />
+
+        <PromptSuccess
+            show={this.state.isPromptOpen}
+            onHide={this.onModalCancel}
+            onLeave={this.onModalLeave}
         />
       </>
 
