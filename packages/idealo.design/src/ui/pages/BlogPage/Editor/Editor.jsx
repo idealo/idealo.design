@@ -104,8 +104,10 @@ class RichTextEditor extends React.Component {
   }
 
   handleCanceliation(e) {
+    console.log("handelCancelation", this.props);
+    
     if(this.state.isEdited) {
-      this.setState({isPromptOpen: true });
+      this.setState({isPromptOpen: true }); 
     } else {
       this.props.history.push('/blog');
     }
@@ -148,7 +150,7 @@ class RichTextEditor extends React.Component {
     this.setState(
       { isPromptOpen: false, isEdited: false },
       () => {
-        this.props.history.push(this.state.lastHistoryLocation);
+        this.props.history.push('/blog');
       });
   }
 
@@ -228,17 +230,16 @@ class RichTextEditor extends React.Component {
           message='Are you sure you want to leave?'
 
         />
-
-        <PromptSuccess
-            show={this.state.isPromptOpen}
-            onHide={this.onModalCancel}
-            onLeave={this.onModalLeave}
-        />
-      </>
-
+        </>
     );
   }
 }
+
+  {/*<PromptSuccess
+            show={this.state.isPromptOpen}
+            onHide={this.onModalCancel}
+            onLeave={this.onModalLeave}
+        /> */} 
 
 // Custom overrides for "code" style.
 const styleMap = {
