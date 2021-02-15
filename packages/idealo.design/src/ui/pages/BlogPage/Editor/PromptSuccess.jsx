@@ -1,5 +1,5 @@
 import React from "react";
-import {Modal } from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 
 export default function PromptSuccess(props) {
     const { message, onLeave, ...rest } = props;
@@ -13,11 +13,15 @@ export default function PromptSuccess(props) {
         >
             <Modal.Header submitButton>
                 <Modal.Title id="contained-modal-title-vcenter">
+                    {'Congratulations!'}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p>{'Dein Blogpost wurde erfolglreich gespeichert'}</p>
+                <p>{'Your blogpost has been saved successfully.'}</p>
             </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={onLeave}>OK</Button>
+            </Modal.Footer>
         </Modal>
     );
 }
