@@ -49,7 +49,7 @@ const BlogDetailView = (props) => {
   const handlePostEdit = () => {
     history.push({
       pathname: `/blog/${slug}/edit`,
-      // search: `?slug=${slug}`
+      search: `?slug=${slug}`
     });
   }
 
