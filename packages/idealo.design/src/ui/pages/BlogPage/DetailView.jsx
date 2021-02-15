@@ -105,11 +105,10 @@ const BlogDetailView = (props) => {
                 <a href={'https://www.google.com/intl/de/gmail/about/'}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
             </div>
           <h2>{blogpost.title}</h2>
-          <h5>{datetime}</h5>
           <div className={s.Autor}>
-          <h5>{blogpost.autor}</h5>
+          {blogpost.autor}
           </div>
-          {/*{blogpost.author && (<h4>{blogpost.author.name}</h4>)}*/}
+          <h5>{datetime}</h5>
           <p>{blogpost.text}</p>
           <img alt="" src={blogpost.image} />
       </div>
