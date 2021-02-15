@@ -197,7 +197,7 @@ class RichTextEditor extends React.Component {
           <form onChange={this.handleChange} name="category" value={this.state.category} placeholder="Kategorie">
             <select id="kategorie" name="kategorie">
               <option>Docker</option>
-              <option>Eeact</option>
+              <option>React</option>
               <option>Editor</option>
               <option>Git</option>
               <option>Test</option>
