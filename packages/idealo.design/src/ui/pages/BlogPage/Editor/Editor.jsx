@@ -23,7 +23,9 @@ class RichTextEditor extends React.Component {
       isPromptOpen: false,
       isEdited: false,
       lastHistoryLocation: '',
+      onSubmitButton: false,
     };
+
 
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => {
@@ -106,7 +108,7 @@ class RichTextEditor extends React.Component {
   handleCanceliation(e) {
     console.log("handelCancelation", this.props);
     
-    if(this.state.isEdited) {
+    if(this.state.isEdited && !this.state.onSubmitButton) {
       this.setState({isPromptOpen: true }); 
     } else {
       this.props.history.push('/blog');
@@ -115,6 +117,12 @@ class RichTextEditor extends React.Component {
   }
 
   handleSubmit(e){
+    console.log("handleSubmit", this.props);
+    if(this.state.isEdited && this.state.onSubmitButton){
+      this.setState({isPromptOpen: true});
+    } else {
+      this.props.history.push('/blog');
+    }
     e.preventDefault();
     if(this.mode === 'EDIT') {
       this.props.history.block(() => true);
@@ -153,6 +161,7 @@ class RichTextEditor extends React.Component {
         this.props.history.push('/blog');
       });
   }
+
 
   handleChange(event) {
     const target = event.target;
@@ -228,19 +237,16 @@ class RichTextEditor extends React.Component {
           onHide={this.onModalCancel}
           onLeave={this.onModalLeave}
           message='Are you sure you want to leave?'
+        />
 
+        <PromptSuccess
+            show={this.state.isPromptOpen}
+            onLeave={this.onModalLeave}
         />
         </>
     );
   }
 }
-
-  {/*<PromptSuccess
-            show={this.state.isPromptOpen}
-            onHide={this.onModalCancel}
-            onLeave={this.onModalLeave}
-        /> */} 
-
 // Custom overrides for "code" style.
 const styleMap = {
   CODE: {
@@ -282,7 +288,7 @@ class StyleButton extends React.Component {
 }
 
 const BLOCK_TYPES = [
-  {label: 'H1', style: 'header-one'},
+ /* {label: 'H1', style: 'header-one'},
   {label: 'H2', style: 'header-two'},
   {label: 'H3', style: 'header-three'},
   {label: 'H4', style: 'header-four'},
@@ -291,7 +297,7 @@ const BLOCK_TYPES = [
   {label: 'Blockquote', style: 'blockquote'},
   {label: 'UL', style: 'unordered-list-item'},
   {label: 'OL', style: 'ordered-list-item'},
-  {label: 'Code Block', style: 'code-block'},
+  {label: 'Code Block', style: 'code-block'},*/
 ];
 
 const BlockStyleControls = (props) => {
@@ -318,10 +324,10 @@ const BlockStyleControls = (props) => {
 };
 
 var INLINE_STYLES = [
-  {label: 'Bold', style: 'BOLD'},
+/*  {label: 'Bold', style: 'BOLD'},
   {label: 'Italic', style: 'ITALIC'},
   {label: 'Underline', style: 'UNDERLINE'},
-  {label: 'Monospace', style: 'CODE'},
+  {label: 'Monospace', style: 'CODE'},*/
 ];
 
 const InlineStyleControls = (props) => {
