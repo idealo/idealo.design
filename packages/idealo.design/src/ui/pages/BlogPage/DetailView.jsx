@@ -107,7 +107,7 @@ const BlogDetailView = (props) => {
           <h2>{blogpost.title}</h2>
           <h5>{datetime}</h5>
           <div className={s.Autor}>
-          <h5>{'Autor:in'}</h5>
+          <h5>{blogpost.autor}</h5>
           </div>
           {/*{blogpost.author && (<h4>{blogpost.author.name}</h4>)}*/}
           <p>{blogpost.text}</p>
