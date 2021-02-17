@@ -14,6 +14,7 @@ export default function PromptSuccess(props) {
             <Modal.Body>
                 <p>{'Your blogpost has been saved successfully.'}</p>
             </Modal.Body>
+       
         </Modal>
     );
 }

@@ -52,10 +52,18 @@
         font-size: 16px;
     }
 
-    h2, h4 {
+    h2{
         text-align: center;
-        margin-bottom: 0;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color:  #395F86;
     }
+    h5{
+        text-align: center;
+        font-size: smaller;
+        margin-bottom: 2rem;
+    }
+
 
     img {
         display: block;
@@ -98,6 +106,7 @@
 
 .ButtonNavigation {
     display: flex;
+    margin-top: 2rem;
 
     .ButtonPrevious {
         background-color: #395F86;
@@ -131,3 +140,8 @@
     min-height: 15rem;
 }
 
+
+.Autor {
+    text-align: center;
+    font-size:larger;
+}
