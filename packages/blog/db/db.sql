@@ -189,6 +189,7 @@ values
 
 create sequence blogposts_id_seq;
 alter table blogposts alter id set default nextval('blogposts_id_seq');
+SELECT setval('blogposts_id_seq', (SELECT MAX(id) FROM blogposts)+1);
 
 
 
@@ -304,7 +305,7 @@ Weitere wichtige Befehle, die den Umgang mit Git vereinfachen, sind in diesem Ch
 
 UPDATE blogposts
 	SET
-	title ='Draft JS als Open Source Editor' ,
+	title = 'Draft JS als Open Source Editor' ,
     	nextpost = NULL,
     	previouspost = 'Versionskontrolle',
   	categoryDisplaySlug ='Kategorie 4',

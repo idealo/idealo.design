@@ -20,9 +20,13 @@ class RichTextEditor extends React.Component {
     this.mode = this.slug ? 'EDIT' : 'CREATE';
     this.state = {
       editorState: EditorState.createEmpty(),
+      title: '',
+      categoryDisplayValue: '',
+      categorySlug: '',
       isPromptOpen: false,
       isEdited: false,
       lastHistoryLocation: '',
+      isSubmitPromptOpen: false
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -34,7 +38,7 @@ class RichTextEditor extends React.Component {
     this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
     this.toggleBlockType = this._toggleBlockType.bind(this);
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
-    this.handleCanceliation = this.handleCanceliation.bind(this);
+    this.handleCancelation = this.handleCancelation.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onModalCancel = this.onModalCancel.bind(this);
     this.onModalLeave = this.onModalLeave.bind(this);
@@ -53,8 +57,13 @@ class RichTextEditor extends React.Component {
 
     if(this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
+      console.log('this....blog', this.blog);
+      
       this.setState({
         blogpost: this.blog, // refactor
+        title: this.blog.title,
+        categorySlug: this.blog.categorySlug,
+        categoryDisplayValue: this.blog.categoryDisplayValue,
         editorState: EditorState.createWithContent(ContentState.createFromText(this.blog.text))
       })
     }
@@ -103,7 +112,7 @@ class RichTextEditor extends React.Component {
     );
   }
 
-  handleCanceliation(e) {
+  handleCancelation(e) {
     console.log("handelCancelation", this.props);
     
     if(this.state.isEdited) {
@@ -119,12 +128,19 @@ class RichTextEditor extends React.Component {
     if(this.mode === 'EDIT') {
       this.props.history.block(() => true);
       this.blog.text = this.state.editorState.getCurrentContent().getPlainText();
+      this.blog.title = this.state.title;
       updateSinglePost({
         slug: this.slug,
         post: this.blog
+      }, () => {
+        this.setState({ isSubmitPromptOpen: true });
+        setTimeout(() => {
+          this.setState({ isSubmitPromptOpen: false }, () => {
+            this.props.history.push('/blog');
+          });
+        }, 1500);  
       })
-      this.props.history.push(`/blog/${this.slug}`);
-      return;
+    return;
     }
 
     fetch('/api/blogposts', {
@@ -166,6 +182,8 @@ class RichTextEditor extends React.Component {
 
   render() {
     const {editorState} = this.state;
+    console.log('editorState', this.state);
+    
 
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
@@ -185,26 +203,26 @@ class RichTextEditor extends React.Component {
 
         <div className={s.InputFields}>
           <input onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
-          <form onChange={this.handleChange} name="category" value={this.state.category} placeholder="Kategorie">
-            <select id="kategorie" name="kategorie">
-              <option>kategorie-1</option>
-              <option>kategorie-2</option>
-              <option>kategorie-3</option>
-              <option>kategorie-4</option>
+          <form onChange={this.handleChange} name="category">
+            <select id="kategorie" name="kategorie" value={this.state.categoryDisplayValue}>
+              <option value='kategorie-1'>kategorie-1</option>
+              <option value='kategorie-2'>kategorie-2</option>
+              <option value='kategorie-3'>kategorie-3</option>
+              <option value='kategorie-4'>kategorie-4</option>
             </select>
           </form>
         </div>
 
         <div className={s["RichEditor-root"]}>
-          <BlockStyleControls
+          {/* <BlockStyleControls
             editorState={editorState}
             onToggle={this.toggleBlockType}
           />
           <InlineStyleControls
             editorState={editorState}
             onToggle={this.toggleInlineStyle}
-          />
-          <div className={className} onClick={this.focus}>
+          /> */}
+          <div onClick={this.focus}>
             <Editor
               blockStyleFn={getBlockStyle}
               customStyleMap={styleMap}
@@ -220,7 +238,7 @@ class RichTextEditor extends React.Component {
         </div>
         <div className={s['newBlogPostButtons']}>
           <button className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
-          <button className={s['CancelButton']} onClick={this.handleCanceliation}>Cancel</button>
+          <button className={s['CancelButton']} onClick={this.handleCancelation}>Cancel</button>
         </div>
 
         <Prompt
@@ -228,18 +246,16 @@ class RichTextEditor extends React.Component {
           onHide={this.onModalCancel}
           onLeave={this.onModalLeave}
           message='Are you sure you want to leave?'
+        />
 
+        <PromptSuccess
+          show={this.state.isSubmitPromptOpen}
+          onLeave={this.onModalLeave}
         />
         </>
     );
   }
 }
-
-  {/*<PromptSuccess
-            show={this.state.isPromptOpen}
-            onHide={this.onModalCancel}
-            onLeave={this.onModalLeave}
-        /> */} 
 
 // Custom overrides for "code" style.
 const styleMap = {
@@ -304,7 +320,7 @@ const BlockStyleControls = (props) => {
 
   return (
     <div className={s['RichEditor-controls']}>
-      {BLOCK_TYPES.map((type) =>
+      {/* {BLOCK_TYPES.map((type) =>
                        <StyleButton
                          key={type.label}
                          active={type.style === blockType}
@@ -312,7 +328,7 @@ const BlockStyleControls = (props) => {
                          onToggle={props.onToggle}
                          style={type.style}
                        />
-                      )}
+                      )} */}
     </div>
   );
 };
@@ -329,7 +345,7 @@ const InlineStyleControls = (props) => {
 
   return (
     <div className="RichEditor-controls">
-      {INLINE_STYLES.map((type) =>
+      {/* {INLINE_STYLES.map((type) =>
                          <StyleButton
                            key={type.label}
                            active={currentStyle.has(type.style)}
@@ -337,7 +353,7 @@ const InlineStyleControls = (props) => {
                            onToggle={props.onToggle}
                            style={type.style}
                          />
-                        )}
+                        )} */}
     </div>
   );
 };

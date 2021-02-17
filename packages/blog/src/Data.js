@@ -5,8 +5,8 @@ export async function fetchList() {
 }
 
 export function updateSinglePost({ slug, post }) {
-  // const index = data.findIndex((p) => { return p.slug === slug });
-  // data[index] = post;
+   const index = data.findIndex((p) => { return p.slug === slug });
+   data[index] = post;
 
   alert('implement me')
 }

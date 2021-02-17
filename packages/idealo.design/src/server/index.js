@@ -21,6 +21,7 @@ import {
   fetchPostsByCategorySlug,
   fetchSinglePost,
   storeSinglePost,
+  updateSinglePost,
 } from './db';
 
 const redis = redisLib.createClient()
@@ -156,6 +157,24 @@ app.get('/api/categories', async (req, res) => {
 app.get('/*', (req, res) => {
   return Renderer(req, res)
 })
+
+app.put('/api/blogposts', async (req, res) => {
+  console.log('api put req', req);
+  
+  const updatedBlogpost = req.body;
+  //updatedBlogpost.slug = slugify(updatedBlogpost.title);
+  updatedBlogpost.date = (new Date()).toISOString();
+  console.log('updatedBlogpost', updatedBlogpost);
+  
+  const createdBlogpost = await updateSinglePost(updatedBlogpost);
+  console.log("api put", createdBlogpost);
+  
+  return res.json(createdBlogpost);
+});
+
+// app.delete('/api/blogposts', async (req, res) => {
+// });
+
 
 app.listen(PORT, () => {
   console.log(` -> 0.0.0.0:${PORT}`)

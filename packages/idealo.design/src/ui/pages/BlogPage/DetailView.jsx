@@ -112,6 +112,8 @@ const BlogDetailView = (props) => {
           <img alt="" src={blogpost.image} />
       </div>
 
+      {/* delete button onclick= delete method  */}
+
       <div className={s.ButtonNavigation}>
         {blogpost.previouspost && (<Link className={s.ButtonPrevious} to={'/blog/' + blogpost.previouspost}>
                                       <span>Previous</span>

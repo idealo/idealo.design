@@ -1,5 +1,5 @@
 // const API_BASE = 'http://localhost:8080'
-const API_BASE = ''
+const API_BASE = '';
 
 export async function fetchList() {
   const resp = await fetch(`${API_BASE}/api/blogposts`);
@@ -7,11 +7,21 @@ export async function fetchList() {
   return data;
 }
 
-export function updateSinglePost({ slug, post }) {
-  // const index = data.findIndex((p) => { return p.slug === slug });
-  // data[index] = post;
+export async function updateSinglePost({ slug, post }, cb) {
+  const body = JSON.stringify(post);
+  console.log('body', body);
+  
 
-  alert('implement me')
+ const resp = await fetch(`${API_BASE}/api/blogposts`, {
+      method: 'PUT',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body
+      }
+    ).then(function(response) {
+      console.log(response)
+      cb();
+      return response.json();
+    });
 }
 
 export async function fetchSinglePost({ slug }) {
@@ -35,3 +45,7 @@ export async function fetchAllCategories() {
   const data = await resp.json();
   return data;
 }
+
+// export async function deleteSinglePost() {
+//  implement me
+// }
