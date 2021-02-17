@@ -24,6 +24,8 @@ class RichTextEditor extends React.Component {
       isEdited: false,
       lastHistoryLocation: '',
       onSubmitButton: false,
+      onCancelButton: false,
+      Submitted: false,
     };
 
 
@@ -109,6 +111,7 @@ class RichTextEditor extends React.Component {
     console.log("handelCancelation", this.props);
     
     if(this.state.isEdited && !this.state.onSubmitButton) {
+      this.setState({onCancelButton: true});
       this.setState({isPromptOpen: true }); 
     } else {
       this.props.history.push('/blog');
@@ -118,7 +121,8 @@ class RichTextEditor extends React.Component {
 
   handleSubmit(e){
     console.log("handleSubmit", this.props);
-    if(this.state.isEdited && this.state.onSubmitButton){
+    if(this.state.isEdited && this.state.onSubmitButton && !this.state.onCancelButton){
+      this.setState({Submitted: true});
       this.setState({isPromptOpen: true});
     } else {
       this.props.history.push('/blog');
@@ -233,18 +237,19 @@ class RichTextEditor extends React.Component {
           <button className={s['CancelButton']} onClick={this.handleCanceliation}>Cancel</button>
         </div>
 
-        <Prompt
+        {this.state.onCancelButton === true
+            ? <Prompt
           show={this.state.isPromptOpen}
           onHide={this.onModalCancel}
           onLeave={this.onModalLeave}
           message='Are you sure you want to leave?'
-        />
-
-        <PromptSuccess
+             />
+             : <PromptSuccess
             show={this.state.isPromptOpen}
             onLeave={this.onModalLeave}
-        />
+            />}
         </>
+
     );
   }
 }
