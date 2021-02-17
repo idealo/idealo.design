@@ -237,15 +237,14 @@ class RichTextEditor extends React.Component {
           <button className={s['CancelButton']} onClick={this.handleCanceliation}>Cancel</button>
         </div>
 
-        {this.state.onCancelButton && !this.state.Submitted
+        {this.state.onCancelButton === true
             ? <Prompt
           show={this.state.isPromptOpen}
           onHide={this.onModalCancel}
           onLeave={this.onModalLeave}
           message='Are you sure you want to leave?'
-             />:
-
-              <PromptSuccess
+             />
+             : <PromptSuccess
             show={this.state.isPromptOpen}
             onLeave={this.onModalLeave}
             />}
