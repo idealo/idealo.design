@@ -43,8 +43,8 @@ UPDATE blogposts
     autor = 'Eda Güngör',
     email = 'eg@gmail.com',
     instagram = NULL,
-    twitter = 'twitter.com/donaldtrump',
-    github = 'github.com/eda90',
+    twitter = 'https://twitter.com/donaldtrump',
+    github = 'https://github.com/eda90',
     facebook = NULL
     WHERE id = 1;
 
@@ -65,8 +65,8 @@ UPDATE blogposts
     autor = 'Hai Trang Vu Thi',
     email = 'ht@gmail.com',
     instagram = NULL,
-    twitter = 'twitter.com/donaldtrump',
-    github = 'github.com/htvthi',
+    twitter = 'https://twitter.com/donaldtrump',
+    github = 'https://github.com/htvthi',
     facebook = NULL
     WHERE id = 2;
 
@@ -88,8 +88,8 @@ UPDATE blogposts
 	autor = 'Mahulomé Pede',
     email = 'mp@gmail.com',
     instagram = NULL,
-    twitter = 'twitter.com/donaldtrump',
-    github = 'github.com/',
+    twitter = 'https://twitter.com/donaldtrump',
+    github = 'https://github.com/',
     facebook = NULL
     WHERE id = 3;
 
@@ -124,8 +124,8 @@ UPDATE blogposts
     autor = 'Julia Schafferus',
     email = 'js@gmail.com',
     instagram = NULL,
-    twitter = 'twitter.com/donaldtrump',
-    github = 'github.com/',
+    twitter = 'https://twitter.com/donaldtrump',
+    github = 'https://github.com/',
     facebook = NULL
     WHERE id = 4;
 
@@ -182,7 +182,7 @@ UPDATE blogposts
     autor = 'Bettina Müller',
     email = 'bm@gmail.com',
     instagram = NULL,
-    twitter = 'twitter.com/donaldtrump',
-    github = 'github.com/',
+    twitter = 'https://twitter.com/donaldtrump',
+    github = 'https://github.com/',
     facebook = NULL
     WHERE id = 5;
