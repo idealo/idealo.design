@@ -59,29 +59,34 @@ const BlogDetailView = (props) => {
   });
 }
 
- /* let facebookLink
-  let instagramLink
-  let twitterLink
-  let emailLink
-  if (blogpost.author) {
-    if(blogpost.author.facebook !== ""){
-      facebookLink = <a href={blogpost.author.facebook}><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/></a>
+    let facebookLink
+    let instagramLink
+    let twitterLink
+    let emailLink
+    let githubLink
+    if(blogpost.facebook !== null){
+        console.log("Es gibt einen Facebooklink!")
+        facebookLink = <a href={blogpost.facebook}><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/></a>
     }
-    if(blogpost.author.facebook !== ""){
-      instagramLink = <a href={blogpost.author.instagram}><img alt="" src="https://img.icons8.com/doodle/48/000000/instagram-new.png"/></a>
+    if(blogpost.instagram !== null){
+        instagramLink = <a href={blogpost.instagram}><img alt="" src="https://img.icons8.com/doodle/48/000000/instagram-new.png"/></a>
     }
-    if(blogpost.author.twitter !== ""){
-      twitterLink = <a href={blogpost.author.twitter}><img alt="" src="https://img.icons8.com/doodle/48/000000/twitter--v1.png"/></a>
+    if(blogpost.twitter !== null){
+        twitterLink = <a href={blogpost.twitter}><img alt="" src="https://img.icons8.com/doodle/48/000000/twitter--v1.png"/></a>
     }
 
-    if(blogpost.author.email !== ""){
-      emailLink = <a href={blogpost.author.email}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
+    if(blogpost.email !== null){
+        emailLink = <a href={blogpost.email}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
     }
-  }*/
+
+    if(blogpost.github !== null){
+        githubLink = <a href={blogpost.github}><img alt="" src="https://maxcdn.icons8.com/Share/icon/Logos/github_filled1600.png"/></a>
+    }
 
 
 
-  const datetime = toDateFormat_de(blogpost.date)
+
+    const datetime = toDateFormat_de(blogpost.date)
 
   return (
     <div className={s.ContentBox}>
@@ -91,19 +96,21 @@ const BlogDetailView = (props) => {
       </div>
 
       <div className={s.ContentDetailView}>
-       {/*   {blogpost.author && (
+          {/*{blogpost.author && (*/}
             <div className={s.SocialMediaIcons}>
               {instagramLink}
               {twitterLink}
               {facebookLink}
               {emailLink}
-            </div>)}*/}
-            <div className={s.SocialMediaIcons}>
-                <a href={'https://de-de.facebook.com/'}><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/></a>
-                <a href={'https://www.instagram.com/?hl=de'}><img alt="" src="https://img.icons8.com/doodle/48/000000/instagram-new.png"/></a>
-                <a href={'https://twitter.com/?lang=de'}><img alt="" src="https://img.icons8.com/doodle/48/000000/twitter--v1.png"/></a>
-                <a href={'https://www.google.com/intl/de/gmail/about/'}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
+              {githubLink}
             </div>
+            {/*<div className={s.SocialMediaIcons}>
+                <a href={blogpost.facebook}><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/></a>
+                <a href={blogpost.instagram}><img alt="" src="https://img.icons8.com/doodle/48/000000/instagram-new.png"/></a>
+                <a href={blogpost.twitter}><img alt="" src="https://img.icons8.com/doodle/48/000000/twitter--v1.png"/></a>
+                <a href={blogpost.email}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
+                <a href={blogpost.github}><img alt="" src="https://maxcdn.icons8.com/Share/icon/Logos/github_filled1600.png"/></a>
+            </div>*/}
           <h2>{blogpost.title}</h2>
           <div className={s.Autor}>
           {blogpost.autor}
