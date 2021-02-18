@@ -49,7 +49,6 @@ class RichTextEditor extends React.Component {
     this.props.history.block((tx) => {
       if (this.state.isEdited) {
         this.setState({ lastHistoryLocation: tx.pathname, isPromptOpen: true });
-
         return !this.state.isEdited;
       }
       return true;
@@ -120,7 +119,6 @@ class RichTextEditor extends React.Component {
     } else {
       this.props.history.push('/blog');
     }
-
   }
 
   handleSubmit(e){
@@ -152,10 +150,17 @@ class RichTextEditor extends React.Component {
         body: this.state.editorState.getCurrentContent().getPlainText(),
       })
     }).then(function(response) {
-      console.log(response)
+      console.log(response) 
       return response.json();
     });
-    this.setState({editorState: EditorState.createEmpty()});
+       this.props.history.block(() => {return true;})
+      this.setState({ isSubmitPromptOpen: true });
+      setTimeout(() => {
+        this.setState({ isSubmitPromptOpen: false }, () => {
+          this.props.history.push('/blog');
+      });
+    }, 1500); 
+    //this.setState({editorState: EditorState.createEmpty()});
   }
 
   onModalCancel() {
