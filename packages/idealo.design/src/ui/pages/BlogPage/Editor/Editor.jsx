@@ -207,10 +207,11 @@ class RichTextEditor extends React.Component {
           <input onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
           <form onChange={this.handleChange} name="category">
             <select id="kategorie" name="kategorie" value={this.state.categoryDisplayValue}>
-              <option value='kategorie-1'>kategorie-1</option>
-              <option value='kategorie-2'>kategorie-2</option>
-              <option value='kategorie-3'>kategorie-3</option>
-              <option value='kategorie-4'>kategorie-4</option>
+              <option value='test'>Test</option>
+              <option value='docker'>Docker</option>
+              <option value='react'>React</option>
+              <option value='editor'>Editor</option>
+              <option value='git'>Git</option>
             </select>
           </form>
         </div>
