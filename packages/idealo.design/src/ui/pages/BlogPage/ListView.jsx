@@ -40,7 +40,7 @@ function ListView() {
     });
   }
 
-  const highlighted = list.pop()
+  // const highlighted = list.pop()
 
   return (
     <>
