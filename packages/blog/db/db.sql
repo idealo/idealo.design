@@ -227,8 +227,7 @@ This message shows that your installation appears to be working 			   correctly.
 
 Jetzt habe ich Docker installiert. Wenn ihr unter Windows oder Mac OS arbeitet, seid ihr fertig. Wenn ihr aber unter Linux arbeitet, müsst ihr Docker Compose installieren, um die Docker-Container programmgesteuert auszuführen.
 
-Viel Spaß beim ausprobieren  =)
-'
+Viel Spaß beim ausprobieren  =)'
 	WHERE
 		id = 1;
 
@@ -246,9 +245,7 @@ UPDATE blogposts
 Der erste Schritt war zu entscheiden, in welcher Umgebung die Datenbank weitergegeben wird. Hierbei entschieden wir uns für Docker und gegen eine virtuelle Maschine, wie es uns vorher bekannt war. Aus dem Grund, dass eine virtuelle Maschine zum Einen langsamer arbeitet, weil sie mit einem eigenem Betriebssystem versehrt ist und zum Anderen weniger Speicher zur Verfügung stellt, aufgrund von Abhängigkeiten, die die virtuelle Maschine benötigt, um zu laufen bevor sie überhaupt eine Datenbank einrichten kann. Docker ist von der Performance her zu vergleichen, wie ein Programm, das auf unserem Betriebssystem ausgeführt wird -  wesentlich schneller und einfacher. Im Übrigen auch spaßiger, da die der Container sehr einfallsreich sind. So heißt der Container auf meinem Rechner “nice_davinci”.
 Als die Vorbereitungen getroffen wurden, wurde postgreSQL aus dem Docker Repository gezogen, sodass wir beginnen konnten unseren Container einzurichten. So wie mySQL, welches wir aus Datenbanken kennen, ist auch postgreSQL ein Datenbanksystem. Die Unterschiede liegen lediglich darin, dass postgreSQL neben JSON auch XML und weitere Features unterstützt, die im Internet gängig sind und, dass postgreSQL kompatibler mit der Arbeit auf verteilten Systemen ist. Da sich unsere Datenbank über HTTP Requests befüllen lässt und jede lokal auf die Datenbank zugreifen soll, war postgres somit die bessere Wahl für uns. Die Datenbanksprache, die verwendet wird, bleibt bei beiden SQL.
 Es wurde ein Schema erstellt, sodass es jeder möglich war, die Datenbank lokal einzurichten. Darin war der Aufbau, als auch die Befehle, um diese umzusetzen genaust beschrieben wurden.
-Nichtsdestotrotz schlichen sich immer wieder kleine Fehler ein, welches uns Entwicklerinnen nach etlichem Scannen des Schemas das Gefühl gab, dass wir bald den Code auswendig konnten. Darum möchte ich euch zum Abschluss den Tipp geben, wenn ihr mal eine Datenbank einrichten solltet: Vergesst nicht das Semikolon am Ende!
-
-'
+Nichtsdestotrotz schlichen sich immer wieder kleine Fehler ein, welches uns Entwicklerinnen nach etlichem Scannen des Schemas das Gefühl gab, dass wir bald den Code auswendig konnten. Darum möchte ich euch zum Abschluss den Tipp geben, wenn ihr mal eine Datenbank einrichten solltet: Vergesst nicht das Semikolon am Ende!'
 	WHERE
 		id = 2;
 
@@ -353,7 +350,8 @@ Quellenangaben:
 https://draftjs.org/docs/getting-started/
 https://youtu.be/feUYwoLhE_4
 https://github.com/facebook/draft-js
-https://youtu.be/rHat0n1xBVc');
+https://youtu.be/rHat0n1xBVc'
+where id = 5;
 
 DELETE FROM blogposts
 	WHERE id = 6;
