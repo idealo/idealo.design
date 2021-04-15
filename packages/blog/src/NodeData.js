@@ -25,8 +25,8 @@ async function fetchAllCategories() {
 async function storeSinglePost({ 
   title = '', 
   date,
-  categoryDisplayValue = 'Ohne Kategorie', 
-  categorySlug = 'default', 
+  categoryDisplayValue = '',
+  categorySlug = '',
   slug,
   image = '',
   body
