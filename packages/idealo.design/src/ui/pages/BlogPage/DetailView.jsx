@@ -53,6 +53,12 @@ const BlogDetailView = (props) => {
     });
   }
 
+   const scrollToTop = () => {
+      document.body.scrollTop = 0;
+    }
+
+
+
   const goBack = () => {
   history.push({
     pathname: `/blog/`,
@@ -123,10 +129,10 @@ const BlogDetailView = (props) => {
       {/* delete button onclick= delete method  */}
 
       <div className={s.ButtonNavigation}>
-        {blogpost.previouspost && (<Link className={s.ButtonPrevious} to={'/blog/' + blogpost.previouspost}>
+        {blogpost.previouspost && (<Link onClick={scrollToTop} className={s.ButtonPrevious} to={'/blog/' + blogpost.previouspost}>
                                       <span>Previous</span>
                                     </Link>)}
-        {blogpost.nextpost && (<Link className={s.ButtonNext} to={'/blog/' + blogpost.nextpost}>
+        {blogpost.nextpost && (<Link onClick={scrollToTop} className={s.ButtonNext} to={'/blog/' + blogpost.nextpost}>
                                   <span>Next</span>
                                 </Link>)}
       </div>
