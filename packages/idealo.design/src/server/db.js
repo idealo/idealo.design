@@ -3,7 +3,7 @@ const sql = postgres({ database: 'blog', username: 'postgres' })
 
 
 export async function fetchList() {
-   const list = await sql`select * from blogposts ORDER BY blogposts.id ASC`;
+   const list = await sql`select * from blogposts ORDER BY blogposts.date DESC`;
    return list;
 }
 
@@ -13,7 +13,7 @@ export async function fetchSinglePost({ slug }) {
 }
 
 export async function fetchPostsByCategorySlug({ categorySlug }) {
-  const list = await sql`select * from blogposts where categoryslug = ${categorySlug} ORDER BY id ASC`;
+  const list = await sql`select * from blogposts where categoryslug = ${categorySlug} ORDER BY blogposts.date DESC`;
   return list;
 }
 
