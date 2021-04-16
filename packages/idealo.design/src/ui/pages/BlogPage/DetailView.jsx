@@ -76,7 +76,7 @@ const BlogDetailView = (props) => {
     }
 
     if(blogpost.email !== null){
-        emailLink = <a href={'/blog'}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
+        emailLink = <a href={'mailto:'+blogpost.email}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
     }
 
     if(blogpost.github !== null){
