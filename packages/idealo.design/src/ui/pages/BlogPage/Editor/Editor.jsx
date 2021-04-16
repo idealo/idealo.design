@@ -9,6 +9,14 @@ import Prompt from './Prompt';
 import PromptSuccess from "./PromptSuccess";
 import { fetchSinglePost, updateSinglePost } from '../data';
 
+const cats = [
+  { value:'docker', displayValue:'Docker'},
+  { value:'react', displayValue:'React'},
+  { value:'editor', displayValue:'Editor'},
+  { value:'git', displayValue:'Git'},
+  { value:'test', displayValue:'Ohne Kategorie'},
+]
+
 class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -141,14 +149,17 @@ class RichTextEditor extends React.Component {
     return;
     }
 
+    const body = JSON.stringify({
+      title: this.state.title,
+      categoryDisplayValue: this.state.categoryDisplayValue,
+      categorySlug: this.state.categorySlug,
+      body: this.state.editorState.getCurrentContent().getPlainText(),
+    })
+
     fetch('/api/blogposts', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: this.state.title,
-        category: this.state.category,
-        body: this.state.editorState.getCurrentContent().getPlainText(),
-      })
+      body
     }).then(function(response) {
       console.log(response) 
       return response.json();
@@ -180,6 +191,13 @@ class RichTextEditor extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
+    if (target.type === 'select-one') {
+      const el = cats.filter(cat => cat.value === value).pop();
+      this.setState({
+        categoryDisplayValue: el.displayValue
+      })
+    }
+
     this.setState({
       [name]: value
     });
@@ -206,12 +224,10 @@ class RichTextEditor extends React.Component {
         <div className={s.InputFields}>
           <input onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
           <form onChange={this.handleChange} name="category">
-            <select id="kategorie" name="kategorie" defaultValue={this.state.categoryDisplayValue}>
-              <option value='test'>Test</option>
-              <option value='docker'>Docker</option>
-              <option value='react'>React</option>
-              <option value='editor'>Editor</option>
-              <option value='git'>Git</option>
+            <select id="kategorie" name="categorySlug" defaultValue={this.state.categoryDisplayValue}>
+              {cats.map((cat, idx) => (
+                  <option key={idx} value={cat.value}>{cat.displayValue}</option>
+              ))}
             </select>
           </form>
         </div>

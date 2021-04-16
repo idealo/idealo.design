@@ -25,8 +25,8 @@ export async function fetchAllCategories() {
 export async function storeSinglePost({
   title = '',
   date,
-  categoryDisplayValue = 'Ohne Kategorie',
-  categorySlug = 'test',
+  categoryDisplayValue = '',
+  categorySlug = '',
   slug,
   image = '',
   body
