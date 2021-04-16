@@ -202,7 +202,7 @@ class RichTextEditor extends React.Component {
 
     this.setState({
       [name]: value
-    });console.log('name',value)
+    });
   }
 
   render() {
@@ -226,7 +226,9 @@ class RichTextEditor extends React.Component {
         <div className={s.InputFields}>
           <input className="form-control" onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
           <form name="category" className="select-container">
-            <select className='form-control' onChange={this.handleChange} id="kategorie" name="categorySlug" value={this.state.categorySlug} defaultValue={this.state.categoryDisplayValue}>
+            <select className='form-control' onChange={this.handleChange} id="kategorie" name="categorySlug" value={this.state.categorySlug} defaultValue='test'>
+              <option value='1' disabled>select category</option>
+              <option value="test">choose category</option>
               {cats.map((cat,idx) => (
                   <option key={idx} value={cat.value}>{cat.displayValue}</option>
                   ))}
