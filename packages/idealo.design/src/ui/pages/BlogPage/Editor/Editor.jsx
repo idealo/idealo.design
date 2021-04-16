@@ -65,12 +65,12 @@ class RichTextEditor extends React.Component {
     if(this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
       console.log('this....blog', this.blog);
-      
+
       this.setState({
         blogpost: this.blog, // refactor
         title: this.blog.title,
-        categorySlug: this.blog.categorySlug,
-        categoryDisplayValue: this.blog.categoryDisplayValue,
+        categorySlug: this.blog.categoryslug,
+        categoryDisplayValue: this.blog.categorydisplayvalue,
         editorState: EditorState.createWithContent(ContentState.createFromText(this.blog.text))
       })
     }
@@ -202,7 +202,7 @@ class RichTextEditor extends React.Component {
 
     this.setState({
       [name]: value
-    });
+    });console.log('name',value)
   }
 
   render() {
@@ -224,12 +224,12 @@ class RichTextEditor extends React.Component {
          : <h1>Create blogpost</h1>}
 
         <div className={s.InputFields}>
-          <input onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
-          <form onChange={this.handleChange} name="category">
-            <select id="kategorie" name="categorySlug" defaultValue={this.state.categoryDisplayValue}>
-              {cats.map((cat, idx) => (
+          <input className="form-control" onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
+          <form name="category" className="select-container">
+            <select className='form-control' onChange={this.handleChange} id="kategorie" name="categorySlug" value={this.state.categorySlug} defaultValue={this.state.categoryDisplayValue}>
+              {cats.map((cat,idx) => (
                   <option key={idx} value={cat.value}>{cat.displayValue}</option>
-              ))}
+                  ))}
             </select>
           </form>
         </div>
