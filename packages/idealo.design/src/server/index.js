@@ -22,6 +22,7 @@ import {
   fetchSinglePost,
   storeSinglePost,
   updateSinglePost,
+  fetchDistinctCategories,
 } from './db';
 
 const redis = redisLib.createClient()
@@ -150,6 +151,11 @@ app.post('/api/blogposts', async (req, res) => {
 
 app.get('/api/categories', async (req, res) => {
   const categories = await fetchAllCategories();
+  return res.json(categories);
+})
+
+app.get('/api/distinctCategories', async (req, res) => {
+  const categories = await fetchDistinctCategories();
   return res.json(categories);
 })
 

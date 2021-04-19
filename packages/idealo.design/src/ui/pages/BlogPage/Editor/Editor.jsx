@@ -7,15 +7,7 @@ import '~/draft-js/dist/Draft.css'
 import s from './Editor.module.scss';
 import Prompt from './Prompt';
 import PromptSuccess from "./PromptSuccess";
-import { fetchSinglePost, updateSinglePost } from '../data';
-
-const cats = [
-  { value:'docker', displayValue:'Docker'},
-  { value:'react', displayValue:'React'},
-  { value:'editor', displayValue:'Editor'},
-  { value:'git', displayValue:'Git'},
-  { value:'test', displayValue:'Ohne Kategorie'},
-]
+import { fetchSinglePost, updateSinglePost, fetchDistinctCategories} from '../data';
 
 class RichTextEditor extends React.Component {
   constructor(props) {
@@ -24,6 +16,7 @@ class RichTextEditor extends React.Component {
     const { match, location, history } = props;
 
     this.blog = null;
+    this.cats = [];
     this.slug = match.params.slug;
     this.mode = this.slug ? 'EDIT' : 'CREATE';
     this.state = {
@@ -61,6 +54,9 @@ class RichTextEditor extends React.Component {
       }
       return true;
     })
+
+    this.cats = await fetchDistinctCategories();
+    console.log('categories: ',this.cats);
 
     if(this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
@@ -194,9 +190,9 @@ class RichTextEditor extends React.Component {
     const name = target.name;
 
     if (target.type === 'select-one') {
-      const el = cats.filter(cat => cat.value === value).pop();
+      const el = this.cats.filter(cat => cat.categoryslug === value).pop();
       this.setState({
-        categoryDisplayValue: el.displayValue
+        categoryDisplayValue: el.categorydisplayvalue
       })
     }
 
@@ -229,8 +225,8 @@ class RichTextEditor extends React.Component {
             <select className='form-control' onChange={this.handleChange} id="kategorie" name="categorySlug" value={this.state.categorySlug} defaultValue='test'>
               <option value='1' disabled>select category</option>
               <option value="test">choose category</option>
-              {cats.map((cat,idx) => (
-                  <option key={idx} value={cat.value}>{cat.displayValue}</option>
+              {this.cats.map((cat,idx) => (
+                  <option key={idx} value={cat.categoryslug}>{cat.categorydisplayvalue}</option>
                   ))}
             </select>
           </form>

@@ -12,6 +12,11 @@ export async function fetchSinglePost({ slug }) {
   return post;
 }
 
+export async function fetchDistinctCategories(){
+    const categories= await sql `select distinct categoryDisplayValue, LOWER(categorySlug) from blogposts`;
+    return categories;
+}
+
 export async function fetchPostsByCategorySlug({ categorySlug }) {
   const list = await sql`select * from blogposts where categoryslug = ${categorySlug} ORDER BY blogposts.date DESC`;
   return list;
