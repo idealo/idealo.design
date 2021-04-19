@@ -13,7 +13,7 @@ export async function fetchSinglePost({ slug }) {
 }
 
 export async function fetchDistinctCategories(){
-    const categories= await sql `select distinct categoryDisplayValue, LOWER(categorySlug) from blogposts`;
+    const categories= await sql `select distinct categoryDisplayValue, LOWER(categorySlug) as categoryslug from blogposts`;
     return categories;
 }
 

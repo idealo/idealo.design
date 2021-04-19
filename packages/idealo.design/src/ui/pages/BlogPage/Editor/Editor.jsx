@@ -16,7 +16,6 @@ class RichTextEditor extends React.Component {
     const { match, location, history } = props;
 
     this.blog = null;
-    this.cats = [];
     this.slug = match.params.slug;
     this.mode = this.slug ? 'EDIT' : 'CREATE';
     this.state = {
@@ -27,7 +26,8 @@ class RichTextEditor extends React.Component {
       isPromptOpen: false,
       isEdited: false,
       lastHistoryLocation: '',
-      isSubmitPromptOpen: false
+      isSubmitPromptOpen: false,
+      cats: []
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -55,8 +55,8 @@ class RichTextEditor extends React.Component {
       return true;
     })
 
-    this.cats = await fetchDistinctCategories();
-    console.log('categories: ',this.cats);
+    this.setState({ cats: await fetchDistinctCategories() });
+    console.log('categories: ',this.state.cats);
 
     if(this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
@@ -190,7 +190,7 @@ class RichTextEditor extends React.Component {
     const name = target.name;
 
     if (target.type === 'select-one') {
-      const el = this.cats.filter(cat => cat.categoryslug === value).pop();
+      const el = this.state.cats.filter(cat => cat.categoryslug === value).pop();
       this.setState({
         categoryDisplayValue: el.categorydisplayvalue
       })
@@ -222,10 +222,10 @@ class RichTextEditor extends React.Component {
         <div className={s.InputFields}>
           <input className="form-control" onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
           <form name="category" className="select-container">
-            <select className='form-control' onChange={this.handleChange} id="kategorie" name="categorySlug" value={this.state.categorySlug} defaultValue='test'>
+            <select className='form-control' onChange={this.handleChange} id="kategorie" name="categorySlug" value={this.state.categorySlug}>
               <option value='1' disabled>select category</option>
               <option value="test">choose category</option>
-              {this.cats.map((cat,idx) => (
+              {this.state.cats.map((cat,idx) => (
                   <option key={idx} value={cat.categoryslug}>{cat.categorydisplayvalue}</option>
                   ))}
             </select>
