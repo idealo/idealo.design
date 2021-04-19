@@ -8,12 +8,10 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 const insertCss = (...styles) => {
   const removeCss = styles.map(style => {
-      console.log("erste schleife")
     if (!style._insertCss) return
     return style._insertCss()
 
   })
-    console.log('erflog')
   return () => removeCss.forEach(dispose => dispose)
 }
 
