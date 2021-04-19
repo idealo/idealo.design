@@ -161,7 +161,7 @@ app.put('/api/blogposts', async (req, res) => {
   console.log('api put req', req);
   
   const updatedBlogpost = req.body;
-  //updatedBlogpost.slug = slugify(updatedBlogpost.title);
+  updatedBlogpost.slug = slugify(updatedBlogpost.title);
   updatedBlogpost.date = (new Date()).toISOString();
   console.log('updatedBlogpost', updatedBlogpost);
   
