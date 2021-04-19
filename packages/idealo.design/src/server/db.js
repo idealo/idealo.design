@@ -58,7 +58,7 @@ export async function updateSinglePost(blog) {
   update blogposts set ${
       sql(blog, 'text', 'title', 'categoryDisplayValue', 'categorySlug')
   } where
-  id = ${ blog.id }es
+  id = ${ blog.id }
 `
   return updatedPost;
  }
