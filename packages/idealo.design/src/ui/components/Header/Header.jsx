@@ -62,11 +62,11 @@ class Search extends React.Component {
           <GithubLogo className={s.githubLogo}/>
         </a>*/}
 
-        {/*<a href="/auth/provider">Login</a>*/}
+        {<a href="/auth/provider">Login</a>}
       </>
     )
   }
-}
+};
 
 class StickyMenu extends React.Component {
 
