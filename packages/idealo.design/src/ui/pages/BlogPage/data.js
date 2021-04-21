@@ -46,6 +46,12 @@ export async function fetchAllCategories() {
   return data;
 }
 
+export async function fetchDistinctCategories() {
+    const resp = await fetch(`${API_BASE}/api/distinctCategories`);
+    const data = await resp.json();
+    return data;
+}
+
 // export async function deleteSinglePost() {
 //  implement me
 // }
