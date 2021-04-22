@@ -34,7 +34,8 @@ export async function storeSinglePost({
   categorySlug = '',
   slug,
   image = '',
-  body
+  body,
+    blogpostcontent
  }) {
   const createdPost = await sql`
     insert into blogposts (
@@ -44,7 +45,8 @@ export async function storeSinglePost({
       slug,
       date,
       image,
-      text
+      text,
+      blogpostcontent
     ) values (
       ${title},
       ${categoryDisplayValue},
@@ -52,7 +54,8 @@ export async function storeSinglePost({
       ${slug},
       ${date},
       ${image},
-      ${body}
+      ${body},
+      ${blogpostcontent}
     );`;
 
   return createdPost;

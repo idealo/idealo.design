@@ -2,7 +2,7 @@ import React from 'react'
 
 import { withRouter } from 'react-router'
 
-import { Editor, EditorState, getDefaultKeyBinding, RichUtils, ContentState } from "draft-js";
+import { Editor, EditorState, getDefaultKeyBinding, RichUtils, ContentState, convertToRaw, convertFromRaw } from "draft-js";
 import '~/draft-js/dist/Draft.css'
 import s from './Editor.module.scss';
 import Prompt from './Prompt';
@@ -33,6 +33,8 @@ class RichTextEditor extends React.Component {
 
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => {
+      const raw=convertToRaw(editorState.getCurrentContent());
+      this.saveEditorContent(raw);
       this.setState({ editorState, isEdited: true });
     }
 
@@ -50,6 +52,13 @@ class RichTextEditor extends React.Component {
   }
 
   async componentDidMount() {
+    /*const rawEditorData=this.getSavedEditorData();
+    if(rawEditorData != null){
+      const contentState = convertFromRaw(rawEditorData);
+      this.setState({
+        editorState: EditorState.createWithContent(contentState)
+      })
+    }*/
     this.props.history.block((tx) => {
       if (this.state.isEdited) {
         this.setState({ lastHistoryLocation: tx.pathname, isPromptOpen: true });
@@ -73,6 +82,22 @@ class RichTextEditor extends React.Component {
         editorState: EditorState.createWithContent(ContentState.createFromText(this.blog.text))
       })
     }
+  }
+
+  saveEditorContent(data){
+    localStorage.setItem('editorData',JSON.stringify(data))
+  }
+
+  getSavedEditorData() {
+    const savedData = localStorage.getItem("editorData");
+    return savedData ? JSON.parse(savedData) : null;
+  }
+
+  renderContentAsRawJs() {
+    const contentState = this.state.editorState.getCurrentContent();
+    const raw = convertToRaw(contentState);
+
+    return JSON.stringify(raw, null, 2);
   }
 
   _handleKeyCommand(command, editorState) {
@@ -155,7 +180,10 @@ class RichTextEditor extends React.Component {
       categoryDisplayValue: this.state.categoryDisplayValue,
       categorySlug: this.state.categorySlug,
       body: this.state.editorState.getCurrentContent().getPlainText(),
+      blogpostcontent: this.renderContentAsRawJs(),
     })
+
+    console.log(body)
 
     fetch('/api/blogposts', {
       method: 'POST',
@@ -273,14 +301,14 @@ class RichTextEditor extends React.Component {
         </div>
 
         <div className={s["RichEditor-root"]}>
-          {/* <BlockStyleControls
+           <BlockStyleControls
             editorState={editorState}
             onToggle={this.toggleBlockType}
           />
           <InlineStyleControls
             editorState={editorState}
             onToggle={this.toggleInlineStyle}
-          /> */}
+          />
           <div onClick={this.focus}>
             <Editor
               blockStyleFn={getBlockStyle}
@@ -295,6 +323,7 @@ class RichTextEditor extends React.Component {
             />
           </div>
         </div>
+        <pre>{this.renderContentAsRawJs()}</pre>
         <div className={s['newBlogPostButtons']}>
           <button className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
           <button className={s['CancelButton']} onClick={this.handleCancelation}>Cancel</button>
@@ -379,7 +408,7 @@ const BlockStyleControls = (props) => {
 
   return (
     <div className={s['RichEditor-controls']}>
-      {/* {BLOCK_TYPES.map((type) =>
+       {BLOCK_TYPES.map((type) =>
                        <StyleButton
                          key={type.label}
                          active={type.style === blockType}
@@ -387,7 +416,7 @@ const BlockStyleControls = (props) => {
                          onToggle={props.onToggle}
                          style={type.style}
                        />
-                      )} */}
+                      )}
     </div>
   );
 };
@@ -404,7 +433,7 @@ const InlineStyleControls = (props) => {
 
   return (
     <div className="RichEditor-controls">
-      {/* {INLINE_STYLES.map((type) =>
+       {INLINE_STYLES.map((type) =>
                          <StyleButton
                            key={type.label}
                            active={currentStyle.has(type.style)}
@@ -412,7 +441,7 @@ const InlineStyleControls = (props) => {
                            onToggle={props.onToggle}
                            style={type.style}
                          />
-                        )} */}
+                        )}
     </div>
   );
 };
