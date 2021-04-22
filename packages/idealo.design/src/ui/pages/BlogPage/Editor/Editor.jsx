@@ -162,6 +162,7 @@ class RichTextEditor extends React.Component {
       this.props.history.block(() => true);
       this.blog.text = this.state.editorState.getCurrentContent().getPlainText();
       this.blog.title = this.state.title;
+      this.blog.blogpostcontent = this.renderContentAsRawJs();
       this.blog.categoryDisplayValue = this.state.categoryDisplayValue;
       this.blog.categorySlug = this.state.categorySlug;
       updateSinglePost({
