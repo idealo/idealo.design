@@ -2,7 +2,7 @@ import React from 'react'
 
 import { withRouter } from 'react-router'
 
-import { Editor, EditorState, getDefaultKeyBinding, RichUtils, ContentState, convertToRaw, convertFromRaw } from "draft-js";
+import { Editor, EditorState, getDefaultKeyBinding, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import '~/draft-js/dist/Draft.css'
 import s from './Editor.module.scss';
 import Prompt from './Prompt';
@@ -28,7 +28,7 @@ class RichTextEditor extends React.Component {
       isEdited: false,
       lastHistoryLocation: '',
       isSubmitPromptOpen: false,
-      cats: []
+      cats: [],
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -73,13 +73,16 @@ class RichTextEditor extends React.Component {
     if(this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
       console.log('this....blog', this.blog);
+      const contentState = convertFromRaw( this.blog.blogpostcontent);
+
 
       this.setState({
         blogpost: this.blog, // refactor
         title: this.blog.title,
         categorySlug: this.blog.categoryslug,
         categoryDisplayValue: this.blog.categorydisplayvalue,
-        editorState: EditorState.createWithContent(ContentState.createFromText(this.blog.text))
+      //editorState: EditorState.createWithContent(ContentState.createFromText(this.blog.text))
+        editorState: EditorState.createWithContent(contentState)
       })
     }
   }
@@ -323,7 +326,7 @@ class RichTextEditor extends React.Component {
             />
           </div>
         </div>
-        <pre>{this.renderContentAsRawJs()}</pre>
+        {/*<pre>{this.renderContentAsRawJs()}</pre>*/}
         <div className={s['newBlogPostButtons']}>
           <button className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
           <button className={s['CancelButton']} onClick={this.handleCancelation}>Cancel</button>
