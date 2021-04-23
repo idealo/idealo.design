@@ -61,12 +61,12 @@ class Search extends React.Component {
        {/* <a href="https://github.com/idealo/nwp">
           <GithubLogo className={s.githubLogo}/>
         </a>*/}
-
+        {/*if not logged in, sonst icon*/}
         {<a href="/auth/provider">Login</a>}
       </>
     )
   }
-};
+}
 
 class StickyMenu extends React.Component {
 

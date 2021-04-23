@@ -102,11 +102,14 @@ if (CLIENT_ID) {
       console.log('error fetching profile: ', err)
     }
 
+    req.session.user = user;
     console.log('user:', user)
+    console.log('req.session.user', req.session.user)
 
     done(null, user)
   }));
 }
+
 
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
@@ -120,6 +123,17 @@ app.get('/auth/provider/callback',
         passport.authenticate('provider', { successRedirect: '/',
                                             failureRedirect: '/login' }))
 
+app.get('/me', (req, res) => {
+  const user = req.session.user;
+  const resp = {
+    message: 'NOT_LOGGED_IN'
+  };
+  if (user) {
+    resp.message = 'LOGGED_IN';
+    resp.user = user;
+  }
+  res.json(resp);
+} )
 
 app.get('/api/blogposts/:slug?', async (req, res) => {
   const { slug } = req.params;
