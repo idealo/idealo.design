@@ -8,6 +8,7 @@ import s from './Editor.module.scss';
 import Prompt from './Prompt';
 import PromptSuccess from "./PromptSuccess";
 import { fetchSinglePost, updateSinglePost, fetchDistinctCategories} from '../data';
+import CreatableSelect from 'react-select/creatable';
 
 class RichTextEditor extends React.Component {
   constructor(props) {
@@ -44,6 +45,8 @@ class RichTextEditor extends React.Component {
     this.onModalCancel = this.onModalCancel.bind(this);
     this.onModalLeave = this.onModalLeave.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleSelectCreate = this.handleSelectCreate.bind(this);
   }
 
   async componentDidMount() {
@@ -201,6 +204,30 @@ class RichTextEditor extends React.Component {
     });
   }
 
+  handleSelectChange(newValue, actionMeta) {
+    console.group('Value Changed');
+    console.log(newValue);
+    this.setState({
+      categorySlug: newValue.categoryslug,
+      categoryDisplayValue: newValue.categorydisplayvalue
+    })
+  }
+
+  handleSelectCreate(inputValue) {
+    console.group('Option created');
+    console.log(inputValue);
+    const { cats } = this.state;
+    const newOption = {
+      categoryslug: inputValue.toLowerCase().replace(/\W/g, ''),
+      categorydisplayvalue: inputValue
+    }
+    this.setState({
+      cats: [...cats, newOption],
+      categorySlug: newOption.categoryslug,
+      categoryDisplayValue: newOption.categorydisplayvalue
+    });
+  }
+
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
@@ -222,13 +249,26 @@ class RichTextEditor extends React.Component {
         <div className={s.InputFields}>
           <input className="form-control" onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
           <form name="category" className="select-container">
-            <select className='form-control' onChange={this.handleChange} id="kategorie" name="categorySlug" value={this.state.categorySlug}>
+            {/*<select className='form-control' onChange={this.handleChange} id="kategorie" name="categorySlug" value={this.state.categorySlug}>
               <option value='1' disabled>select category</option>
               <option value="test">choose category</option>
               {this.state.cats.map((cat,idx) => (
                   <option key={idx} value={cat.categoryslug}>{cat.categorydisplayvalue}</option>
                   ))}
-            </select>
+            </select>*/}
+            <CreatableSelect
+                getOptionLabel={option => option.categorydisplayvalue}
+                getOptionValue={option => option.categoryslug}
+                onChange={this.handleSelectChange}
+                onCreateOption={this.handleSelectCreate}
+                options={this.state.cats}
+                value={{categorydisplayvalue: this.state.categoryDisplayValue, categoryslug: this.state.categorySlug}}
+                getNewOptionData={(inputValue, optionLabel) => ({
+                  categoryslug: inputValue,
+                  categorydisplayvalue: optionLabel,
+                  __isNew__: true
+                })}
+            />
           </form>
         </div>
 
