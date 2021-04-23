@@ -5,9 +5,8 @@ import withStyles from 'isomorphic-style-loader/withStyles'
 import { fetchList, fetchPostsByCategorySlug } from './data';
 import { Link, useParams, useHistory } from "react-router-dom";
 
-
-
 import s from './Blogpage.module.scss';
+import draftToHtml from "draftjs-to-html";
 
 function ListView() {
   const history = useHistory();
@@ -41,6 +40,14 @@ function ListView() {
   }
 
   // const highlighted = list.pop()
+  function getReactElement(a){
+    const htmlBlogContent = draftToHtml(a);
+
+    const HtmlToReactParser = require('html-to-react').Parser;
+
+    const htmlToReactParser = new HtmlToReactParser();
+    return htmlToReactParser.parse(htmlBlogContent);
+  }
 
   return (
     <>
@@ -68,7 +75,7 @@ function ListView() {
             </h2>
             <img alt="" src={blogpost.image}/>
             <p>
-              {blogpost.text}
+              {getReactElement(blogpost.blogpostcontent)}
             </p>
           </div>
         ))}
