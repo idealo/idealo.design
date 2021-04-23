@@ -34,8 +34,7 @@ export async function storeSinglePost({
   categorySlug = '',
   slug,
   image = '',
-  body,
-    blogpostcontent
+  blogpostcontent
  }) {
   const createdPost = await sql`
     insert into blogposts (
@@ -45,7 +44,6 @@ export async function storeSinglePost({
       slug,
       date,
       image,
-      text,
       blogpostcontent
     ) values (
       ${title},
@@ -54,7 +52,6 @@ export async function storeSinglePost({
       ${slug},
       ${date},
       ${image},
-      ${body},
       ${blogpostcontent}
     );`;
 
@@ -62,7 +59,7 @@ export async function storeSinglePost({
 }
 
 export async function updateSinglePost(blog) {
-  const updatedPost = await sql`update blogposts set ${ sql(blog, 'text', 'title', 'categoryDisplayValue', 'categorySlug','blogpostcontent')} where  id = ${ blog.id }`
+  const updatedPost = await sql`update blogposts set ${ sql(blog, 'title', 'categoryDisplayValue', 'categorySlug','blogpostcontent')} where  id = ${ blog.id }`
   return updatedPost;
  }
 

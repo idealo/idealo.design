@@ -12,10 +12,8 @@ import {
 import s from './Blogpage.module.scss'
 
 import { fetchSinglePost } from './data'
-import * as assert from "assert";
 
 function toDateFormat_de(inp) {
-    console.log('toDateFormate_de inp', inp)
     let date = inp ? new Date(inp) : new Date()
 
     const year = date.getFullYear();
@@ -67,7 +65,6 @@ const BlogDetailView = (props) => {
     let emailLink
     let githubLink
     if(blogpost.facebook !== null){
-        console.log("Es gibt einen Facebooklink!")
         facebookLink = <a href={blogpost.facebook}><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/></a>
     }
     if(blogpost.instagram !== null){
@@ -86,16 +83,11 @@ const BlogDetailView = (props) => {
     }
 
     const htmlBlogContent = draftToHtml(blogpost.blogpostcontent);
-    console.log('html content:', htmlBlogContent);
 
-    var ReactDOMServer = require('react-dom/server');
-    var HtmlToReactParser = require('html-to-react').Parser;
+    const HtmlToReactParser = require('html-to-react').Parser;
 
-    var htmlToReactParser = new HtmlToReactParser();
-    var reactElement = htmlToReactParser.parse(htmlBlogContent);
-
-    var reactHtml = ReactDOMServer.renderToStaticMarkup(reactElement);
-    /*assert.equal(reactHtml, htmlBlogContent);*/
+    const htmlToReactParser = new HtmlToReactParser();
+    const reactElement = htmlToReactParser.parse(htmlBlogContent);
 
     const datetime = toDateFormat_de(blogpost.date)
 
@@ -115,20 +107,12 @@ const BlogDetailView = (props) => {
                     {emailLink}
                     {githubLink}
                 </div>
-                {/*<div className={s.SocialMediaIcons}>
-                <a href={blogpost.facebook}><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/></a>
-                <a href={blogpost.instagram}><img alt="" src="https://img.icons8.com/doodle/48/000000/instagram-new.png"/></a>
-                <a href={blogpost.twitter}><img alt="" src="https://img.icons8.com/doodle/48/000000/twitter--v1.png"/></a>
-                <a href={blogpost.email}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
-                <a href={blogpost.github}><img alt="" src="https://maxcdn.icons8.com/Share/icon/Logos/github_filled1600.png"/></a>
-            </div>*/}
                 <h2>{blogpost.title}</h2>
                 <div className={s.Autor}>
                     {blogpost.autor}
                 </div>
                 <h5>{datetime}</h5>
                 {reactElement}
-                {/*<p>{blogpost.text}</p>*/}
                 <img alt="" src={blogpost.image} />
             </div>
 

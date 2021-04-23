@@ -33,8 +33,6 @@ class RichTextEditor extends React.Component {
 
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => {
-      const raw=convertToRaw(editorState.getCurrentContent());
-      this.saveEditorContent(raw);
       this.setState({ editorState, isEdited: true });
     }
 
@@ -42,7 +40,7 @@ class RichTextEditor extends React.Component {
     this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
     this.toggleBlockType = this._toggleBlockType.bind(this);
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
-    this.handleCancelation = this.handleCancelation.bind(this);
+    this.handleCancellation = this.handleCancellation.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onModalCancel = this.onModalCancel.bind(this);
     this.onModalLeave = this.onModalLeave.bind(this);
@@ -52,13 +50,6 @@ class RichTextEditor extends React.Component {
   }
 
   async componentDidMount() {
-    /*const rawEditorData=this.getSavedEditorData();
-    if(rawEditorData != null){
-      const contentState = convertFromRaw(rawEditorData);
-      this.setState({
-        editorState: EditorState.createWithContent(contentState)
-      })
-    }*/
     this.props.history.block((tx) => {
       if (this.state.isEdited) {
         this.setState({ lastHistoryLocation: tx.pathname, isPromptOpen: true });
@@ -68,32 +59,19 @@ class RichTextEditor extends React.Component {
     })
 
     this.setState({ cats: await fetchDistinctCategories() });
-    console.log('categories: ',this.state.cats);
 
     if(this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
-      console.log('this....blog', this.blog);
       const contentState = convertFromRaw( this.blog.blogpostcontent);
-
 
       this.setState({
         blogpost: this.blog, // refactor
         title: this.blog.title,
         categorySlug: this.blog.categoryslug,
         categoryDisplayValue: this.blog.categorydisplayvalue,
-      //editorState: EditorState.createWithContent(ContentState.createFromText(this.blog.text))
         editorState: EditorState.createWithContent(contentState)
       })
     }
-  }
-
-  saveEditorContent(data){
-    localStorage.setItem('editorData',JSON.stringify(data))
-  }
-
-  getSavedEditorData() {
-    const savedData = localStorage.getItem("editorData");
-    return savedData ? JSON.parse(savedData) : null;
   }
 
   renderContentAsRawJs() {
@@ -146,9 +124,7 @@ class RichTextEditor extends React.Component {
     );
   }
 
-  handleCancelation(e) {
-    console.log("handelCancelation", this.props);
-    
+  handleCancellation() {
     if(this.state.isEdited) {
       this.setState({isPromptOpen: true }); 
     } else {
@@ -160,7 +136,6 @@ class RichTextEditor extends React.Component {
     e.preventDefault();
     if(this.mode === 'EDIT') {
       this.props.history.block(() => true);
-      this.blog.text = this.state.editorState.getCurrentContent().getPlainText();
       this.blog.title = this.state.title;
       this.blog.blogpostcontent = this.renderContentAsRawJs();
       this.blog.categoryDisplayValue = this.state.categoryDisplayValue;
@@ -183,11 +158,8 @@ class RichTextEditor extends React.Component {
       title: this.state.title,
       categoryDisplayValue: this.state.categoryDisplayValue,
       categorySlug: this.state.categorySlug,
-      body: this.state.editorState.getCurrentContent().getPlainText(),
       blogpostcontent: this.renderContentAsRawJs(),
     })
-
-    console.log(body)
 
     fetch('/api/blogposts', {
       method: 'POST',
@@ -265,7 +237,7 @@ class RichTextEditor extends React.Component {
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
     let className = s['RichEditor-editor'];
-    var contentState = editorState.getCurrentContent();
+    const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
         className += ' ' + s['RichEditor-hidePlaceholder'];
@@ -281,13 +253,6 @@ class RichTextEditor extends React.Component {
         <div className={s.InputFields}>
           <input className="form-control" onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
           <form name="category" className="select-container">
-            {/*<select className='form-control' onChange={this.handleChange} id="kategorie" name="categorySlug" value={this.state.categorySlug}>
-              <option value='1' disabled>select category</option>
-              <option value="test">choose category</option>
-              {this.state.cats.map((cat,idx) => (
-                  <option key={idx} value={cat.categoryslug}>{cat.categorydisplayvalue}</option>
-                  ))}
-            </select>*/}
             <CreatableSelect
                 getOptionLabel={option => option.categorydisplayvalue}
                 getOptionValue={option => option.categoryslug}
@@ -327,10 +292,9 @@ class RichTextEditor extends React.Component {
             />
           </div>
         </div>
-        {/*<pre>{this.renderContentAsRawJs()}</pre>*/}
         <div className={s['newBlogPostButtons']}>
           <button className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
-          <button className={s['CancelButton']} onClick={this.handleCancelation}>Cancel</button>
+          <button className={s['CancelButton']} onClick={this.handleCancellation}>Cancel</button>
         </div>
 
         <Prompt
