@@ -12,6 +12,7 @@ import {
 import s from './Blogpage.module.scss'
 
 import { fetchSinglePost } from './data'
+import * as assert from "assert";
 
 function toDateFormat_de(inp) {
     console.log('toDateFormate_de inp', inp)
@@ -85,7 +86,16 @@ const BlogDetailView = (props) => {
     }
 
     const htmlBlogContent = draftToHtml(blogpost.blogpostcontent);
-    console.log('html content:', htmlBlogContent)
+    console.log('html content:', htmlBlogContent);
+
+    var ReactDOMServer = require('react-dom/server');
+    var HtmlToReactParser = require('html-to-react').Parser;
+
+    var htmlToReactParser = new HtmlToReactParser();
+    var reactElement = htmlToReactParser.parse(htmlBlogContent);
+
+    var reactHtml = ReactDOMServer.renderToStaticMarkup(reactElement);
+    /*assert.equal(reactHtml, htmlBlogContent);*/
 
     const datetime = toDateFormat_de(blogpost.date)
 
@@ -117,7 +127,7 @@ const BlogDetailView = (props) => {
                     {blogpost.autor}
                 </div>
                 <h5>{datetime}</h5>
-                <span dangerouslySetInnerHTML={{__html: htmlBlogContent}} />
+                {reactElement}
                 {/*<p>{blogpost.text}</p>*/}
                 <img alt="" src={blogpost.image} />
             </div>
