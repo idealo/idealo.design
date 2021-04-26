@@ -111,11 +111,11 @@ const BlogDetailView = (props) => {
                     {emailLink}
                     {githubLink}
                 </div>
-                <h2>{blogpost.title}</h2>
+                <h2 className={s.blogpostTitle}>{blogpost.title}</h2>
                 <div className={s.Autor}>
                     {blogpost.autor}
                 </div>
-                <h5>{datetime}</h5>
+                <h5 className={s.blogpostDate}>{datetime}</h5>
                 {reactElement}
                 <img alt="" src={blogpost.image} />
             </div>

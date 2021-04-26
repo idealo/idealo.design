@@ -68,7 +68,7 @@ function ListView() {
       <div className={s.List}>
         {list.map((blogpost) => (
           <div key={blogpost.id} className={s.Content}>
-            <h2>
+            <h2 className={s.blogpostTitle}>
               <Link to={`/blog/${blogpost.slug}`}>{blogpost.title}</Link>
             </h2>
             <img alt="" src={blogpost.image}/>
