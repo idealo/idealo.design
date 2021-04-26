@@ -59,6 +59,10 @@ const BlogDetailView = (props) => {
         });
     }
 
+   const scrollToTop = () => {
+      document.body.scrollTop = 0;
+    }
+
     let facebookLink
     let instagramLink
     let twitterLink
@@ -75,7 +79,7 @@ const BlogDetailView = (props) => {
     }
 
     if(blogpost.email !== null){
-        emailLink = <a href={blogpost.email}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
+        emailLink = <a href={'mailto:'+blogpost.email}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
     }
 
     if(blogpost.github !== null){
@@ -118,16 +122,16 @@ const BlogDetailView = (props) => {
 
             {/* delete button onclick= delete method  */}
 
-            <div className={s.ButtonNavigation}>
-                {blogpost.previouspost && (<Link className={s.ButtonPrevious} to={'/blog/' + blogpost.previouspost}>
-                    <span>Previous</span>
-                </Link>)}
-                {blogpost.nextpost && (<Link className={s.ButtonNext} to={'/blog/' + blogpost.nextpost}>
-                    <span>Next</span>
-                </Link>)}
-            </div>
-        </div>
-    );
+      <div className={s.ButtonNavigation}>
+        {blogpost.previouspost && (<Link onClick={scrollToTop} className={s.ButtonPrevious} to={'/blog/' + blogpost.previouspost}>
+                                      <span>Previous</span>
+                                    </Link>)}
+        {blogpost.nextpost && (<Link onClick={scrollToTop} className={s.ButtonNext} to={'/blog/' + blogpost.nextpost}>
+                                  <span>Next</span>
+                                </Link>)}
+      </div>
+    </div>
+  );
 };
 
 export default withStyles(s)(BlogDetailView);

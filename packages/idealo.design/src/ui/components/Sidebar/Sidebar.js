@@ -13,68 +13,71 @@ import AssetsIcon from './ico_assets.svg'
 import OtherIcon from './ico_datasheet_outline.svg'
 
 import * as Elems from 'Data/__generated__elements__'
+import { fetchDistinctCategories } from "../../pages/BlogPage/data"
 
-
-const sections = [
-  {
-    icon: 'foundationsIcon',
-    title: 'Foundations',
-    children: [
-      { title: 'Overview', href: '/foundations'},
-      { title: 'Colors', href: '/foundations/colors' },
-      { title: 'Typography', href: '/foundations/typography' },
-    ]
-  },
-  {
-    icon: 'elementsIcon',
-    title: 'Elements',
-    children: [{ title: 'Overview', href: '/elements/overview' }]
-      .concat(Object.keys(Elems).map(key => {
-        const elem = Elems[key]
-        return {
-          title: elem.title,
-          href: `/elements/${elem.slug}`
-        }
-      })),
-  },
-  {
-    icon: 'compoundsIcon',
-    title: 'Compounds',
-    children: [
-      { title: 'Overview', href: '/compounds' },
-      { title: 'Header', href: '/compounds/header' },
-      { title: 'Footer', href: '/compounds/footer' },
-      { title: 'International Prices', href: '/compounds/international-prices' },
-    ]
-  },
-  {
-    icon: 'otherIcon',
-    title: 'Blog',
-    children: [
-      { title: 'Overview', href: '/blog' },
-      { title: 'Docker', href: '/blog/categories/docker' },
-      { title: 'React', href: '/blog/categories/react' },
-      { title: 'Editor', href: '/blog/categories/editor' },
-      { title: 'Git', href: '/blog/categories/git' },
-      { title: 'Test', href: '/blog/categories/test' },
-    ]
-  },
-  {
-    icon: 'assetsIcon',
-    title: 'Assets',
-    children: [
-      { title: 'Overview', href: '/assets' },
-      { title: 'Sketch', href: '/assets/sketch' },
-    ]
-  },
-  {
-    icon: 'otherIcon',
-    title: 'Other',
-    children: [
-      { title: 'Scratchpad', href: '/scratchpad' },
-    ]
-  },
-]
+function createSections(addedData) {
+  const { cats } = addedData;
+  return [
+    {
+      icon: 'foundationsIcon',
+      title: 'Foundations',
+      children: [
+        { title: 'Overview', href: '/foundations'},
+        { title: 'Colors', href: '/foundations/colors' },
+        { title: 'Typography', href: '/foundations/typography' },
+      ]
+    },
+    {
+      icon: 'elementsIcon',
+      title: 'Elements',
+      children: [{ title: 'Overview', href: '/elements/overview' }]
+          .concat(Object.keys(Elems).map(key => {
+            const elem = Elems[key]
+            return {
+              title: elem.title,
+              href: `/elements/${elem.slug}`
+            }
+          })),
+    },
+    {
+      icon: 'compoundsIcon',
+      title: 'Compounds',
+      children: [
+        { title: 'Overview', href: '/compounds' },
+        { title: 'Header', href: '/compounds/header' },
+        { title: 'Footer', href: '/compounds/footer' },
+        { title: 'International Prices', href: '/compounds/international-prices' },
+      ]
+    },
+    {
+      icon: 'otherIcon',
+      title: 'Blog',
+      children: [{ title: 'Overview', href: '/blog' }]
+          .concat(Object.keys(cats).map(key => {
+            const cat = cats[key]
+            return {
+              title: cat.categorydisplayvalue,
+              href: `/blog/categories/${cat.categoryslug}`
+            }
+          })),
+    },
+    {
+      icon: 'assetsIcon',
+      title: 'Assets',
+      children: [
+        { title: 'Overview', href: '/assets' },
+        { title: 'Sketch', href: '/assets/sketch' },
+      ]
+    },
+    {
+      icon: 'otherIcon',
+      title: 'Other',
+      children: [
+        { title: 'Scratchpad', href: '/scratchpad' },
+      ]
+    },
+  ];
+}
 
 function RenderIcon({ name }) {
   switch (name) {
@@ -179,10 +182,11 @@ class Sidebar extends React.Component {
 
     this.state = {
       isStickyModel: false,
+      sections: []
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     window.addEventListener('Header:enableSticky', () => {
       this.setState({ isStickyMode: true })
     })
@@ -191,7 +195,8 @@ class Sidebar extends React.Component {
       this.setState({ isStickyMode: false })
     })
 
-
+    const cats = await fetchDistinctCategories();
+    this.setState({sections: createSections({cats})});
   }
 
   render() {
@@ -203,10 +208,10 @@ class Sidebar extends React.Component {
     return (
         <aside>
         <nav style={style} className={s.Sidebar}>
-        {sections.map((section, idx) => (
+        {this.state.sections.map((section, idx) => (
             <NavSection isSidebarOpen={this.props.isOpen} key={idx} section={section} />
         ))}
-      </nav>
+        </nav>
         </aside>
     )
   }

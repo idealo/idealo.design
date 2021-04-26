@@ -194,8 +194,7 @@ SELECT setval('blogposts_id_seq', (SELECT MAX(id) FROM blogposts)+1);
 
 
 UPDATE blogposts
-	SET
-		title = 'Docker' ,
+	SET title = 'Docker',
     		nextpost = 'Einstieg-in-die-Welt-der-Datenbanken',
     		previouspost = NULL,
     		categoryDisplayValue = 'Kategorie 1',
@@ -233,7 +232,7 @@ Viel Spaß beim ausprobieren  =)'
 
 UPDATE blogposts
 	SET
-		title = 'Einstieg in die Welt der Datenbanken' ,
+		title = 'Einstieg in die Welt der Datenbanken',
     		nextpost = 'mein-erstes-mal-mit-react',
     		previouspost = 'docker',
     		categoryDisplayValue = 'Kategorie 1',
@@ -269,8 +268,7 @@ Als Fazit kann ich sagen, dass React vor allem für sehr interaktive Projekte ge
 		id = 3;
 
 UPDATE blogposts
-	SET
-		title = 'Versionskontrolle mit Git und GitHub' ,
+	SET title = 'Versionskontrolle mit Git und GitHub',
     		nextpost = 'Draft.js',
     		previouspost = 'mein-erstes-mal-mit-react',
     		categoryDisplayValue = 'Kategorie 3',
@@ -300,9 +298,7 @@ Weitere wichtige Befehle, die den Umgang mit Git vereinfachen, sind in diesem Ch
 	WHERE
 		id = 4;
 
-UPDATE blogposts
-	SET
-	title = 'Draft JS als Open Source Editor' ,
+UPDATE blogposts SET title = 'Draft JS als Open Source Editor',
     	nextpost = NULL,
     	previouspost = 'Versionskontrolle',
   	categoryDisplaySlug ='Kategorie 4',

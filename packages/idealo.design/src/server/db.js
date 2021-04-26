@@ -59,7 +59,13 @@ export async function storeSinglePost({
 }
 
 export async function updateSinglePost(blog) {
-  const updatedPost = await sql`update blogposts set ${ sql(blog, 'title', 'categoryDisplayValue', 'categorySlug','blogpostcontent')} where  id = ${ blog.id }`
+
+  const updatedPost = await sql`
+  update blogposts set ${ 
+      sql(blog, 'title', 'categoryDisplayValue', 'categorySlug','blogpostcontent')
+  } where  
+  id = ${ blog.id }`
+
   return updatedPost;
  }
 
