@@ -21,11 +21,19 @@ class Search extends React.Component {
 
     this.handleOnKeyUp = this.handleOnKeyUp.bind(this)
 
-    this.state = {isLoggedIn: false}
+    this.state = {
+      isLoggedIn: false,
+      userInfo: {},
+    }
   }
 
-  componentDidMount() {
+
+  async componentDidMount() {
     window.document.addEventListener('keyup', this.handleOnKeyUp)
+
+    const userInfo = await fetchUserInfo()
+    this.setState({userInfo})
+
   }
 
   componentWillUnmount() {
@@ -38,24 +46,6 @@ class Search extends React.Component {
     }
   }
 
-  drawIcon() {
-    const Icon = fetchUserInfo()
-
-    if (Icon.message === 'LOGGED_IN') {
-
-      this.setState({isLoggedIn: true})
-
-      let icon = []
-      icon[0] = Icon["displayName", 2].charAt(0).toUpperCase();
-      icon[1] = Icon["surname", 9].charAt(0).toUpperCase();
-
-      return icon;
-    }
-
-    this.setState({isLoggedIn: false})
-    return Icon;
-  }
-
 
   render() {
     const searchInputStyle = {
@@ -63,36 +53,50 @@ class Search extends React.Component {
       width: this.props.isOpen ? '40vw' : 0,
       padding: this.props.isOpen ? '.5rem' : 0,
       margin: this.props.isOpen ? 'auto 2rem auto auto' : 0,
-
     }
+
+    const isLoggedIn = this.state.userInfo.status
+    const initialsStyle = {
+
+      visibility: this.isLoggedIn === "LOGGED_IN" ? 'visible' : 'hidden',
+      width: this.isLoggedIn === "LOGGED_IN" ? '25px' : 0,
+      height: this.isLoggedIn === "LOGGED_IN" ? '25px' : 0,
+      padding: this.isLoggedIn === "LOGGED_IN" ? '.5rem' : 0,
+      margin:  this.isLoggedIn === "LOGGED_IN" ? 'auto 2rem auto auto' : 0,
+      backgroundColor: this.isLoggedIn === "LOGGED_IN" ? 'blue' : 'transparent', }
 
 
 
     return (
-      <>
-        <input
-          style={searchInputStyle}
-          className={s.SearchInput}
-          onTransitionEnd={event => {
-            event.persist()
-            event.target.focus()
-            event.target.value = ''
-          }}
-          autoFocus />
+        <>
+          <input
+              style={searchInputStyle}
+              className={s.SearchInput}
+              onTransitionEnd={event => {
+                event.persist()
+                event.target.focus()
+                event.target.value = ''
+              }}
+              autoFocus/>
 
-        {this.props.isOpen ?
-         <CloseIco className={s.SearchToggle} onClick={this.props.onClick} /> :
-         <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
+          {this.props.isOpen ?
+              <CloseIco className={s.SearchToggle} onClick={this.props.onClick}/> :
+              <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
 
-       {/* <a href="https://github.com/idealo/nwp">
-          <GithubLogo className={s.githubLogo}/>
-        </a>*/}
+          {/*<a href="https://github.com/idealo/nwp">
+          <GithubLogo  className={s.githubLogo}/>
+        </a>
 
-        { this.state === true && this.drawIcon().message === "LOGGED_IN" ?
-            <>hi</> :
-            <a href = "/auth/provider">Log In</a>
-        }
-      </>
+
+          <button
+              style={initialsStyle}
+              className={s.Avatar}
+          />
+          <a href="/auth/provider">Log In</a>
+
+        */}
+
+        </>
     )
   }
 }

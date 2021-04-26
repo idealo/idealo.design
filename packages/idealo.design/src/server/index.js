@@ -106,6 +106,8 @@ if (CLIENT_ID) {
     console.log('user:', user)
     console.log('req.session.user', req.session.user)
 
+
+
     done(null, user)
   }));
 }
@@ -123,13 +125,13 @@ app.get('/auth/provider/callback',
         passport.authenticate('provider', { successRedirect: '/',
                                             failureRedirect: '/login' }))
 
-app.get('/me', (req, res) => {
+app.get('/api/me', (req, res) => {
   const user = req.session.user;
   const resp = {
-    message: 'NOT_LOGGED_IN'
+    status: 'NOT_LOGGED_IN'
   };
   if (user) {
-    resp.message = 'LOGGED_IN';
+    resp.status = 'LOGGED_IN';
     resp.user = user;
   }
   res.json(resp);
