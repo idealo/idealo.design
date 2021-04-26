@@ -5,11 +5,12 @@
 }
 
 .Content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 10;
     width: 100%;
-    padding: 1rem;
     margin: 2rem 0;
     overflow: hidden;
-    max-height: 300px;
 
     img {
         width: 100px;

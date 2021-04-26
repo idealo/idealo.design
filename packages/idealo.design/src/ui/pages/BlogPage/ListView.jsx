@@ -7,6 +7,7 @@ import { Link, useParams, useHistory } from "react-router-dom";
 
 import s from './Blogpage.module.scss';
 import draftToHtml from "draftjs-to-html";
+const { htmlToText } = require('html-to-text');
 
 function ListView() {
   const history = useHistory();
@@ -42,11 +43,8 @@ function ListView() {
   // const highlighted = list.pop()
   function getReactElement(a){
     const htmlBlogContent = draftToHtml(a);
-
-    const HtmlToReactParser = require('html-to-react').Parser;
-
-    const htmlToReactParser = new HtmlToReactParser();
-    return htmlToReactParser.parse(htmlBlogContent);
+    const plainText = htmlBlogContent.replace(/<[^>]*>/g, '');
+    return htmlToText(plainText);
   }
 
   return (
@@ -74,9 +72,7 @@ function ListView() {
               <Link to={`/blog/${blogpost.slug}`}>{blogpost.title}</Link>
             </h2>
             <img alt="" src={blogpost.image}/>
-            <p>
               {getReactElement(blogpost.blogpostcontent)}
-            </p>
           </div>
         ))}
       </div>
