@@ -7,6 +7,18 @@ export async function fetchList() {
   return data;
 }
 
+const resp = await fetch(`${API_BASE}/api/blogposts`, {
+      method: 'PUT',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body
+    }
+).then(function(response) {
+  console.log(response)
+  cb();
+  return response.json();
+});
+
+
 export async function updateSinglePost({ slug, post }, cb) {
   const body = JSON.stringify(post);
   console.log('body', body);
