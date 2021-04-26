@@ -10,18 +10,6 @@ export async function fetchList() {
 export async function updateSinglePost({ slug, post }, cb) {
   const body = JSON.stringify(post);
   console.log('body', body);
-  
-
- const resp = await fetch(`${API_BASE}/api/blogposts`, {
-      method: 'PUT',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-      body
-      }
-    ).then(function(response) {
-      console.log(response)
-      cb();
-      return response.json();
-    });
 }
 
 export async function fetchSinglePost({ slug }) {
@@ -50,6 +38,13 @@ export async function fetchDistinctCategories() {
     const resp = await fetch(`${API_BASE}/api/distinctCategories`);
     const data = await resp.json();
     return data;
+}
+
+export async function fetchUserInfo() {
+  const resp = await fetch( `${API_BASE}/api/me` );
+  const data = await resp.json();
+
+  return data;
 }
 
 // export async function deleteSinglePost() {

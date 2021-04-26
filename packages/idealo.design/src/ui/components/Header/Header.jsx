@@ -11,6 +11,8 @@ import GithubLogo from './github.svg'
 
 import {getElementBySlug} from 'Data/elements'
 
+import { fetchUserInfo } from "../../pages/BlogPage/data";
+
 
 class Search extends React.Component {
 
@@ -18,6 +20,8 @@ class Search extends React.Component {
     super(props)
 
     this.handleOnKeyUp = this.handleOnKeyUp.bind(this)
+
+    this.state = {isLoggedIn: false}
   }
 
   componentDidMount() {
@@ -34,13 +38,35 @@ class Search extends React.Component {
     }
   }
 
+  drawIcon() {
+    const Icon = fetchUserInfo()
+
+    if (Icon.message === 'LOGGED_IN') {
+
+      this.setState({isLoggedIn: true})
+
+      let icon = []
+      icon[0] = Icon["displayName", 2].charAt(0).toUpperCase();
+      icon[1] = Icon["surname", 9].charAt(0).toUpperCase();
+
+      return icon;
+    }
+
+    this.setState({isLoggedIn: false})
+    return Icon;
+  }
+
+
   render() {
     const searchInputStyle = {
       visibility: this.props.isOpen ? 'visible' : 'hidden',
       width: this.props.isOpen ? '40vw' : 0,
       padding: this.props.isOpen ? '.5rem' : 0,
       margin: this.props.isOpen ? 'auto 2rem auto auto' : 0,
+
     }
+
+
 
     return (
       <>
@@ -61,8 +87,11 @@ class Search extends React.Component {
        {/* <a href="https://github.com/idealo/nwp">
           <GithubLogo className={s.githubLogo}/>
         </a>*/}
-        {/*if not logged in, sonst icon*/}
-        {<a href="/auth/provider">Login</a>}
+
+        { this.state === true && this.drawIcon().message === "LOGGED_IN" ?
+            <>hi</> :
+            <a href = "/auth/provider">Log In</a>
+        }
       </>
     )
   }
@@ -78,17 +107,17 @@ class StickyMenu extends React.Component {
     }
 
     return (
-      <div style={style} className={s.StickyMenu}>
-        {this.props.active && (
-          <>
-            {element.sections && element.sections
-             .filter(section => section.type === 'h2')
-             .map((section, idx) => (
-               <a key={idx} href={`#${section.content}`}>{section.content}</a>
-             ))}
-          </>
-        )}
-      </div>
+        <div style={style} className={s.StickyMenu}>
+          {this.props.active && (
+              <>
+                {element.sections && element.sections
+                    .filter(section => section.type === 'h2')
+                    .map((section, idx) => (
+                        <a key={idx} href={`#${section.content}`}>{section.content}</a>
+                    ))}
+              </>
+          )}
+        </div>
     )
   }
 }
@@ -167,6 +196,7 @@ class Header extends React.Component {
     const toggleEvent = new Event('click:toggleSidebar')
     window.document.dispatchEvent(toggleEvent)
   }
+
 
   render() {
     const stickyStyle = {
