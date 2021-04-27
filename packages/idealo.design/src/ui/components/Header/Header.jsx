@@ -78,6 +78,13 @@ class Search extends React.Component {
 
 
     const isLoggedIn = this.state.userInfo.status
+    if (isLoggedIn === 'LOGGED_IN') {
+      this.state.isLoggedIn = true;
+    }
+    else {
+      this.state.isLoggedIn = false;
+    }
+
     const initialsStyle = {
 
       visibility: isLoggedIn === "LOGGED_IN" ? 'visible' : 'hidden',
@@ -87,9 +94,8 @@ class Search extends React.Component {
       margin:  isLoggedIn === "LOGGED_IN" ? 'auto 2rem auto auto' : 0,
       borderRadius: isLoggedIn === "LOGGED_IN" ? '25px' : 0,
       backgroundColor: isLoggedIn === "LOGGED_IN" ? 'gray' : 'transparent',
-      color: isLoggedIn === 'LOGGED_IN' ? 'white' : 'transparent',
-      label: isLoggedIn === 'LOGGED_IN' ? this.state.initialString : 'hidden' }
-      console.log('loggendIn', isLoggedIn);
+      color: isLoggedIn === 'LOGGED_IN' ? 'white' : 'transparent',}
+      console.log('loggendIn', this.state.isLoggedIn);
       console.log('initialString', (this.state.initialString))
 
     return (
@@ -112,21 +118,19 @@ class Search extends React.Component {
 </a>
     */}
 
-          <button style={initialsStyle}>{this.state.initialString}</button>
 
-          <a href="/auth/provider">Log In</a>
+          {this.state.isLoggedIn ?
+              <button style={initialsStyle}>{this.state.initialString}</button> :
+              <a href="/auth/provider">Log In</a>
 
-          {/*{this.props.isLoggedIn ?
-              <a href="/auth/provider">Log In</a> :
-              <button style={initialsStyle}>{this.state.initialString}</button>
-          }*/}
+
+          }
 
         </>
 
     )
   }
 }
-
 
 class StickyMenu extends React.Component {
 
