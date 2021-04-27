@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useReducer} from 'react'
 import withStyles from 'isomorphic-style-loader/withStyles'
 import { Link } from "react-router-dom";
 
@@ -12,6 +12,7 @@ import GithubLogo from './github.svg'
 import {getElementBySlug} from 'Data/elements'
 
 import { fetchUserInfo } from "../../pages/BlogPage/data";
+import Avatar from "react-avatar";
 
 
 class Search extends React.Component {
@@ -24,6 +25,9 @@ class Search extends React.Component {
     this.state = {
       isLoggedIn: false,
       userInfo: {},
+      displayName: '',
+      surname: '',
+      initialString: {}
     }
   }
 
@@ -33,6 +37,13 @@ class Search extends React.Component {
 
     const userInfo = await fetchUserInfo()
     this.setState({userInfo})
+    let icon = []
+    this.state.displayName = userInfo.user['displayName'].charAt(0).toUpperCase();
+    this.state.surname = userInfo.user['surname'].charAt(0).toUpperCase();
+    icon[0] = this.state.displayName;
+    icon[1] = this.state.surname;
+    const initialString = this.state.displayName + this.state.surname;
+    this.setState({initialString})
 
   }
 
@@ -46,6 +57,14 @@ class Search extends React.Component {
     }
   }
 
+ /* async drawIcon() {
+    if (data.message === 'LOGGED_IN') {
+      this.setState({isLoggedIn: true && 'LOGGED_IN'})
+
+    }
+    else return data;
+  }
+*/
 
   render() {
     const searchInputStyle = {
@@ -55,17 +74,21 @@ class Search extends React.Component {
       margin: this.props.isOpen ? 'auto 2rem auto auto' : 0,
     }
 
+
     const isLoggedIn = this.state.userInfo.status
     const initialsStyle = {
 
-      visibility: this.isLoggedIn === "LOGGED_IN" ? 'visible' : 'hidden',
-      width: this.isLoggedIn === "LOGGED_IN" ? '25px' : 0,
-      height: this.isLoggedIn === "LOGGED_IN" ? '25px' : 0,
-      padding: this.isLoggedIn === "LOGGED_IN" ? '.5rem' : 0,
-      margin:  this.isLoggedIn === "LOGGED_IN" ? 'auto 2rem auto auto' : 0,
-      backgroundColor: this.isLoggedIn === "LOGGED_IN" ? 'blue' : 'transparent', }
-
-
+      visibility: isLoggedIn === "LOGGED_IN" ? 'visible' : 'hidden',
+      width: isLoggedIn === "LOGGED_IN" ? '35px' : 0,
+      height: isLoggedIn === "LOGGED_IN" ? '35px' : 0,
+      padding: isLoggedIn === "LOGGED_IN" ? '.5rem' : 0,
+      margin:  isLoggedIn === "LOGGED_IN" ? 'auto 2rem auto auto' : 0,
+      borderRadius: isLoggedIn === "LOGGED_IN" ? '25px' : 0,
+      backgroundColor: isLoggedIn === "LOGGED_IN" ? 'gray' : 'transparent',
+      color: isLoggedIn === 'LOGGED_IN' ? 'white' : 'transparent',
+      label: isLoggedIn === "LOGGED_IN" ? this.state.initialString : 'hidden' }
+      console.log('loggendIn', isLoggedIn);
+      console.log('initialString', this.state.initialString)
 
     return (
         <>
@@ -82,21 +105,31 @@ class Search extends React.Component {
           {this.props.isOpen ?
               <CloseIco className={s.SearchToggle} onClick={this.props.onClick}/> :
               <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
-
           {/*<a href="https://github.com/idealo/nwp">
           <GithubLogo  className={s.githubLogo}/>
-        </a>
+</a>
+    */}
+          <button
+              style={initialsStyle}
+              //className={s.Avatar}
+          />
+
+          <a href="/auth/provider">Log In</a>
+
+        }
+
+        </>
 
 
+       /* if(status === 'LOGGED_IN'){
           <button
               style={initialsStyle}
               className={s.Avatar}
           />
-          <a href="/auth/provider">Log In</a>
+        }
+        else {
 
-        */}
-
-        </>
+        }*/
     )
   }
 }
