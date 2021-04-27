@@ -12,7 +12,7 @@ import GithubLogo from './github.svg'
 import {getElementBySlug} from 'Data/elements'
 
 import { fetchUserInfo } from "../../pages/BlogPage/data";
-import Avatar from "react-avatar";
+
 
 
 class Search extends React.Component {
@@ -27,8 +27,9 @@ class Search extends React.Component {
       userInfo: {},
       displayName: '',
       surname: '',
-      initialString: {}
+      initialString: ''
     }
+
   }
 
 
@@ -44,6 +45,7 @@ class Search extends React.Component {
     icon[1] = this.state.surname;
     const initialString = this.state.displayName + this.state.surname;
     this.setState({initialString})
+
 
   }
 
@@ -79,16 +81,16 @@ class Search extends React.Component {
     const initialsStyle = {
 
       visibility: isLoggedIn === "LOGGED_IN" ? 'visible' : 'hidden',
-      width: isLoggedIn === "LOGGED_IN" ? '35px' : 0,
-      height: isLoggedIn === "LOGGED_IN" ? '35px' : 0,
+      width: isLoggedIn === "LOGGED_IN" ? '50px' : 0,
+      height: isLoggedIn === "LOGGED_IN" ? '50px' : 0,
       padding: isLoggedIn === "LOGGED_IN" ? '.5rem' : 0,
       margin:  isLoggedIn === "LOGGED_IN" ? 'auto 2rem auto auto' : 0,
       borderRadius: isLoggedIn === "LOGGED_IN" ? '25px' : 0,
       backgroundColor: isLoggedIn === "LOGGED_IN" ? 'gray' : 'transparent',
       color: isLoggedIn === 'LOGGED_IN' ? 'white' : 'transparent',
-      label: isLoggedIn === "LOGGED_IN" ? this.state.initialString : 'hidden' }
+      label: isLoggedIn === 'LOGGED_IN' ? this.state.initialString : 'hidden' }
       console.log('loggendIn', isLoggedIn);
-      console.log('initialString', this.state.initialString)
+      console.log('initialString', (this.state.initialString))
 
     return (
         <>
@@ -109,30 +111,22 @@ class Search extends React.Component {
           <GithubLogo  className={s.githubLogo}/>
 </a>
     */}
-          <button
-              style={initialsStyle}
-              //className={s.Avatar}
-          />
+
+          <button style={initialsStyle}>{this.state.initialString}</button>
 
           <a href="/auth/provider">Log In</a>
 
-        }
+          {/*{this.props.isLoggedIn ?
+              <a href="/auth/provider">Log In</a> :
+              <button style={initialsStyle}>{this.state.initialString}</button>
+          }*/}
 
         </>
 
-
-       /* if(status === 'LOGGED_IN'){
-          <button
-              style={initialsStyle}
-              className={s.Avatar}
-          />
-        }
-        else {
-
-        }*/
     )
   }
 }
+
 
 class StickyMenu extends React.Component {
 
