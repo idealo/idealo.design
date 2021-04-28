@@ -66,8 +66,8 @@ class Search extends React.Component {
     this.state.isLoggedIn = isLoggedIn === 'LOGGED_IN';
 
     const initialsStyle = {
-      width: '4%' ,
-      height: '140%',
+      width: '50px' ,
+      height: '50%',
       margin: '0 5px 0 0',
       borderRadius: '25px',
       backgroundColor: 'gray',
