@@ -89,8 +89,6 @@ class Search extends React.Component {
       backgroundColor: isLoggedIn === "LOGGED_IN" ? 'gray' : 'transparent',
       color: isLoggedIn === 'LOGGED_IN' ? 'white' : 'transparent',
       label: isLoggedIn === 'LOGGED_IN' ? this.state.initialString : 'hidden' }
-      console.log('loggendIn', isLoggedIn);
-      console.log('initialString', (this.state.initialString))
 
     return (
         <>
