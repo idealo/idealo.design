@@ -67,7 +67,7 @@ class Search extends React.Component {
 
     const initialsStyle = {
       width: '50px' ,
-      height: '50%',
+      height: '50px',
       margin: '0 5px 0 0',
       borderRadius: '25px',
       backgroundColor: 'gray',
