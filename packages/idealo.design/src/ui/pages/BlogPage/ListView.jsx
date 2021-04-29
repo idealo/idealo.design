@@ -7,7 +7,7 @@ import { Link, useParams, useHistory } from "react-router-dom";
 
 import s from './Blogpage.module.scss';
 import draftToHtml from "draftjs-to-html";
-const { htmlToText } = require('html-to-text');
+import {htmlToText} from 'html-to-text';
 
 function ListView() {
   const history = useHistory();

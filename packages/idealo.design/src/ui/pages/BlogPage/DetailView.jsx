@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import withStyles from 'isomorphic-style-loader/withStyles'
 import draftToHtml from 'draftjs-to-html'
+import HtmlToReact from 'html-to-react';
 
 import {
     Redirect,
@@ -88,7 +89,7 @@ const BlogDetailView = (props) => {
 
     const htmlBlogContent = draftToHtml(blogpost.blogpostcontent);
 
-    const HtmlToReactParser = require('html-to-react').Parser;
+    const HtmlToReactParser = HtmlToReact.Parser;
 
     const htmlToReactParser = new HtmlToReactParser();
     const reactElement = htmlToReactParser.parse(htmlBlogContent);
