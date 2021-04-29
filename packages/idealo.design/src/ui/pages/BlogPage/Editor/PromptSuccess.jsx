@@ -1,20 +1,23 @@
 import React from "react";
-import {Button, Modal} from "react-bootstrap";
+import ReactModal from 'react-modal';
 
 export default function PromptSuccess(props) {
-    const { message, onLeave, ...rest } = props;
-
     return (
-        <Modal
-            {...rest}
-            size="md"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
+        <ReactModal
+            isOpen={props.show}
+            style={{
+                overlay: {
+                    backgroundColor: 'rgba( 190, 190, 190, 0.75)'
+                },
+                content: {
+                    top: '40%',
+                    left: '25%',
+                    right: '25%',
+                    bottom: '40%',
+                }
+            }}
         >
-            <Modal.Body>
-                <p>{'Your blogpost has been saved successfully.'}</p>
-            </Modal.Body>
-       
-        </Modal>
+            <h2>Your blogpost has been saved successfully.</h2>
+        </ReactModal>
     );
 }
