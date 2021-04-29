@@ -10,7 +10,7 @@ import {
 
 import s from './Blogpage.module.scss'
 
-import { fetchSinglePost } from './data'
+import {fetchSinglePost, fetchUserInfo} from './data'
 
 function toDateFormat_de(inp) {
   console.log('toDateFormate_de inp', inp)
@@ -29,6 +29,7 @@ function toDateFormat_de(inp) {
 const BlogDetailView = (props) => {
   const history = useHistory();
   const [ blogpost, setBlogpost ] = useState({author: {}});
+  const [ userInfo, setUserInfo ] = useState([]);
   let { slug } = useParams();
 
   useEffect(() => {
@@ -38,12 +39,17 @@ const BlogDetailView = (props) => {
       fetchSinglePost({ slug })
         .then(blogpost => setBlogpost(blogpost))
     }
+    fetchUserInfo().then(setUser);
 
     return () => mounted = false;
   }, [slug]);
 
   if (!blogpost) {
     return 'Loading...'
+  }
+
+  const setUser = (user) => {
+    setUserInfo(user);
   }
 
   const handlePostEdit = () => {
@@ -56,8 +62,6 @@ const BlogDetailView = (props) => {
    const scrollToTop = () => {
       document.body.scrollTop = 0;
     }
-
-
 
   const goBack = () => {
   history.push({
@@ -98,7 +102,8 @@ const BlogDetailView = (props) => {
     <div className={s.ContentBox}>
       <div className={s.Menu}>
         <button onClick={goBack}>Go Back</button>
-        <button onClick={handlePostEdit}>Edit</button>
+          {userInfo.status === 'LOGGED_IN'
+              ? <button onClick={handlePostEdit}>Edit</button> : <div> </div>}
       </div>
 
       <div className={s.ContentDetailView}>
