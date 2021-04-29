@@ -7,6 +7,6 @@ function EditorView({}) {
   return  <Editor />
 }
 
-console.log('requiredAuthentication',requiredAuthentication);
+// console.log('requiredAuthentication',requiredAuthentication);
 
-export default requiredAuthentication(EditorView);
+export default EditorView;

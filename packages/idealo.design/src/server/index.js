@@ -117,7 +117,7 @@ function isAuthenticated(req, res, next) {
   if(authenticated){
     return next();
   }
-  res.redirect('/blog');
+  res.send(403,"You do not have rights to visit this page");
 }
 
 
