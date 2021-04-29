@@ -112,6 +112,14 @@ if (CLIENT_ID) {
   }));
 }
 
+function isAuthenticated(req, res, next) {
+  let authenticated = req.session.user;
+  if(authenticated){
+    return next();
+  }
+  res.redirect('/blog');
+}
+
 
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
@@ -156,7 +164,7 @@ app.get('/api/blogposts/:slug?', async (req, res) => {
   return res.json(blogpost);
 })
 
-app.post('/api/blogposts', async (req, res) => {
+app.post('/api/blogposts', isAuthenticated, async (req, res) => {
   const newBlogpost = req.body;
   newBlogpost.slug = slugify(newBlogpost.title);
   newBlogpost.date = (new Date()).toISOString();
@@ -165,12 +173,12 @@ app.post('/api/blogposts', async (req, res) => {
   return res.json(createdBlogpost);
 });
 
-app.get('/api/categories', async (req, res) => {
+app.get('/api/categories', isAuthenticated, async (req, res) => {
   const categories = await fetchAllCategories();
   return res.json(categories);
 })
 
-app.get('/api/distinctCategories', async (req, res) => {
+app.get('/api/distinctCategories', isAuthenticated, async (req, res) => {
   const categories = await fetchDistinctCategories();
   return res.json(categories);
 })
@@ -179,7 +187,7 @@ app.get('/*', (req, res) => {
   return Renderer(req, res)
 })
 
-app.put('/api/blogposts', async (req, res) => {
+app.put('/api/blogposts', isAuthenticated, async (req, res) => {
   console.log('api put req', req);
   
   const updatedBlogpost = req.body;
