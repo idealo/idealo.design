@@ -36,11 +36,11 @@ export default function BlogPage({ match }) {
         <Route exact path='/blog/categories/:slug'>
           <ListView />
         </Route>
-        <Route exact path="/blog/new-post">
-          {userInfo.status === 'LOGGED_IN' ?
-              <EditorView/>
+        <Route exact path = "/blog/new-post">
+          {userInfo.status === 'NOT_LOGGED_IN' ?
+              <Redirect to = '/blog'/>
           :
-              <Redirect to='/blog'/>
+            <EditorView/>
           }
         </Route>
         <Route path='/blog/:slug/edit'>
