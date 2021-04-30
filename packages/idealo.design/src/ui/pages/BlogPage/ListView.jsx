@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import withStyles from 'isomorphic-style-loader/withStyles'
 
-import { fetchList, fetchPostsByCategorySlug } from './data';
+import {fetchList, fetchPostsByCategorySlug, fetchUserInfo} from './data';
 import { Link, useParams, useHistory } from "react-router-dom";
 
 
@@ -12,6 +12,7 @@ import s from './Blogpage.module.scss';
 function ListView() {
   const history = useHistory();
   const [ list, setList ] = useState([]);
+  const [ userInfo, setUserInfo ] = useState([]);
   const { slug } = useParams();
 
   useEffect(() => {
@@ -23,6 +24,12 @@ function ListView() {
       }
     }
 
+    const setUser = (user) => {
+      if (mounted) {
+        setUserInfo(user);
+      }
+    }
+
     if (slug) {
       fetchPostsByCategorySlug({ categorySlug: slug })
         .then(setData);
@@ -30,6 +37,7 @@ function ListView() {
       fetchList()
         .then(setData);
     }
+    fetchUserInfo().then(setUser);
 
     return () => mounted = false;
   }, [slug]);
@@ -44,20 +52,21 @@ function ListView() {
 
   return (
     <>
-      <button style={{
-        float: 'right',
-        marginBottom: '1rem',
-        marginRight: '1rem',
-        backgroundColor: '#395F86',
-        border: 'none',
-        color: 'white',
-        padding: '10px 30px',
-        textAlign: 'center',
-        fontSize: '14px',
-      }} onClick={handleNewPost}>New Post</button>
+      {userInfo.status === 'LOGGED_IN'
+          ? <button style={{
+                float: 'right',
+                marginBottom: '1rem',
+                marginRight: '1rem',
+                backgroundColor: '#395F86',
+                border: 'none',
+                color: 'white',
+                padding: '10px 30px',
+                textAlign: 'center',
+                fontSize: '14px',
+              }} onClick={handleNewPost}>New Post</button>
+          : <div> </div>}
 
       <div style={{ clear: 'both' }}/>
-
     
 
       <div className={s.List}>
