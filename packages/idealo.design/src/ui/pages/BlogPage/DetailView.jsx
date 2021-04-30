@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import withStyles from 'isomorphic-style-loader/withStyles'
+import draftToHtml from 'draftjs-to-html'
+import HtmlToReact from 'html-to-react';
 
 import {
-  Redirect,
-  Link,
-  useParams,
-  useHistory
+    Redirect,
+    Link,
+    useParams,
+    useHistory
 } from 'react-router-dom'
 
 import s from './Blogpage.module.scss'
@@ -13,16 +15,15 @@ import s from './Blogpage.module.scss'
 import {fetchSinglePost, fetchUserInfo} from './data'
 
 function toDateFormat_de(inp) {
-  console.log('toDateFormate_de inp', inp)
-  let date = inp ? new Date(inp) : new Date()
+    let date = inp ? new Date(inp) : new Date()
 
-  const year = date.getFullYear();
-  const month = date.getMonth()+1;
-  const day = date.getDate();
-  const hour = date.getHours();
-  const minute = date.getMinutes();
+    const year = date.getFullYear();
+    const month = date.getMonth()+1;
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
 
-  return `${day}.${month}.${year} um ${hour}:${minute} Uhr`;
+    return `${day}.${month}.${year} um ${hour}:${minute} Uhr`;
 }
 
 
@@ -32,36 +33,40 @@ const BlogDetailView = (props) => {
   const [ userInfo, setUserInfo ] = useState([]);
   let { slug } = useParams();
 
-  useEffect(() => {
-    let mounted = true;
+    useEffect(() => {
+        let mounted = true;
 
-    if (slug) {
-      fetchSinglePost({ slug })
-        .then(blogpost => setBlogpost(blogpost))
+
+        if (slug) {
+            fetchSinglePost({ slug })
+                .then(blogpost => setBlogpost(blogpost))
+        }
+      fetchUserInfo().then(setUser);
+
+        return () => mounted = false;
+    }, [slug]);
+
+
+    if (!blogpost) {
+        return 'Loading...'
     }
-    fetchUserInfo().then(setUser);
 
-    return () => mounted = false;
-  }, [slug]);
+    const handlePostEdit = () => {
+        history.push({
+            pathname: `/blog/${slug}/edit`,
+            search: `?slug=${slug}`
+        });
+    }
 
-  if (!blogpost) {
-    return 'Loading...'
-  }
 
   const setUser = (user) => {
     setUserInfo(user);
   }
 
-  const handlePostEdit = () => {
-    history.push({
-      pathname: `/blog/${slug}/edit`,
-      search: `?slug=${slug}`
-    });
-  }
-
    const scrollToTop = () => {
       document.body.scrollTop = 0;
     }
+
 
   const goBack = () => {
   history.push({
@@ -75,7 +80,6 @@ const BlogDetailView = (props) => {
     let emailLink
     let githubLink
     if(blogpost.facebook !== null){
-        console.log("Es gibt einen Facebooklink!")
         facebookLink = <a href={blogpost.facebook}><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/></a>
     }
     if(blogpost.instagram !== null){
@@ -93,10 +97,15 @@ const BlogDetailView = (props) => {
         githubLink = <a href={blogpost.github}><img alt="" src="https://maxcdn.icons8.com/Share/icon/Logos/github_filled1600.png"/></a>
     }
 
+    const htmlBlogContent = draftToHtml(blogpost.blogpostcontent);
 
+    const HtmlToReactParser = HtmlToReact.Parser;
 
+    const htmlToReactParser = new HtmlToReactParser();
+    const reactElement = htmlToReactParser.parse(htmlBlogContent);
 
     const datetime = toDateFormat_de(blogpost.date)
+
 
   return (
     <div className={s.ContentBox}>
@@ -106,33 +115,22 @@ const BlogDetailView = (props) => {
               ? <button onClick={handlePostEdit}>Edit</button> : <div> </div>}
       </div>
 
-      <div className={s.ContentDetailView}>
-          {/*{blogpost.author && (*/}
-            <div className={s.SocialMediaIcons}>
-              {instagramLink}
-              {twitterLink}
-              {facebookLink}
-              {emailLink}
-              {githubLink}
+            <div className={s.ContentDetailView}>
+                <div className={s.SocialMediaIcons}>
+                    {instagramLink}
+                    {twitterLink}
+                    {facebookLink}
+                    {emailLink}
+                    {githubLink}
+                </div>
+                <h2 className={s.blogpostTitle}>{blogpost.title}</h2>
+                <div className={s.Autor}>
+                    {blogpost.autor}
+                </div>
+                <h5 className={s.blogpostDate}>{datetime}</h5>
+                {reactElement}
+                <img alt="" src={blogpost.image} />
             </div>
-            {/*<div className={s.SocialMediaIcons}>
-                <a href={blogpost.facebook}><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/></a>
-                <a href={blogpost.instagram}><img alt="" src="https://img.icons8.com/doodle/48/000000/instagram-new.png"/></a>
-                <a href={blogpost.twitter}><img alt="" src="https://img.icons8.com/doodle/48/000000/twitter--v1.png"/></a>
-                <a href={blogpost.email}><img alt="" src="https://img.icons8.com/doodle/48/000000/email-sign.png"/></a>
-                <a href={blogpost.github}><img alt="" src="https://maxcdn.icons8.com/Share/icon/Logos/github_filled1600.png"/></a>
-            </div>*/}
-          <h2>{blogpost.title}</h2>
-          <div className={s.Autor}>
-          {blogpost.autor}
-          </div>
-          <h5>{datetime}</h5>
-          <p>{blogpost.text}</p>
-          <img alt="" src={blogpost.image} />
-      </div>
-
-      {/* delete button onclick= delete method  */}
-
       <div className={s.ButtonNavigation}>
         {blogpost.previouspost && (<Link onClick={scrollToTop} className={s.ButtonPrevious} to={'/blog/' + blogpost.previouspost}>
                                       <span>Previous</span>
