@@ -169,7 +169,7 @@ app.get('/api/categories', isAuthenticated, async (req, res) => {
   return res.json(categories);
 })
 
-app.get('/api/distinctCategories', isAuthenticated, async (req, res) => {
+app.get('/api/distinctCategories', async (req, res) => {
   const categories = await fetchDistinctCategories();
   return res.json(categories);
 })
