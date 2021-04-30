@@ -117,7 +117,7 @@ function isAuthenticated(req, res, next) {
   if(authenticated){
     return next();
   }
-  res.send(403,"You do not have rights to visit this page");
+  res.status(403).send('You do not have rights to visit this page');
 }
 
 

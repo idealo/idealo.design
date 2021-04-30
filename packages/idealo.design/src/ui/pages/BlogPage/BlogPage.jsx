@@ -12,7 +12,6 @@ import PageLayout from 'Components/PageLayout'
 import ListView from './ListView'
 import DetailView from './DetailView'
 import EditorView from './EditorView'
-import ProtectedRoute from "./protectedRoute";
 import {fetchUserInfo} from "./data";
 
 export default function BlogPage({ match }) {
@@ -43,8 +42,12 @@ export default function BlogPage({ match }) {
             <EditorView/>
           }
         </Route>
-        <Route path='/blog/:slug/edit'>
-          <EditorView />
+        <Route exact path = "/blog/:slug/edit">
+          {userInfo.status === 'NOT_LOGGED_IN' ?
+              <Redirect to = '/blog'/>
+              :
+              <EditorView/>
+          }
         </Route>
         <Route path='/blog/:slug'>
           <DetailView />
