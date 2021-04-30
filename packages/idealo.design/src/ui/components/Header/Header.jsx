@@ -36,12 +36,14 @@ class Search extends React.Component {
 
     const userInfo = await fetchUserInfo()
     this.setState({userInfo:userInfo})
-    const displayName = userInfo.user['displayName'].charAt(0).toUpperCase();
-    const surname = userInfo.user['surname'].charAt(0).toUpperCase();
-    const initialString = displayName + surname;
-    this.setState({initialString})
-    const isLoggedIn = this.state.userInfo.status
-    this.setState({isLoggedIn})
+    const isLoggedIn = userInfo.status === 'LOGGED_IN'
+    this.setState({isLoggedIn:isLoggedIn})
+    if(this.state.isLoggedIn){
+      const displayName = userInfo.user['displayName'].charAt(0).toUpperCase();
+      const surname = userInfo.user['surname'].charAt(0).toUpperCase();
+      const initialString = displayName + surname;
+      this.setState({initialString})
+    }
   }
 
   componentWillUnmount() {
