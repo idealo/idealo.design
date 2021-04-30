@@ -35,13 +35,13 @@ class Search extends React.Component {
     window.document.addEventListener('keyup', this.handleOnKeyUp)
 
     const userInfo = await fetchUserInfo()
-    this.setState({userInfo})
+    this.setState({userInfo:userInfo})
     const displayName = userInfo.user['displayName'].charAt(0).toUpperCase();
     const surname = userInfo.user['surname'].charAt(0).toUpperCase();
     const initialString = displayName + surname;
     this.setState({initialString})
-
-
+    const isLoggedIn = this.state.userInfo.status
+    this.setState({isLoggedIn})
   }
 
   componentWillUnmount() {
@@ -49,7 +49,7 @@ class Search extends React.Component {
   }
 
   handleOnKeyUp(event) {
-    if (event.ctrlKey && event.which === 70) {
+    if (event.ctrlKey && event.which == 70) {
       this.props.onClick()
     }
   }
@@ -61,9 +61,6 @@ class Search extends React.Component {
       padding: this.props.isOpen ? '.5rem' : 0,
       margin: this.props.isOpen ? 'auto 2rem auto auto' : 0,
     }
-
-    const isLoggedIn = this.state.userInfo.status
-    this.state.isLoggedIn = isLoggedIn === 'LOGGED_IN';
 
     const initialsStyle = {
       width: '50px' ,
@@ -89,12 +86,8 @@ class Search extends React.Component {
           {this.props.isOpen ?
               <CloseIco className={s.SearchToggle} onClick={this.props.onClick}/> :
               <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
-          {/*<a href="https://github.com/idealo/nwp">
-          <GithubLogo  className={s.githubLogo}/>
-          </a>
-           */}
 
-
+          {/*<a href="https://github.com/idealo/nwp"><GithubLogo className={s.githubLogo}/></a>*/}
           {this.state.isLoggedIn ?
               <button style={initialsStyle}>{this.state.initialString}</button> :
               <a href="/auth/provider">Log In</a>

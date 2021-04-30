@@ -104,14 +104,11 @@ if (CLIENT_ID) {
 
     req.session.user = user;
     console.log('user:', user)
-    console.log('req.session.user', req.session.user)
-
 
 
     done(null, user)
   }));
 }
-
 
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
