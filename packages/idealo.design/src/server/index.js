@@ -108,8 +108,7 @@ if (CLIENT_ID) {
 }
 
 function isAuthenticated(req, res, next) {
-  let authenticated = req.session.user;
-  if(authenticated){
+  if(req.session.user){
     return next();
   }
   res.status(403).send('You do not have rights to visit this page');
@@ -193,11 +192,6 @@ app.put('/api/blogposts', isAuthenticated, async (req, res) => {
   return res.json(createdBlogpost);
 });
 
-// app.delete('/api/blogposts', async (req, res) => {
-// });
-
-
 app.listen(PORT, () => {
   console.log(` -> 0.0.0.0:${PORT}`)
 })
-
