@@ -11,6 +11,9 @@ import GithubLogo from './github.svg'
 
 import {getElementBySlug} from 'Data/elements'
 
+import { fetchUserInfo } from "../../pages/BlogPage/data";
+
+
 
 class Search extends React.Component {
 
@@ -18,10 +21,27 @@ class Search extends React.Component {
     super(props)
 
     this.handleOnKeyUp = this.handleOnKeyUp.bind(this)
+
+    this.state = {
+      isLoggedIn: false,
+      userInfo: {},
+      initialString: ''
+    }
+
   }
 
-  componentDidMount() {
+
+  async componentDidMount() {
     window.document.addEventListener('keyup', this.handleOnKeyUp)
+
+    const userInfo = await fetchUserInfo()
+    this.setState({userInfo:userInfo})
+    const displayName = userInfo.user['displayName'].charAt(0).toUpperCase();
+    const surname = userInfo.user['surname'].charAt(0).toUpperCase();
+    const initialString = displayName + surname;
+    this.setState({initialString})
+    const isLoggedIn = this.state.userInfo.status
+    this.setState({isLoggedIn})
   }
 
   componentWillUnmount() {
@@ -42,28 +62,39 @@ class Search extends React.Component {
       margin: this.props.isOpen ? 'auto 2rem auto auto' : 0,
     }
 
+
+    const initialsStyle = {
+      width: '50px' ,
+      height: '50px',
+      margin: '0 5px 0 0',
+      borderRadius: '25px',
+      backgroundColor: 'gray',
+      color: 'white'
+    }
+
+
     return (
-      <>
-        <input
-          style={searchInputStyle}
-          className={s.SearchInput}
-          onTransitionEnd={event => {
-            event.persist()
-            event.target.focus()
-            event.target.value = ''
-          }}
-          autoFocus />
+        <>
+          <input
+              style={searchInputStyle}
+              className={s.SearchInput}
+              onTransitionEnd={event => {
+                event.persist()
+                event.target.focus()
+                event.target.value = ''
+              }}
+              autoFocus/>
 
-        {this.props.isOpen ?
-         <CloseIco className={s.SearchToggle} onClick={this.props.onClick} /> :
-         <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
+          {this.props.isOpen ?
+              <CloseIco className={s.SearchToggle} onClick={this.props.onClick}/> :
+              <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
+              
+          {this.state.isLoggedIn ?
+              <button style={initialsStyle}>{this.state.initialString}</button> :
+              <a href="/auth/provider">Log In</a>
+          }
 
-       {/* <a href="https://github.com/idealo/nwp">
-          <GithubLogo className={s.githubLogo}/>
-        </a>*/}
-
-        {/*<a href="/auth/provider">Login</a>*/}
-      </>
+        </>
     )
   }
 }
@@ -78,17 +109,17 @@ class StickyMenu extends React.Component {
     }
 
     return (
-      <div style={style} className={s.StickyMenu}>
-        {this.props.active && (
-          <>
-            {element.sections && element.sections
-             .filter(section => section.type === 'h2')
-             .map((section, idx) => (
-               <a key={idx} href={`#${section.content}`}>{section.content}</a>
-             ))}
-          </>
-        )}
-      </div>
+        <div style={style} className={s.StickyMenu}>
+          {this.props.active && (
+              <>
+                {element.sections && element.sections
+                    .filter(section => section.type === 'h2')
+                    .map((section, idx) => (
+                        <a key={idx} href={`#${section.content}`}>{section.content}</a>
+                    ))}
+              </>
+          )}
+        </div>
     )
   }
 }
@@ -121,7 +152,7 @@ class Header extends React.Component {
 
     document.onkeydown = evt => {
       evt = evt || window.event;
-      var isEscape = false;
+      let isEscape = false;
       if ("key" in evt) {
         isEscape = (evt.key === "Escape" || evt.key === "Esc");
       } else {
@@ -168,6 +199,7 @@ class Header extends React.Component {
     window.document.dispatchEvent(toggleEvent)
   }
 
+
   render() {
     const stickyStyle = {
       backgroundColor: '#0A3761',
@@ -180,22 +212,22 @@ class Header extends React.Component {
     }
 
     return (
-      <header style={this.state.isStickyMode ? stickyStyle : null} className={s.Header}>
-        <BtnIco className={s.SideNavToggle} onClick={this.toggleNavbarState}/>
+        <header style={this.state.isStickyMode ? stickyStyle : null} className={s.Header}>
+          <BtnIco className={s.SideNavToggle} onClick={this.toggleNavbarState}/>
 
-        <h1 style={this.state.isStickyMode ? { display: 'none' } : null}>
-          <Link style={this.state.isStickyMode ? logoStickyStyle : null} to="/">
-            <span style={{borderBottom: '1px solid orange'}}>idealo</span> <b>Design System</b>
-          </Link>
-        </h1>
+          <h1 style={this.state.isStickyMode ? { display: 'none' } : null}>
+            <Link style={this.state.isStickyMode ? logoStickyStyle : null} to="/">
+              <span style={{borderBottom: '1px solid orange'}}>idealo</span> <b>Design System</b>
+            </Link>
+          </h1>
 
-        <StickyMenu isSidebarOpen={this.state.isSidebarOpen} active={this.state.isStickyMode} />
+          <StickyMenu isSidebarOpen={this.state.isSidebarOpen} active={this.state.isStickyMode} />
 
-        <Search
-          onClick={this.toggleSearchInput}
-          closeSearchInput={this.closeSearchInput}
-          isOpen={this.state.isSearchInputOpen} />
-      </header>
+          <Search
+              onClick={this.toggleSearchInput}
+              closeSearchInput={this.closeSearchInput}
+              isOpen={this.state.isSearchInputOpen} />
+        </header>
     )
   }
 }
