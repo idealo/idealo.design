@@ -17,7 +17,7 @@ export default function PromptSuccess(props) {
                 }
             }}
         >
-            <h2>Your blogpost has been saved successfully.</h2>
+            <h2>{props.message}</h2>
         </ReactModal>
     );
 }

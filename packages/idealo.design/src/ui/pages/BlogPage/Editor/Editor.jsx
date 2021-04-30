@@ -120,9 +120,9 @@ class RichTextEditor extends React.Component {
 
   handleCancelation(e) {
     console.log("handelCancelation", this.props);
-    
+
     if(this.state.isEdited) {
-      this.setState({isPromptOpen: true }); 
+      this.setState({isPromptOpen: true });
     } else {
       this.props.history.push('/blog');
     }
@@ -145,7 +145,7 @@ class RichTextEditor extends React.Component {
           this.setState({ isSubmitPromptOpen: false }, () => {
             this.props.history.push('/blog');
           });
-        }, 1500);  
+        }, 1500);
       })
     return;
     }
@@ -162,7 +162,7 @@ class RichTextEditor extends React.Component {
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body
     }).then(function(response) {
-      console.log(response) 
+      console.log(response)
       return response.json();
     });
        this.props.history.block(() => {return true;})
@@ -171,7 +171,7 @@ class RichTextEditor extends React.Component {
         this.setState({ isSubmitPromptOpen: false }, () => {
           this.props.history.push('/blog');
       });
-    }, 1500); 
+    }, 1500);
     //this.setState({editorState: EditorState.createEmpty()});
   }
 
@@ -310,6 +310,7 @@ class RichTextEditor extends React.Component {
         <PromptSuccess
           show={this.state.isSubmitPromptOpen}
           onLeave={this.onModalLeave}
+          message='Your blogpost has been saved successfully.'
         />
         </>
     );
