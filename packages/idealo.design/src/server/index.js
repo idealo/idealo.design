@@ -103,11 +103,6 @@ if (CLIENT_ID) {
     }
 
     req.session.user = user;
-    console.log('user:', user)
-    console.log('req.session.user', req.session.user)
-
-
-
     done(null, user)
   }));
 }
@@ -120,12 +115,9 @@ function isAuthenticated(req, res, next) {
   res.status(403).send('You do not have rights to visit this page');
 }
 
-
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.get('/auth/provider', passport.authenticate('provider', {
-  // scope: 'https://graph.microsoft.com/.default',
-  // scope: 'email+profile',
   scope: 'openid',
 }))
 
@@ -156,7 +148,6 @@ app.get('/api/blogposts/:slug?', async (req, res) => {
     } else {
       posts = await fetchList();
     }
-
     return res.json(posts);
   }
 
