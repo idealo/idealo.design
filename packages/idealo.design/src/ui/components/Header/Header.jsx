@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react'
+import React from 'react'
 import withStyles from 'isomorphic-style-loader/withStyles'
 import { Link } from "react-router-dom";
 
@@ -62,6 +62,7 @@ class Search extends React.Component {
       margin: this.props.isOpen ? 'auto 2rem auto auto' : 0,
     }
 
+
     const initialsStyle = {
       width: '50px' ,
       height: '50px',
@@ -70,6 +71,7 @@ class Search extends React.Component {
       backgroundColor: 'gray',
       color: 'white'
     }
+
 
     return (
         <>
@@ -86,12 +88,12 @@ class Search extends React.Component {
           {this.props.isOpen ?
               <CloseIco className={s.SearchToggle} onClick={this.props.onClick}/> :
               <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
-
-          {/*<a href="https://github.com/idealo/nwp"><GithubLogo className={s.githubLogo}/></a>*/}
+              
           {this.state.isLoggedIn ?
               <button style={initialsStyle}>{this.state.initialString}</button> :
               <a href="/auth/provider">Log In</a>
           }
+
         </>
     )
   }
@@ -150,7 +152,7 @@ class Header extends React.Component {
 
     document.onkeydown = evt => {
       evt = evt || window.event;
-      var isEscape = false;
+      let isEscape = false;
       if ("key" in evt) {
         isEscape = (evt.key === "Escape" || evt.key === "Esc");
       } else {
@@ -210,22 +212,22 @@ class Header extends React.Component {
     }
 
     return (
-      <header style={this.state.isStickyMode ? stickyStyle : null} className={s.Header}>
-        <BtnIco className={s.SideNavToggle} onClick={this.toggleNavbarState}/>
+        <header style={this.state.isStickyMode ? stickyStyle : null} className={s.Header}>
+          <BtnIco className={s.SideNavToggle} onClick={this.toggleNavbarState}/>
 
-        <h1 style={this.state.isStickyMode ? { display: 'none' } : null}>
-          <Link style={this.state.isStickyMode ? logoStickyStyle : null} to="/">
-            <span style={{borderBottom: '1px solid orange'}}>idealo</span> <b>Design System</b>
-          </Link>
-        </h1>
+          <h1 style={this.state.isStickyMode ? { display: 'none' } : null}>
+            <Link style={this.state.isStickyMode ? logoStickyStyle : null} to="/">
+              <span style={{borderBottom: '1px solid orange'}}>idealo</span> <b>Design System</b>
+            </Link>
+          </h1>
 
-        <StickyMenu isSidebarOpen={this.state.isSidebarOpen} active={this.state.isStickyMode} />
+          <StickyMenu isSidebarOpen={this.state.isSidebarOpen} active={this.state.isStickyMode} />
 
-        <Search
-          onClick={this.toggleSearchInput}
-          closeSearchInput={this.closeSearchInput}
-          isOpen={this.state.isSearchInputOpen} />
-      </header>
+          <Search
+              onClick={this.toggleSearchInput}
+              closeSearchInput={this.closeSearchInput}
+              isOpen={this.state.isSearchInputOpen} />
+        </header>
     )
   }
 }

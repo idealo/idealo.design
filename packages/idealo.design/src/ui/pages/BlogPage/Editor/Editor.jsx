@@ -2,12 +2,13 @@ import React from 'react'
 
 import { withRouter } from 'react-router'
 
-import { Editor, EditorState, getDefaultKeyBinding, RichUtils, ContentState } from "draft-js";
+import { Editor, EditorState, getDefaultKeyBinding, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import '~/draft-js/dist/Draft.css'
 import s from './Editor.module.scss';
 import Prompt from './Prompt';
 import PromptSuccess from "./PromptSuccess";
 import { fetchSinglePost, updateSinglePost, fetchDistinctCategories} from '../data';
+import CreatableSelect from 'react-select/creatable';
 
 class RichTextEditor extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class RichTextEditor extends React.Component {
       isEdited: false,
       lastHistoryLocation: '',
       isSubmitPromptOpen: false,
-      cats: []
+      cats: [],
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -39,11 +40,13 @@ class RichTextEditor extends React.Component {
     this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
     this.toggleBlockType = this._toggleBlockType.bind(this);
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
-    this.handleCancelation = this.handleCancelation.bind(this);
+    this.handleCancellation = this.handleCancellation.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onModalCancel = this.onModalCancel.bind(this);
     this.onModalLeave = this.onModalLeave.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleSelectCreate = this.handleSelectCreate.bind(this);
   }
 
   async componentDidMount() {
@@ -56,20 +59,26 @@ class RichTextEditor extends React.Component {
     })
 
     this.setState({ cats: await fetchDistinctCategories() });
-    console.log('categories: ',this.state.cats);
 
     if(this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
-      console.log('this....blog', this.blog);
+      const contentState = convertFromRaw( this.blog.blogpostcontent);
 
       this.setState({
         blogpost: this.blog, // refactor
         title: this.blog.title,
         categorySlug: this.blog.categoryslug,
         categoryDisplayValue: this.blog.categorydisplayvalue,
-        editorState: EditorState.createWithContent(ContentState.createFromText(this.blog.text))
+        editorState: EditorState.createWithContent(contentState)
       })
     }
+  }
+
+  renderContentAsRawJs() {
+    const contentState = this.state.editorState.getCurrentContent();
+    const raw = convertToRaw(contentState);
+
+    return JSON.stringify(raw, null, 2);
   }
 
   _handleKeyCommand(command, editorState) {
@@ -115,9 +124,7 @@ class RichTextEditor extends React.Component {
     );
   }
 
-  handleCancelation(e) {
-    console.log("handelCancelation", this.props);
-    
+  handleCancellation() {
     if(this.state.isEdited) {
       this.setState({isPromptOpen: true }); 
     } else {
@@ -129,8 +136,8 @@ class RichTextEditor extends React.Component {
     e.preventDefault();
     if(this.mode === 'EDIT') {
       this.props.history.block(() => true);
-      this.blog.text = this.state.editorState.getCurrentContent().getPlainText();
       this.blog.title = this.state.title;
+      this.blog.blogpostcontent = this.renderContentAsRawJs();
       this.blog.categoryDisplayValue = this.state.categoryDisplayValue;
       this.blog.categorySlug = this.state.categorySlug;
       updateSinglePost({
@@ -151,7 +158,7 @@ class RichTextEditor extends React.Component {
       title: this.state.title,
       categoryDisplayValue: this.state.categoryDisplayValue,
       categorySlug: this.state.categorySlug,
-      body: this.state.editorState.getCurrentContent().getPlainText(),
+      blogpostcontent: this.renderContentAsRawJs(),
     })
 
     fetch('/api/blogposts', {
@@ -201,12 +208,36 @@ class RichTextEditor extends React.Component {
     });
   }
 
+  handleSelectChange(newValue, actionMeta) {
+    console.group('Value Changed');
+    console.log(newValue);
+    this.setState({
+      categorySlug: newValue.categoryslug,
+      categoryDisplayValue: newValue.categorydisplayvalue
+    })
+  }
+
+  handleSelectCreate(inputValue) {
+    console.group('Option created');
+    console.log(inputValue);
+    const { cats } = this.state;
+    const newOption = {
+      categoryslug: inputValue.toLowerCase().replace(/\W/g, ''),
+      categorydisplayvalue: inputValue
+    }
+    this.setState({
+      cats: [...cats, newOption],
+      categorySlug: newOption.categoryslug,
+      categoryDisplayValue: newOption.categorydisplayvalue
+    });
+  }
+
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
     let className = s['RichEditor-editor'];
-    var contentState = editorState.getCurrentContent();
+    const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
         className += ' ' + s['RichEditor-hidePlaceholder'];
@@ -222,25 +253,31 @@ class RichTextEditor extends React.Component {
         <div className={s.InputFields}>
           <input className="form-control" onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
           <form name="category" className="select-container">
-            <select className='form-control' onChange={this.handleChange} id="kategorie" name="categorySlug" value={this.state.categorySlug}>
-              <option value='1' disabled>select category</option>
-              <option value="test">choose category</option>
-              {this.state.cats.map((cat,idx) => (
-                  <option key={idx} value={cat.categoryslug}>{cat.categorydisplayvalue}</option>
-                  ))}
-            </select>
+            <CreatableSelect
+                getOptionLabel={option => option.categorydisplayvalue}
+                getOptionValue={option => option.categoryslug}
+                onChange={this.handleSelectChange}
+                onCreateOption={this.handleSelectCreate}
+                options={this.state.cats}
+                value={{categorydisplayvalue: this.state.categoryDisplayValue, categoryslug: this.state.categorySlug}}
+                getNewOptionData={(inputValue, optionLabel) => ({
+                  categoryslug: inputValue,
+                  categorydisplayvalue: optionLabel,
+                  __isNew__: true
+                })}
+            />
           </form>
         </div>
 
         <div className={s["RichEditor-root"]}>
-          {/* <BlockStyleControls
+           <BlockStyleControls
             editorState={editorState}
             onToggle={this.toggleBlockType}
           />
           <InlineStyleControls
             editorState={editorState}
             onToggle={this.toggleInlineStyle}
-          /> */}
+          />
           <div onClick={this.focus}>
             <Editor
               blockStyleFn={getBlockStyle}
@@ -257,7 +294,7 @@ class RichTextEditor extends React.Component {
         </div>
         <div className={s['newBlogPostButtons']}>
           <button className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
-          <button className={s['CancelButton']} onClick={this.handleCancelation}>Cancel</button>
+          <button className={s['CancelButton']} onClick={this.handleCancellation}>Cancel</button>
         </div>
 
         <Prompt
@@ -339,7 +376,7 @@ const BlockStyleControls = (props) => {
 
   return (
     <div className={s['RichEditor-controls']}>
-      {/* {BLOCK_TYPES.map((type) =>
+       {BLOCK_TYPES.map((type) =>
                        <StyleButton
                          key={type.label}
                          active={type.style === blockType}
@@ -347,7 +384,7 @@ const BlockStyleControls = (props) => {
                          onToggle={props.onToggle}
                          style={type.style}
                        />
-                      )} */}
+                      )}
     </div>
   );
 };
@@ -364,7 +401,7 @@ const InlineStyleControls = (props) => {
 
   return (
     <div className="RichEditor-controls">
-      {/* {INLINE_STYLES.map((type) =>
+       {INLINE_STYLES.map((type) =>
                          <StyleButton
                            key={type.label}
                            active={currentStyle.has(type.style)}
@@ -372,7 +409,7 @@ const InlineStyleControls = (props) => {
                            onToggle={props.onToggle}
                            style={type.style}
                          />
-                        )} */}
+                        )}
     </div>
   );
 };

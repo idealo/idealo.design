@@ -103,18 +103,20 @@ if (CLIENT_ID) {
     }
 
     req.session.user = user;
-    console.log('user:', user)
-
-
     done(null, user)
   }));
+}
+
+function isAuthenticated(req, res, next) {
+  if(req.session.user){
+    return next();
+  }
+  res.status(403).send('You do not have rights to visit this page');
 }
 
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.get('/auth/provider', passport.authenticate('provider', {
-  // scope: 'https://graph.microsoft.com/.default',
-  // scope: 'email+profile',
   scope: 'openid',
 }))
 
@@ -145,7 +147,6 @@ app.get('/api/blogposts/:slug?', async (req, res) => {
     } else {
       posts = await fetchList();
     }
-
     return res.json(posts);
   }
 
@@ -153,21 +154,22 @@ app.get('/api/blogposts/:slug?', async (req, res) => {
   return res.json(blogpost);
 })
 
-app.post('/api/blogposts', async (req, res) => {
+app.post('/api/blogposts', isAuthenticated, async (req, res) => {
   const newBlogpost = req.body;
   newBlogpost.slug = slugify(newBlogpost.title);
   newBlogpost.date = (new Date()).toISOString();
+  newBlogpost.blogpostcontent = req.body.blogpostcontent;
   const createdBlogpost = await storeSinglePost(newBlogpost);
 
   return res.json(createdBlogpost);
 });
 
-app.get('/api/categories', async (req, res) => {
+app.get('/api/categories', isAuthenticated, async (req, res) => {
   const categories = await fetchAllCategories();
   return res.json(categories);
 })
 
-app.get('/api/distinctCategories', async (req, res) => {
+app.get('/api/distinctCategories', isAuthenticated, async (req, res) => {
   const categories = await fetchDistinctCategories();
   return res.json(categories);
 })
@@ -176,7 +178,7 @@ app.get('/*', (req, res) => {
   return Renderer(req, res)
 })
 
-app.put('/api/blogposts', async (req, res) => {
+app.put('/api/blogposts', isAuthenticated, async (req, res) => {
   console.log('api put req', req);
   
   const updatedBlogpost = req.body;
@@ -190,11 +192,6 @@ app.put('/api/blogposts', async (req, res) => {
   return res.json(createdBlogpost);
 });
 
-// app.delete('/api/blogposts', async (req, res) => {
-// });
-
-
 app.listen(PORT, () => {
   console.log(` -> 0.0.0.0:${PORT}`)
 })
-
