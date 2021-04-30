@@ -1,7 +1,10 @@
 import React from 'react'
 
 import Editor from './Editor'
+import requiredAuthentication from "./requiredAuthentication";
 
-export default function EditorView({}) {
+function EditorView({}) {
   return  <Editor />
 }
+
+export default requiredAuthentication(EditorView);

@@ -12,7 +12,7 @@ import {
 
 import s from './Blogpage.module.scss'
 
-import { fetchSinglePost } from './data'
+import {fetchSinglePost, fetchUserInfo} from './data'
 
 function toDateFormat_de(inp) {
     let date = inp ? new Date(inp) : new Date()
@@ -28,20 +28,24 @@ function toDateFormat_de(inp) {
 
 
 const BlogDetailView = (props) => {
-    const history = useHistory();
-    const [ blogpost, setBlogpost ] = useState({author: {}});
-    let { slug } = useParams();
+  const history = useHistory();
+  const [ blogpost, setBlogpost ] = useState({author: {}});
+  const [ userInfo, setUserInfo ] = useState([]);
+  let { slug } = useParams();
 
     useEffect(() => {
         let mounted = true;
+
 
         if (slug) {
             fetchSinglePost({ slug })
                 .then(blogpost => setBlogpost(blogpost))
         }
+      fetchUserInfo().then(setUser);
 
         return () => mounted = false;
     }, [slug]);
+
 
     if (!blogpost) {
         return 'Loading...'
@@ -54,15 +58,21 @@ const BlogDetailView = (props) => {
         });
     }
 
-    const goBack = () => {
-        history.push({
-            pathname: `/blog/`,
-        });
-    }
+
+  const setUser = (user) => {
+    setUserInfo(user);
+  }
 
    const scrollToTop = () => {
       document.body.scrollTop = 0;
     }
+
+
+  const goBack = () => {
+  history.push({
+    pathname: `/blog/`,
+  });
+}
 
     let facebookLink
     let instagramLink
@@ -96,15 +106,16 @@ const BlogDetailView = (props) => {
 
     const datetime = toDateFormat_de(blogpost.date)
 
-    return (
-        <div className={s.ContentBox}>
-            <div className={s.Menu}>
-                <button onClick={goBack}>Go Back</button>
-                <button onClick={handlePostEdit}>Edit</button>
-            </div>
+
+  return (
+    <div className={s.ContentBox}>
+      <div className={s.Menu}>
+        <button onClick={goBack}>Go Back</button>
+          {userInfo.status === 'LOGGED_IN'
+              ? <button onClick={handlePostEdit}>Edit</button> : <div> </div>}
+      </div>
 
             <div className={s.ContentDetailView}>
-                {/*{blogpost.author && (*/}
                 <div className={s.SocialMediaIcons}>
                     {instagramLink}
                     {twitterLink}
@@ -120,9 +131,6 @@ const BlogDetailView = (props) => {
                 {reactElement}
                 <img alt="" src={blogpost.image} />
             </div>
-
-            {/* delete button onclick= delete method  */}
-
       <div className={s.ButtonNavigation}>
         {blogpost.previouspost && (<Link onClick={scrollToTop} className={s.ButtonPrevious} to={'/blog/' + blogpost.previouspost}>
                                       <span>Previous</span>
