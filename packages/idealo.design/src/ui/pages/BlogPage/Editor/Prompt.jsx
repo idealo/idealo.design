@@ -1,27 +1,31 @@
 import React from "react";
-import { Button, Modal } from "react-bootstrap";
+import ReactModal from "react-modal";
+import Button from "@storybook/react/dist/demo/Button";
 
-export default function Prompt(props) {
-  const { message, onLeave, ...rest } = props;
-
+export default function PromptSuccess(props) {
   return (
-    <Modal
-      {...rest}
-      size="md"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p>{message}</p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={rest.onHide}>Close</Button>
-        <Button onClick={onLeave}>Yes</Button>
-      </Modal.Footer>
-    </Modal>
+      <ReactModal
+          isOpen={props.show}
+          style={{
+            overlay: {
+              backgroundColor: 'rgba( 190, 190, 190, 0.75)'
+            },
+            content: {
+              top: '40%',
+              left: '25%',
+              right: '25%',
+              bottom: '40%',
+            }
+          }}
+      >
+          <header>
+              <p>{props.message}</p>
+          </header>
+          <footer>
+              <Button onClick={props.onHide}>Close</Button>
+              <Button onClick={props.onLeave}>Yes</Button>
+          </footer>
+
+      </ReactModal>
   );
 }
