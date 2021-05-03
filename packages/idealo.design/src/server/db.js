@@ -58,22 +58,21 @@ export async function storeSinglePost({
       (select slug from blogposts where date=(select max(date) from blogposts))
     );`;
 
-    const updatePost = await sql `update blogposts set previouspost=${slug} where previouspost is null and slug not in (${slug});
-`
+    const updatePost = await sql `update blogposts set previouspost=${slug} where previouspost is null and slug not in (${slug});`
 
-      return createdPost,updatePost;
-    }
+    return createdPost,updatePost;
+}
 
-    export async function updateSinglePost(blog) {
+export async function updateSinglePost(blog) {
 
-      const updatedPost = await sql`
-  update blogposts set ${ 
-      sql(blog, 'title', 'categoryDisplayValue', 'categorySlug','blogpostcontent')
-  } where  
-  id = ${ blog.id }`
+    const updatedPost = await sql`
+        update blogposts set ${
+                sql(blog, 'title', 'categoryDisplayValue', 'categorySlug','blogpostcontent')
+        } where
+            id = ${ blog.id }`
 
-  return updatedPost;
- }
+    return updatedPost;
+}
 
 //  export async function deleteSinglePost(blog) {
 //  
