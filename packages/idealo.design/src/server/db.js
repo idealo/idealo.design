@@ -35,8 +35,9 @@ export async function storeSinglePost({
   slug,
   image = '',
   blogpostcontent
- }) {
-  const createdPost = await sql`
+ })
+{
+    const createdPost = await sql`
     insert into blogposts (
       title,
       categoryDisplayValue,
@@ -44,7 +45,8 @@ export async function storeSinglePost({
       slug,
       date,
       image,
-      blogpostcontent
+      blogpostcontent,
+      nextpost
     ) values (
       ${title},
       ${categoryDisplayValue},
@@ -52,7 +54,8 @@ export async function storeSinglePost({
       ${slug},
       ${date},
       ${image},
-      ${blogpostcontent}
+      ${blogpostcontent},
+      (select slug from blogposts where date=(select max(date) from blogposts))
     );`;
 
   return createdPost;
