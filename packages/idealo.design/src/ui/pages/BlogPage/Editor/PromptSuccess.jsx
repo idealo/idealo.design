@@ -16,6 +16,7 @@ export default function PromptSuccess(props) {
                     bottom: '40%',
                 }
             }}
+            ariaHideApp={false}
         >
             <h2>{props.message}</h2>
         </ReactModal>
