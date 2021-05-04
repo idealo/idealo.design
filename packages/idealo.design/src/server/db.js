@@ -58,7 +58,7 @@ export async function storeSinglePost({
       (select slug from blogposts where date=(select max(date) from blogposts))
     );`;
 
-    const updatePost = await sql `update blogposts set previouspost=${slug} where previouspost is null and slug not in (${slug});`
+    const updatePost = await sql `update blogposts set previouspost=${slug} where date=(select max(date) from blogposts where date<(select max(date) from blogposts)) and slug not in (${slug});`
 
     return createdPost,updatePost;
 }
