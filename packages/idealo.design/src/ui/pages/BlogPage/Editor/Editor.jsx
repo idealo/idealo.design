@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactModal from 'react-modal';
 
 import { withRouter } from 'react-router'
 
@@ -72,6 +73,7 @@ class RichTextEditor extends React.Component {
         editorState: EditorState.createWithContent(contentState)
       })
     }
+    ReactModal.setAppElement('body');
   }
 
   renderContentAsRawJs() {
@@ -297,19 +299,17 @@ class RichTextEditor extends React.Component {
           <button className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
           <button className={s['CancelButton']} onClick={this.handleCancellation}>Cancel</button>
         </div>
-
-        <Prompt
-          show={this.state.isPromptOpen}
-          onHide={this.onModalCancel}
-          onLeave={this.onModalLeave}
-          message='Are you sure you want to leave?'
-        />
-
-        <PromptSuccess
-          show={this.state.isSubmitPromptOpen}
-          onLeave={this.onModalLeave}
-          message='Your blogpost has been saved successfully.'
-        />
+          <Prompt
+              show={this.state.isPromptOpen}
+              onHide={this.onModalCancel}
+              onLeave={this.onModalLeave}
+              message='Are you sure you want to leave?'
+          />
+          <PromptSuccess
+              show={this.state.isSubmitPromptOpen}
+              onLeave={this.onModalLeave}
+              message='Your blogpost has been saved successfully.'
+          />
         </>
     );
   }
