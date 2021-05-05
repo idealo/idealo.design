@@ -12,6 +12,12 @@
     margin: 2rem 0;
     overflow: hidden;
 
+    -ms-box-orient: vertical;
+    -ms-line-clamp: 10;
+
+    -moz-box-orient: vertical;
+    -moz-line-clamp: 10;
+
     img {
         width: 100px;
         float: left;
