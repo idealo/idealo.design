@@ -1,0 +1,26 @@
+{
+  "name": "idealo-design",
+  "version": "1.0.0",
+  "description": "![GitHub Logo](idealo_Design_System_icon.png)",
+  "main": "index.js",
+  "dependencies": {
+    "create-react-class": "^15.7.0",
+    "loose-envify": "^1.4.0",
+    "js-tokens": "^4.0.0",
+    "object-assign": "^4.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idealo/nwp.git"
+  },
+  "author": "idealo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/idealo/nwp/issues"
+  },
+  "homepage": "https://github.com/idealo/nwp#readme"
+}
