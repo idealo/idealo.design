@@ -8,6 +8,9 @@
     "loose-envify": "^1.4.0",
     "js-tokens": "^4.0.0",
     "object-assign": "^4.1.1"
+    "html-to-react": "^1.4.5",
+    "html-to-text": "^7.1.1",
+    "string-strip-html": "^8.2.13"
   },
   "devDependencies": {},
   "scripts": {
@@ -22,5 +25,4 @@
   "bugs": {
     "url": "https://github.com/idealo/nwp/issues"
   },
-  "homepage": "https://github.com/idealo/nwp#readme"
 }
