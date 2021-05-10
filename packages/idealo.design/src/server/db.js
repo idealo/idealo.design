@@ -78,7 +78,7 @@ export async function updateSinglePost(blog) {
 
 export async function deleteSinglePost(blog) {
     await sql `delete from blogposts where slug = ${blog.slug}`;
-    await handleNextPreviousPost();
+    await handleNextPreviousPost(blog);
 }
 
 async function handleNextPreviousPost(blog){

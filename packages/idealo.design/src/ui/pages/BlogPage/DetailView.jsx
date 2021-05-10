@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import withStyles from 'isomorphic-style-loader/withStyles'
 import draftToHtml from 'draftjs-to-html'
 import HtmlToReact from 'html-to-react';
-//import Prompt from './Editor/Prompt';
+import PromptDeletion from './PromptDeletion';
 
 
 import {
@@ -15,6 +15,7 @@ import {
 import s from './Blogpage.module.scss'
 
 import {fetchSinglePost, fetchUserInfo, deleteSinglePost, archiveSinglePost} from './data'
+import Prompt from "./Editor/Prompt";
 //import {FaEdit, FaTrash} from "react-icons/fa";
 
 function toDateFormat_de(inp) {
@@ -34,6 +35,7 @@ const BlogDetailView = (props) => {
   const history = useHistory();
   const [ blogpost, setBlogpost ] = useState({author: {}});
   const [ userInfo, setUserInfo ] = useState([]);
+  const [prompt] = useState({isPromptOpen: false})
  // this.state={isPromptOpen: false};
     // this.onModalCancel = this.onModalCancel.bind(this);
   //this.onModalLeave = this.onModalLeave.bind(this);
@@ -66,8 +68,11 @@ const BlogDetailView = (props) => {
     }
 
     const handleDeletion = () => {
-       // this.setState({isPromptOpen: true });
         deleteSinglePost(blogpost).then(r => history.push('/blog'))
+    }
+
+    const handlePopup = () => {
+        prompt.isPromptOpen = true;
     }
 
     const handleArchive = () => {
@@ -80,6 +85,11 @@ const BlogDetailView = (props) => {
 
    const scrollToTop = () => {
       document.body.scrollTop = 0;
+    }
+
+    const onModalLeave = () => {
+        prompt.isPromptOpen=false
+        history.push(`/blog/${slug}`)
     }
 
 
@@ -131,9 +141,7 @@ const BlogDetailView = (props) => {
               {userInfo.status === 'LOGGED_IN'
                   ? <button onClick={handlePostEdit}>Edit</button> : <div> </div>}
               {userInfo.status === 'LOGGED_IN'
-                  ? <button onClick={handleDeletion}>Delete</button> : <div> </div>}
-              {userInfo.status === 'LOGGED_IN'
-                  ? <button onClick={handleArchive}>Archive</button> : <div> </div>}
+                  ? <button onClick={handlePopup}>Delete</button> : <div> </div>}
       </div>
 
             <div className={s.ContentDetailView}>
@@ -162,12 +170,13 @@ const BlogDetailView = (props) => {
       </div>
     </div>
 
-    {/* <Prompt
-        show={this.state.isPromptOpen}
-        onHide={this.onModalCancel}
-        onLeave={this.onModalLeave}
-        message='Are you sure you want to leave?'
-    />*/}
+    <PromptDeletion
+        show={prompt.isPromptOpen}
+        onDelete = {handleDeletion}
+        onArchive = {handleArchive}
+        onLeave={onModalLeave}
+        message='Do you want to delete or archive that post?'
+    />
 </>
 
 );
