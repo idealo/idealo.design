@@ -44,7 +44,8 @@ export async function storeSinglePost({
       slug,
       date,
       image,
-      blogpostcontent
+      blogpostcontent,
+      nextpost
     ) values (
       ${title},
       ${categoryDisplayValue},
@@ -52,22 +53,25 @@ export async function storeSinglePost({
       ${slug},
       ${date},
       ${image},
-      ${blogpostcontent}
+      ${blogpostcontent},
+      (select slug from blogposts where date=(select max(date) from blogposts))
     );`;
 
-  return createdPost;
+    const updatePost = await sql `update blogposts set previouspost=${slug} where date=(select max(date) from blogposts where date<(select max(date) from blogposts)) and slug not in (${slug});`
+
+    return createdPost,updatePost;
 }
 
 export async function updateSinglePost(blog) {
 
-  const updatedPost = await sql`
-  update blogposts set ${ 
-      sql(blog, 'title', 'categoryDisplayValue', 'categorySlug','blogpostcontent')
-  } where  
-  id = ${ blog.id }`
+    const updatedPost = await sql`
+        update blogposts set ${
+                sql(blog, 'title', 'categoryDisplayValue', 'categorySlug','blogpostcontent')
+        } where
+            id = ${ blog.id }`
 
-  return updatedPost;
- }
+    return updatedPost;
+}
 
 //  export async function deleteSinglePost(blog) {
 //  
