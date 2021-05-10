@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import withStyles from 'isomorphic-style-loader/withStyles'
 import draftToHtml from 'draftjs-to-html'
 import HtmlToReact from 'html-to-react';
+//import Prompt from './Editor/Prompt';
+
 
 import {
     Redirect,
@@ -13,6 +15,7 @@ import {
 import s from './Blogpage.module.scss'
 
 import {fetchSinglePost, fetchUserInfo, deleteSinglePost, archiveSinglePost} from './data'
+import {FaEdit, FaTrash} from "react-icons/fa";
 
 function toDateFormat_de(inp) {
     let date = inp ? new Date(inp) : new Date()
@@ -31,7 +34,11 @@ const BlogDetailView = (props) => {
   const history = useHistory();
   const [ blogpost, setBlogpost ] = useState({author: {}});
   const [ userInfo, setUserInfo ] = useState([]);
-  let { slug } = useParams();
+ // this.state={isPromptOpen: false};
+    // this.onModalCancel = this.onModalCancel.bind(this);
+  //this.onModalLeave = this.onModalLeave.bind(this);
+
+    let { slug } = useParams();
 
     useEffect(() => {
         let mounted = true;
@@ -59,6 +66,7 @@ const BlogDetailView = (props) => {
     }
 
     const handleDeletion = () => {
+       // this.setState({isPromptOpen: true });
         deleteSinglePost(blogpost).then(r => history.push('/blog'))
     }
 
@@ -68,7 +76,8 @@ const BlogDetailView = (props) => {
     }
 
 
-  const setUser = (user) => {
+
+        const setUser = (user) => {
     setUserInfo(user);
   }
 
@@ -115,17 +124,19 @@ const BlogDetailView = (props) => {
 
     const datetime = toDateFormat_de(blogpost.date)
 
-
-  return (
+    return (
+<>
     <div className={s.ContentBox}>
       <div className={s.Menu}>
         <button onClick={goBack}>Go Back</button>
-          {userInfo.status === 'LOGGED_IN'
-              ? <button onClick={handlePostEdit}>Edit</button> : <div> </div>}
-          {userInfo.status === 'LOGGED_IN'
-              ? <button onClick={handleDeletion}>Delete</button> : <div> </div>}
-          {userInfo.status === 'LOGGED_IN'
-              ? <button onClick={handleArchive}>Archive</button> : <div> </div>}
+          <div className={s.Icons}>
+              {userInfo.status === 'LOGGED_IN'
+                  ? <FaEdit onClick={handlePostEdit}/> : <div> </div>}
+              {userInfo.status === 'LOGGED_IN'
+                  ? <FaTrash onClick={handleDeletion} /> : <div> </div>}
+          </div>
+          {/*userInfo.status === 'LOGGED_IN'
+              ? <button onClick={handleArchive}>Archive</button> : <div> </div>}*/}
       </div>
 
             <div className={s.ContentDetailView}>
@@ -153,7 +164,16 @@ const BlogDetailView = (props) => {
                                 </Link>)}
       </div>
     </div>
-  );
+
+    {/* <Prompt
+        show={this.state.isPromptOpen}
+        onHide={this.onModalCancel}
+        onLeave={this.onModalLeave}
+        message='Are you sure you want to leave?'
+    />*/}
+</>
+
+);
 };
 
 export default withStyles(s)(BlogDetailView);
