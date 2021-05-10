@@ -92,7 +92,10 @@ class Search extends React.Component {
               <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
               
           {this.state.isLoggedIn ?
-              <button style={initialsStyle}>{this.state.initialString}</button> :
+              <div>
+                <button style={initialsStyle}>{this.state.initialString}</button>
+                <a href="/login">Log Out</a>
+              </div> :
               <a href="/auth/provider">Log In</a>
           }
 

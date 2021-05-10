@@ -120,6 +120,8 @@ app.get('/auth/provider', passport.authenticate('provider', {
   scope: 'openid',
 }))
 
+
+
 app.get('/auth/provider/callback',
         passport.authenticate('provider', { successRedirect: '/',
                                             failureRedirect: '/login' }))
@@ -135,6 +137,8 @@ app.get('/api/me', (req, res) => {
   }
   res.json(resp);
 } )
+
+
 
 app.get('/api/blogposts/:slug?', async (req, res) => {
   const { slug } = req.params;
