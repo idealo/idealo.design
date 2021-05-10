@@ -12,7 +12,7 @@ import {
 
 import s from './Blogpage.module.scss'
 
-import {fetchSinglePost, fetchUserInfo, deleteSinglePost} from './data'
+import {fetchSinglePost, fetchUserInfo, deleteSinglePost, archiveSinglePost} from './data'
 
 function toDateFormat_de(inp) {
     let date = inp ? new Date(inp) : new Date()
@@ -60,6 +60,11 @@ const BlogDetailView = (props) => {
 
     const handleDeletion = () => {
         deleteSinglePost(blogpost).then(r => history.push('/blog'))
+    }
+
+    const handleArchive = () => {
+        console.log({slug})
+        archiveSinglePost({slug}).then(r => history.push('/blog'))
     }
 
 
@@ -119,6 +124,8 @@ const BlogDetailView = (props) => {
               ? <button onClick={handlePostEdit}>Edit</button> : <div> </div>}
           {userInfo.status === 'LOGGED_IN'
               ? <button onClick={handleDeletion}>Delete</button> : <div> </div>}
+          {userInfo.status === 'LOGGED_IN'
+              ? <button onClick={handleArchive}>Archive</button> : <div> </div>}
       </div>
 
             <div className={s.ContentDetailView}>

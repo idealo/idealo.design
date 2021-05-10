@@ -3,7 +3,7 @@ const sql = postgres({ database: 'blog', username: 'postgres' })
 
 
 export async function fetchList() {
-   const list = await sql`select * from blogposts ORDER BY blogposts.date DESC`;
+   const list = await sql`select * from blogposts where archivedpost = 'f' ORDER BY blogposts.date DESC`;
    return list;
 }
 
@@ -18,7 +18,7 @@ export async function fetchDistinctCategories(){
 }
 
 export async function fetchPostsByCategorySlug({ categorySlug }) {
-  const list = await sql`select * from blogposts where categoryslug = ${categorySlug} ORDER BY blogposts.date DESC`;
+  const list = await sql`select * from blogposts where categoryslug = ${categorySlug} AND archivedpost = 'f' ORDER BY blogposts.date DESC`;
   return list;
 }
 
@@ -34,7 +34,8 @@ export async function storeSinglePost({
   categorySlug = '',
   slug,
   image = '',
-  blogpostcontent
+  blogpostcontent,
+  archivedpost = 'f'
  }) {
   const createdPost = await sql`
     insert into blogposts (
@@ -45,7 +46,8 @@ export async function storeSinglePost({
       date,
       image,
       blogpostcontent,
-      nextpost
+      nextpost,
+      archivedpost
     ) values (
       ${title},
       ${categoryDisplayValue},
@@ -54,7 +56,8 @@ export async function storeSinglePost({
       ${date},
       ${image},
       ${blogpostcontent},
-      (select slug from blogposts where date=(select max(date) from blogposts))
+      (select slug from blogposts where date=(select max(date) from blogposts)),
+      ${archivedpost}
     );`;
 
     const updatePost = await sql `update blogposts set previouspost=${slug} where date=(select max(date) from blogposts where date<(select max(date) from blogposts)) and slug not in (${slug});`
@@ -87,4 +90,8 @@ export async function deleteSinglePost(blog) {
         await sql `update blogposts set previouspost = ${blog.previouspost} where previouspost = ${blog.slug}`
         await sql `update blogposts set nextpost = ${blog.nextpost} where nextpost = ${blog.slug}`
     }
+}
+
+export async function archiveSinglePost({slug}) {
+    await sql `update blogposts set archivedpost = 't' where slug = ${slug}`
 }

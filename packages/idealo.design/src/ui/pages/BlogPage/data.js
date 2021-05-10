@@ -66,3 +66,12 @@ export async function deleteSinglePost(post) {
         body
     })
 }
+
+export async function archiveSinglePost({slug}) {
+    if (!slug) return null;
+
+    await fetch(`${API_BASE}/api/blogposts/${slug}/archive`,{
+        method: 'PUT',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    });
+}

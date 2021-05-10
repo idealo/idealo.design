@@ -23,7 +23,8 @@ import {
   storeSinglePost,
   updateSinglePost,
   fetchDistinctCategories,
-  deleteSinglePost
+  deleteSinglePost,
+  archiveSinglePost
 } from './db';
 
 const redis = redisLib.createClient()
@@ -197,6 +198,12 @@ app.delete('/api/blogposts/delete', isAuthenticated, async (req,res) => {
   const blogpost = req.body;
   const deletedBlogpost = await deleteSinglePost(blogpost)
   return res.json(deletedBlogpost)
+})
+
+app.put('/api/blogposts/:slug?/archive',isAuthenticated, async (req,res) => {
+  const {slug} = req.params;
+  const archiveBlogpost = await archiveSinglePost({slug});
+  return res.json(archiveBlogpost)
 })
 
 app.listen(PORT, () => {
