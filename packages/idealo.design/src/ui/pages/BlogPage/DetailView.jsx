@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import withStyles from 'isomorphic-style-loader/withStyles'
 import draftToHtml from 'draftjs-to-html'
 import HtmlToReact from 'html-to-react';
-import PromptDeletion from './PromptDeletion';
+import Prompt from './Editor/Prompt';
 
 
 import {
@@ -15,7 +15,6 @@ import {
 import s from './Blogpage.module.scss'
 
 import {fetchSinglePost, fetchUserInfo, deleteSinglePost, archiveSinglePost} from './data'
-import Prompt from "./Editor/Prompt";
 //import {FaEdit, FaTrash} from "react-icons/fa";
 
 function toDateFormat_de(inp) {
@@ -170,11 +169,11 @@ const BlogDetailView = (props) => {
       </div>
     </div>
 
-    <PromptDeletion
+    <Prompt
         show={prompt.isPromptOpen}
         onDelete = {handleDeletion}
         onArchive = {handleArchive}
-        onLeave={onModalLeave}
+        onCancel={onModalLeave}
         message='Do you want to delete or archive that post?'
     />
 </>
