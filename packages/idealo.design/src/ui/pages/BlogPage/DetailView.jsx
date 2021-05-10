@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import withStyles from 'isomorphic-style-loader/withStyles'
-import draftToHtml from 'draftjs-to-html'
+import draftToHtml from '../../../vendor/draftjs-to-html'
 import HtmlToReact from 'html-to-react';
 
 import {

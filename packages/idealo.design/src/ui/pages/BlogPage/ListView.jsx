@@ -6,7 +6,7 @@ import {fetchList, fetchPostsByCategorySlug, fetchUserInfo} from './data';
 import { Link, useParams, useHistory } from "react-router-dom";
 
 import s from './Blogpage.module.scss';
-import draftToHtml from "draftjs-to-html";
+import draftToHtml from '../../../vendor/draftjs-to-html';
 import {htmlToText} from 'html-to-text';
 
 function ListView() {
