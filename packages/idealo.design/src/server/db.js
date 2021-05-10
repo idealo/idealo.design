@@ -3,7 +3,7 @@ const sql = postgres({ database: 'blog', username: 'postgres' })
 
 
 export async function fetchList() {
-   const list = await sql`select * from blogposts where archivedpost = 'f' ORDER BY blogposts.date DESC`;
+   const list = await sql`select * from blogposts where isArchived = 'f' ORDER BY blogposts.date DESC`;
    return list;
 }
 
@@ -13,12 +13,12 @@ export async function fetchSinglePost({ slug }) {
 }
 
 export async function fetchDistinctCategories(){
-    const categories= await sql `select distinct categoryDisplayValue, LOWER(categorySlug) as categoryslug from blogposts where archivedpost = 'f'`;
+    const categories= await sql `select distinct categoryDisplayValue, LOWER(categorySlug) as categoryslug from blogposts where isArchived = 'f'`;
     return categories;
 }
 
 export async function fetchPostsByCategorySlug({ categorySlug }) {
-  const list = await sql`select * from blogposts where categoryslug = ${categorySlug} AND archivedpost = 'f' ORDER BY blogposts.date DESC`;
+  const list = await sql`select * from blogposts where categoryslug = ${categorySlug} AND isArchived = 'f' ORDER BY blogposts.date DESC`;
   return list;
 }
 
@@ -35,7 +35,7 @@ export async function storeSinglePost({
   slug,
   image = '',
   blogpostcontent,
-  archivedpost = 'f'
+  isArchived = 'f'
  }) {
   const createdPost = await sql`
     insert into blogposts (
@@ -47,7 +47,7 @@ export async function storeSinglePost({
       image,
       blogpostcontent,
       nextpost,
-      archivedpost
+      isArchived
     ) values (
       ${title},
       ${categoryDisplayValue},
@@ -56,14 +56,14 @@ export async function storeSinglePost({
       ${date},
       ${image},
       ${blogpostcontent},
-      (select slug from blogposts where archivedpost = 'f' and date=(select max(date) from blogposts where archivedpost='f')),
-      ${archivedpost}
+      (select slug from blogposts where isArchived = 'f' and date=(select max(date) from blogposts where isArchived='f')),
+      ${isArchived}
     );`;
 
     const updatePost = await sql `
         update blogposts
         set previouspost=${slug}
-        where archivedpost = 'f' and date= (select max(date) from blogposts where archivedpost='f' and date<(select max(date) from blogposts))
+        where isArchived = 'f' and date= (select max(date) from blogposts where isArchived='f' and date<(select max(date) from blogposts))
         and slug not in (${slug});`
 
     return createdPost,updatePost;
@@ -101,6 +101,6 @@ async function handleNextPreviousPost(blog){
 }
 
 export async function archiveSinglePost(blog) {
-    await sql `update blogposts set archivedpost = 't',previouspost=null,nextpost=null where slug = ${blog.slug}`
+    await sql `update blogposts set isArchived = 't',previouspost=null,nextpost=null where slug = ${blog.slug}`
     await handleNextPreviousPost(blog)
 }
