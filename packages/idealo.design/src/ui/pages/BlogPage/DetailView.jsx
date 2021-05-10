@@ -138,9 +138,9 @@ const BlogDetailView = (props) => {
       <div className={s.Menu}>
         <button onClick={goBack}>Go Back</button>
               {userInfo.status === 'LOGGED_IN'
-                  ? <button onClick={handlePostEdit}>Edit</button> : <div> </div>}
-              {userInfo.status === 'LOGGED_IN'
                   ? <button onClick={handlePopup}>Delete</button> : <div> </div>}
+              {userInfo.status === 'LOGGED_IN'
+                  ? <button onClick={handlePostEdit}>Edit</button> : <div> </div>}
       </div>
 
             <div className={s.ContentDetailView}>
