@@ -78,6 +78,10 @@ export async function updateSinglePost(blog) {
 
 export async function deleteSinglePost(blog) {
     await sql `delete from blogposts where slug = ${blog.slug}`;
+    await handleNextPreviousPost();
+}
+
+async function handleNextPreviousPost(blog){
     if(blog.previouspost == null){
         await sql `update blogposts set previouspost = null where previouspost = ${blog.slug}`
         await sql `update blogposts set nextpost = ${blog.nextpost} where nextpost = ${blog.slug}`
@@ -92,6 +96,8 @@ export async function deleteSinglePost(blog) {
     }
 }
 
-export async function archiveSinglePost({slug}) {
-    await sql `update blogposts set archivedpost = 't' where slug = ${slug}`
+export async function archiveSinglePost(blog) {
+    await sql `update blogposts set archivedpost = 't',previouspost=null,nextpost=null where slug = ${blog.slug}`
+    await handleNextPreviousPost(blog)
+
 }

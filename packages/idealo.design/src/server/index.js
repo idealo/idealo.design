@@ -200,9 +200,9 @@ app.delete('/api/blogposts/delete', isAuthenticated, async (req,res) => {
   return res.json(deletedBlogpost)
 })
 
-app.put('/api/blogposts/:slug?/archive',isAuthenticated, async (req,res) => {
-  const {slug} = req.params;
-  const archiveBlogpost = await archiveSinglePost({slug});
+app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
+  const blogpost = req.body;
+  const archiveBlogpost = await archiveSinglePost(blogpost);
   return res.json(archiveBlogpost)
 })
 

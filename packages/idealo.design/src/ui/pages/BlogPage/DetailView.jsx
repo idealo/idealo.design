@@ -15,7 +15,7 @@ import {
 import s from './Blogpage.module.scss'
 
 import {fetchSinglePost, fetchUserInfo, deleteSinglePost, archiveSinglePost} from './data'
-import {FaEdit, FaTrash} from "react-icons/fa";
+//import {FaEdit, FaTrash} from "react-icons/fa";
 
 function toDateFormat_de(inp) {
     let date = inp ? new Date(inp) : new Date()
@@ -71,15 +71,12 @@ const BlogDetailView = (props) => {
     }
 
     const handleArchive = () => {
-        console.log({slug})
-        archiveSinglePost({slug}).then(r => history.push('/blog'))
+        archiveSinglePost(blogpost).then(r => history.push('/blog'))
     }
 
-
-
-        const setUser = (user) => {
-    setUserInfo(user);
-  }
+    const setUser = (user) => {
+        setUserInfo(user);
+    }
 
    const scrollToTop = () => {
       document.body.scrollTop = 0;
@@ -122,6 +119,8 @@ const BlogDetailView = (props) => {
     const htmlToReactParser = new HtmlToReactParser();
     const reactElement = htmlToReactParser.parse(htmlBlogContent);
 
+    const datetime = toDateFormat_de(blogpost.date);
+
 
 
     return (
@@ -129,14 +128,12 @@ const BlogDetailView = (props) => {
     <div className={s.ContentBox}>
       <div className={s.Menu}>
         <button onClick={goBack}>Go Back</button>
-          <div className={s.Icons}>
               {userInfo.status === 'LOGGED_IN'
-                  ? <FaEdit onClick={handlePostEdit}/> : <div> </div>}
+                  ? <button onClick={handlePostEdit}>Edit</button> : <div> </div>}
               {userInfo.status === 'LOGGED_IN'
-                  ? <FaTrash onClick={handleDeletion} /> : <div> </div>}
-          </div>
-          {/*userInfo.status === 'LOGGED_IN'
-              ? <button onClick={handleArchive}>Archive</button> : <div> </div>}*/}
+                  ? <button onClick={handleDeletion}>Delete</button> : <div> </div>}
+              {userInfo.status === 'LOGGED_IN'
+                  ? <button onClick={handleArchive}>Archive</button> : <div> </div>}
       </div>
 
             <div className={s.ContentDetailView}>
