@@ -7,7 +7,6 @@ import s from './Header.module.scss'
 import BtnIco from './ico_hamburger.svg'
 import MagnifierIco from './ico_search.svg'
 import CloseIco from './ico_cross_circle_outline.svg'
-import GithubLogo from './github.svg'
 
 import {getElementBySlug} from 'Data/elements'
 
@@ -64,17 +63,6 @@ class Search extends React.Component {
       margin: this.props.isOpen ? 'auto 2rem auto auto' : 0,
     }
 
-
-    const initialsStyle = {
-      width: '50px' ,
-      height: '50px',
-      margin: '0 5px 0 0',
-      borderRadius: '25px',
-      backgroundColor: 'gray',
-      color: 'white'
-    }
-
-
     return (
         <>
           <input
@@ -93,10 +81,10 @@ class Search extends React.Component {
               
           {this.state.isLoggedIn ?
               <div>
-                <button style={initialsStyle}>{this.state.initialString}</button>
-                <a href="/logout">Log Out</a>
+                <button className={s.initialsStyle}>{this.state.initialString}</button>
+                <a href="/logout"><button className={s.logoutButton}><span>Logout</span></button></a>
               </div> :
-              <a href="/auth/provider">Log In</a>
+              <a href="/auth/provider"><button className={s.loginButton}><span>Login</span></button></a>
           }
 
         </>
