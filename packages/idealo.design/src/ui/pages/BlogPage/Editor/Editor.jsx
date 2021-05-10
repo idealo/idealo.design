@@ -10,13 +10,13 @@ import Prompt from './Prompt';
 import PromptSuccess from "./PromptSuccess";
 import { fetchSinglePost, updateSinglePost, fetchDistinctCategories} from '../data';
 import CreatableSelect from 'react-select/creatable';
+import slugify from "slugify";
 
 class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
 
     const { match, location, history } = props;
-
     this.blog = null;
     this.slug = match.params.slug;
     this.mode = this.slug ? 'EDIT' : 'CREATE';
@@ -141,11 +141,19 @@ class RichTextEditor extends React.Component {
   handleValidation() {
     let formIsValid = true;
     let errors = {};
+    const blacklist = ['new-post'];
 
     if (!this.state.title) {
       formIsValid = false;
       errors['title'] = 1;
     }
+
+    blacklist.map(word => {
+      if (word === slugify(this.state.title).replace(/^\s+|\s+$/g, '').toLowerCase()) {
+        formIsValid = false;
+        errors ['title'] = 1;
+      }
+    });
 
     if (!this.state.categoryDisplayValue) {
       formIsValid = false;
@@ -164,7 +172,7 @@ class RichTextEditor extends React.Component {
   handleSubmit(e){
     e.preventDefault();
     if(!this.handleValidation()){
-      alert("Form has errors. All fields must be completed")
+      alert("Form has errors.")
       return;
     }
 
