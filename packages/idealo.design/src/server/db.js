@@ -56,11 +56,15 @@ export async function storeSinglePost({
       ${date},
       ${image},
       ${blogpostcontent},
-      (select slug from blogposts where date=(select max(date) from blogposts)),
+      (select slug from blogposts where archivedpost = 'f' and date=(select max(date) from blogposts where archivedpost='f')),
       ${archivedpost}
     );`;
 
-    const updatePost = await sql `update blogposts set previouspost=${slug} where date=(select max(date) from blogposts where date<(select max(date) from blogposts)) and slug not in (${slug});`
+    const updatePost = await sql `
+        update blogposts
+        set previouspost=${slug}
+        where archivedpost = 'f' and date= (select max(date) from blogposts where archivedpost='f' and date<(select max(date) from blogposts))
+        and slug not in (${slug});`
 
     return createdPost,updatePost;
 }
@@ -99,5 +103,4 @@ async function handleNextPreviousPost(blog){
 export async function archiveSinglePost(blog) {
     await sql `update blogposts set archivedpost = 't',previouspost=null,nextpost=null where slug = ${blog.slug}`
     await handleNextPreviousPost(blog)
-
 }
