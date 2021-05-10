@@ -94,7 +94,7 @@ class Search extends React.Component {
           {this.state.isLoggedIn ?
               <div>
                 <button style={initialsStyle}>{this.state.initialString}</button>
-                <a href="/login">Log Out</a>
+                <a href="/logout">Log Out</a>
               </div> :
               <a href="/auth/provider">Log In</a>
           }
