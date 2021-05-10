@@ -23,8 +23,8 @@ function toDateFormat_de(inp) {
     const year = date.getFullYear();
     const month = date.getMonth()+1;
     const day = date.getDate();
-    const hour = date.getHours();
-    const minute = date.getMinutes();
+    const hour = date.getHours()+2;
+    const minute = String(date.getMinutes()).padStart(2,'0');
 
     return `${day}.${month}.${year} um ${hour}:${minute} Uhr`;
 }
@@ -122,7 +122,7 @@ const BlogDetailView = (props) => {
     const htmlToReactParser = new HtmlToReactParser();
     const reactElement = htmlToReactParser.parse(htmlBlogContent);
 
-    const datetime = toDateFormat_de(blogpost.date)
+
 
     return (
 <>

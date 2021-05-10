@@ -80,8 +80,9 @@ function ListView() {
             <h2 className={s.blogpostTitle}>
               <Link to={`/blog/${blogpost.slug}`}>{blogpost.title}</Link>
             </h2>
-            <img alt="" src={blogpost.image}/>
-              {getReactElement(blogpost.blogpostcontent)}
+            <div><img alt="" src={blogpost.image}/>
+            {getReactElement(blogpost.blogpostcontent)}
+            </div>
           </div>
         ))}
       </div>

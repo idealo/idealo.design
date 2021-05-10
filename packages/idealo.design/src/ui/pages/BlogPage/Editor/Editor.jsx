@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactModal from 'react-modal';
 
 import { withRouter } from 'react-router'
 
@@ -29,11 +30,13 @@ class RichTextEditor extends React.Component {
       lastHistoryLocation: '',
       isSubmitPromptOpen: false,
       cats: [],
+      error: [],
     };
 
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => {
       this.setState({ editorState, isEdited: true });
+      this.handleValidation();
     }
 
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
@@ -47,6 +50,7 @@ class RichTextEditor extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleSelectCreate = this.handleSelectCreate.bind(this);
+    this.handleValidation = this.handleValidation.bind(this);
   }
 
   async componentDidMount() {
@@ -72,6 +76,7 @@ class RichTextEditor extends React.Component {
         editorState: EditorState.createWithContent(contentState)
       })
     }
+    ReactModal.setAppElement('body');
   }
 
   renderContentAsRawJs() {
@@ -133,8 +138,36 @@ class RichTextEditor extends React.Component {
     }
   }
 
+  handleValidation() {
+    let formIsValid = true;
+    let errors = {};
+
+    if (!this.state.title) {
+      formIsValid = false;
+      errors['title'] = 1;
+    }
+
+    if (!this.state.categoryDisplayValue) {
+      formIsValid = false;
+      errors['categoryDisplayValue'] = 1;
+    }
+
+    if (!this.state.editorState.getCurrentContent().getPlainText()) {
+      formIsValid = false;
+      errors['editorState'] = 1;
+    }
+    this.setState({error: errors });
+
+    return formIsValid;
+  }
+
   handleSubmit(e){
     e.preventDefault();
+    if(!this.handleValidation()){
+      alert("Form has errors. All fields must be completed")
+      return;
+    }
+
     if(this.mode === 'EDIT') {
       this.props.history.block(() => true);
       this.blog.title = this.state.title;
@@ -207,20 +240,19 @@ class RichTextEditor extends React.Component {
     this.setState({
       [name]: value
     });
+
+    this.handleValidation();
   }
 
-  handleSelectChange(newValue, actionMeta) {
-    console.group('Value Changed');
-    console.log(newValue);
-    this.setState({
+  async handleSelectChange(newValue, actionMeta) {
+    await this.setState({
       categorySlug: newValue.categoryslug,
       categoryDisplayValue: newValue.categorydisplayvalue
     })
+    this.handleValidation();
   }
 
   handleSelectCreate(inputValue) {
-    console.group('Option created');
-    console.log(inputValue);
     const { cats } = this.state;
     const newOption = {
       categoryslug: inputValue.toLowerCase().replace(/\W/g, ''),
@@ -252,7 +284,7 @@ class RichTextEditor extends React.Component {
          : <h1>Create blogpost</h1>}
 
         <div className={s.InputFields}>
-          <input className="form-control" onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
+          <input className={this.state.error['title'] ? s.empty : ''} onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
           <form name="category" className="select-container">
             <CreatableSelect
                 getOptionLabel={option => option.categorydisplayvalue}
@@ -266,11 +298,12 @@ class RichTextEditor extends React.Component {
                   categorydisplayvalue: optionLabel,
                   __isNew__: true
                 })}
+                className={this.state.error['categoryDisplayValue'] ? s.empty : ''}
             />
           </form>
         </div>
 
-        <div className={s["RichEditor-root"]}>
+        <div className={this.state.error['editorState'] ? s.empty + ' ' + s["RichEditor-root"] : s["RichEditor-root"]}>
            <BlockStyleControls
             editorState={editorState}
             onToggle={this.toggleBlockType}
@@ -297,19 +330,17 @@ class RichTextEditor extends React.Component {
           <button className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
           <button className={s['CancelButton']} onClick={this.handleCancellation}>Cancel</button>
         </div>
-
-        <Prompt
-          show={this.state.isPromptOpen}
-          onHide={this.onModalCancel}
-          onLeave={this.onModalLeave}
-          message='Are you sure you want to leave?'
-        />
-
-        <PromptSuccess
-          show={this.state.isSubmitPromptOpen}
-          onLeave={this.onModalLeave}
-          message='Your blogpost has been saved successfully.'
-        />
+          <Prompt
+              show={this.state.isPromptOpen}
+              onHide={this.onModalCancel}
+              onLeave={this.onModalLeave}
+              message='Are you sure you want to leave?'
+          />
+          <PromptSuccess
+              show={this.state.isSubmitPromptOpen}
+              onLeave={this.onModalLeave}
+              message='Your blogpost has been saved successfully.'
+          />
         </>
     );
   }
