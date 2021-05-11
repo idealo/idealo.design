@@ -10,13 +10,13 @@ import Prompt from './Prompt';
 import PromptSuccess from "./PromptSuccess";
 import { fetchSinglePost, updateSinglePost, fetchDistinctCategories} from '../data';
 import CreatableSelect from 'react-select/creatable';
+import slugify from "slugify";
 
 class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
 
     const { match, location, history } = props;
-
     this.blog = null;
     this.slug = match.params.slug;
     this.mode = this.slug ? 'EDIT' : 'CREATE';
@@ -141,11 +141,19 @@ class RichTextEditor extends React.Component {
   handleValidation() {
     let formIsValid = true;
     let errors = {};
+    const blacklist = ['new-post'];
 
     if (!this.state.title) {
       formIsValid = false;
-      errors['title'] = 1;
+      errors['title-empty'] = 1;
     }
+
+    blacklist.map(word => {
+      if (word === slugify(this.state.title).replace(/^\s+|\s+$/g, '').toLowerCase()) {
+        formIsValid = false;
+        errors ['title-value'] = 'Title can not be "new post"';
+      }
+    });
 
     if (!this.state.categoryDisplayValue) {
       formIsValid = false;
@@ -163,8 +171,28 @@ class RichTextEditor extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
+    if(!this.handleValidation() && this.state.error['title-value']){
+      alert("Title is invalid. Please choose a different title!");
+      return;
+    }
+
+    if(!this.handleValidation() && this.state.error['title-empty']){
+      alert("Please choose a title!");
+      return;
+    }
+
+    if(!this.handleValidation() && this.state.error['categoryDisplayValue']){
+      alert("Please choose a category!");
+      return;
+    }
+
+    if(!this.handleValidation() && this.state.error['editorState']){
+      alert("Please write something!");
+      return;
+    }
+
     if(!this.handleValidation()){
-      alert("Form has errors. All fields must be completed")
+      alert("Form has errors. All fields must be completed.");
       return;
     }
 
@@ -284,7 +312,7 @@ class RichTextEditor extends React.Component {
          : <h1>Create blogpost</h1>}
 
         <div className={s.InputFields}>
-          <input className={this.state.error['title'] ? s.empty : ''} onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
+          <input className={this.state.error['title-empty'] ? s.empty : '' || this.state.error['title-value'] ? s.empty : ''} onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
           <form name="category" className="select-container">
             <CreatableSelect
                 getOptionLabel={option => option.categorydisplayvalue}
@@ -344,6 +372,12 @@ class RichTextEditor extends React.Component {
         </>
     );
   }
+
+  /*wrongTitle() {
+    span = <span></span>
+    console.log("Der Titel stimmt so nicht")
+    return span;
+  }*/
 }
 
 // Custom overrides for "code" style.
