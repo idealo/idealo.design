@@ -4,7 +4,6 @@ import draftToHtml from 'draftjs-to-html'
 import HtmlToReact from 'html-to-react';
 import Prompt from './Editor/Prompt';
 
-
 import {
     Redirect,
     Link,
@@ -13,9 +12,7 @@ import {
 } from 'react-router-dom'
 
 import s from './Blogpage.module.scss'
-
 import {fetchSinglePost, fetchUserInfo, deleteSinglePost, archiveSinglePost} from './data'
-//import {FaEdit, FaTrash} from "react-icons/fa";
 
 function toDateFormat_de(inp) {
     let date = inp ? new Date(inp) : new Date()
@@ -31,29 +28,23 @@ function toDateFormat_de(inp) {
 
 
 const BlogDetailView = (props) => {
-  const history = useHistory();
-  const [ blogpost, setBlogpost ] = useState({author: {}});
-  const [ userInfo, setUserInfo ] = useState([]);
-  const [prompt] = useState({isPromptOpen: false})
- // this.state={isPromptOpen: false};
-    // this.onModalCancel = this.onModalCancel.bind(this);
-  //this.onModalLeave = this.onModalLeave.bind(this);
-
+    const history = useHistory();
+    const [ blogpost, setBlogpost ] = useState({author: {}});
+    const [ userInfo, setUserInfo ] = useState([]);
+    const [prompt] = useState({isPromptOpen: false})
     let { slug } = useParams();
 
     useEffect(() => {
         let mounted = true;
 
-
         if (slug) {
             fetchSinglePost({ slug })
                 .then(blogpost => setBlogpost(blogpost))
         }
-      fetchUserInfo().then(setUser);
+        fetchUserInfo().then(setUser);
 
         return () => mounted = false;
     }, [slug]);
-
 
     if (!blogpost) {
         return 'Loading...'
@@ -82,8 +73,8 @@ const BlogDetailView = (props) => {
         setUserInfo(user);
     }
 
-   const scrollToTop = () => {
-      document.body.scrollTop = 0;
+    const scrollToTop = () => {
+        document.body.scrollTop = 0;
     }
 
     const onModalLeave = () => {
@@ -91,12 +82,11 @@ const BlogDetailView = (props) => {
         history.push(`/blog/${slug}`)
     }
 
-
-  const goBack = () => {
-  history.push({
-    pathname: `/blog/`,
-  });
-}
+    const goBack = () => {
+        history.push({
+        pathname: `/blog/`,
+        });
+    }
 
     let facebookLink
     let instagramLink
@@ -130,10 +120,7 @@ const BlogDetailView = (props) => {
 
     const datetime = toDateFormat_de(blogpost.date);
 
-
-
     return (
-<>
     <div className={s.ContentBox}>
       <div className={s.Menu}>
         <button onClick={goBack}>Go Back</button>
@@ -143,22 +130,23 @@ const BlogDetailView = (props) => {
                   ? <button onClick={handlePostEdit}>Edit</button> : <div> </div>}
       </div>
 
-            <div className={s.ContentDetailView}>
-                <div className={s.SocialMediaIcons}>
-                    {instagramLink}
-                    {twitterLink}
-                    {facebookLink}
-                    {emailLink}
-                    {githubLink}
-                </div>
-                <h2 className={s.blogpostTitle}>{blogpost.title}</h2>
-                <div className={s.Autor}>
-                    {blogpost.autor}
-                </div>
-                <h5 className={s.blogpostDate}>{datetime}</h5>
-                {reactElement}
-                <img alt="" src={blogpost.image} />
-            </div>
+      <div className={s.ContentDetailView}>
+          <div className={s.SocialMediaIcons}>
+              {instagramLink}
+              {twitterLink}
+              {facebookLink}
+              {emailLink}
+              {githubLink}
+          </div>
+          <h2 className={s.blogpostTitle}>{blogpost.title}</h2>
+          <div className={s.Autor}>
+              {blogpost.autor}
+          </div>
+          <h5 className={s.blogpostDate}>{datetime}</h5>
+          {reactElement}
+          <img alt="" src={blogpost.image} />
+      </div>
+
       <div className={s.ButtonNavigation}>
         {blogpost.previouspost && (<Link onClick={scrollToTop} className={s.ButtonPrevious} to={'/blog/' + blogpost.previouspost}>
                                       <span>Previous</span>
@@ -167,17 +155,15 @@ const BlogDetailView = (props) => {
                                   <span>Next</span>
                                 </Link>)}
       </div>
+
+      <Prompt
+          show = {prompt.isPromptOpen}
+          onDelete = {handleDeletion}
+          onArchive = {handleArchive}
+          onCancel = {onModalLeave}
+          message = 'Do you want to delete or archive that post?'
+      />
     </div>
-
-    <Prompt
-        show={prompt.isPromptOpen}
-        onDelete = {handleDeletion}
-        onArchive = {handleArchive}
-        onCancel={onModalLeave}
-        message='Do you want to delete or archive that post?'
-    />
-</>
-
 );
 };
 
