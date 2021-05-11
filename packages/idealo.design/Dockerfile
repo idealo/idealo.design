@@ -2,21 +2,22 @@
 FROM node:13.12.0-alpine
 
 # set working directory
-WORKDIR /app
+WORKDIR /home/node/app
 
 # add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# ENV PATH /app/node_modules/.bin:$PATH
 
 # install app dependencies
-COPY package.json ./
+COPY . ./
+# COPY package.json ./
 RUN npm install
 
-# add app
-COPY . ./
-EXPOSE	8080
+RUN npm run build
+
+# EXPOSE	8080
 
 # start app
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:prod"]
 
 
 
@@ -47,7 +48,8 @@ CMD ["npm", "start"]
 #RUN adduser -S -G corona -u 8877 -s /bin/bash -h /home/node/app corona
 #
 #USER 8877
-#
+
+#EXPOSE 8080
 #EXPOSE 8081
 
 #CMD ["node", "."]

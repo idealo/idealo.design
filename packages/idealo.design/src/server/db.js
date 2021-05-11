@@ -1,5 +1,7 @@
 import postgres from 'postgres'
-const sql = postgres({ database: 'blog', username: 'postgres' })
+// const sql = postgres({ database: 'blog', username: 'postgres' })
+const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://postgres@localhost:5432/blog'
+const sql = postgres(POSTGRES_URL)
 
 
 export async function fetchList() {
