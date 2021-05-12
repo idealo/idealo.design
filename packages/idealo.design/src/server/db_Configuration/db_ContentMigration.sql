@@ -13,3 +13,4 @@ UPDATE blogposts SET blogpostcontent = '{"blocks": [{"key": "3aovl", "data": {},
 ALTER TABLE blogposts ALTER COLUMN blogpostcontent SET NOT NULL;
 
 ALTER TABLE blogposts DROP COLUMN text;
+
