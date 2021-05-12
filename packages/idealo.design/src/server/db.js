@@ -39,7 +39,6 @@ export async function storeSinglePost({
     blogpostcontent,
     isArchived = 0
 }) {
-    // const beginStatement= await sql `BEGIN;`
 
     const createPost = await sql`
         insert into blogposts (
