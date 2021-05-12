@@ -1,5 +1,7 @@
 import postgres from 'postgres'
 const sql = postgres({ database: 'blog', username: 'postgres' })
+const beginStatement = sql `begin;`
+const endStatement = sql `commit;`
 
 
 export async function fetchList() {
@@ -28,37 +30,39 @@ export async function fetchAllCategories() {
 }
 
 export async function storeSinglePost({
-  title = '',
-  date,
-  categoryDisplayValue = '',
-  categorySlug = '',
-  slug,
-  image = '',
-  blogpostcontent,
-  isArchived = 0
- }) {
-  const createdPost = await sql`
-    insert into blogposts (
-      title,
-      categoryDisplayValue,
-      categorySlug,
-      slug,
-      date,
-      image,
-      blogpostcontent,
-      nextpost,
-      isArchived
-    ) values (
-      ${title},
-      ${categoryDisplayValue},
-      ${categorySlug},
-      ${slug},
-      ${date},
-      ${image},
-      ${blogpostcontent},
-      (select slug from blogposts where isArchived = 0 and date=(select max(date) from blogposts where isArchived= 0)),
-      ${isArchived}
-    );`;
+    title = '',
+    date,
+    categoryDisplayValue = '',
+    categorySlug = '',
+    slug,
+    image = '',
+    blogpostcontent,
+    isArchived = 0
+}) {
+    // const beginStatement= await sql `BEGIN;`
+
+    const createPost = await sql`
+        insert into blogposts (
+          title,
+          categoryDisplayValue,
+          categorySlug,
+          slug,
+          date,
+          image,
+          blogpostcontent,
+          nextpost,
+          isArchived
+        ) values (
+          ${title},
+          ${categoryDisplayValue},
+          ${categorySlug},
+          ${slug},
+          ${date},
+          ${image},
+          ${blogpostcontent},
+          (select slug from blogposts where isArchived = 0 and date=(select max(date) from blogposts where isArchived= 0)),
+          ${isArchived}
+        );`;
 
     const updatePost = await sql `
         update blogposts
@@ -66,7 +70,7 @@ export async function storeSinglePost({
         where isArchived = 0 and date= (select max(date) from blogposts where isArchived= 0 and date<(select max(date) from blogposts))
         and slug not in (${slug});`
 
-    return createdPost,updatePost;
+    return [beginStatement,createPost,updatePost, endStatement];
 }
 
 export async function updateSinglePost(blog) {
@@ -81,20 +85,19 @@ export async function updateSinglePost(blog) {
 }
 
 export async function deleteSinglePost(blog) {
-    await sql `delete from blogposts where slug = ${blog.slug}`;
-    await handleNextPreviousPost(blog);
+    const deletePost = await sql `delete from blogposts where slug = ${blog.slug}`;
+    const handlePreviousNext = await handleNextPreviousPost(blog);
+    return [beginStatement, deletePost, handlePreviousNext, endStatement]
 }
 
 async function handleNextPreviousPost(blog){
     if(blog.previouspost == null){
-
         await sql `update blogposts set previouspost = null where previouspost = ${blog.slug}`
         await sql `update blogposts set nextpost = ${blog.nextpost} where nextpost = ${blog.slug}`
     }
     else if (blog.nextpost == null){
         await sql `update blogposts set previouspost = ${blog.previouspost} where previouspost = ${blog.slug}`
         await sql `update blogposts set nextpost = null where nextpost = ${blog.slug}`
-
     }else{
         await sql `update blogposts set previouspost = ${blog.previouspost} where previouspost = ${blog.slug}`
         await sql `update blogposts set nextpost = ${blog.nextpost} where nextpost = ${blog.slug}`
@@ -102,6 +105,7 @@ async function handleNextPreviousPost(blog){
 }
 
 export async function archiveSinglePost(blog) {
-    await sql `update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`
-    await handleNextPreviousPost(blog)
+    const archivePost = await sql `update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`
+    const handlePreviousNext = await handleNextPreviousPost(blog)
+    return [beginStatement, archivePost, handlePreviousNext, endStatement]
 }

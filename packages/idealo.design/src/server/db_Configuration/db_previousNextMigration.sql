@@ -22,7 +22,7 @@ WHERE id = 3;
 UPDATE blogposts
 SET title = 'Versionskontrolle mit Git und GitHub',
     nextpost = 'mein-erstes-mal-mit-react',
-    previouspost = 'draft.js',
+    previouspost = 'Draft.js',
     date = '2021-01-20 14:48:44.351Z'
 WHERE id = 4;
 
