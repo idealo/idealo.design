@@ -1,6 +1,5 @@
 import React from "react";
 import ReactModal from "react-modal";
-import Button from "@storybook/react/dist/demo/Button";
 
 export default function PromptSuccess(props) {
   return (
@@ -22,8 +21,8 @@ export default function PromptSuccess(props) {
               <p>{props.message}</p>
           </header>
           <footer>
-              <Button onClick={props.onHide}>Close</Button>
-              <Button onClick={props.onLeave}>Yes</Button>
+              <button onClick={props.onHide}>Close</button>
+              <button onClick={props.onLeave}>Yes</button>
           </footer>
 
       </ReactModal>
