@@ -1,8 +1,5 @@
 import postgres from 'postgres'
 const sql = postgres({ database: 'blog', username: 'postgres' })
-const beginStatement = sql `begin;`
-const endStatement = sql `commit;`
-
 
 export async function fetchList() {
    const list = await sql`select * from blogposts where isArchived = 0 ORDER BY blogposts.date DESC`;
@@ -40,6 +37,7 @@ export async function storeSinglePost({
     isArchived = 0
 }) {
 
+    const start_ta = await sql `BEGIN;`;
     const createPost = await sql`
         insert into blogposts (
           title,
@@ -69,7 +67,9 @@ export async function storeSinglePost({
         where isArchived = 0 and date= (select max(date) from blogposts where isArchived= 0 and date<(select max(date) from blogposts))
         and slug not in (${slug});`
 
-    return [beginStatement,createPost,updatePost, endStatement];
+    const stop_ta = await sql `COMMIT;`
+
+    return [start_ta,createPost,updatePost, stop_ta];
 }
 
 export async function updateSinglePost(blog) {
@@ -84,9 +84,11 @@ export async function updateSinglePost(blog) {
 }
 
 export async function deleteSinglePost(blog) {
+    const start_ta = await sql `BEGIN;`;
     const deletePost = await sql `delete from blogposts where slug = ${blog.slug}`;
     const handlePreviousNext = await handleNextPreviousPost(blog);
-    return [beginStatement, deletePost, handlePreviousNext, endStatement]
+    const stop_ta = await sql `COMMIT;`
+    return [start_ta, deletePost, handlePreviousNext, stop_ta]
 }
 
 async function handleNextPreviousPost(blog){
@@ -104,7 +106,9 @@ async function handleNextPreviousPost(blog){
 }
 
 export async function archiveSinglePost(blog) {
+    const start_ta = await sql `BEGIN;`;
     const archivePost = await sql `update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`
     const handlePreviousNext = await handleNextPreviousPost(blog)
-    return [beginStatement, archivePost, handlePreviousNext, endStatement]
+    const stop_ta = await sql `COMMIT;`
+    return [start_ta, archivePost, handlePreviousNext, stop_ta]
 }
