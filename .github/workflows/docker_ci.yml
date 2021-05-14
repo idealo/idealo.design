@@ -1,5 +1,3 @@
-
-
 name: CI
 
 on:
@@ -11,14 +9,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file ./packages/idealo.design/Dockerfile --tag lara:$(date +%s)
-      
-      #uses: VaultVulp/gp-docker-action@1.1.8
-      #with:
-        #github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
-        # image-name: lara # Provide only Docker image name, tag will be automatically set to latest
-        #dockerfile: ./packages/idealo.design/Dockerfile
+      - uses: actions/checkout@v2 # Checking out the repo
+
+      - name: Build and Publish latest Docker image
+        uses: VaultVulp/gp-docker-action@1.1.8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
+          # image-name: lara # Provide only Docker image name, tag will be automatically set to latest
+          dockerfile: ./packages/idealo.design/Dockerfile
+    
+    #steps:
+    #- uses: actions/checkout@v2
+    #- name: Build the Docker image
+      #run: docker build . --file ./packages/idealo.design/Dockerfile --tag lara:$(date +%s
