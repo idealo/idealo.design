@@ -29,8 +29,8 @@ jobs:
       uses: VaultVulp/gp-docker-action@1.1.8
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
-        image-name: my-cool-service # Provide only Docker image name, tag will be automatically set to latest
-        dockerfile: Dockerfile_server
+        # image-name: my-cool-directory  # Provide only Docker image name, tag will be automatically set to latest
+        dockerfile: idealo.design/Dockerfile
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       #-
         #name: Set up Docker Buildx
