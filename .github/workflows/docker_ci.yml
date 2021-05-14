@@ -45,4 +45,4 @@ jobs:
           tags: user/app:latest
       -
         name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        run: echo ${{ steps.docker_build.outputs.digest }} --if-present
