@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "deploy": "npm run build",
+    "build": "npx webpack",
     "start": "webpack serve -w",
     "start:prod": "cd dist && node server.js"
   },
