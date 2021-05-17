@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 
 import withStyles from 'isomorphic-style-loader/withStyles'
 
-import {fetchList, fetchPostsByCategorySlug, fetchUserInfo} from './data';
+import { fetchList, fetchPostsByCategorySlug, fetchUserInfo } from './data';
 import { Link, useParams, useHistory } from "react-router-dom";
 
 import s from './Blogpage.module.scss';
 import draftToHtml from '../../../vendor/draftjs-to-html';
-import {htmlToText} from 'html-to-text';
+import { htmlToText } from 'html-to-text';
 
 function ListView() {
   const history = useHistory();
   const [ list, setList ] = useState([]);
   const [ userInfo, setUserInfo ] = useState([]);
   const { slug } = useParams();
+
+  console.log(slug);
 
   useEffect(() => {
     let mounted = true;
@@ -91,4 +93,4 @@ function ListView() {
 }
 
 
-export default withStyles(s)(ListView);
+export default /*withStyles(s)*/(ListView);

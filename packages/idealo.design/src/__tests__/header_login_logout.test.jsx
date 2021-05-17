@@ -1,6 +1,7 @@
 import React from 'react';
 import { create } from "react-test-renderer"
 import Search from '../ui/components/Header/Search';
+import ListView from "../ui/pages/BlogPage/ListView";
 
 it('login renders correctly', () => {
     const logoutTest = create(<Search/>);
@@ -13,45 +14,27 @@ it('logout renders correctly', done => {
         const instance = logoutTest.getInstance();
         expect(instance.state.isLoggedIn).toBe(false);
         instance.setState({isLoggedIn:true});
-        // console.log(instance)
         expect(instance.state.isLoggedIn).toBe(true);
         expect(logoutTest.toJSON()).toMatchSnapshot();
         done();
     }catch(error){
         done(error);
     }
+});
+
+/*// when user is logged in -> user sees new blogpost button
+it('new blogpost button is shown', () => {
+    const listView = create(<ListView />);
+    const instance = listView.getInstance();
+    console.log(instance);
+
 
 });
 
+it('new blogpost button is not shown', () => {
+    // const listView = create(<ListView />);
+    expect(true).toBeTruthy();
 
-/*
-class Button extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { text: "" };
-        this.handleClick = this.handleClick.bind(this);
-    }
+});*/
 
-    handleClick() {
-        this.setState(() => {
-            return { text: "PROCEED TO CHECKOUT" };
-        });
-    }
-
-    render() {
-        return (
-            <button onClick={this.handleClick}>
-                {this.state.text || this.props.text}
-            </button>
-        );
-    }
-}
-
-describe("Button component", () => {
-    test("it shows the expected text when clicked (testing the wrong way!)", () => {
-        const component = create(<Button text="SUBSCRIBE TO BASIC" />);
-        const instance = component.getInstance();
-        expect(instance.state.text).toBe("");
-    });
-});
-*/
+// when user is logged in -> user sees edit button

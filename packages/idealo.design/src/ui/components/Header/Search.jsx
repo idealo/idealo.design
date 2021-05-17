@@ -3,6 +3,7 @@ import s from "./Header.module.scss";
 import CloseIco from "./ico_cross_circle_outline.svg";
 import MagnifierIco from "./ico_search.svg";
 import {fetchUserInfo} from "../../pages/BlogPage/data";
+import withStyles from "isomorphic-style-loader/withStyles";
 
 class Search extends React.Component {
 
@@ -22,7 +23,6 @@ class Search extends React.Component {
 
     async componentDidMount() {
         window.document.addEventListener('keyup', this.handleOnKeyUp)
-
         try{
             const userInfo = await fetchUserInfo()
             this.setState({userInfo:userInfo})
@@ -86,3 +86,4 @@ class Search extends React.Component {
 }
 
 export default Search;
+export { s as styles };

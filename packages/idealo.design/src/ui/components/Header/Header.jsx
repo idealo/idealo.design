@@ -1,5 +1,5 @@
 import React from 'react'
-// import withStyles from 'isomorphic-style-loader/withStyles'
+import withStyles from 'isomorphic-style-loader/withStyles'
 import {BrowserRouter, Link} from "react-router-dom"
 
 import s from './Header.module.scss'
@@ -9,11 +9,7 @@ import MagnifierIco from './ico_search.svg'
 import CloseIco from './ico_cross_circle_outline.svg'
 
 import { getElementBySlug } from '../../../../data/elements'
-import Search from '../Header/Search'
-
-import { fetchUserInfo } from "../../pages/BlogPage/data"
-
-
+import { default as Search, styles as SearchStyles } from '../Header/Search'
 
 class StickyMenu extends React.Component {
 
@@ -141,13 +137,15 @@ class Header extends React.Component {
 
           <StickyMenu isSidebarOpen={this.state.isSidebarOpen} active={this.state.isStickyMode} />
 
-          <Search
+          <withStyles>
+            <Search
               onClick={this.toggleSearchInput}
               closeSearchInput={this.closeSearchInput}
               isOpen={this.state.isSearchInputOpen} />
+          </withStyles>
         </header>
     )
   }
 }
 
-export default /*withStyles(s)*/(Header)
+export default withStyles(s)(Header)
