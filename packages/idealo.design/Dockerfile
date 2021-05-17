@@ -11,8 +11,8 @@ WORKDIR /home/node/app
 COPY . ./
 # COPY package.json ./
 RUN npm install
-
-RUN npm run build
+COPY . ./
+RUN npm run-script build
 
 # EXPOSE	8080
 
