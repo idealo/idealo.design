@@ -1,57 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`login renders correctly 1`] = `
-<header
-  className="Header"
-  style={null}
->
-  <svg
-    className="SideNavToggle"
-    height="24"
-    onClick={[Function]}
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <title>
-      ico__hamburger
-    </title>
-    <path
-      d="M22 13H2a1 1 0 0 1 0-2h20a1 1 0 0 1 0 2zm1 5a1 1 0 0 0-1-1H2a1 1 0 0 0 0 2h20a1 1 0 0 0 1-1zm0-12a1 1 0 0 0-1-1H2a1 1 0 0 0 0 2h20a1 1 0 0 0 1-1z"
-      fill="#fff"
-    />
-  </svg>
-  <h1
-    style={null}
-  >
-    <a
-      href="/"
-      onClick={[Function]}
-      style={null}
-    >
-      <span
-        style={
-          Object {
-            "borderBottom": "1px solid orange",
-          }
-        }
-      >
-        idealo
-      </span>
-       
-      <b>
-        Design System
-      </b>
-    </a>
-  </h1>
-  <div
-    className="StickyMenu"
-    style={
-      Object {
-        "marginLeft": "17rem",
-      }
-    }
-  />
+Array [
   <input
     autoFocus={true}
     className="SearchInput"
@@ -64,11 +14,10 @@ exports[`login renders correctly 1`] = `
         "width": 0,
       }
     }
-  />
+  />,
   <svg
     className="SearchToggle"
     height="24"
-    onClick={[Function]}
     viewBox="0 0 24 24"
     width="24"
     xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +29,7 @@ exports[`login renders correctly 1`] = `
       d="M22.658 21.28L17.9 16.522a9.558 9.558 0 1 0-1.424 1.4l4.768 4.768a1 1 0 1 0 1.414-1.414zM3.049 10.513a7.5 7.5 0 1 1 7.5 7.5 7.509 7.509 0 0 1-7.5-7.5z"
       fill="#fff"
     />
-  </svg>
+  </svg>,
   <a
     href="/auth/provider"
   >
@@ -91,6 +40,57 @@ exports[`login renders correctly 1`] = `
         Login
       </span>
     </button>
-  </a>
-</header>
+  </a>,
+]
+`;
+
+exports[`logout renders correctly 1`] = `
+Array [
+  <input
+    autoFocus={true}
+    className="SearchInput"
+    onTransitionEnd={[Function]}
+    style={
+      Object {
+        "margin": 0,
+        "padding": 0,
+        "visibility": "hidden",
+        "width": 0,
+      }
+    }
+  />,
+  <svg
+    className="SearchToggle"
+    height="24"
+    viewBox="0 0 24 24"
+    width="24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title>
+      ico__search
+    </title>
+    <path
+      d="M22.658 21.28L17.9 16.522a9.558 9.558 0 1 0-1.424 1.4l4.768 4.768a1 1 0 1 0 1.414-1.414zM3.049 10.513a7.5 7.5 0 1 1 7.5 7.5 7.509 7.509 0 0 1-7.5-7.5z"
+      fill="#fff"
+    />
+  </svg>,
+  <div>
+    <button
+      className="initialsStyle"
+    >
+      
+    </button>
+    <a
+      href="/logout"
+    >
+      <button
+        className="logoutButton"
+      >
+        <span>
+          Logout
+        </span>
+      </button>
+    </a>
+  </div>,
+]
 `;

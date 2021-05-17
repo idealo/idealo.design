@@ -1,19 +1,26 @@
 import React from 'react';
 import { create } from "react-test-renderer"
-import Search from '../ui/components/Header/Header';
+import Search from '../ui/components/Header/Search';
 
 it('login renders correctly', () => {
     const logoutTest = create(<Search/>);
     expect(logoutTest.toJSON()).toMatchSnapshot();
 });
 
-it('logout renders correctly', () => {
-    const logoutTest = create(<Search />);
-    const instance = logoutTest.getInstance();
-    expect(instance.state.isLoggedIn).toBe(false);
-    instance.setState({isLoggedIn:true});
-    expect(instance.state.isLoggedIn).toBe(true);
-    expect(logoutTest.toJSON()).toMatchSnapshot();
+it('logout renders correctly', done => {
+    try{
+        const logoutTest = create(<Search />);
+        const instance = logoutTest.getInstance();
+        expect(instance.state.isLoggedIn).toBe(false);
+        instance.setState({isLoggedIn:true});
+        // console.log(instance)
+        expect(instance.state.isLoggedIn).toBe(true);
+        expect(logoutTest.toJSON()).toMatchSnapshot();
+        done();
+    }catch(error){
+        done(error);
+    }
+
 });
 
 
