@@ -1,6 +1,6 @@
 import React from 'react'
-import withStyles from 'isomorphic-style-loader/withStyles'
-import { Link } from "react-router-dom";
+// import withStyles from 'isomorphic-style-loader/withStyles'
+import {BrowserRouter, Link} from "react-router-dom"
 
 import s from './Header.module.scss'
 
@@ -8,9 +8,9 @@ import BtnIco from './ico_hamburger.svg'
 import MagnifierIco from './ico_search.svg'
 import CloseIco from './ico_cross_circle_outline.svg'
 
-import {getElementBySlug} from 'Data/elements'
+import { getElementBySlug } from '../../../../data/elements'
 
-import { fetchUserInfo } from "../../pages/BlogPage/data";
+import { fetchUserInfo } from "../../pages/BlogPage/data"
 
 
 
@@ -33,7 +33,7 @@ class Search extends React.Component {
   async componentDidMount() {
     window.document.addEventListener('keyup', this.handleOnKeyUp)
 
-    const userInfo = await fetchUserInfo()
+    /*const userInfo = await fetchUserInfo()
     this.setState({userInfo:userInfo})
     const isLoggedIn = userInfo.status === 'LOGGED_IN'
     this.setState({isLoggedIn:isLoggedIn})
@@ -42,7 +42,7 @@ class Search extends React.Component {
       const surname = userInfo.user['surname'].charAt(0).toUpperCase();
       const initialString = displayName + surname;
       this.setState({initialString})
-    }
+    }*/
   }
 
   componentWillUnmount() {
@@ -209,9 +209,11 @@ class Header extends React.Component {
           <BtnIco className={s.SideNavToggle} onClick={this.toggleNavbarState}/>
 
           <h1 style={this.state.isStickyMode ? { display: 'none' } : null}>
-            <Link style={this.state.isStickyMode ? logoStickyStyle : null} to="/">
-              <span style={{borderBottom: '1px solid orange'}}>idealo</span> <b>Design System</b>
-            </Link>
+            <BrowserRouter>
+              <Link style={this.state.isStickyMode ? logoStickyStyle : null} to="/">
+                <span style={{borderBottom: '1px solid orange'}}>idealo</span> <b>Design System</b>
+              </Link>
+            </BrowserRouter>
           </h1>
 
           <StickyMenu isSidebarOpen={this.state.isSidebarOpen} active={this.state.isStickyMode} />
@@ -225,4 +227,4 @@ class Header extends React.Component {
   }
 }
 
-export default withStyles(s)(Header)
+export default /*withStyles(s)*/(Header)
