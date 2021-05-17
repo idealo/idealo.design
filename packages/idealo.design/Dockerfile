@@ -8,8 +8,8 @@ WORKDIR /home/node/app
 # ENV PATH /app/node_modules/.bin:$PATH
 
 # install app dependencies
-COPY . ./
-# COPY package.json ./
+COPY package.json ./
+# COPY . ./
 RUN npm install
 COPY . ./
 RUN npm run build
