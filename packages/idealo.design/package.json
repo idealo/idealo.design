@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack serve -w"
+    "start": "webpack serve -w",
+    "start:prod": "cd dist && node server.js"
   },
   "author": "Nicolas Forgerit <nicolas.forgerit@idealo.de>",
   "license": "ISC",
