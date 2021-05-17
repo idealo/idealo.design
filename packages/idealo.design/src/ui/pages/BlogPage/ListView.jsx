@@ -15,8 +15,6 @@ function ListView() {
   const [ userInfo, setUserInfo ] = useState([]);
   const { slug } = useParams();
 
-  console.log(slug);
-
   useEffect(() => {
     let mounted = true;
 

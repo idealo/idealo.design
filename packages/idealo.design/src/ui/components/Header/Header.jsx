@@ -128,21 +128,17 @@ class Header extends React.Component {
           <BtnIco className={s.SideNavToggle} onClick={this.toggleNavbarState}/>
 
           <h1 style={this.state.isStickyMode ? { display: 'none' } : null}>
-            <BrowserRouter>
               <Link style={this.state.isStickyMode ? logoStickyStyle : null} to="/">
                 <span style={{borderBottom: '1px solid orange'}}>idealo</span> <b>Design System</b>
               </Link>
-            </BrowserRouter>
           </h1>
 
           <StickyMenu isSidebarOpen={this.state.isSidebarOpen} active={this.state.isStickyMode} />
 
-          <withStyles>
             <Search
               onClick={this.toggleSearchInput}
               closeSearchInput={this.closeSearchInput}
               isOpen={this.state.isSearchInputOpen} />
-          </withStyles>
         </header>
     )
   }
