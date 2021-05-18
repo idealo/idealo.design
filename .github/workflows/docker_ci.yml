@@ -21,8 +21,8 @@ jobs:
         with: #1 
           # image_name: idealo_design2 #1 
           dockerfile: ./packages/idealo.design/Dockerfile #1
-          username: ${{ github.actor }} foo
-          password: ${{ secrets.GITHUB_TOKEN }} --pasword-stdin
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }} 
           registry: docker.pkg.github.com
           repository: idealo/nwp/idealo_design3
           tag_with_ref: true
