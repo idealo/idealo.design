@@ -19,11 +19,10 @@ jobs:
         uses: docker/build-push-action@v1
         with: #1 
           # image-name: my-cool-service # Provide Docker image name
-          image-tag: today # Provide Docker image tag 
+          # image-tag: today # Provide Docker image tag 
           dockerfile: ./packages/idealo.design/Dockerfile #1
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }} 
           registry: docker.pkg.github.com
-          repository: idealo/nwp/idealo_design3
-          tag: now
-          tag_with_ref: true
+          repository: idealo/nwp/idealo-design
+          tag_with_sha: true
