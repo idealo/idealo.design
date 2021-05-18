@@ -18,8 +18,6 @@ jobs:
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v1
         with: #1 
-          # image-name: my-cool-service # Provide Docker image name
-          # image-tag: today # Provide Docker image tag 
           dockerfile: ./packages/idealo.design/Dockerfile #1
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }} 
