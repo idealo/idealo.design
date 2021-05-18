@@ -19,10 +19,10 @@ jobs:
         # uses: VaultVulp/gp-docker-action@1.1.8 #1 
         uses: docker/build-push-action@v1
         with: #1 
-          image_name: idealo_design2 #1 
+          # image_name: idealo_design2 #1 
           dockerfile: ./packages/idealo.design/Dockerfile #1
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: idealo/nwp/idealo_design2
+          # repository: idealo/nwp/idealo_design2/idealodesign
           tag_with_ref: true
