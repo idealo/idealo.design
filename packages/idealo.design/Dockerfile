@@ -16,7 +16,7 @@ RUN npm run build
 # EXPOSE	8080
 
 # start app
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "--prefix", "/home/node/app", "run", "start:prod"]
 
 
 
