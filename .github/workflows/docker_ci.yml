@@ -13,19 +13,17 @@ jobs:
       packages: write
       contents: read
     steps:
-      - name: Get current time
-        uses: gerred/actions/current-time@master
-        id: current-time
       - name: Check out the repo #1
         uses: actions/checkout@v2 #1
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v1
         with: #1 
-          # image_name: idealo_design2 #1 
+          # image-name: my-cool-service # Provide Docker image name
+          image-tag: today # Provide Docker image tag 
           dockerfile: ./packages/idealo.design/Dockerfile #1
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }} 
           registry: docker.pkg.github.com
           repository: idealo/nwp/idealo_design3
-          tag: ${{ current-time }}
+          tag: now
           tag_with_ref: true
