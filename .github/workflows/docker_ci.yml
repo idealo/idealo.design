@@ -16,13 +16,11 @@ jobs:
       - name: Check out the repo #1
         uses: actions/checkout@v2 #1
       - name: Push to GitHub Packages
-        # uses: VaultVulp/gp-docker-action@1.1.8 #1 
         uses: docker/build-push-action@v1
         with: #1 
-          # image_name: idealo_design2 #1 
           dockerfile: ./packages/idealo.design/Dockerfile #1
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }} 
           registry: docker.pkg.github.com
-          repository: idealo/nwp/idealo_design3
-          tag_with_ref: true
+          repository: idealo/nwp/idealo-design
+          tag_with_sha: true
