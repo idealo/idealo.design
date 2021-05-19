@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:13.12.0-alpine
+FROM node:14.16.1-alpine
 
 # set working directory
 WORKDIR /home/node/app
@@ -10,14 +10,14 @@ WORKDIR /home/node/app
 
 # install app dependencies
 # COPY package.json ./
-ADD package.json ./
+COPY . ./
 RUN npm install
-RUN npm run build:production
+RUN npm run build
 
 # EXPOSE	8080
 
 # start app
-# CMD ["npm", "/home/node/app", "run", "start:prod"]
+CMD ["npm", "/home/node/app", "run", "start:prod"]
 
 
 
