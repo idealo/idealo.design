@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config webpack.config.js",
     "start": "webpack serve -w",
     "start:prod": "cd dist && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
