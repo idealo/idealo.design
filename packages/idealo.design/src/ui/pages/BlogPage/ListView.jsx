@@ -8,7 +8,7 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import s from './Blogpage.module.scss';
 import draftToHtml from '../../../vendor/draftjs-to-html';
 import { htmlToText } from 'html-to-text';
-import {withRouter} from "react-router";
+import { withRouter } from "react-router";
 
 export class ListView extends React.Component{
 
@@ -46,7 +46,7 @@ export class ListView extends React.Component{
                 })
             }
             this.setState({
-                slug: slug
+                userInfo: await fetchUserInfo()
             })
         }catch(error){
 

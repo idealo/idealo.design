@@ -11,7 +11,7 @@ it('logged out user can not access editor', () => {
 });
 
 // RichTextEditor gets rendered correctly and the editor is empty
-it('logged out user can not access editor', done => {
+it('rich text editor gets rendered correctly', done => {
     try{
         const RichTextEditorProps = {
             match: {
