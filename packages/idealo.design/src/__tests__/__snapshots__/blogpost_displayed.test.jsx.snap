@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mock-up blogposts gets rendered and displayed correcly in the listview 1`] = `
+<div>
+  <div>
+     
+  </div>
+  <div
+    style={
+      Object {
+        "clear": "both",
+      }
+    }
+  />
+  <div
+    className="List"
+  >
+    <div
+      className="Content"
+    >
+      <h2
+        className="blogpostTitle"
+      >
+        <a
+          href="/blog/Einstieg-in-die-Welt-der-Datenbanken"
+        >
+          A mockup blogpost
+        </a>
+      </h2>
+      <div>
+        <img
+          alt=""
+          src="https://s12.directupload.net/images/210212/bd5j6kn8.jpg"
+        />
+        Just some simple mockup text!
+      </div>
+    </div>
+  </div>
+</div>
+`;

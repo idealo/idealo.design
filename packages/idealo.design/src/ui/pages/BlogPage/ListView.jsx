@@ -89,7 +89,7 @@ export class ListView extends React.Component{
                     {this.state.list.map((blogpost) => (
                         <div key={blogpost.id} className={s.Content}>
                             <h2 className={s.blogpostTitle}>
-                                <Link to={`/blog/${blogpost.slug}`}>{blogpost.title}</Link>
+                                <a href={`/blog/${blogpost.slug}`}>{blogpost.title}</a>
                             </h2>
                             <div><img alt="" src={blogpost.image}/>
                                 {this.getReactElement(blogpost.blogpostcontent)}
