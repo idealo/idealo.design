@@ -12,7 +12,7 @@ WORKDIR /usr/src/app
 # COPY package.json ./
 ADD package.json ./
 RUN npm install
-RUN npm run build
+RUN npm run build:local
 
 # EXPOSE	8080
 
