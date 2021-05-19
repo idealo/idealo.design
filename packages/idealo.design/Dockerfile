@@ -8,16 +8,16 @@ WORKDIR /home/node/app
 
 # install app dependencies
 # COPY package.json ./
-COPY . ./
+COPY packages/idealo.design/ ./
 RUN npm install
+RUN npm run build
 
 FROM node:14.16.1-alpine as runner
 
 WORKDIR /home/node/app
-COPY --from=builder /home/node/app .
+COPY --from=builder /home/node/app/dist .
 
-RUN npm run build
-CMD ["npm", "/home/node/app", "run", "start:prod"]
+CMD ["node", "server.js"]
 
 
 
