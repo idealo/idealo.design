@@ -1,7 +1,7 @@
 import React from 'react';
 import { create } from "react-test-renderer"
 import Search from '../ui/components/Header/Search';
-import {ListView}from "../ui/pages/BlogPage/ListView";
+import { ListView }from "../ui/pages/BlogPage/ListView";
 
 it('login renders correctly', () => {
     const loginTest = create(<Search/>);

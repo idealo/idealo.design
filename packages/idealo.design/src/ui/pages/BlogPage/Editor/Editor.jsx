@@ -12,7 +12,7 @@ import { fetchSinglePost, updateSinglePost, fetchDistinctCategories} from '../da
 import CreatableSelect from 'react-select/creatable';
 import slugify from "slugify";
 
-class RichTextEditor extends React.Component {
+export class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
 
