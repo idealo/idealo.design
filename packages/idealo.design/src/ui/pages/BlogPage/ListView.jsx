@@ -24,14 +24,18 @@ export class ListView extends React.Component{
     }
 
     async componentDidMount() {
+        await this.updateListView();
+    }
+
+    async componentDidUpdate(prevProps) {
+        if (prevProps.match.params.slug !== this.props.match.params.slug) {
+            await this.updateListView();
+        }
+    }
+
+    async updateListView(){
         try{
             const slug = this.props.match.params.slug
-            this.setState(
-                {
-                    userInfo: await fetchUserInfo()
-                }
-            );
-
             if(slug){
                 this.setState({
                     list : await fetchPostsByCategorySlug({categorySlug: slug})
@@ -41,6 +45,9 @@ export class ListView extends React.Component{
                     list: await fetchList()
                 })
             }
+            this.setState({
+                slug: slug
+            })
         }catch(error){
 
         }
