@@ -2,7 +2,7 @@
 FROM node:13.12.0-alpine
 
 # set working directory
-WORKDIR /usr/src/app
+WORKDIR /home/node/app
 
 # ADD packages/idealo-design/package.json .
 # add `/app/node_modules/.bin` to $PATH
@@ -17,7 +17,7 @@ RUN npm run build:production
 # EXPOSE	8080
 
 # start app
-CMD ["npm", "/usr/src/app", "run", "start:prod"]
+# CMD ["npm", "/home/node/app", "run", "start:prod"]
 
 
 

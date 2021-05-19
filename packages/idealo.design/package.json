@@ -5,10 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "build:production": "webpack",
-    "start": "webpack serve -w",
-    "start:prod": "cd dist && node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:production": "webpack"
   },
   "author": "Nicolas Forgerit <nicolas.forgerit@idealo.de>",
   "license": "ISC",
