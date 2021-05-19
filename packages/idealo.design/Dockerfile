@@ -4,13 +4,13 @@ FROM node:13.12.0-alpine
 # set working directory
 WORKDIR /usr/src/app
 
-ADD packages/idealo-design/ .
+# ADD packages/idealo-design/package.json .
 # add `/app/node_modules/.bin` to $PATH
 # ENV PATH /app/node_modules/.bin:$PATH
 
 # install app dependencies
 # COPY package.json ./
-# ADD . ./
+ADD package.json ./
 RUN npm install
 RUN npm run build
 
