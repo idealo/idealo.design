@@ -1,6 +1,6 @@
 FROM node:14.16.1 as builder
 
-WORKDIR /home/node/app
+# WORKDIR /home/node/app
 
 # ADD packages/idealo-design/package.json .
 # add `/app/node_modules/.bin` to $PATH
@@ -14,7 +14,7 @@ RUN npm run build
 
 FROM node:14.16.1-alpine as runner
 
-WORKDIR /home/node/app
+# WORKDIR /home/node/app
 COPY --from=builder /home/node/app/dist .
 
 CMD ["node", "server.js"]
