@@ -9,9 +9,9 @@ WORKDIR /home/node/app
 
 # install app dependencies
 # COPY package.json ./
-COPY . ./
-RUN npm install
-RUN npm run build:production
+ADD . ./
+RUN node install
+RUN node run build
 
 # EXPOSE	8080
 
