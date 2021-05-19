@@ -1,7 +1,5 @@
-# pull official base image
-FROM node:14.16.1-alpine
+FROM node:14.16.1 as builder
 
-# set working directory
 WORKDIR /home/node/app
 
 # ADD packages/idealo-design/package.json .
@@ -12,11 +10,13 @@ WORKDIR /home/node/app
 # COPY package.json ./
 COPY . ./
 RUN npm install
+
+FROM node:14.16.1-alpine as runner
+
+WORKDIR /home/node/app
+COPY --from=builder /home/node/app .
+
 RUN npm run build
-
-# EXPOSE	8080
-
-# start app
 CMD ["npm", "/home/node/app", "run", "start:prod"]
 
 
