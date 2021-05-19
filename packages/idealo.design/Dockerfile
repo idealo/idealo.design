@@ -10,8 +10,8 @@ WORKDIR /home/node/app
 # install app dependencies
 # COPY package.json ./
 ADD . ./
-RUN node install
-RUN node run build
+RUN npm install
+RUN npx run build
 
 # EXPOSE	8080
 
