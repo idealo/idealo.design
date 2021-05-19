@@ -2,14 +2,10 @@ import React from 'react';
 import { create } from "react-test-renderer"
 import Search from '../ui/components/Header/Search';
 import {ListView}from "../ui/pages/BlogPage/ListView";
-import {shallow}  from 'enzyme';
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import {withRouter} from "react-router";
 
 it('login renders correctly', () => {
-    const logoutTest = create(<Search/>);
-    expect(logoutTest.toJSON()).toMatchSnapshot();
+    const loginTest = create(<Search/>);
+    expect(loginTest.toJSON()).toMatchSnapshot();
 });
 
 it('logout renders correctly', done => {
@@ -27,47 +23,44 @@ it('logout renders correctly', done => {
 });
 
 //when user is logged in -> user sees new blogpost button
-it('new blogpost button is shown', done => {
-    //Enzyme.configure({ adapter: new Adapter() });
-    /*jest.mock('react-router-dom', () => ({
-        useParams: jest.fn().mockReturnValue({ slug: '' }),
-    }));*/
-    // const listView = shallow(<ListView />);
+it('new blogpost button is shown since user is logged in', done => {
     try {
         const listView = create(<ListView />);
         const instance = listView.getInstance();
-        expect(instance).toMatchSnapshot();
+        expect(instance.state.userInfo.status).toString().match('NOT_LOGGED_IN');
+        instance.setState({userInfo: {
+                "status":"LOGGED_IN",
+                "user":{
+                    "@odata.context":null,
+                    "businessPhones":[],
+                    "displayName":null,
+                    "givenName":null,
+                    "jobTitle":null,
+                    "mail":null,
+                    "mobilePhone":null,
+                    "officeLocation":null,
+                    "preferredLanguage":null,
+                    "surname":null,
+                    "userPrincipalName":null,
+                    "id":null}
+            }});
+        expect(instance.state.userInfo.status).toString().match('LOGGED_IN');
+        expect(listView.toJSON()).toMatchSnapshot();
         done();
     }catch(error){
         done(error)
     }
-
-
-
 });
 
-/*Enzyme.configure({ adapter: new Adapter() });
-
-describe('new blogpost button is shown', () => {
-
-    jest.mock('react-router', () => ({
-        ...jest.requireActual('react-router'),
-        useParams: jest.fn().mockReturnValue({ slug: '' }),
-    }));
-
-    it('renders', () => {
-        const wrapper = shallow(<ListView />);
-        expect(wrapper).toBeTruthy();
-    });
-
-});*/
-
-/*it('new blogpost button is not shown', () => {
-    const listView = create(<ListView />);
-    const instance = listView.getInstance();
-    console.log(instance)
-    expect(true).toBeTruthy();
-
-});*/
-
-// when user is logged in -> user sees edit button
+// when user is not logged in -> user does not see edit button
+it('new blogpost button is not shown since user is logged out', done => {
+    try {
+        const listView = create(<ListView />);
+        const instance = listView.getInstance();
+        expect(instance.state.userInfo.status).toString().match('NOT_LOGGED_IN');
+        expect(listView.toJSON()).toMatchSnapshot();
+        done();
+    }catch(error){
+        done(error)
+    }
+});

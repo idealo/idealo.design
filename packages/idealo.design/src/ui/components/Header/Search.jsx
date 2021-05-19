@@ -2,7 +2,7 @@ import React from "react";
 import s from "./Header.module.scss";
 import CloseIco from "./ico_cross_circle_outline.svg";
 import MagnifierIco from "./ico_search.svg";
-import {fetchUserInfo} from "../../pages/BlogPage/data";
+import { fetchUserInfo } from "../../pages/BlogPage/data";
 import withStyles from "isomorphic-style-loader/withStyles";
 
 class Search extends React.Component {
