@@ -3,6 +3,7 @@ FROM node:13.12.0-alpine
 
 # set working directory
 WORKDIR /home/node/app
+ADD . /home/node/app
 
 # add `/app/node_modules/.bin` to $PATH
 # ENV PATH /app/node_modules/.bin:$PATH
@@ -17,14 +18,6 @@ RUN npx run build
 
 # start app
 CMD ["npm", "--prefix", "/home/node/app", "run", "start:prod"]
-
-
-
-
-
-
-
-
 
 
 
