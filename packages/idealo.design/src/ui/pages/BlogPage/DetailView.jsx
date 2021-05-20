@@ -133,12 +133,12 @@ export class BlogDetailView extends React.Component {
                     <img alt="" src={this.state.blogpost.image} />
                 </div>
                 <div className={s.ButtonNavigation}>
-                    {this.state.blogpost.previouspost && (<Link onClick={this.scrollToTop} className={s.ButtonPrevious} to={'/blog/' + this.state.blogpost.previouspost}>
+                    {this.state.blogpost.previouspost && (<a href={`/blog/${this.state.blogpost.previouspost}`} onClick={this.scrollToTop} className={s.ButtonPrevious}>
                         <span>Previous</span>
-                    </Link>)}
-                    {this.state.blogpost.nextpost && (<Link onClick={this.scrollToTop} className={s.ButtonNext} to={'/blog/' + this.state.blogpost.nextpost}>
+                    </a>)}
+                    {this.state.blogpost.nextpost && (<a href={`/blog/${this.state.blogpost.nextpost}`} onClick={this.scrollToTop} className={s.ButtonNext}>
                         <span>Next</span>
-                    </Link>)}
+                    </a>)}
                 </div>
             </div>
         );

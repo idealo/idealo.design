@@ -1,6 +1,87 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`mock-up blogposts gets rendered and displayed correcly in the listview 1`] = `
+exports[`A mock-up blogpost gets rendered and displayed correctly in the DetailView 1`] = `
+<div
+  className="ContentBox"
+>
+  <div
+    className="Menu"
+  >
+    <button
+      onClick={[Function]}
+    >
+      Go Back
+    </button>
+    <div>
+       
+    </div>
+  </div>
+  <div
+    className="ContentDetailView"
+  >
+    <div
+      className="SocialMediaIcons"
+    >
+      <a
+        href="mailto:mock-up-posts@gmail.com"
+      >
+        <img
+          alt=""
+          src="https://img.icons8.com/doodle/48/000000/email-sign.png"
+        />
+      </a>
+    </div>
+    <h2
+      className="blogpostTitle"
+    >
+      A mockup blogpost
+    </h2>
+    <div
+      className="Autor"
+    >
+      Mock-up Post Author
+    </div>
+    <h5
+      className="blogpostDate"
+    >
+      20.1.2021 um 16:46 Uhr
+    </h5>
+    <p>
+      Just some simple mockup text!
+    </p>
+    
+
+    <img
+      alt=""
+      src="https://s12.directupload.net/images/210212/bd5j6kn8.jpg"
+    />
+  </div>
+  <div
+    className="ButtonNavigation"
+  >
+    <a
+      className="ButtonPrevious"
+      href="/blog/mein-erstes-mal-mit-react"
+      onClick={[Function]}
+    >
+      <span>
+        Previous
+      </span>
+    </a>
+    <a
+      className="ButtonNext"
+      href="/blog/docker"
+      onClick={[Function]}
+    >
+      <span>
+        Next
+      </span>
+    </a>
+  </div>
+</div>
+`;
+
+exports[`mock-up blogposts gets rendered and displayed correctly in the listview 1`] = `
 <div>
   <div>
      
