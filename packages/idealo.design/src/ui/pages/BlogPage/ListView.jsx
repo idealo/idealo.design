@@ -3,8 +3,6 @@ import React from 'react';
 import withStyles from 'isomorphic-style-loader/withStyles'
 
 import {fetchList, fetchPostsByCategorySlug, fetchUserInfo} from './data';
-import { Link, useParams, useHistory } from "react-router-dom";
-
 import s from './Blogpage.module.scss';
 import draftToHtml from '../../../vendor/draftjs-to-html';
 import { htmlToText } from 'html-to-text';
@@ -24,6 +22,9 @@ export class ListView extends React.Component{
     }
 
     async componentDidMount() {
+        this.setState({
+            userInfo: await fetchUserInfo()
+        })
         await this.updateListView();
     }
 
@@ -31,6 +32,10 @@ export class ListView extends React.Component{
         if (prevProps.match.params.slug !== this.props.match.params.slug) {
             await this.updateListView();
         }
+    }
+
+    componentWillUnmount() {
+        //window.document.removeEventListener('keyup', this.handleOnKeyUp)
     }
 
     async updateListView(){
@@ -45,9 +50,6 @@ export class ListView extends React.Component{
                     list: await fetchList()
                 })
             }
-            this.setState({
-                userInfo: await fetchUserInfo()
-            })
         }catch(error){
 
         }
