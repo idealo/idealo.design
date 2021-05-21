@@ -79,7 +79,7 @@ export class ListView extends React.Component{
                         padding: '10px 30px',
                         textAlign: 'center',
                         fontSize: '14px',
-                    }} onClick={this.handleNewPost}>New Post</button>
+                    }} onClick={this.handleNewPost} title="newPostButton">New Post</button>
                     : <div> </div>}
 
                 <div style={{ clear: 'both' }}/>
