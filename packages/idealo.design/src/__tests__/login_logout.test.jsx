@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, render, screen} from "@testing-library/react"
+import {fireEvent, render, screen, waitFor, waitForElementToBeRemoved} from "@testing-library/react"
 import '@testing-library/jest-dom/extend-expect';
 import Search from '../ui/components/Header/Search';
 import { fetchUserInfo } from "../ui/pages/BlogPage/data";
@@ -8,7 +8,7 @@ jest.mock('../ui/pages/BlogPage/data', () => {
     return { fetchUserInfo: jest.fn() };
 });
 
-test('mocks the login process', async () => {
+test('mocks the logout process', async () => {
     const userInfo = {
         "status":"LOGGED_IN",
         "user":{
@@ -25,21 +25,24 @@ test('mocks the login process', async () => {
             "userPrincipalName":null,
             "id":null}
     }
-    fetchUserInfo.mockReturnValue({userInfo})
+    fetchUserInfo.mockReturnValue(userInfo)
 
-    //the component gets rendered
     render(<Search />)
 
     //login button is not there
-    const loginButton = screen.getByTitle("loginButton");
-    expect(loginButton).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.getByTitle("loginButton"));
 
-    //user clicks on login button
-    fireEvent.click(loginButton);
+    //fetch the logout button
+    const logoutButton = screen.getByTitle("logoutButton");
 
-    //a login prompt is shown
+    //simulate user clicking on the logout button
+    fireEvent.click(logoutButton);
 
-    //this test should fail!!!
+    //expects logout button to be removed
+    // await waitForElementToBeRemoved(() => logoutButton);
+
+    //expects login to be there
+    expect(screen.getByTitle("loginButton")).toBeInTheDocument();
 });
 
 /*
