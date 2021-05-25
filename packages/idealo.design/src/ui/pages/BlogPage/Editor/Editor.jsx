@@ -309,11 +309,11 @@ export class RichTextEditor extends React.Component {
       <>
         {this.mode === 'EDIT'
          ? <h1>Edit blogpost</h1>
-         : <h1>Create blogpost</h1>}
+         : <h1 title="createHeading">Create blogpost</h1>}
 
         <div className={s.InputFields}>
-          <input className={this.state.error['title-empty'] ? s.empty : '' || this.state.error['title-value'] ? s.empty : ''} onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
-          <form name="category" className="select-container">
+          <input className={this.state.error['title-empty'] ? s.empty : '' || this.state.error['title-value'] ? s.empty : ''} onChange={this.handleChange} name="title" title="titleInput" value={this.state.title} placeholder="Title"/>
+          <form name="category" className="select-container" title="categorySelect">
             <CreatableSelect
                 getOptionLabel={option => option.categorydisplayvalue}
                 getOptionValue={option => option.categoryslug}
@@ -340,7 +340,7 @@ export class RichTextEditor extends React.Component {
             editorState={editorState}
             onToggle={this.toggleInlineStyle}
           />
-          <div onClick={this.focus}>
+          <div onClick={this.focus} title="editorInputField">
             <Editor
               blockStyleFn={getBlockStyle}
               customStyleMap={styleMap}

@@ -29,19 +29,14 @@ test('mocks the logout process', async () => {
 
     render(<Search />)
 
-    //login button is not there
     await waitForElementToBeRemoved(() => screen.getByTitle("loginButton"));
 
-    //fetch the logout button
     const logoutButton = screen.getByTitle("logoutButton");
 
-    //simulate user clicking on the logout button
     fireEvent.click(logoutButton);
 
-    //expects logout button to be removed
-    // await waitForElementToBeRemoved(() => logoutButton);
+    render(<Search />)
 
-    //expects login to be there
     expect(screen.getByTitle("loginButton")).toBeInTheDocument();
 });
 
