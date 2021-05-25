@@ -15,7 +15,7 @@ export class DetailView extends React.Component {
         this.state = {
             history: history,
             userInfo :[],
-            blogpost: {author: {}},
+            blogpost: {},
             slug : null
         }
 
@@ -130,7 +130,7 @@ export class DetailView extends React.Component {
                     </div>
                     <h5 className={s.blogpostDate}>{datetime}</h5>
                     {reactElement}
-                    <img alt="" src={this.state.blogpost.image} />
+                    <img aria-label='blogpostImage' alt="" src={this.state.blogpost.image} />
                 </div>
                 <div className={s.ButtonNavigation}>
                     {this.state.blogpost.previouspost && (<a href={`/blog/${this.state.blogpost.previouspost}`} onClick={this.scrollToTop} className={s.ButtonPrevious}>
