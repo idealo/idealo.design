@@ -8,7 +8,7 @@ jest.mock('../ui/pages/BlogPage/data', () => {
     return { fetchUserInfo: jest.fn(), fetchSinglePost: jest.fn() };
 });
 
-test('mockup blogpost gets rendered in detailView', async () => {
+test('detailView gets rendered with content and buttons', async () => {
     const userInfo = {
         "status":"LOGGED_IN",
         "user":{
@@ -62,26 +62,23 @@ test('mockup blogpost gets rendered in detailView', async () => {
 
     const mockedParams = {
         match: { params: { slug: 'Einstieg-in-die-Welt-der-Datenbanken' } },
-        navigation: ''
     };
 
     render(<DetailView {...mockedParams} />)
 
     await waitFor(() => {
-        const blogpostTitleValue = screen.getByText("A mockup blogpost")
-        expect(blogpostTitleValue).toBeInTheDocument()
+        expect(screen.getByText("A mockup blogpost")).toBeInTheDocument()
 
-        const blogpostAuthorValue = screen.getByText("Mock-up Author")
-        expect(blogpostAuthorValue).toBeInTheDocument()
+        expect(screen.getByText("Mock-up Author")).toBeInTheDocument()
 
-        const blogpostDate = screen.getByText("20.1.2021 um 16:46 Uhr")
-        expect(blogpostDate).toBeInTheDocument()
+        expect(screen.getByText("20.1.2021 um 16:46 Uhr")).toBeInTheDocument()
 
-        const blogpostContent = screen.getByText("Just some simple mockup text!")
-        expect(blogpostContent).toBeInTheDocument()
+        expect(screen.getByText("Just some simple mockup text!")).toBeInTheDocument()
 
         const blogpostImage = screen.getByRole('img', { name: 'blogpostImage'})
         expect(blogpostImage).toBeInTheDocument()
         expect(blogpostImage.src).toContain('https://s12.directupload.net/images/210212/bd5j6kn8.jpg')
+
+        expect(screen.getByTitle("editButton")).toBeInTheDocument()
     })
 })
