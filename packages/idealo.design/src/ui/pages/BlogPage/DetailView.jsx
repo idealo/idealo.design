@@ -6,7 +6,7 @@ import s from './Blogpage.module.scss'
 import {fetchSinglePost, fetchUserInfo} from './data'
 import {withRouter} from "react-router";
 
-export class BlogDetailView extends React.Component {
+export class DetailView extends React.Component {
 
     constructor(props) {
         super(props);
@@ -113,7 +113,7 @@ export class BlogDetailView extends React.Component {
                 <div className={s.Menu}>
                     <button onClick={this.goBack}>Go Back</button>
                     {this.state.userInfo.status === 'LOGGED_IN'
-                        ? <button onClick={this.handlePostEdit}>Edit</button> : <div> </div>}
+                        ? <button title="editButton" onClick={this.handlePostEdit}>Edit</button> : <div> </div>}
                 </div>
 
                 <div className={s.ContentDetailView}>
@@ -145,5 +145,5 @@ export class BlogDetailView extends React.Component {
     }
 }
 
-export default withRouter(BlogDetailView);
+export default withRouter(DetailView);
 
