@@ -53,7 +53,7 @@ or
 
   `nvm install node`
 
-**Make sure your node version >=13.9.0 <=14.17.0!**
+**Make sure your node version is between 13.9.0 and 14.17.0!**
 
 Check for your node version with: `node -v`or `nvm version`
 Change your node version with: `nvm install v<version>`
