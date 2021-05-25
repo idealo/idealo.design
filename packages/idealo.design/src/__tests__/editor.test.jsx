@@ -19,7 +19,8 @@ jest.mock('../ui/pages/BlogPage/Editor/Editor', () => {
 test('editor is rendered correctly when the mode is create', () => {
 
     const mockedParams = {
-        match: { params: { slug: '' } }
+        match: { params: { slug: '' } },
+        history: { block: jest.fn() }
     };
 
     render(<RichTextEditor {...mockedParams} />)
