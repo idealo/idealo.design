@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import ReactModal from 'react-modal';
 
 import { withRouter } from 'react-router'
@@ -355,8 +355,8 @@ export class RichTextEditor extends React.Component {
           </div>
         </div>
         <div className={s['newBlogPostButtons']}>
-          <button className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
-          <button className={s['CancelButton']} onClick={this.handleCancellation}>Cancel</button>
+          <button title='submitButton' className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
+          <button title='cancelButton' className={s['CancelButton']} onClick={this.handleCancellation}>Cancel</button>
         </div>
           <Prompt
               show={this.state.isPromptOpen}
