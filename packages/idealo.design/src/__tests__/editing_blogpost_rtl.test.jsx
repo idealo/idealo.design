@@ -6,17 +6,17 @@ import {
     waitFor,
 } from "@testing-library/react"
 import '@testing-library/jest-dom/extend-expect';
-import { DetailView } from "../../ui/pages/BlogPage/DetailView";
-import { fetchUserInfo, fetchSinglePost } from "../../ui/pages/BlogPage/data";
-import { RichTextEditor } from "../../ui/pages/BlogPage/Editor/Editor";
+import { DetailView } from "../ui/pages/BlogPage/DetailView";
+import { fetchUserInfo, fetchSinglePost } from "../ui/pages/BlogPage/data";
+import { RichTextEditor } from "../ui/pages/BlogPage/Editor/Editor";
 
-jest.mock('../../ui/pages/BlogPage/data', () => {
+jest.mock('../ui/pages/BlogPage/data', () => {
     return { fetchUserInfo: jest.fn(), fetchSinglePost: jest.fn(), fetchDistinctCategories: jest.fn() };
 });
 
-jest.mock('../../ui/pages/BlogPage/Editor/Editor', () => {
+jest.mock('../ui/pages/BlogPage/Editor/Editor', () => {
     return {
-        ...jest.requireActual('../../ui/pages/BlogPage/Editor/Editor'),
+        ...jest.requireActual('../ui/pages/BlogPage/Editor/Editor'),
         handleSubmit: jest.fn(),
         handleCancellation: jest.fn()
     };
