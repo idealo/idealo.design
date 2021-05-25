@@ -33,6 +33,7 @@ Here are the steps to run this project on your local machine:
 ### 1. Cloning the project
 
 `git clone https://github.com/idealo/nwp`
+- change into the */nwp* directory
 
 ### 2. Installing npm if not already installed
 
@@ -61,7 +62,7 @@ Use `docker run -d -p 6379:6379 -t redis` to run redis key-value database.
 ### 5. Installing webpack
 
 - change into the */packages/idealo.design* directory
-
+- run `npm install`
 - run `npx webpack`
 
 ### 6. Starting the server
