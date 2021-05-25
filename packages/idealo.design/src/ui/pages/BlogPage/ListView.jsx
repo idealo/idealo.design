@@ -93,7 +93,7 @@ export class ListView extends React.Component{
                             <h2 title='blogpostTitle' className={s.blogpostTitle}>
                                 <a href={`/blog/${blogpost.slug}`}>{blogpost.title}</a>
                             </h2>
-                            <div><img alt="" src={blogpost.image}/>
+                            <div title='blogpostPreview'><img alt="" src={blogpost.image}/>
                                 {this.getReactElement(blogpost.blogpostcontent)}
                             </div>
                         </div>
