@@ -1,15 +1,83 @@
-# 🚀 Welcome to your new awesome project!
+![GitHub Logo](../../idealo_Design_System_icon.png)
 
-This project has been created using **webpack scaffold**, you can now run
+# idealo Next Web Platform
 
-```
-npm run build
-```
+**Version 1.0.0**
+
+As part of the **idealo Design System**, the **Next Web Platform** is a marketing-website created for designers and developers at idealo to exchange ideas and problem-solutions about the **idealo Design System**.
+
+---
+
+### Contributors
+
+- Nicolas Forgerit
+- Eda Güngör
+- Grace Dodi
+- Hai Trang Vu Thi
+- Julia Schafferus
+- Lilit Harutyunyan
+- Pede Mahulomé
+- Bettina Müller
+- Lara-Sumru Kiyicioglu
+- Iuliia Romanova
+- Svenja Krauß
+- Esra Oezkan
+- Lucia Feddersen
+
+
+---
+## Installation
+
+Here are the steps to run this project on your local machine:
+
+### 1. Cloning the project
+
+`git clone https://github.com/idealo/nwp`
+
+### 2. Installing npm if not already installed
+
+`npm install`
+
+**Make sure you are using the latest version of npm!**
+
+Check for your npm version with: `npm --version`
+
+### 3. Installing node.js if not already installed
+
+- use the node installer found at https://nodejs.org/en/download/
 
 or
 
-```
-yarn build
-```
+- use nvm to install
 
-to bundle your application
+  `nvm install node`
+
+### 4. Installing and running docker
+
+Install docker by following instructions found on the official docker website https://docs.docker.com/engine/install/.
+
+Use `docker run -d -p 6379:6379 -t redis` to run redis key-value database.
+
+### 5. Installing webpack
+
+- change into the */packages/idealo.design* directory
+
+- run `npx webpack`
+
+### 6. Starting the server
+
+- nagivate into the */dist* directory
+
+- run the node server: `node server.js`
+
+**Success!** - **You can now find idealo Design System under `localhost:8080`**
+
+--- 
+
+### License & copyright
+
+information about license and copyright  
+
+ 
+
+ 
