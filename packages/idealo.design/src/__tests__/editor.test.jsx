@@ -11,10 +11,10 @@ test('editor is rendered correctly when the mode is create', () => {
 
     render(<RichTextEditor {...mockedParams} />)
 
-    const submitButton = screen.getByRole('button', { name: 'Submit'})
+    const submitButton = screen.getByRole('button', { name: 'submitButton'})
     expect(submitButton).toBeInTheDocument()
 
-    const cancelButton = screen.getByRole('button', { name: 'Cancel'})
+    const cancelButton = screen.getByRole('button', { name: 'cancelButton'})
     expect(cancelButton).toBeInTheDocument()
 
     const editorHeading = screen.getByTitle("createHeading")
