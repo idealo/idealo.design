@@ -53,6 +53,11 @@ or
 
   `nvm install node`
 
+**Make sure your node version >=13.9.0 <=14.17.0!**
+
+Check for your node version with: `node -v`or `nvm version`
+Change your node version with: `nvm install v<version>`
+
 ### 4. Installing and running docker
 
 Install docker by following instructions found on the official docker website https://docs.docker.com/engine/install/.
