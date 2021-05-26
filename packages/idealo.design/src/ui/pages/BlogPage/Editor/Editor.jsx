@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import ReactModal from 'react-modal';
 
 import { withRouter } from 'react-router'
@@ -12,7 +12,7 @@ import { fetchSinglePost, updateSinglePost, fetchDistinctCategories} from '../da
 import CreatableSelect from 'react-select/creatable';
 import slugify from "slugify";
 
-class RichTextEditor extends React.Component {
+export class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
 
@@ -309,11 +309,11 @@ class RichTextEditor extends React.Component {
       <>
         {this.mode === 'EDIT'
          ? <h1>Edit blogpost</h1>
-         : <h1>Create blogpost</h1>}
+         : <h1 title="createHeading">Create blogpost</h1>}
 
         <div className={s.InputFields}>
-          <input className={this.state.error['title-empty'] ? s.empty : '' || this.state.error['title-value'] ? s.empty : ''} onChange={this.handleChange} name="title" value={this.state.title} placeholder="Titel"/>
-          <form name="category" className="select-container">
+          <input className={this.state.error['title-empty'] ? s.empty : '' || this.state.error['title-value'] ? s.empty : ''} onChange={this.handleChange} name="title" title="titleInput" value={this.state.title} placeholder="Title"/>
+          <form name="category" className="select-container" title="categorySelect">
             <CreatableSelect
                 getOptionLabel={option => option.categorydisplayvalue}
                 getOptionValue={option => option.categoryslug}
@@ -340,7 +340,7 @@ class RichTextEditor extends React.Component {
             editorState={editorState}
             onToggle={this.toggleInlineStyle}
           />
-          <div onClick={this.focus}>
+          <div onClick={this.focus} title="editorInputField">
             <Editor
               blockStyleFn={getBlockStyle}
               customStyleMap={styleMap}
@@ -355,8 +355,8 @@ class RichTextEditor extends React.Component {
           </div>
         </div>
         <div className={s['newBlogPostButtons']}>
-          <button className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
-          <button className={s['CancelButton']} onClick={this.handleCancellation}>Cancel</button>
+          <button title='submitButton' className={s['SubmitButton']} onClick={this.handleSubmit}>Submit</button>
+          <button title='cancelButton' className={s['CancelButton']} onClick={this.handleCancellation}>Cancel</button>
         </div>
           <Prompt
               show={this.state.isPromptOpen}

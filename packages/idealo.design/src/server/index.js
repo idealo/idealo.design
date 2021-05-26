@@ -23,6 +23,8 @@ import {
   storeSinglePost,
   updateSinglePost,
   fetchDistinctCategories,
+  deleteSinglePost,
+  archiveSinglePost
 } from './db';
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
@@ -199,6 +201,19 @@ app.put('/api/blogposts', isAuthenticated, async (req, res) => {
   
   return res.json(createdBlogpost);
 });
+
+
+app.delete('/api/blogposts/delete', isAuthenticated, async (req,res) => {
+  const blogpost = req.body;
+  const deletedBlogpost = await deleteSinglePost(blogpost)
+  return res.json(deletedBlogpost)
+})
+
+app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
+  const blogpost = req.body;
+  const archiveBlogpost = await archiveSinglePost(blogpost);
+  return res.json(archiveBlogpost)
+})
 
 app.listen(PORT, '0.0.0.0',() => {
   console.log(` -> 0.0.0.0:${PORT}`)

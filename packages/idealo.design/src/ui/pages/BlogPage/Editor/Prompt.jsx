@@ -21,8 +21,17 @@ export default function PromptSuccess(props) {
               <p>{props.message}</p>
           </header>
           <footer>
-              <button onClick={props.onHide}>Close</button>
-              <button onClick={props.onLeave}>Yes</button>
+              {props.message === 'Do you want to delete or archive that post?'
+                  ?<div>
+                      <button onClick={props.onCancel}>Close</button>
+                      <button onClick={props.onArchive}>Archive</button>
+                      <button onClick={props.onDelete} title='promptDeleteButton'>Delete</button>
+                  </div>:
+                  <div>
+                      <button onClick={props.onHide}>Close</button>
+                      <button onClick={props.onLeave}>Yes</button>
+                  </div>
+              }
           </footer>
 
       </ReactModal>
