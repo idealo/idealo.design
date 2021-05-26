@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactModal from 'react-modal'
 import draftToHtml from '../../../vendor/draftjs-to-html'
 import HtmlToReact from 'html-to-react';
 import Prompt from './Editor/Prompt';
@@ -40,6 +41,7 @@ export class DetailView extends React.Component {
         this.setState( {
             userInfo : await fetchUserInfo()
         })
+        ReactModal.setAppElement('body');
     }
 
     async componentDidUpdate(prevProps) {
@@ -136,9 +138,9 @@ export class DetailView extends React.Component {
       <div className={s.Menu}>
         <button onClick={this.goBack}>Go Back</button>
               {this.state.userInfo.status === 'LOGGED_IN'
-                  ? <button onClick={this.handlePopup}>Delete</button> : <div> </div>}
+                  ? <button onClick={this.handlePopup} title='deleteButton'>Delete</button> : <div> </div>}
               {this.state.userInfo.status === 'LOGGED_IN'
-                  ? <button onClick={this.handlePostEdit}>Edit</button> : <div> </div>}
+                  ? <button onClick={this.handlePostEdit} title='editButton'>Edit</button> : <div> </div>}
       </div>
 
       <div className={s.ContentDetailView}>

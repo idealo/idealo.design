@@ -25,7 +25,7 @@ export default function PromptSuccess(props) {
                   ?<div>
                       <button onClick={props.onCancel}>Close</button>
                       <button onClick={props.onArchive}>Archive</button>
-                      <button onClick={props.onDelete}>Delete</button>
+                      <button onClick={props.onDelete} title='promptDeleteButton'>Delete</button>
                   </div>:
                   <div>
                       <button onClick={props.onHide}>Close</button>
