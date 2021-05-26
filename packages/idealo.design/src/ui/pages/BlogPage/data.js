@@ -1,8 +1,10 @@
+const fetch = require("node-fetch");
+
 // const API_BASE = 'http://localhost:8080';
 const API_BASE = '';
 
-export async function fetchList() {
-  const resp = await fetch(`${API_BASE}/api/blogposts`);
+export async function fetchList(base_url = API_BASE) {
+  const resp = await fetch(`${base_url}/api/blogposts`);
   const data = await resp.json();
   return data;
 }

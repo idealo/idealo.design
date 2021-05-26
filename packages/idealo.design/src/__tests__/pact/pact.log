@@ -1,0 +1,75 @@
+I, [2021-05-26T20:56:35.033437 #74692]  INFO -- : Registered expected interaction GET /api/blogposts
+D, [2021-05-26T20:56:35.033677 #74692] DEBUG -- : {
+  "description": "a request to list all blogposts",
+  "request": {
+    "method": "GET",
+    "path": "/api/blogposts"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+    },
+    "body": {
+      "json_class": "Pact::ArrayLike",
+      "contents": {
+        "id": 1,
+        "title": {
+          "json_class": "Pact::SomethingLike",
+          "contents": "Test title"
+        },
+        "categoryslug": {
+          "json_class": "Pact::SomethingLike",
+          "contents": "Test categoryslug"
+        },
+        "categorydisplayvalue": {
+          "json_class": "Pact::SomethingLike",
+          "contents": "Test categorydisplayvalue"
+        }
+      },
+      "min": 5
+    }
+  },
+  "metadata": null
+}
+I, [2021-05-26T20:56:35.035467 #74692]  INFO -- : Received request GET /api/blogposts
+D, [2021-05-26T20:56:35.035564 #74692] DEBUG -- : {
+  "path": "/api/blogposts",
+  "query": "",
+  "method": "get",
+  "headers": {
+    "Accept": "*/*",
+    "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+    "Accept-Encoding": "gzip,deflate",
+    "Connection": "close",
+    "Host": "localhost:4000",
+    "Version": "HTTP/1.1"
+  }
+}
+I, [2021-05-26T20:56:35.035987 #74692]  INFO -- : Found matching response for GET /api/blogposts
+D, [2021-05-26T20:56:35.036104 #74692] DEBUG -- : {
+  "status": 200,
+  "headers": {
+  },
+  "body": {
+    "json_class": "Pact::ArrayLike",
+    "contents": {
+      "id": 1,
+      "title": {
+        "json_class": "Pact::SomethingLike",
+        "contents": "Test title"
+      },
+      "categoryslug": {
+        "json_class": "Pact::SomethingLike",
+        "contents": "Test categoryslug"
+      },
+      "categorydisplayvalue": {
+        "json_class": "Pact::SomethingLike",
+        "contents": "Test categorydisplayvalue"
+      }
+    },
+    "min": 5
+  }
+}
+I, [2021-05-26T20:56:35.042782 #74692]  INFO -- : Verifying - interactions matched
+I, [2021-05-26T20:56:35.046192 #74692]  INFO -- : Cleared interactions
+I, [2021-05-26T20:56:35.051931 #74692]  INFO -- : Writing pact for Provider to /Users/iuliia.romanova/Documents/GitHub/nwp/packages/idealo.design/src/__tests__/pact/consumer-provider.json
