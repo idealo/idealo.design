@@ -102,6 +102,10 @@
         &:last-child {
             margin-left: auto;
         }
+
+        &:nth-last-child(2){
+            margin-left: auto;
+        }
     }
 
 
