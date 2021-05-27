@@ -87,6 +87,25 @@ export async function updateSinglePost(blog) {
 
 export async function deleteSinglePost(blog) {
 
+    const sqlQuery = await sql.begin(async sql => {
+        const toBeDeletedBlogpost = await sql `select * from blogposts where blogposts.id=${blog.id}`
+
+        //put if else syntax here
+        //newest post is to be deleted
+        if(toBeDeletedBlogpost.previouspost == null){}
+
+        //oldest post is to be deleted
+        else if (toBeDeletedBlogpost.nextpost == null){}
+
+        //post in the middle is to be deleted
+        else {
+
+        }
+        //only one post is to be deleted -> no other posts in the database
+
+
+        return toBeDeletedBlogpost
+    })
 
 
     /*const start_ta = await sql `BEGIN;`;
@@ -94,6 +113,7 @@ export async function deleteSinglePost(blog) {
     const handlePreviousNext = await handleNextPreviousPost(blog);
     const stop_ta = await sql `COMMIT;`
     return [start_ta, deletePost, handlePreviousNext, stop_ta]*/
+    return sqlQuery
 }
 
 async function handleNextPreviousPost(blog){
