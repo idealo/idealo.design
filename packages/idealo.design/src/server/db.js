@@ -86,59 +86,77 @@ export async function updateSinglePost(blog) {
 }
 
 export async function deleteSinglePost(blog) {
-    
-        const [sqlQuery] = await sql.begin(async sql => {
+        const [deleteTransaction] = await sql.begin(async sql => {
             const [toBeDeletedBlogpost] = await sql `select * from blogposts where id=${blog.id}`
 
-            let updateDatabase;
-            let deletedBlogpost
-            //put if else syntax here
-            //newest post is to be deleted
+            let deletedBlogpost;
+            let updateNextDatabase;
+            let updatePreviousDatabase;
+
             if(toBeDeletedBlogpost.previouspost == null){
-                updateDatabase=await sql `update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.slug}`
+                updatePreviousDatabase=await sql `update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.slug}`
                 deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
             }
 
-            //oldest post is to be deleted
             else if(toBeDeletedBlogpost.nextpost == null){
-                updateDatabase=await sql `update blogposts set nextpost = null where nextpost = ${toBeDeletedBlogpost.slug}`
-                //deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
+                updateNextDatabase=await sql `update blogposts set nextpost = null where nextpost = ${toBeDeletedBlogpost.slug}`
+                deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
             }
 
-            //post in the middle is to be deleted
-            else if (toBeDeletedBlogpost.nextpost!= null && toBeDeletedBlogpost.previouspost!=null){
-                updateDatabase= await sql `update blogposts set previouspost = ${toBeDeletedBlogpost.previouspost} where previouspost = ${toBeDeletedBlogpost.slug}`
-                //deletedBlogpost= await sql `update blogposts set nextpost = ${toBeDeletedBlogpost.nextpost} where nextpost = ${toBeDeletedBlogpost.slug}`
-                //deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
+            else if (toBeDeletedBlogpost.nextpost && toBeDeletedBlogpost.previouspost){
+                updatePreviousDatabase = await sql `
+                    update blogposts 
+                    set previouspost = ${toBeDeletedBlogpost.previouspost} 
+                    where previouspost = ${toBeDeletedBlogpost.slug}`
+                updateNextDatabase = await sql `
+                    update blogposts 
+                    set nextpost = ${toBeDeletedBlogpost.nextpost} 
+                    where nextpost = ${toBeDeletedBlogpost.slug}`
+                deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
             }
             else {
                 deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
             }
 
-            return [deletedBlogpost, updateDatabase];
+            return [deletedBlogpost, updateNextDatabase, updatePreviousDatabase];
         })
-        return [sqlQuery]
-    
-}
-
-async function handleNextPreviousPost(blog){
-    /* if(blog.previouspost == null){
-        await sql `update blogposts set previouspost = null where previouspost = ${blog.slug}`
-        //await sql `update blogposts set nextpost = ${blog.nextpost} where nextpost = ${blog.slug}`
-    }
-    else if (blog.nextpost == null){
-        //await sql `update blogposts set previouspost = ${blog.previouspost} where previouspost = ${blog.slug}`
-        await sql `update blogposts set nextpost = null where nextpost = ${blog.slug}`
-    }else{
-        await sql `update blogposts set previouspost = ${blog.previouspost} where previouspost = ${blog.slug}`
-        await sql `update blogposts set nextpost = ${blog.nextpost} where nextpost = ${blog.slug}`
-    } */
+        return [deleteTransaction]
 }
 
 export async function archiveSinglePost(blog) {
-    /* const start_ta = await sql `BEGIN;`;
-    const archivePost = await sql `update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`
-    const handlePreviousNext = await handleNextPreviousPost(blog)
-    const stop_ta = await sql `COMMIT;`
-    return [start_ta, archivePost, handlePreviousNext, stop_ta] */
+    const [archiveTransaction] = await sql.begin(async sql => {
+        const [toBeArchivedBlogpost] = await sql `select * from blogposts where id=${blog.id}`
+
+        let archivedBlogpost;
+        let updateNextDatabase;
+        let updatePreviousDatabase;
+
+        if(toBeArchivedBlogpost.previouspost == null){
+            updatePreviousDatabase=await sql `update blogposts set previouspost = null where previouspost = ${toBeArchivedBlogpost.slug}`
+            archivedBlogpost=await sql `update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`
+        }
+
+        else if(toBeArchivedBlogpost.nextpost == null){
+            updateNextDatabase=await sql `update blogposts set nextpost = null where nextpost = ${toBeArchivedBlogpost.slug}`
+            archivedBlogpost=await sql `update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`
+        }
+
+        else if (toBeArchivedBlogpost.nextpost && toBeArchivedBlogpost.previouspost){
+            updatePreviousDatabase = await sql `
+                    update blogposts 
+                    set previouspost = ${toBeArchivedBlogpost.previouspost} 
+                    where previouspost = ${toBeArchivedBlogpost.slug}`
+            updateNextDatabase = await sql `
+                    update blogposts 
+                    set nextpost = ${toBeArchivedBlogpost.nextpost} 
+                    where nextpost = ${toBeArchivedBlogpost.slug}`
+            archivedBlogpost=await sql `update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`
+        }
+        else {
+            archivedBlogpost=await sql `update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`
+        }
+
+        return [archivedBlogpost, updateNextDatabase, updatePreviousDatabase];
+    })
+    return [archiveTransaction]
 }
