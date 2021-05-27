@@ -38,9 +38,8 @@ export async function storeSinglePost({
     blogpostcontent,
     isArchived = 0
 }) {
-
-    const start_ta = await sql `BEGIN;`;
-    const createPost = await sql`
+    const [storeSinglePostTransaction] = await sql.begin(async sql => {
+        const createPost = await sql`
         insert into blogposts (
           title,
           categoryDisplayValue,
@@ -61,17 +60,17 @@ export async function storeSinglePost({
           ${blogpostcontent},
           (select slug from blogposts where isArchived = 0 and date=(select max(date) from blogposts where isArchived= 0)),
           ${isArchived}
-        );`;
+        );`
 
-    const updatePost = await sql `
+        const updatePost = await sql `
         update blogposts
         set previouspost=${slug}
         where isArchived = 0 and date= (select max(date) from blogposts where isArchived= 0 and date<(select max(date) from blogposts))
         and slug not in (${slug});`
 
-    const stop_ta = await sql `COMMIT;`
-
-    return [start_ta,createPost,updatePost, stop_ta];
+        return [createPost, updatePost];
+    })
+    return [storeSinglePostTransaction]
 }
 
 export async function updateSinglePost(blog) {
