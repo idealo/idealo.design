@@ -86,40 +86,38 @@ export async function updateSinglePost(blog) {
 }
 
 export async function deleteSinglePost(blog) {
-    try{
+    
         const [sqlQuery] = await sql.begin(async sql => {
             const [toBeDeletedBlogpost] = await sql `select * from blogposts where id=${blog.id}`
-    
+
+            let updateDatabase;
+            let deletedBlogpost
             //put if else syntax here
+            //newest post is to be deleted
             if(toBeDeletedBlogpost.previouspost == null){
-                //newest post is to be deleted
-                await sql `update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.slug}`
-            }else if (toBeDeletedBlogpost.nextpost == null){
-                //oldest post is to be deleted
-                await sql `update blogposts set nextpost = null where nextpost = ${toBeDeletedBlogpost.slug}`
-            }else if (toBeDeletedBlogpost.nextpost!= null && toBeDeletedBlogpost.previouspost!=null){
-            //post in the middle is to be deleted
-                await sql `update blogposts set previouspost = ${toBeDeletedBlogpost.previouspost} where previouspost = ${toBeDeletedBlogpost.slug}`
-                await sql `update blogposts set nextpost = ${toBeDeletedBlogpost.nextpost} where nextpost = ${toBeDeletedBlogpost.slug}`
+                updateDatabase=await sql `update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.slug}`
+                deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
             }
-            //only one post is to be deleted -> no other posts in the database
-            await sql `delete from blogposts where slug = ${toBeDeletedBlogpost.id}`;
-            return [toBeDeletedBlogpost]
+
+            //oldest post is to be deleted
+            else if(toBeDeletedBlogpost.nextpost == null){
+                updateDatabase=await sql `update blogposts set nextpost = null where nextpost = ${toBeDeletedBlogpost.slug}`
+                //deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
+            }
+
+            //post in the middle is to be deleted
+            else if (toBeDeletedBlogpost.nextpost!= null && toBeDeletedBlogpost.previouspost!=null){
+                updateDatabase= await sql `update blogposts set previouspost = ${toBeDeletedBlogpost.previouspost} where previouspost = ${toBeDeletedBlogpost.slug}`
+                //deletedBlogpost= await sql `update blogposts set nextpost = ${toBeDeletedBlogpost.nextpost} where nextpost = ${toBeDeletedBlogpost.slug}`
+                //deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
+            }
+            else {
+                deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
+            }
+
+            return [deletedBlogpost, updateDatabase];
         })
         return [sqlQuery]
-
-    }catch(error){
-
-    }
-
-    
-
-
-    /*const start_ta = await sql `BEGIN;`;
-    const deletePost = await sql `delete from blogposts where slug = ${blog.slug}`;
-    const handlePreviousNext = await handleNextPreviousPost(blog);
-    const stop_ta = await sql `COMMIT;`
-    return [start_ta, deletePost, handlePreviousNext, stop_ta]*/
     
 }
 
