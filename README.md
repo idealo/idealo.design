@@ -1,4 +1,4 @@
-![GitHub Logo](../../idealo_Design_System_icon.png)
+![GitHub Logo](idealo_Design_System_icon.png)
 
 # idealo Next Web Platform
 [![CI](https://github.com/idealo/nwp/actions/workflows/docker_ci.yml/badge.svg)](https://github.com/idealo/nwp/actions/workflows/docker_ci.yml)
