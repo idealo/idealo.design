@@ -1,7 +1,7 @@
-const { Pact } = require('@pact-foundation/pact');
-const { like, eachLike } = require('@pact-foundation/pact').Matchers;
-const { fetchList, fetchUserInfo } = require('./data');
-const path = require('path');
+import { Pact, Matchers } from '@pact-foundation/pact'
+import { fetchList,fetchUserInfo } from './data'
+import path from 'path'
+const { eachLike, like } = Matchers
 
 const PORT = 4000;
 const URL = 'http://localhost:';
@@ -39,28 +39,6 @@ describe('Blogposts Service', () => {
                     },
                 });
 
-                provider.addInteraction({
-                    uponReceiving: 'a request to authenticate',
-                    withRequest: {
-                        method: 'GET',
-                        path: '/api/me',
-                    },
-                    willRespondWith: {
-                        status: 200,
-                        body: like(
-                            {
-
-                                status: like("LOGGED_IN"),
-                                user: {
-                                    displayName: like("Erika Mustermann"),
-                                    givenName: like("Erika"),
-                                    surname: like("Mustermann"),
-                                    id: like("9f7430e7-4e1a-45dd-a3b1-1af9c6d48a1d")
-                                }
-                            }
-                        ),
-                    },
-                });
             })
         );
 
@@ -72,14 +50,49 @@ describe('Blogposts Service', () => {
             expect(response[0].categorydisplayvalue).toBe('Test categorydisplayvalue');
         });
 
+
+        afterEach(() => provider.verify());
+        afterAll(() => provider.finalize());
+    });
+});
+
+describe('Blogposts Service', () => {
+    describe('When a request to list all blogposts is made', () => {
+        beforeAll(() =>
+            provider.setup().then(() => {
+                provider.addInteraction({
+                    uponReceiving: 'a request to authenticate',
+                    withRequest: {
+                        method: 'GET',
+                        path: '/api/me',
+                    },
+                    willRespondWith: {
+                        status: 200,
+                        body: like(
+                            {
+                                status: like("LOGGED_IN"),
+                                user: {
+                                    displayName: like("Jane Doe"),
+                                    givenName: like("Jane"),
+                                    surname: like("Doe"),
+                                    id: like("ABC1234")
+                                }
+                            }
+                        )
+                    }
+                });
+            })
+        );
+
         test('should return user data', async () => {
             const response = await fetchUserInfo(URL + PORT);
             console.log(response);
+            console.log(response.status);
             expect(response.status).toBe('LOGGED_IN');
-            expect(response.user.displayName).toBe('Erika Mustermann');
-            expect(response.user.givenName).toBe('Erika');
-            expect(response.user.surname).toBe('Mustermann');
-            expect(response.user.id).toBe('9f7430e7-4e1a-45dd-a3b1-1af9c6d48a1d');
+            expect(response.user.displayName).toBe('Jane Doe');
+            expect(response.user.givenName).toBe('Jane');
+            expect(response.user.surname).toBe('Doe');
+            expect(response.user.id).toBe('ABC1234');
         });
 
         afterEach(() => provider.verify());

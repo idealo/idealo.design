@@ -1,4 +1,4 @@
-import { Verifier } from'@pact-foundation/pact'
+import { Verifier } from '@pact-foundation/pact'
 import path from 'path'
 
 describe('Pact Verification', () => {
