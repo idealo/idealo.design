@@ -1,5 +1,5 @@
-const { Verifier } = require('@pact-foundation/pact');
-const path = require('path');
+import { Verifier } from'@pact-foundation/pact'
+import path from 'path'
 
 describe('Pact Verification', () => {
     test('should validate the expectations of our consumer', () => {
