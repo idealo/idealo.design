@@ -52,8 +52,8 @@ export async function fetchDistinctCategories() {
     return data;
 }
 
-export async function fetchUserInfo() {
-  const resp = await fetch( `${API_BASE}/api/me` );
+export async function fetchUserInfo(base_url = API_BASE) {
+  const resp = await fetch( `${base_url}/api/me` );
   const data = await resp.json();
 
   return data;
