@@ -1,5 +1,5 @@
-I, [2021-05-27T12:58:59.778034 #81149]  INFO -- : Registered expected interaction GET /api/blogposts
-D, [2021-05-27T12:58:59.778246 #81149] DEBUG -- : {
+I, [2021-05-28T12:38:57.229980 #11520]  INFO -- : Registered expected interaction GET /api/blogposts
+D, [2021-05-28T12:38:57.230186 #11520] DEBUG -- : {
   "description": "a request to list all blogposts",
   "request": {
     "method": "GET",
@@ -31,8 +31,8 @@ D, [2021-05-27T12:58:59.778246 #81149] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-05-27T12:58:59.779482 #81149]  INFO -- : Received request GET /api/blogposts
-D, [2021-05-27T12:58:59.779560 #81149] DEBUG -- : {
+I, [2021-05-28T12:38:57.232167 #11520]  INFO -- : Received request GET /api/blogposts
+D, [2021-05-28T12:38:57.232278 #11520] DEBUG -- : {
   "path": "/api/blogposts",
   "query": "",
   "method": "get",
@@ -45,8 +45,8 @@ D, [2021-05-27T12:58:59.779560 #81149] DEBUG -- : {
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-05-27T12:58:59.780049 #81149]  INFO -- : Found matching response for GET /api/blogposts
-D, [2021-05-27T12:58:59.780130 #81149] DEBUG -- : {
+I, [2021-05-28T12:38:57.232809 #11520]  INFO -- : Found matching response for GET /api/blogposts
+D, [2021-05-28T12:38:57.232952 #11520] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -70,6 +70,6 @@ D, [2021-05-27T12:58:59.780130 #81149] DEBUG -- : {
     "min": 5
   }
 }
-I, [2021-05-27T12:58:59.786541 #81149]  INFO -- : Verifying - interactions matched
-I, [2021-05-27T12:58:59.790215 #81149]  INFO -- : Cleared interactions
-I, [2021-05-27T12:58:59.796598 #81149]  INFO -- : Writing pact for Provider to /Users/iuliia.romanova/Documents/GitHub/nwp/packages/idealo.design/src/__tests__/pact/consumer-provider.json
+I, [2021-05-28T12:38:57.242976 #11520]  INFO -- : Verifying - interactions matched
+I, [2021-05-28T12:38:57.246463 #11520]  INFO -- : Cleared interactions
+I, [2021-05-28T12:38:57.251090 #11520]  INFO -- : Writing pact for Provider to /Library/WebServer/Documents/idealo/nwp/packages/idealo.design/src/__tests__/pact/consumer-provider.json
