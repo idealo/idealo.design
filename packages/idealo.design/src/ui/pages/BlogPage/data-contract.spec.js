@@ -1,8 +1,8 @@
-const { Pact } = require('@pact-foundation/pact');
-const { like, eachLike } = require('@pact-foundation/pact').Matchers;
-const { fetchList } = require('./data');
-const path = require('path');
+import { Pact, Matchers } from '@pact-foundation/pact'
+import { fetchList } from './data'
+import path from 'path'
 
+const { eachLike, like } = Matchers
 const PORT = 4000;
 const URL = 'http://localhost:';
 
