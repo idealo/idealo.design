@@ -9,7 +9,7 @@ export async function fetchList(base_url = API_BASE) {
   return data;
 }
 
-export async function updateSinglePost({ base_url = API_BASE,slug, post }, cb) {
+export async function updateSinglePost( base_url = API_BASE,slug, post , cb) {
   const body = JSON.stringify(post);
 
   const resp = await fetch(`${base_url}/api/blogposts`, {
@@ -70,10 +70,10 @@ export async function deleteSinglePost(post, base_url = API_BASE) {
     return post
 }
 
-export async function archiveSinglePost(post) {
+export async function archiveSinglePost(post,base_url = API_BASE) {
     const body = JSON.stringify(post);
 
-    await fetch(`${API_BASE}/api/blogposts/archive`,{
+    await fetch(`${base_url}/api/blogposts/archive`,{
         method: 'PUT',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body
