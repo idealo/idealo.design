@@ -1,5 +1,5 @@
 import { Pact, Matchers } from '@pact-foundation/pact'
-import {fetchList, fetchUserInfo, updateSinglePost, deleteSinglePost} from './data'
+import {fetchList, fetchUserInfo, updateSinglePost, deleteSinglePost, fetchDistinctCategories} from './data'
 import path from 'path'
 import {cb} from './Editor/Editor'
 const { eachLike, like } = Matchers
@@ -181,8 +181,6 @@ describe('Blogposts Service', () => {
 
         );
 
-
-
         test('should return update Blogpost', async () => {
             const response = await updateSinglePost({base_url: URL+PORT,slug:'test-test-test',post: mockedBlogpost},()=>{});
             console.log('response:',response);
@@ -192,3 +190,38 @@ describe('Blogposts Service', () => {
         afterAll(() => provider.finalize());
     });
 });
+
+describe('When a request to fetch distinct categories is made', () => {
+    beforeAll(() =>
+        provider.setup().then(() => {
+            provider.addInteraction({
+                uponReceiving: 'a request to fetch distinct categories',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/distinctCategories',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(
+                        {
+                            categorydisplayvalue: "Testing Category",
+                            categoryslug: "testing-category"
+                        },
+                        { min: 4 }
+                    )
+
+                }
+            });
+        })
+    );
+
+    test('should return categories', async () => {
+        const response = await fetchDistinctCategories(URL + PORT);
+        expect(response[0].categorydisplayvalue).toBe('Testing Category');
+        expect(response[0].categoryslug).toBe('testing-category');
+    });
+
+    afterEach(() => provider.verify());
+    afterAll(() => provider.finalize());
+});
+
