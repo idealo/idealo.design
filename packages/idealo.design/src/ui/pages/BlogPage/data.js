@@ -9,16 +9,16 @@ export async function fetchList(base_url = API_BASE) {
   return data;
 }
 
-export async function updateSinglePost({ slug, post }, cb) {
+export async function updateSinglePost({ base_url = API_BASE,slug, post }, cb) {
   const body = JSON.stringify(post);
 
-  const resp = await fetch(`${API_BASE}/api/blogposts`, {
+  const resp = await fetch(`${base_url}/api/blogposts`, {
         method: 'PUT',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body
       }
   ).then(function(response) {
-    cb();
+      cb();
     return response.json();
   });
 

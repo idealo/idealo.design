@@ -1,6 +1,7 @@
 import { Pact, Matchers } from '@pact-foundation/pact'
-import { fetchList,fetchUserInfo } from './data'
+import {fetchList, fetchUserInfo, updateSinglePost} from './data'
 import path from 'path'
+import {cb} from './Editor/Editor'
 const { eachLike, like } = Matchers
 
 const PORT = 4000;
@@ -93,6 +94,68 @@ describe('Blogposts Service', () => {
             expect(response.user.givenName).toBe('Jane');
             expect(response.user.surname).toBe('Doe');
             expect(response.user.id).toBe('ABC1234');
+        });
+
+        afterEach(() => provider.verify());
+        afterAll(() => provider.finalize());
+    });
+});
+
+const mockupBlogpost = {
+    "id":1111,
+    "title":"A mockup blogpost",
+    "nextpost":"docker",
+    "previouspost":"mein-erstes-mal-mit-react",
+    "categorydisplayvalue":"Docker",
+    "categoryslug":"docker",
+    "slug":"test-test-test",
+    "date":"2021-01-20T13:46:44.351Z",
+    "image":"https://s12.directupload.net/images/210212/bd5j6kn8.jpg",
+    "autor":"Mock-up Post Author",
+    "email":"mock-up-posts@gmail.com",
+    "instagram":null,
+    "twitter":null,
+    "github":null,
+    "facebook":null,
+    "blogpostcontent":{
+        "blocks":[{
+            "key":"3aovx",
+            "data":{},
+            "text":"Just some simple mockup text!",
+            "type":"unstyled",
+            "depth":0,
+            "entityRanges":[],
+            "inlineStyleRanges":[]
+        }],
+        "entityMap":{}
+    },
+    "isarchived":0
+}
+
+describe('Blogposts Service', () => {
+    describe('user updates a blogpost', () => {
+        beforeAll(() =>
+            provider.setup().then(() => {
+                provider.addInteraction({
+                    uponReceiving: 'a request to authenticate',
+                    withRequest: {
+                        method: 'PUT',
+                        path: '/api/blogposts',
+                    },
+                    willRespondWith: {
+                        status: 200,
+                        body: like(mockupBlogpost)
+                    }
+                });
+            })
+
+        );
+
+
+
+        test('should return update Blogpost', async () => {
+            const response = await updateSinglePost({base_url: URL+PORT,slug:'test-test-test',post: mockupBlogpost},()=>{});
+            console.log('response:',response);
         });
 
         afterEach(() => provider.verify());
