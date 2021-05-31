@@ -46,8 +46,8 @@ export async function fetchAllCategories() {
   return data;
 }
 
-export async function fetchDistinctCategories() {
-    const resp = await fetch(`${API_BASE}/api/distinctCategories`);
+export async function fetchDistinctCategories(base_url = API_BASE) {
+    const resp = await fetch(`${base_url}/api/distinctCategories`);
     const data = await resp.json();
     return data;
 }

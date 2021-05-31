@@ -1,7 +1,7 @@
-import {Matchers, Pact} from '@pact-foundation/pact'
-import {deleteSinglePost, fetchList, fetchUserInfo, updateSinglePost, archiveSinglePost} from './data'
+import { Pact, Matchers } from '@pact-foundation/pact'
+import {fetchList, fetchUserInfo, updateSinglePost, deleteSinglePost} from './data'
 import path from 'path'
-
+import {cb} from './Editor/Editor'
 const { eachLike, like } = Matchers
 
 const PORT = 4000;
@@ -44,7 +44,7 @@ describe('When a request to list all blogposts is made', () => {
 
     test('should return the correct data', async () => {
         const response = await fetchList(URL + PORT);
-        console.log('list data: ',response);
+        console.log(response);
         expect(response[0].title).toBe('Test title');
         expect(response[0].categoryslug).toBe('Test categoryslug');
         expect(response[0].categorydisplayvalue).toBe('Test categorydisplayvalue');
@@ -85,7 +85,8 @@ describe('When a request to get the current user', () => {
 
     test('should return user data', async () => {
         const response = await fetchUserInfo(URL + PORT);
-        console.log('user-data: ',response);
+        console.log(response);
+        console.log(response.status);
         expect(response.status).toBe('LOGGED_IN');
         expect(response.user.displayName).toBe('Jane Doe');
         expect(response.user.givenName).toBe('Jane');
@@ -150,7 +151,6 @@ describe('When a request to delete a blogposts is made', () => {
 
     test('should return user data', async () => {
         const response = await deleteSinglePost(mockedBlogpost, URL + PORT);
-        console.log('deleted blogpost',response)
         expect(response.id).toBe(1);
         expect(response.title).toBe('Mocked Blogpost');
         expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
@@ -162,64 +162,33 @@ describe('When a request to delete a blogposts is made', () => {
     afterAll(() => provider.finalize());
 });
 
-describe('user updates a blogpost', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
-            provider.addInteraction({
-                uponReceiving: 'a request to update a blogpost',
-                withRequest: {
-                    method: 'PUT',
-                    path: '/api/blogposts',
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: like(mockedBlogpost)
-                }
-            });
-        })
-    );
+describe('Blogposts Service', () => {
+    describe('user updates a blogpost', () => {
+        beforeAll(() =>
+            provider.setup().then(() => {
+                provider.addInteraction({
+                    uponReceiving: 'a request to authenticate',
+                    withRequest: {
+                        method: 'PUT',
+                        path: '/api/blogposts',
+                    },
+                    willRespondWith: {
+                        status: 200,
+                        body: like(mockedBlogpost)
+                    }
+                });
+            })
 
-    test('should return updated blogpost', async () => {
-        const response = await updateSinglePost(URL + PORT, '', mockedBlogpost,cb=>{});
-        console.log('updated blogpost:',response)
-        /*expect(response.id).toBe(1);
-        expect(response.title).toBe('Mocked Blogpost');
-        expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
-        expect(response.slug).toBe('mocked-blogpost');
-        expect(response.autor).toBe('Dummy author');*/
+        );
+
+
+
+        test('should return update Blogpost', async () => {
+            const response = await updateSinglePost({base_url: URL+PORT,slug:'test-test-test',post: mockedBlogpost},()=>{});
+            console.log('response:',response);
+        });
+
+        afterEach(() => provider.verify());
+        afterAll(() => provider.finalize());
     });
-
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});
-
-describe('user archives a blogpost', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
-            provider.addInteraction({
-                uponReceiving: 'a request to archive a blogpost',
-                withRequest: {
-                    method: 'PUT',
-                    path: '/api/blogposts/archive',
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: like(mockedBlogpost)
-                }
-            });
-        })
-    );
-
-    test('should return archived blogpost', async () => {
-        const response = await archiveSinglePost(mockedBlogpost, URL + PORT);
-        console.log('archived blogpost:',response)
-        /*expect(response.id).toBe(1);
-        expect(response.title).toBe('Mocked Blogpost');
-        expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
-        expect(response.slug).toBe('mocked-blogpost');
-        expect(response.autor).toBe('Dummy author');*/
-    });
-
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
 });
