@@ -1,7 +1,14 @@
 import { Pact, Matchers } from '@pact-foundation/pact'
-import {fetchList, fetchUserInfo, updateSinglePost, deleteSinglePost, archiveSinglePost} from './data'
+import {
+    fetchList,
+    fetchUserInfo,
+    updateSinglePost,
+    deleteSinglePost,
+    archiveSinglePost,
+    fetchPostsByCategorySlug,
+    fetchDistinctCategories
+} from './data'
 import path from 'path'
-import {cb} from './Editor/Editor'
 const { eachLike, like } = Matchers
 
 const PORT = 4000;
@@ -42,7 +49,7 @@ describe('When a request to list all blogposts is made', () => {
         })
     );
 
-    test('should return the correct data', async () => {
+    test('should return a list of five blogposts', async () => {
         const response = await fetchList(URL + PORT);
         console.log(response);
         expect(response[0].title).toBe('Test title');
@@ -131,38 +138,6 @@ const mockedBlogpost = {
     isarchived:0
 }
 
-describe('user updates a blogpost', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
-            provider.addInteraction({
-                uponReceiving: 'a request to update a blogpost',
-                withRequest: {
-                    method: 'PUT',
-                    path: '/api/blogposts',
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: like(mockedBlogpost)
-                }
-            });
-        })
-    );
-
-    test('should return user data', async () => {
-        const response = await updateSinglePost(URL+PORT, 'mocked-blogpost', mockedBlogpost,cb=>{});
-        console.log(response)
-        /*expect(response.id).toBe(1);
-        expect(response.title).toBe('Mocked Blogpost');
-        expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
-        expect(response.slug).toBe('mocked-blogpost');
-        expect(response.autor).toBe('Dummy author');*/
-    });
-
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});
-
-
 describe('When a request to delete a blogposts is made', () => {
     beforeAll(() =>
         provider.setup().then(() => {
@@ -180,13 +155,116 @@ describe('When a request to delete a blogposts is made', () => {
         })
     );
 
-    test('should return user data', async () => {
+    test('should return the deleted blogpost', async () => {
         const response = await deleteSinglePost(mockedBlogpost, URL + PORT);
         expect(response.id).toBe(1);
         expect(response.title).toBe('Mocked Blogpost');
         expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
         expect(response.slug).toBe('mocked-blogpost');
         expect(response.autor).toBe('Dummy author');
+    });
+
+    afterEach(() => provider.verify());
+    afterAll(() => provider.finalize());
+});
+
+
+describe('When a request to update a blogpost is made', () => {
+    beforeAll(() =>
+        provider.setup().then(() => {
+            provider.addInteraction({
+                uponReceiving: 'a request to update a blogpost',
+                withRequest: {
+                    method: 'PUT',
+                    path: '/api/blogposts',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: like(mockedBlogpost)
+                }
+            });
+        })
+    );
+
+    test('should return update Blogpost', async () => {
+        const response = await updateSinglePost(URL+PORT, 'mocked-blogpost', mockedBlogpost,cb=>{});
+        console.log(response)
+    });
+
+    afterEach(() => provider.verify());
+    afterAll(() => provider.finalize());
+});
+
+describe('When a request to fetch distinct categories is made', () => {
+    beforeAll(() =>
+        provider.setup().then(() => {
+            provider.addInteraction({
+                uponReceiving: 'a request to fetch distinct categories',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/distinctCategories',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(
+                        {
+                            categorydisplayvalue: "Testing Category",
+                            categoryslug: "testing-category"
+                        },
+                        { min: 4 }
+                    )
+
+                }
+            });
+        })
+    );
+
+    test('should return categories', async () => {
+        const response = await fetchDistinctCategories(URL + PORT);
+        expect(response[0].categorydisplayvalue).toBe('Testing Category');
+        expect(response[0].categoryslug).toBe('testing-category');
+    });
+
+    afterEach(() => provider.verify());
+    afterAll(() => provider.finalize());
+});
+
+describe('When a request to fetch a post by CategorySlug is made', () => {
+    beforeAll(() =>
+        provider.setup().then(() => {
+            provider.addInteraction({
+                uponReceiving: 'a request to fetch a post by CategorySlug',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/blogposts/:slug?',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(
+                        {
+                            id: 1,
+                            title: like("Test title"),
+                            categoryslug: like("Test CategorySlug"),
+                            categorydisplayvalue:like("Test CategoryDisplayValue")
+                        },
+                        { min: 2 }
+                    )
+
+                }
+            });
+        })
+    );
+
+    const categorySlug = "Test CategorySlug"
+
+    test('should posts by CategorySlug', async () => {
+        const response = await fetchPostsByCategorySlug(
+            {categorySlug},
+            URL + PORT
+        );
+        console.log(response)
+        /*expect(response[0].categorydisplayvalue).toBe('Testing Category');
+        expect(response[0].categoryslug).toBe('testing-category');*/
     });
 
     afterEach(() => provider.verify());

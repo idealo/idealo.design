@@ -32,10 +32,10 @@ export async function fetchSinglePost({ slug }) {
   return data.pop();
 }
 
-export async function fetchPostsByCategorySlug({ categorySlug }) {
+export async function fetchPostsByCategorySlug({ categorySlug }, base_url = API_BASE) {
   if (!categorySlug) return [];
 
-  const resp = await fetch(`${API_BASE}/api/blogposts?byCategorySlug=${categorySlug}`);
+  const resp = await fetch(`${base_url}/api/blogposts?byCategorySlug=${categorySlug}`);
   const data = await resp.json();
   return data;
 }
