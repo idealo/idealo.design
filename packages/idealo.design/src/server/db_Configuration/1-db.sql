@@ -1,4 +1,3 @@
-
 create table if not exists blogposts (
     id integer not null,
     title varchar(255) not null,
