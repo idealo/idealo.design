@@ -40,8 +40,8 @@ export async function fetchPostsByCategorySlug({ categorySlug }, base_url = API_
   return data;
 }
 
-export async function fetchAllCategories() {
-  const resp = await fetch(`${API_BASE}/api/categories`);
+export async function fetchAllCategories(base_url = API_BASE) {
+  const resp = await fetch(`${base_url}/api/categories`);
   const data = await resp.json();
   return data;
 }

@@ -6,7 +6,8 @@ import {
     deleteSinglePost,
     archiveSinglePost,
     fetchPostsByCategorySlug,
-    fetchDistinctCategories
+    fetchDistinctCategories,
+    fetchAllCategories
 } from './data'
 import path from 'path'
 const { eachLike, like } = Matchers
@@ -208,8 +209,8 @@ describe('When a request to fetch distinct categories is made', () => {
                     status: 200,
                     body: eachLike(
                         {
-                            categorydisplayvalue: "Testing Category",
-                            categoryslug: "testing-category"
+                            categorydisplayvalue: like("Testing Category"),
+                            categoryslug: like("testing-category")
                         },
                         { min: 4 }
                     )
@@ -223,6 +224,38 @@ describe('When a request to fetch distinct categories is made', () => {
         const response = await fetchDistinctCategories(URL + PORT);
         expect(response[0].categorydisplayvalue).toBe('Testing Category');
         expect(response[0].categoryslug).toBe('testing-category');
+    });
+
+    afterEach(() => provider.verify());
+    afterAll(() => provider.finalize());
+});
+
+describe('When a request to list all categories is made', () => {
+    beforeAll(() =>
+        provider.setup().then(() => {
+            provider.addInteraction({
+                uponReceiving: 'a request to list all categories',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/categories',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(
+                        {
+                            categoryslug: like("new-category"),
+
+                        },
+                        { min: 5 }
+                    ),
+                },
+            });
+        })
+    );
+
+    test('should return categories', async () => {
+        const response = await fetchAllCategories(URL + PORT);
+        expect(response[0].categoryslug).toBe('new-category');
     });
 
     afterEach(() => provider.verify());
