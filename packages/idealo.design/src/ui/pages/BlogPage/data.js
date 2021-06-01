@@ -21,7 +21,7 @@ export async function updateSinglePost( base_url = API_BASE,slug, post , cb) {
       cb();
     return response.json();
   });
-
+  return resp
 }
 
 export async function fetchSinglePost({ slug }, base_url = API_BASE) {
@@ -73,7 +73,7 @@ export async function deleteSinglePost(post, base_url = API_BASE) {
 export async function archiveSinglePost(post,base_url = API_BASE) {
     const body = JSON.stringify(post);
 
-    const response=await fetch(`${base_url}/api/blogposts/archive`,{
+    const response = await fetch(`${base_url}/api/blogposts/archive`,{
         method: 'PUT',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body
@@ -81,6 +81,5 @@ export async function archiveSinglePost(post,base_url = API_BASE) {
 
     const data = await response.json()
 
-    console.log('blablabla archivieren response',data)
     return data;
 }

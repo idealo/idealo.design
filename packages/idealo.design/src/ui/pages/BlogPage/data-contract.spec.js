@@ -198,6 +198,63 @@ const mockedBlogpost = {
     isarchived:0
 }
 
+const mockedUpdatedBlogpost = {
+    id:1,
+    title:"Updated Mocked Blogpost",
+    categorydisplayvalue:"Test",
+    categoryslug:"test",
+    slug:"updated-mocked-blogpost",
+    autor:"author can't be updated",
+    blogpostcontent:
+        {
+            blocks:[
+                {
+                    key:"csc33",
+                    data:{},
+                    text:"This text was updated",
+                    type:"unstyled",
+                    depth:0,
+                    entityRanges:[],
+                    inlineStyleRanges:[]
+                }],
+            entityMap:{}
+        },
+}
+
+const mockedArchivedBlogpost = {
+    id:1,
+    title:"Mocked Blogpost",
+    nextpost:"Test-5",
+    previouspost:null,
+    categorydisplayvalue:"Test",
+    categoryslug:"test",
+    slug:"mocked-blogpost",
+    date:"2021-05-28T09:04:55.343Z",
+    image:"",
+    autor:"Dummy author",
+    email:null,
+    instagram:null,
+    twitter:null,
+    github:null,
+    facebook:null,
+    blogpostcontent:
+        {
+            blocks:[
+                {
+                    key:"csc33",
+                    data:{},
+                    text:"This is a dummy post",
+                    type:"unstyled",
+                    depth:0,
+                    entityRanges:[],
+                    inlineStyleRanges:[]
+                }],
+            entityMap:{}
+        },
+    isarchived:1
+}
+
+
 describe('When a request to delete a blogposts is made', () => {
     beforeAll(() =>
         provider.setup().then(() => {
@@ -209,7 +266,9 @@ describe('When a request to delete a blogposts is made', () => {
                 },
                 willRespondWith: {
                     status: 200,
-                    body: like(mockedBlogpost)
+                    body: {
+                        mockedUpdatedBlogpost
+                    }
                 }
             });
         })
@@ -237,6 +296,8 @@ describe('When a request to update a blogpost is made', () => {
                 withRequest: {
                     method: 'PUT',
                     path: '/api/blogposts',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: mockedBlogpost
                 },
                 willRespondWith: {
                     status: 200,
@@ -248,7 +309,7 @@ describe('When a request to update a blogpost is made', () => {
 
     test('should return update Blogpost', async () => {
         const response = await updateSinglePost(URL+PORT, 'mocked-blogpost', mockedBlogpost,cb=>{});
-        console.log(response)
+        console.log('test response', response)
     });
 
     afterEach(() => provider.verify());
@@ -273,7 +334,6 @@ describe('When a request to fetch distinct categories is made', () => {
                         },
                         { min: 4 }
                     )
-
                 }
             });
         })
@@ -343,7 +403,6 @@ describe('When a request to fetch a post by CategorySlug is made', () => {
                         },
                         { min: 2 }
                     )
-
                 }
             });
         })
@@ -373,16 +432,13 @@ describe('user archives a blogpost', () => {
                 withRequest: {
                     method: 'PUT',
                     path: '/api/blogposts/archive',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: mockedBlogpost
                 },
                 willRespondWith: {
                     status: 200,
-                    body: {
-                        id: 1,
-                        title: like("Mocked Blogpost"),
-                        categoryslug: like("test"),
-                        categorydisplayvalue: like("Test"),
-                        isarchived: like(1)
-                    }
+                    headers: { "Content-Type": "application/json" },
+                    body: mockedArchivedBlogpost
                 }
             });
         })
@@ -390,12 +446,7 @@ describe('user archives a blogpost', () => {
 
     test('should return archived blogpost', async () => {
         const response = await archiveSinglePost(mockedBlogpost, URL + PORT);
-        console.log(response)
-        /*expect(response.id).toBe(1);
-        expect(response.title).toBe('Mocked Blogpost');
-        expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
-        expect(response.slug).toBe('mocked-blogpost');
-        expect(response.autor).toBe('Dummy author');*/
+        expect(response.isarchived).toBe(1);
     });
 
     afterEach(() => provider.verify());
