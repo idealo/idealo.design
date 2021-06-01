@@ -7,7 +7,8 @@ import {
     archiveSinglePost,
     fetchPostsByCategorySlug,
     fetchDistinctCategories,
-    fetchAllCategories
+    fetchAllCategories,
+    fetchSinglePost
 } from './data'
 import path from 'path'
 const { eachLike, like } = Matchers
@@ -56,6 +57,64 @@ describe('When a request to list all blogposts is made', () => {
         expect(response[0].title).toBe('Test title');
         expect(response[0].categoryslug).toBe('Test categoryslug');
         expect(response[0].categorydisplayvalue).toBe('Test categorydisplayvalue');
+    });
+
+    afterEach(() => provider.verify());
+    afterAll(() => provider.finalize());
+});
+
+describe('When a request to single blogpost is made', () => {
+    beforeAll(() =>
+        provider.setup().then(() => {
+            provider.addInteraction({
+                uponReceiving: 'a request to single blogpost',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/blogposts/Test-2-previous-next',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(
+                        {
+                            id: 29,
+                            title: like("Test 2 previous next"),
+                            nextpost: like("Test-next-and-validation"),
+                            previouspost: null,
+                            categorydisplayvalue: like("Test"),
+                            categoryslug: like("test"),
+                            slug: like("Test-2-previous-next"),
+                            date: like("2021-05-10T07:19:17.046Z"),
+                            blogpostcontent: {
+                                blocks: [{
+                                    key: like("7n8i3"),
+                                    data: {},
+                                    text: like("Lorem ipsum dolor sit amet"),
+                                    type: like("unstyled"),
+                                }],
+                                archivedpost: false
+                            }
+                        },
+                        { min: 5 }
+                    ),
+                },
+            });
+
+        })
+    );
+
+    test('should return a single blogpost', async () => {
+        const response = await fetchSinglePost({slug: "Test-2-previous-next"}, URL + PORT);
+        expect(response.title).toBe('Test 2 previous next');
+        expect(response.nextpost).toBe('Test-next-and-validation');
+        expect(response.categorydisplayvalue).toBe('Test');
+        expect(response.categoryslug).toBe('test');
+        expect(response.slug).toBe('Test-2-previous-next');
+        expect(response.date).toBe('2021-05-10T07:19:17.046Z');
+
+        expect(response.blogpostcontent.blocks[0].key).toBe('7n8i3');
+        expect(response.blogpostcontent.blocks[0].text).toBe('Lorem ipsum dolor sit amet');
+        expect(response.blogpostcontent.blocks[0].type).toBe('unstyled');
+
     });
 
     afterEach(() => provider.verify());
@@ -244,6 +303,7 @@ describe('When a request to list all categories is made', () => {
                     body: eachLike(
                         {
                             categoryslug: like("new-category"),
+                            sum : 4
 
                         },
                         { min: 5 }
@@ -256,6 +316,7 @@ describe('When a request to list all categories is made', () => {
     test('should return categories', async () => {
         const response = await fetchAllCategories(URL + PORT);
         expect(response[0].categoryslug).toBe('new-category');
+        expect(response[0].sum).toBe(4);
     });
 
     afterEach(() => provider.verify());

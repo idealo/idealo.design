@@ -24,10 +24,10 @@ export async function updateSinglePost( base_url = API_BASE,slug, post , cb) {
 
 }
 
-export async function fetchSinglePost({ slug }) {
+export async function fetchSinglePost({ slug }, base_url = API_BASE) {
   if (!slug) return null;
 
-  const resp = await fetch(`${API_BASE}/api/blogposts/${slug}`);
+  const resp = await fetch(`${base_url}/api/blogposts/${slug}`);
   const data = await resp.json();
   return data.pop();
 }
