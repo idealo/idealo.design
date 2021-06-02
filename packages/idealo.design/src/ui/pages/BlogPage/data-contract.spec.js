@@ -121,6 +121,66 @@ describe('When a request to single blogpost is made', () => {
     afterAll(() => provider.finalize());
 });
 
+describe('When a request to single category is made', () => {
+    beforeAll(() =>
+        provider.setup().then(() => {
+            provider.addInteraction({
+                uponReceiving: 'a request to single category',
+                withRequest: {
+                    method: 'GET',
+                    path: "/api/blogposts",
+                    query: "byCategorySlug=docker",
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(
+                        {
+                            id: 28,
+                            title: like("Test next and validation"),
+                            nextpost: like("draft.js"),
+                            previouspost: like("Test-2-previous-next"),
+                            categorydisplayvalue: like("Docker"),
+                            categoryslug: like("docker"),
+                            slug: like("Test-next-and-validation"),
+                            date: like("2021-05-10T07:16:23.300Z"),
+                            blogpostcontent: {
+                                blocks: [{
+                                    key: like("aun0b"),
+                                    data: {},
+                                    text: like("Lorem ipsum dolor sit amet"),
+                                    type: like("header-two"),
+                                }],
+                                archivedpost: false
+                            }
+                        },
+                        { min: 5 }
+                    ),
+                },
+            });
+
+        })
+    );
+
+    test('should return a list of blogposts with a single category ', async () => {
+        const response = await fetchPostsByCategorySlug({categorySlug: "docker"}, URL + PORT);
+        expect(response[0].title).toBe('Test next and validation');
+        expect(response[0].nextpost).toBe('draft.js');
+        expect(response[0].previouspost).toBe('Test-2-previous-next');
+        expect(response[0].categorydisplayvalue).toBe('Docker');
+        expect(response[0].categoryslug).toBe('docker');
+        expect(response[0].slug).toBe('Test-next-and-validation');
+        expect(response[0].date).toBe('2021-05-10T07:16:23.300Z');
+
+        expect(response[0].blogpostcontent.blocks[0].key).toBe('aun0b');
+        expect(response[0].blogpostcontent.blocks[0].text).toBe('Lorem ipsum dolor sit amet');
+        expect(response[0].blogpostcontent.blocks[0].type).toBe('header-two');
+
+    });
+
+    afterEach(() => provider.verify());
+    afterAll(() => provider.finalize());
+});
+
 
 
 describe('When a request to get the current user', () => {
@@ -377,47 +437,6 @@ describe('When a request to list all categories is made', () => {
         const response = await fetchAllCategories(URL + PORT);
         expect(response[0].categoryslug).toBe('new-category');
         expect(response[0].sum).toBe(4);
-    });
-
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});
-
-describe('When a request to fetch a post by CategorySlug is made', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
-            provider.addInteraction({
-                uponReceiving: 'a request to fetch a post by CategorySlug',
-                withRequest: {
-                    method: 'GET',
-                    path: '/api/blogposts/:slug?',
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: eachLike(
-                        {
-                            id: 1,
-                            title: like("Test title"),
-                            categoryslug: like("Test CategorySlug"),
-                            categorydisplayvalue:like("Test CategoryDisplayValue")
-                        },
-                        { min: 2 }
-                    )
-                }
-            });
-        })
-    );
-
-    const categorySlug = "Test CategorySlug"
-
-    test('should posts by CategorySlug', async () => {
-        const response = await fetchPostsByCategorySlug(
-            {categorySlug},
-            URL + PORT
-        );
-        console.log(response)
-        /*expect(response[0].categorydisplayvalue).toBe('Testing Category');
-        expect(response[0].categoryslug).toBe('testing-category');*/
     });
 
     afterEach(() => provider.verify());
