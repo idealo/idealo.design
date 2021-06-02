@@ -2,6 +2,7 @@
 create table if not exists blogposts (
     id integer not null,
     title varchar(255) not null,
+    autor varchar(255),
     nextpost varchar(255),
     previouspost varchar(255),
     categoryDisplayValue varchar(255) not null,
@@ -23,7 +24,7 @@ create table if not exists accounts (
     facebook varchar(255),
     primary key(email)
     );
-
+/*
 insert into blogposts (
     id,
     title,
@@ -185,7 +186,7 @@ values
     null,
     null
 
-);
+);*/
 
 create sequence blogposts_id_seq;
 alter table blogposts alter id set default nextval('blogposts_id_seq');
@@ -301,7 +302,7 @@ Weitere wichtige Befehle, die den Umgang mit Git vereinfachen, sind in diesem Ch
 UPDATE blogposts SET title = 'Draft JS als Open Source Editor',
     	nextpost = NULL,
     	previouspost = 'Versionskontrolle',
-  	categoryDisplaySlug ='Kategorie 4',
+        categoryDisplayValue ='Kategorie 4',
     	categorySlug = 'kategorie-4',
     	slug = 'Draft.js',
     	date = '2023-01-21T14:45:45.351Z',
@@ -354,11 +355,7 @@ DELETE FROM blogposts
 /*Wir haben nur 5 Posts, also so lange deleten bis nur noch 5 Posts in der Datenbank. */
 
 
-/*
----------------------------------------------------------------------------
-Tabelle blogposts um Column "autor" ergänzen */
-alter table blogposts
-add autor varchar(255);
+
 
 UPDATE blogposts
 	SET
@@ -525,5 +522,4 @@ UPDATE blogposts
         https://youtu.be/rHat0n1xBVc'
 
     WHERE
-        id 5;
-
+        id = 5;
