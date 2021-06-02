@@ -48,7 +48,7 @@ const app = express()
 
 const RedisStore = connectRedis(session)
 
-const dangerouslyArgument = process.argv[process.argv.indexOf('--dangerouslyArgument')] || false
+const dangerousTestModeArgument = process.argv[process.argv.indexOf('dangerousTestModeArgument')] || false
 
 redis.on('error', err => {
   console.log('redis error: ', err)
@@ -112,13 +112,13 @@ if (CLIENT_ID) {
   }));
 }
 
-function isAuthenticated(req, dangerouslyArgument, res, next) {
+function isAuthenticated(req, res, next) {
   if(req.session.user){
     return next();
   }
-  /*if(dangerouslyArgument){
+  if(dangerousTestModeArgument){
     return next();
-  }*/
+  }
   res.status(403).send('You do not have rights to visit this page');
 }
 
@@ -222,7 +222,4 @@ app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
 
 app.listen(PORT, '0.0.0.0',() => {
   console.log(` -> 0.0.0.0:${PORT}`)
-  if(dangerouslyArgument){
-    console.log('dangerous: ', dangerouslyArgument)
-  }
 })
