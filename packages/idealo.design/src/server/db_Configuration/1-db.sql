@@ -1,4 +1,3 @@
-
 create table if not exists blogposts (
     id integer not null,
     title varchar(255) not null,
@@ -24,8 +23,12 @@ create table if not exists accounts (
     facebook varchar(255),
     primary key(email)
     );
+
 /*
 insert into blogposts (
+=======
+
+insert into  blogposts (
     id,
     title,
     nextpost,
@@ -115,7 +118,7 @@ values
     'https://e7.pngegg.com/pngimages/701/109/png-clipart-celebrate-celebrate-float-thumbnail.png',
     'Die Herkunft des Wortes ist ungeklärt. Es wird heute meist mit dem Imperativ hurra von mittelhochdeutsch hurren, „sich schnell bewegen“ (vergl. dt. hurtig oder engl. to hurry, „eilen, sich beeilen“) in Verbindung gebracht.[1]\n\nEine andere These vermutet den Ursprung in Zentralasien: Bereits Jean de Mandeville schilderte im 14. Jahrhundert den Warn- und Waffenruf „Kera! Kera! Kera!“, was mit den russischen Kriegsrufen („Ura“, „Houra“) in Verbindung gebracht wurde;[2] andere Autoren vermuten, der Schlachtruf habe mongolische Wurzeln.[3] Die Herleitung erfolge über turkotatarisch urra von urmak „schlagen“.[4]\n\nEiner im 19. Jahrhundert aufgekommenen Vermutung zufolge leitet sich das Wort von einem angeblichen Ruf Thur aïe (‚Thor hilf!‘) her, den heidnische Normannen als Schlachtruf gebraucht und dem christlichen Schlachtruf Deus aïe (‚Gott hilf!‘) entgegengesetzt haben sollen. Einziger Beleg hierfür ist eine Stelle im Roman de Rou des anglonormannischen Dichters Wace († nach 1174), wonach Raoul Tesson einen ähnlichen Ruf in der Schlacht von Val-ès-Dunes (1047) zur Anfeuerung seiner Leute gebraucht haben soll. Bei diesem Schlachtruf, in der Handschrift wiedergegeben in der Form turie und gereimt auf emmie, vom ersten Herausgeber Frédéric Pluquet (1824) dann gedeutet als Tur aïe, handelte es sich aber nicht um eine Anrufung der germanischen Gottheit Thor, sondern um den Namen von Tessons Baronie Thury (heute Thury-Harcourt), weshalb diese These in der Sprachwissenschaft heute nicht mehr vertreten wird.'
 
-);
+)
 
 insert into accounts (
     firstname,
@@ -188,7 +191,7 @@ values
 
 );*/
 
-create sequence blogposts_id_seq;
+create sequence  if not exists blogposts_id_seq;
 alter table blogposts alter id set default nextval('blogposts_id_seq');
 SELECT setval('blogposts_id_seq', (SELECT MAX(id) FROM blogposts)+1);
 
@@ -355,7 +358,9 @@ DELETE FROM blogposts
 /*Wir haben nur 5 Posts, also so lange deleten bis nur noch 5 Posts in der Datenbank. */
 
 
-
+/*
+---------------------------------------------------------------------------
+Tabelle blogposts um Column "autor" ergänzen */
 
 UPDATE blogposts
 	SET
