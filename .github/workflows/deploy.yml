@@ -28,5 +28,6 @@ jobs:
           version_description: ${{github.SHA}}
           region: eu-central-1
           deployment_package: deploy.zip
+          wait_for_deployment: false
 
 
