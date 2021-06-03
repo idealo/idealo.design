@@ -24,7 +24,7 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: idealo.design
           environment_name: Idealodesign-env
-          version_label: 123
+          version_label: ${{github.SHA}}
           version_description: ${{github.SHA}}
           region: eu-central-1
           deployment_package: deploy.zip
