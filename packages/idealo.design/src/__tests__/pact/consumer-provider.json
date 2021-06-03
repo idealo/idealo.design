@@ -7,10 +7,10 @@
   },
   "interactions": [
     {
-      "description": "a request to list all blogposts",
+      "description": "a request to list all categories",
       "request": {
         "method": "GET",
-        "path": "/api/blogposts"
+        "path": "/api/categories"
       },
       "response": {
         "status": 200,
@@ -18,50 +18,30 @@
         },
         "body": [
           {
-            "id": 1,
-            "title": "Test title",
-            "categoryslug": "Test categoryslug",
-            "categorydisplayvalue": "Test categorydisplayvalue"
+            "categoryslug": "new-category",
+            "sum": 4
           },
           {
-            "id": 1,
-            "title": "Test title",
-            "categoryslug": "Test categoryslug",
-            "categorydisplayvalue": "Test categorydisplayvalue"
+            "categoryslug": "new-category",
+            "sum": 4
           },
           {
-            "id": 1,
-            "title": "Test title",
-            "categoryslug": "Test categoryslug",
-            "categorydisplayvalue": "Test categorydisplayvalue"
+            "categoryslug": "new-category",
+            "sum": 4
           },
           {
-            "id": 1,
-            "title": "Test title",
-            "categoryslug": "Test categoryslug",
-            "categorydisplayvalue": "Test categorydisplayvalue"
-          },
-          {
-            "id": 1,
-            "title": "Test title",
-            "categoryslug": "Test categoryslug",
-            "categorydisplayvalue": "Test categorydisplayvalue"
+            "categoryslug": "new-category",
+            "sum": 4
           }
         ],
         "matchingRules": {
           "$.body": {
-            "min": 5
+            "min": 4
           },
           "$.body[*].*": {
             "match": "type"
           },
-          "$.body[*].title": {
-            "match": "type"
-          },
           "$.body[*].categoryslug": {
-            "match": "type"
-          },
-          "$.body[*].categorydisplayvalue": {
             "match": "type"
           }
         }

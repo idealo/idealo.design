@@ -1,9 +1,9 @@
-I, [2021-05-28T12:38:57.229980 #11520]  INFO -- : Registered expected interaction GET /api/blogposts
-D, [2021-05-28T12:38:57.230186 #11520] DEBUG -- : {
-  "description": "a request to list all blogposts",
+I, [2021-06-03T14:14:09.823436 #46924]  INFO -- : Registered expected interaction GET /api/categories
+D, [2021-06-03T14:14:09.823756 #46924] DEBUG -- : {
+  "description": "a request to list all categories",
   "request": {
     "method": "GET",
-    "path": "/api/blogposts"
+    "path": "/api/categories"
   },
   "response": {
     "status": 200,
@@ -12,28 +12,20 @@ D, [2021-05-28T12:38:57.230186 #11520] DEBUG -- : {
     "body": {
       "json_class": "Pact::ArrayLike",
       "contents": {
-        "id": 1,
-        "title": {
-          "json_class": "Pact::SomethingLike",
-          "contents": "Test title"
-        },
         "categoryslug": {
           "json_class": "Pact::SomethingLike",
-          "contents": "Test categoryslug"
+          "contents": "new-category"
         },
-        "categorydisplayvalue": {
-          "json_class": "Pact::SomethingLike",
-          "contents": "Test categorydisplayvalue"
-        }
+        "sum": 4
       },
-      "min": 5
+      "min": 4
     }
   },
   "metadata": null
 }
-I, [2021-05-28T12:38:57.232167 #11520]  INFO -- : Received request GET /api/blogposts
-D, [2021-05-28T12:38:57.232278 #11520] DEBUG -- : {
-  "path": "/api/blogposts",
+I, [2021-06-03T14:14:09.828198 #46924]  INFO -- : Received request GET /api/categories
+D, [2021-06-03T14:14:09.828338 #46924] DEBUG -- : {
+  "path": "/api/categories",
   "query": "",
   "method": "get",
   "headers": {
@@ -45,31 +37,23 @@ D, [2021-05-28T12:38:57.232278 #11520] DEBUG -- : {
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-05-28T12:38:57.232809 #11520]  INFO -- : Found matching response for GET /api/blogposts
-D, [2021-05-28T12:38:57.232952 #11520] DEBUG -- : {
+I, [2021-06-03T14:14:09.828737 #46924]  INFO -- : Found matching response for GET /api/categories
+D, [2021-06-03T14:14:09.828866 #46924] DEBUG -- : {
   "status": 200,
   "headers": {
   },
   "body": {
     "json_class": "Pact::ArrayLike",
     "contents": {
-      "id": 1,
-      "title": {
-        "json_class": "Pact::SomethingLike",
-        "contents": "Test title"
-      },
       "categoryslug": {
         "json_class": "Pact::SomethingLike",
-        "contents": "Test categoryslug"
+        "contents": "new-category"
       },
-      "categorydisplayvalue": {
-        "json_class": "Pact::SomethingLike",
-        "contents": "Test categorydisplayvalue"
-      }
+      "sum": 4
     },
-    "min": 5
+    "min": 4
   }
 }
-I, [2021-05-28T12:38:57.242976 #11520]  INFO -- : Verifying - interactions matched
-I, [2021-05-28T12:38:57.246463 #11520]  INFO -- : Cleared interactions
-I, [2021-05-28T12:38:57.251090 #11520]  INFO -- : Writing pact for Provider to /Library/WebServer/Documents/idealo/nwp/packages/idealo.design/src/__tests__/pact/consumer-provider.json
+I, [2021-06-03T14:14:09.834214 #46924]  INFO -- : Verifying - interactions matched
+I, [2021-06-03T14:14:09.841579 #46924]  INFO -- : Cleared interactions
+I, [2021-06-03T14:14:09.847341 #46924]  INFO -- : Writing pact for Provider to /Users/iuliia.romanova/Documents/GitHub/nwp/packages/idealo.design/src/__tests__/pact/consumer-provider.json
