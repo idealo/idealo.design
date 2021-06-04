@@ -3,6 +3,7 @@ services:
 
   idealo-design:
     build:
-      context: .
+      context: packages/idealo.design
+      dockerfile: Dockerfile
     ports:
       - "8080:80"
