@@ -8,7 +8,7 @@ import '~/draft-js/dist/Draft.css'
 import s from './Editor.module.scss';
 import Prompt from './Prompt';
 import PromptSuccess from "./PromptSuccess";
-import { fetchSinglePost, updateSinglePost, fetchDistinctCategories} from '../data';
+import { fetchSinglePost, updateSinglePost, fetchDistinctCategories, fetchAllTitles} from '../data';
 import CreatableSelect from 'react-select/creatable';
 import slugify from "slugify";
 
@@ -77,6 +77,19 @@ export class RichTextEditor extends React.Component {
       })
     }
     ReactModal.setAppElement('body');
+
+          /*let titles = fetchAllTitles();
+          let tmpArray = []
+          console.log('array:', tmpArray);
+          for (let i = 0; i < titles.length; i++){
+            console.log('drinnen');
+            tmpArray.push(titles[i].title)
+          }
+          console.log('json:', titles);
+
+          this.setState({
+            titles: tmpArray
+          })*/
   }
 
   renderContentAsRawJs() {
@@ -139,9 +152,21 @@ export class RichTextEditor extends React.Component {
   }
 
   handleValidation() {
+    const a = fetchAllTitles();
+    console.log('gefetchte json:', a);
+      /*let tmpArray = []
+      for (let i = 0; i < a; i++) {
+        console.log('a.title:', a.title[i]);
+        tmpArray.push(JSON.stringify(a.title[i]))
+      }
+      console.log('array:', tmpArray);*/
+
     let formIsValid = true;
     let errors = {};
     const blacklist = ['new-post'];
+    const existingTitle = a;
+    console.log('unsere Titel sind:', existingTitle);
+
 
     if (!this.state.title) {
       formIsValid = false;
@@ -152,6 +177,13 @@ export class RichTextEditor extends React.Component {
       if (word === slugify(this.state.title).replace(/^\s+|\s+$/g, '').toLowerCase()) {
         formIsValid = false;
         errors ['title-value'] = 'Title can not be "new post"';
+      }
+    });
+
+    existingTitle.JSON.bind(word => {
+      if (word === slugify(this.state.title).replace(/^\s+|\s+$/g, '').toLowerCase()) {
+        formIsValid = false;
+        errors ['title-value'] = 'Title can not be that, because we already have a blogpost with that title';
       }
     });
 

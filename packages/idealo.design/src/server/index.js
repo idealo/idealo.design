@@ -24,7 +24,8 @@ import {
   updateSinglePost,
   fetchDistinctCategories,
   deleteSinglePost,
-  archiveSinglePost
+  archiveSinglePost,
+  fetchAllTitles,
 } from './db';
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
@@ -177,6 +178,11 @@ app.post('/api/blogposts', isAuthenticated, async (req, res) => {
 app.get('/api/categories', isAuthenticated, async (req, res) => {
   const categories = await fetchAllCategories();
   return res.json(categories);
+})
+
+app.get('/api/title', isAuthenticated, async (req, res) => {
+  const titles = await fetchAllTitles();
+  return res.json(titles);
 })
 
 app.get('/api/distinctCategories', async (req, res) => {
