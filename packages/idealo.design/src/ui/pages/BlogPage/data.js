@@ -9,7 +9,7 @@ export async function fetchList(base_url = API_BASE) {
   return data;
 }
 
-export async function updateSinglePost( base_url = API_BASE,slug, post , cb) {
+export async function updateSinglePost({slug, post} , cb,base_url = API_BASE) {
   const body = JSON.stringify(post);
 
   const resp = await fetch(`${base_url}/api/blogposts`, {

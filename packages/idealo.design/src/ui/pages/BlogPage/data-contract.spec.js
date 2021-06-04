@@ -379,7 +379,7 @@ describe('When a request to update a blogpost is made', () => {
     );
 
     test('should return update Blogpost', async () => {
-        const response = await updateSinglePost(URL+PORT, 'mocked-blogpost', mockedBlogpost,cb=>{});
+        const response = await updateSinglePost({slug: 'mocked-blogpost', post: mockedBlogpost},cb=>{},URL+PORT,);
         console.log('test response', response)
     });
 
