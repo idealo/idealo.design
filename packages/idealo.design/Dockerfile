@@ -2,7 +2,7 @@ FROM node:14.16.1 as builder
 
 WORKDIR /home/node/app
 
-COPY packages/idealo.design/ ./
+COPY . ./
 RUN npm install
 RUN npm run build
 
