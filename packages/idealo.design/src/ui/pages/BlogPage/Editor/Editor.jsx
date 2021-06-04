@@ -77,19 +77,6 @@ export class RichTextEditor extends React.Component {
       })
     }
     ReactModal.setAppElement('body');
-
-          /*let titles = fetchAllTitles();
-          let tmpArray = []
-          console.log('array:', tmpArray);
-          for (let i = 0; i < titles.length; i++){
-            console.log('drinnen');
-            tmpArray.push(titles[i].title)
-          }
-          console.log('json:', titles);
-
-          this.setState({
-            titles: tmpArray
-          })*/
   }
 
   renderContentAsRawJs() {
@@ -154,17 +141,21 @@ export class RichTextEditor extends React.Component {
   handleValidation() {
     const a = fetchAllTitles();
     console.log('gefetchte json:', a);
-      /*let tmpArray = []
-      for (let i = 0; i < a; i++) {
-        console.log('a.title:', a.title[i]);
-        tmpArray.push(JSON.stringify(a.title[i]))
-      }
-      console.log('array:', tmpArray);*/
-
+    const titles = [];
+    fetch('/api/title')
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            for (let i = 0; i < data.length; i++) {
+              titles.push(data[i].title)
+            }
+            console.log('das array:', titles);
+          });
     let formIsValid = true;
     let errors = {};
     const blacklist = ['new-post'];
-    const existingTitle = a;
+    const existingTitle = titles;
     console.log('unsere Titel sind:', existingTitle);
 
 
@@ -180,7 +171,7 @@ export class RichTextEditor extends React.Component {
       }
     });
 
-    existingTitle.JSON.bind(word => {
+    existingTitle.map(word => {
       if (word === slugify(this.state.title).replace(/^\s+|\s+$/g, '').toLowerCase()) {
         formIsValid = false;
         errors ['title-value'] = 'Title can not be that, because we already have a blogpost with that title';
