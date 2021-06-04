@@ -33,4 +33,4 @@ SET title = 'Draft JS als Open Source Editor',
     date = '2021-01-20 14:49:45.351Z'
 WHERE id = 5;
 
-DELETE from blogposts where id > 5;
+DELETE from blogposts where id > 6;
