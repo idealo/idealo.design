@@ -90,7 +90,10 @@ export class DetailView extends React.Component {
     }
 
     handleArchive() {
-        archiveSinglePost(this.state.blogpost).then(r => this.state.history.push('/blog'))
+        archiveSinglePost(this.state.blogpost,
+            ()=>{
+                this.state.history.push('/blog')
+            })
     }
 
     onModalLeave() {

@@ -76,42 +76,23 @@ describe('When a request to single blogpost is made', () => {
                 willRespondWith: {
                     status: 200,
                     body: eachLike(
-                        {
-                            id: 29,
-                            title: like("Test 2 previous next"),
-                            nextpost: like("Test-next-and-validation"),
-                           // previouspost: null,
-                            categorydisplayvalue: like("Test"),
-                            categoryslug: like("test"),
-                            slug: like("Test-2-previous-next"),
-                            date: like("2021-05-10T07:19:17.046Z"),
-                            blogpostcontent: {
-                                blocks: [{
-                                    key: like("7n8i3"),
-                                    data: {},
-                                    text: like("Lorem ipsum dolor sit amet"),
-                                    type: like("unstyled"),
-                                }],
-                            }
-                        },
+                        mockedBlogpost
                     ),
                 },
             });
-
         })
     );
 
     test('should return a single blogpost', async () => {
         const response = await fetchSinglePost({slug: "Test-2-previous-next"}, URL + PORT);
-        expect(response.title).toBe('Test 2 previous next');
-        expect(response.nextpost).toBe('Test-next-and-validation');
+        expect(response.title).toBe('Mocked Blogpost');
         expect(response.categorydisplayvalue).toBe('Test');
         expect(response.categoryslug).toBe('test');
-        expect(response.slug).toBe('Test-2-previous-next');
-        expect(response.date).toBe('2021-05-10T07:19:17.046Z');
+        expect(response.slug).toBe('mocked-blogpost');
+        expect(response.date).toBe('2021-05-28T09:04:55.343Z');
 
-        expect(response.blogpostcontent.blocks[0].key).toBe('7n8i3');
-        expect(response.blogpostcontent.blocks[0].text).toBe('Lorem ipsum dolor sit amet');
+        expect(response.blogpostcontent.blocks[0].key).toBe('csc33');
+        expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
         expect(response.blogpostcontent.blocks[0].type).toBe('unstyled');
 
     });
@@ -247,7 +228,7 @@ const mockedUpdatedBlogpost = {
     categorydisplayvalue:"Test",
     categoryslug:"test",
     slug:"updated-mocked-blogpost",
-    autor:"author can't be updated",
+    //autor:"author can't be updated",
     blogpostcontent:
         {
             blocks:[
@@ -268,14 +249,14 @@ const mockedUpdatedBlogpost = {
 const mockedArchivedBlogpost = {
     id:1,
     title:"Mocked Blogpost",
-    nextpost:"Test-5",
-    previouspost:null,
+    //nextpost:"Test-5",
+    //previouspost:null,
     categorydisplayvalue:"Test",
     categoryslug:"test",
     slug:"mocked-blogpost",
     date:"2021-05-28T09:04:55.343Z",
     image:"",
-    autor:"Dummy author",
+    //autor:"Dummy author",
     email:null,
     instagram:null,
     twitter:null,
@@ -311,16 +292,16 @@ describe('user archives a blogpost', () => {
                 },
                 willRespondWith: {
                     status: 200,
-                    body: {mockedBlogpost}
+                    body: like (mockedArchivedBlogpost)
                 }
             });
         })
     );
 
     test('should return archived blogpost', async () => {
-        const response = await archiveSinglePost(mockedBlogpost, URL + PORT);
+        const response = await archiveSinglePost(mockedBlogpost, ()=>{},URL + PORT);
         console.log(response)
-        //expect(response.isarchived).toBe(1);
+        expect(response.isarchived).toBe(1);
     });
 
     afterEach(() => provider.verify());
@@ -372,7 +353,7 @@ describe('When a request to update a blogpost is made', () => {
                 },
                 willRespondWith: {
                     status: 200,
-                    body: like(mockedBlogpost)
+                    body: like(mockedUpdatedBlogpost)
                 }
             });
         })
@@ -381,6 +362,8 @@ describe('When a request to update a blogpost is made', () => {
     test('should return update Blogpost', async () => {
         const response = await updateSinglePost({slug: 'mocked-blogpost', post: mockedBlogpost},cb=>{},URL+PORT,);
         console.log('test response', response)
+        expect(response.title).toBe('Updated Mocked Blogpost')
+        expect(response.slug).toBe('updated-mocked-blogpost')
     });
 
     afterEach(() => provider.verify());
