@@ -28,14 +28,11 @@ const provider = new Pact({
 const mockedBlogpost = {
     id:1,
     title:"Mocked Blogpost",
-    //  nextpost:"Test-5",
-    //  previouspost:null,
     categorydisplayvalue:"Test",
     categoryslug:"test",
     slug:"mocked-blogpost",
     date:"2021-05-28T09:04:55.343Z",
     image:"",
-    //  autor:null,
     email:null,
     instagram:null,
     twitter:null,
@@ -58,202 +55,12 @@ const mockedBlogpost = {
     isarchived:0
 }
 
-describe('all Tests', () => {
-    afterAll(() => provider.finalize());
-    beforeAll(() => provider.setup());
-
-    describe('test list', () => {
-        beforeEach(() => {
-            provider.addInteraction({
-                uponReceiving: 'a request to list all blogposts',
-                withRequest: {
-                    method: 'GET',
-                    path: '/api/blogposts',
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: eachLike(
-                        {
-                            id: 1,
-                            title: like("Test title"),
-                            categoryslug: like("Test categoryslug"),
-                            categorydisplayvalue: like("Test categorydisplayvalue"),
-                        },
-                        {min: 5}
-                    ),
-                },
-            });
-        });
-        test('should return a list of five blogposts', async () => {
-            const response = await fetchList(URL + PORT);
-            console.log(response);
-            expect(response[0].title).toBe('Test title');
-            expect(response[0].categoryslug).toBe('Test categoryslug');
-            expect(response[0].categorydisplayvalue).toBe('Test categorydisplayvalue');
-        });
-    })
-
-    describe('When a request to single blogpost is made', () => {
-        beforeEach(() =>
-            provider.addInteraction({
-                uponReceiving: 'a request to single blogpost',
-                withRequest: {
-                    method: 'GET',
-                    path: '/api/blogposts/Test-2-previous-next',
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: eachLike(
-                        mockedBlogpost
-                    ),
-                },
-            })
-        );
-
-        test('should return a single blogpost', async () => {
-            const response = await fetchSinglePost({slug: "Test-2-previous-next"}, URL + PORT);
-            expect(response.title).toBe('Mocked Blogpost');
-            expect(response.categorydisplayvalue).toBe('Test');
-            expect(response.categoryslug).toBe('test');
-            expect(response.slug).toBe('mocked-blogpost');
-            expect(response.date).toBe('2021-05-28T09:04:55.343Z');
-
-            expect(response.blogpostcontent.blocks[0].key).toBe('csc33');
-            expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
-            expect(response.blogpostcontent.blocks[0].type).toBe('unstyled');
-
-        });
-    });
-
-    /*describe('', () => {
-        beforeEach(() => {
-            provider.addInteraction({
-                uponReceiving: 'a request to single category',
-                withRequest: {
-                    method: 'GET',
-                    path: "/api/blogposts",
-                    query: "byCategorySlug=test",
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: eachLike(mockedBlogpost),
-                },
-            });
-
-        })
-
-        test('should return a list of blogposts with a single category ', async () => {
-            const response = await fetchPostsByCategorySlug({categorySlug: "test"}, URL + PORT);
-            console.log(response);
-            expect(response[0].title).toBe('Mocked Blogpost');
-            expect(response[0].categorydisplayvalue).toBe('Docker');
-            expect(response[0].categoryslug).toBe('docker');
-            expect(response[0].slug).toBe('Test-next-and-validation');
-            expect(response[0].date).toBe('2021-05-10T07:16:23.300Z');
-
-            expect(response[0].blogpostcontent.blocks[0].key).toBe('aun0b');
-            expect(response[0].blogpostcontent.blocks[0].text).toBe('Lorem ipsum dolor sit amet');
-            expect(response[0].blogpostcontent.blocks[0].type).toBe('header-two');
-
-        })
-    })*/
-});
-
-
-/*
-
-describe('When a request to single category is made', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
-            provider.addInteraction({
-                uponReceiving: 'a request to single category',
-                withRequest: {
-                    method: 'GET',
-                    path: "/api/blogposts",
-                    query: "byCategorySlug=test",
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: eachLike(mockedBlogpost),
-                },
-            });
-
-        })
-    );
-
-    test('should return a list of blogposts with a single category ', async () => {
-        const response = await fetchPostsByCategorySlug({categorySlug: "test"}, URL + PORT);
-        console.log(response);
-        expect(response[0].title).toBe('Mocked Blogpost');
-      //  expect(response[0].nextpost).toBe('Test-5');
-        /*expect(response[0].previouspost).toBe('Test-2-previous-next');
-        expect(response[0].categorydisplayvalue).toBe('Docker');
-        expect(response[0].categoryslug).toBe('docker');
-        expect(response[0].slug).toBe('Test-next-and-validation');
-        expect(response[0].date).toBe('2021-05-10T07:16:23.300Z');
-
-        expect(response[0].blogpostcontent.blocks[0].key).toBe('aun0b');
-        expect(response[0].blogpostcontent.blocks[0].text).toBe('Lorem ipsum dolor sit amet');
-        expect(response[0].blogpostcontent.blocks[0].type).toBe('header-two');*/
-
-
-
-
-/*
-describe('When a request to get the current user', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
-            provider.addInteraction({
-                uponReceiving: 'a request to authenticate',
-                withRequest: {
-                    method: 'GET',
-                    path: '/api/me',
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: like(
-                        {
-                            status: like("LOGGED_IN"),
-                            user: {
-                                displayName: like("Jane Doe"),
-                                givenName: like("Jane"),
-                                surname: like("Doe"),
-                                id: like("ABC1234")
-                            }
-                        }
-                    )
-                }
-            });
-        })
-    );
-
-    test('should return user data', async () => {
-        const response = await fetchUserInfo(URL + PORT);
-        console.log(response);
-        console.log(response.status);
-        expect(response.status).toBe('LOGGED_IN');
-        expect(response.user.displayName).toBe('Jane Doe');
-        expect(response.user.givenName).toBe('Jane');
-        expect(response.user.surname).toBe('Doe');
-        expect(response.user.id).toBe('ABC1234');
-    });
-
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});
-*!/
-
-
-
-
-
 const mockedUpdatedBlogpost = {
     id:1,
     title:"Updated Mocked Blogpost",
     categorydisplayvalue:"Test",
     categoryslug:"test",
     slug:"updated-mocked-blogpost",
-    //autor:"author can't be updated",
     blogpostcontent:
         {
             blocks:[
@@ -270,18 +77,14 @@ const mockedUpdatedBlogpost = {
         },
 }
 
-
 const mockedArchivedBlogpost = {
     id:1,
     title:"Mocked Blogpost",
-    //nextpost:"Test-5",
-    //previouspost:null,
     categorydisplayvalue:"Test",
     categoryslug:"test",
     slug:"mocked-blogpost",
     date:"2021-05-28T09:04:55.343Z",
     image:"",
-    //autor:"Dummy author",
     email:null,
     instagram:null,
     twitter:null,
@@ -304,44 +107,126 @@ const mockedArchivedBlogpost = {
     isarchived:1
 }
 
-describe('user archives a blogpost', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
+describe('all Tests', () => {
+    afterAll(() => provider.finalize());
+    beforeAll(() => provider.setup());
+
+    describe('test list', () => {
+        beforeEach(() => {
+            provider.addInteraction({
+                uponReceiving: 'a request to list all blogposts',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/blogposts',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(mockedBlogpost, {min: 5})
+                }
+            });
+        });
+        test('should return a list of five blogposts', async () => {
+            const response = await fetchList(URL + PORT);
+            expect(response[0].title).toBe('Mocked Blogpost');
+            expect(response[0].categoryslug).toBe('test');
+            expect(response[0].categorydisplayvalue).toBe('Test');
+        });
+    })
+
+    describe('When a request to single blogpost is made', () => {
+        beforeEach(() =>
+            provider.addInteraction({
+                uponReceiving: 'a request to single blogpost',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/blogposts/Test-2-previous-next',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(
+                        mockedBlogpost
+                    )
+                }
+            })
+        );
+
+        test('should return a single blogpost', async () => {
+            const response = await fetchSinglePost({slug: "Test-2-previous-next"}, URL + PORT);
+            expect(response.title).toBe('Mocked Blogpost');
+            expect(response.categorydisplayvalue).toBe('Test');
+            expect(response.categoryslug).toBe('test');
+            expect(response.slug).toBe('mocked-blogpost');
+            expect(response.date).toBe('2021-05-28T09:04:55.343Z');
+
+            expect(response.blogpostcontent.blocks[0].key).toBe('csc33');
+            expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
+            expect(response.blogpostcontent.blocks[0].type).toBe('unstyled');
+
+        });
+    });
+
+    describe('test category slug', () => {
+        beforeEach(() => {
+            provider.addInteraction({
+                uponReceiving: 'a request to single category',
+                withRequest: {
+                    method: 'GET',
+                    path: "/api/blogposts/?test"
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(mockedBlogpost)
+                }
+            })
+
+        })
+
+        test('should return a list of blogposts with a single category ', async () => {
+            const response = await fetchPostsByCategorySlug({categorySlug: "test"}, URL + PORT);
+            expect(response[0].title).toBe('Mocked Blogpost');
+            expect(response[0].categorydisplayvalue).toBe('Test');
+            expect(response[0].categoryslug).toBe('test');
+            expect(response[0].slug).toBe('mocked-blogpost');
+            expect(response[0].date).toBe('2021-05-28T09:04:55.343Z');
+
+            expect(response[0].blogpostcontent.blocks[0].key).toBe('csc33');
+            expect(response[0].blogpostcontent.blocks[0].text).toBe('This is a dummy post');
+            expect(response[0].blogpostcontent.blocks[0].type).toBe('unstyled');
+
+        })
+    })
+
+    describe('test to archive a single post', ()=>{
+        beforeEach(() => {
             provider.addInteraction({
                 uponReceiving: 'a request to archive a blogpost',
                 withRequest: {
                     method: 'PUT',
                     path: '/api/blogposts/archive',
-                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                    body: mockedBlogpost,
+                    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+                    body: mockedBlogpost
                 },
                 willRespondWith: {
                     status: 200,
-                    body: like (mockedArchivedBlogpost)
+                    body: like(mockedArchivedBlogpost)
                 }
             });
         })
-    );
 
-    test('should return archived blogpost', async () => {
-        const response = await archiveSinglePost(mockedBlogpost, ()=>{},URL + PORT);
-        console.log(response)
-        expect(response.isarchived).toBe(1);
-    });
+        test('should return archived blogpost', async () => {
+            const response = await archiveSinglePost(mockedBlogpost, ()=>{},URL + PORT);
+            expect(response.isarchived).toBe(1);
+        });
+    })
 
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});
-
-describe('When a request to delete a blogposts is made', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
+    describe('test to delete a single post', ()=> {
+        beforeEach(() => {
             provider.addInteraction({
                 uponReceiving: 'a request to delete a blogpost',
                 withRequest: {
                     method: 'DELETE',
                     path: '/api/blogposts/delete',
-                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
                     body: mockedBlogpost,
                 },
                 willRespondWith: {
@@ -350,21 +235,15 @@ describe('When a request to delete a blogposts is made', () => {
                 }
             });
         })
-    );
 
-    test('should return the deleted blogpost', async () => {
-        const response = await deleteSinglePost(mockedBlogpost, ()=>{},URL + PORT);
-        expect(response).toBe('successfully deleted blogpost')
-    });
+        test('should return the deleted blogpost', async () => {
+            const response = await deleteSinglePost(mockedBlogpost, () => {}, URL + PORT);
+            expect(response).toBe('successfully deleted blogpost')
+        });
+    })
 
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});
-
-
-describe('When a request to update a blogpost is made', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
+    describe('test to update a single post', ()=> {
+        beforeEach(()=> {
             provider.addInteraction({
                 uponReceiving: 'a request to update a blogpost',
                 withRequest: {
@@ -377,24 +256,18 @@ describe('When a request to update a blogpost is made', () => {
                     status: 200,
                     body: like(mockedUpdatedBlogpost)
                 }
-            });
+            })
         })
-    );
 
-    test('should return update Blogpost', async () => {
-        const response = await updateSinglePost({slug: 'mocked-blogpost', post: mockedBlogpost},cb=>{},URL+PORT,);
-        console.log('test response', response)
-        expect(response.title).toBe('Updated Mocked Blogpost')
-        expect(response.slug).toBe('updated-mocked-blogpost')
-    });
+        test('should return update Blogpost', async () => {
+            const response = await updateSinglePost({slug: 'mocked-blogpost', post: mockedBlogpost},()=>{},URL+PORT,);
+            expect(response.title).toBe('Updated Mocked Blogpost')
+            expect(response.slug).toBe('updated-mocked-blogpost')
+        })
+    })
 
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});
-
-describe('When a request to fetch distinct categories is made', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
+    describe('When a request to fetch distinct categories is made', () => {
+        beforeEach(()=> {
             provider.addInteraction({
                 uponReceiving: 'a request to fetch distinct categories',
                 withRequest: {
@@ -411,24 +284,18 @@ describe('When a request to fetch distinct categories is made', () => {
                         { min: 4 }
                     )
                 }
-            });
+            })
         })
-    );
 
-    test('should return categories', async () => {
-        const response = await fetchDistinctCategories(URL + PORT);
-        expect(response[0].categorydisplayvalue).toBe('Testing Category');
-        expect(response[0].categoryslug).toBe('testing-category');
-    });
+        test('should return categories', async () => {
+            const response = await fetchDistinctCategories(URL + PORT);
+            expect(response[0].categorydisplayvalue).toBe('Testing Category');
+            expect(response[0].categoryslug).toBe('testing-category');
+        })
+    })
 
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});
-
-
-describe('When a request to list all categories is made', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
+    describe('When a request to list all categories is made', ()=> {
+        beforeEach(()=> {
             provider.addInteraction({
                 uponReceiving: 'a request to list all categories',
                 withRequest: {
@@ -444,21 +311,50 @@ describe('When a request to list all categories is made', () => {
 
                         },
                         { min: 4 }
-                    ),
+                    )
+                }
+            })
+        })
+
+        test('should return categories', async () => {
+            const response = await fetchAllCategories(URL + PORT);
+            expect(response[0].categoryslug).toBe('new-category');
+            expect(response[0].sum).toBe(4);
+        })
+    })
+
+    describe('test user login', ()=> {
+        beforeEach(()=> {
+            provider.addInteraction({
+                uponReceiving: 'a request to authenticate',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/me',
                 },
+                willRespondWith: {
+                    status: 200,
+                    body: like(
+                        {
+                            status: like("LOGGED_IN"),
+                            user: {
+                                displayName: like("Jane Doe"),
+                                givenName: like("Jane"),
+                                surname: like("Doe"),
+                                id: like("ABC1234")
+                            }
+                        }
+                    )
+                }
             });
         })
-    );
 
-    test('should return categories', async () => {
-        const response = await fetchAllCategories(URL + PORT);
-        expect(response[0].categoryslug).toBe('new-category');
-        expect(response[0].sum).toBe(4);
-    });
-
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});*/
-
-
-
+        test('should return user data', async () => {
+            const response = await fetchUserInfo(URL + PORT);
+            expect(response.status).toBe('LOGGED_IN');
+            expect(response.user.displayName).toBe('Jane Doe');
+            expect(response.user.givenName).toBe('Jane');
+            expect(response.user.surname).toBe('Doe');
+            expect(response.user.id).toBe('ABC1234');
+        });
+    })
+});
