@@ -1,20 +1,9 @@
 version: "3.8"
 services:
 
-  fragment-server:
-    build: 
-      context: .
-      dockerfile: ci/Fragment-Server-Dockerfile
+  idealo-design:
+    build:
+      context: packages/idealo.design
+      dockerfile: packages/idealo.design/Dockerfile
     ports:
-     - "8081:8081"
-
-  layout-service:
-    build: 
-      context: .
-      dockerfile: ci/Layout-Service-Dockerfile
-    links:
-     - fragment-server
-    ports:
-     - "8080:8080"
-
-
+      - "8080:80"
