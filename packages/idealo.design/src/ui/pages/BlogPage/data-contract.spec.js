@@ -25,9 +25,45 @@ const provider = new Pact({
     logLevel: 'INFO',
 });
 
-describe('When a request to list all blogposts is made', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
+const mockedBlogpost = {
+    id:1,
+    title:"Mocked Blogpost",
+    //  nextpost:"Test-5",
+    //  previouspost:null,
+    categorydisplayvalue:"Test",
+    categoryslug:"test",
+    slug:"mocked-blogpost",
+    date:"2021-05-28T09:04:55.343Z",
+    image:"",
+    //  autor:null,
+    email:null,
+    instagram:null,
+    twitter:null,
+    github:null,
+    facebook:null,
+    blogpostcontent:
+        {
+            blocks:[
+                {
+                    key:"csc33",
+                    data:{},
+                    text:"This is a dummy post",
+                    type:"unstyled",
+                    depth:0,
+                    entityRanges:[],
+                    inlineStyleRanges:[]
+                }],
+            entityMap:{}
+        },
+    isarchived:0
+}
+
+describe('all Tests', () => {
+    afterAll(() => provider.finalize());
+    beforeAll(() => provider.setup());
+
+    describe('test list', () => {
+        beforeEach(() => {
             provider.addInteraction({
                 uponReceiving: 'a request to list all blogposts',
                 withRequest: {
@@ -41,32 +77,24 @@ describe('When a request to list all blogposts is made', () => {
                             id: 1,
                             title: like("Test title"),
                             categoryslug: like("Test categoryslug"),
-                            categorydisplayvalue:like("Test categorydisplayvalue"),
+                            categorydisplayvalue: like("Test categorydisplayvalue"),
                         },
-                        { min: 5 }
+                        {min: 5}
                     ),
                 },
             });
+        });
+        test('should return a list of five blogposts', async () => {
+            const response = await fetchList(URL + PORT);
+            console.log(response);
+            expect(response[0].title).toBe('Test title');
+            expect(response[0].categoryslug).toBe('Test categoryslug');
+            expect(response[0].categorydisplayvalue).toBe('Test categorydisplayvalue');
+        });
+    })
 
-        })
-    );
-
-    test('should return a list of five blogposts', async () => {
-        const response = await fetchList(URL + PORT);
-        console.log(response);
-        expect(response[0].title).toBe('Test title');
-        expect(response[0].categoryslug).toBe('Test categoryslug');
-        expect(response[0].categorydisplayvalue).toBe('Test categorydisplayvalue');
-    });
-
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});
-
-
-describe('When a request to single blogpost is made', () => {
-    beforeAll(() =>
-        provider.setup().then(() => {
+    describe('When a request to single blogpost is made', () => {
+        beforeEach(() =>
             provider.addInteraction({
                 uponReceiving: 'a request to single blogpost',
                 withRequest: {
@@ -79,27 +107,60 @@ describe('When a request to single blogpost is made', () => {
                         mockedBlogpost
                     ),
                 },
-            });
-        })
-    );
+            })
+        );
 
-    test('should return a single blogpost', async () => {
-        const response = await fetchSinglePost({slug: "Test-2-previous-next"}, URL + PORT);
-        expect(response.title).toBe('Mocked Blogpost');
-        expect(response.categorydisplayvalue).toBe('Test');
-        expect(response.categoryslug).toBe('test');
-        expect(response.slug).toBe('mocked-blogpost');
-        expect(response.date).toBe('2021-05-28T09:04:55.343Z');
+        test('should return a single blogpost', async () => {
+            const response = await fetchSinglePost({slug: "Test-2-previous-next"}, URL + PORT);
+            expect(response.title).toBe('Mocked Blogpost');
+            expect(response.categorydisplayvalue).toBe('Test');
+            expect(response.categoryslug).toBe('test');
+            expect(response.slug).toBe('mocked-blogpost');
+            expect(response.date).toBe('2021-05-28T09:04:55.343Z');
 
-        expect(response.blogpostcontent.blocks[0].key).toBe('csc33');
-        expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
-        expect(response.blogpostcontent.blocks[0].type).toBe('unstyled');
+            expect(response.blogpostcontent.blocks[0].key).toBe('csc33');
+            expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
+            expect(response.blogpostcontent.blocks[0].type).toBe('unstyled');
 
+        });
     });
 
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
+    /*describe('', () => {
+        beforeEach(() => {
+            provider.addInteraction({
+                uponReceiving: 'a request to single category',
+                withRequest: {
+                    method: 'GET',
+                    path: "/api/blogposts",
+                    query: "byCategorySlug=test",
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(mockedBlogpost),
+                },
+            });
+
+        })
+
+        test('should return a list of blogposts with a single category ', async () => {
+            const response = await fetchPostsByCategorySlug({categorySlug: "test"}, URL + PORT);
+            console.log(response);
+            expect(response[0].title).toBe('Mocked Blogpost');
+            expect(response[0].categorydisplayvalue).toBe('Docker');
+            expect(response[0].categoryslug).toBe('docker');
+            expect(response[0].slug).toBe('Test-next-and-validation');
+            expect(response[0].date).toBe('2021-05-10T07:16:23.300Z');
+
+            expect(response[0].blogpostcontent.blocks[0].key).toBe('aun0b');
+            expect(response[0].blogpostcontent.blocks[0].text).toBe('Lorem ipsum dolor sit amet');
+            expect(response[0].blogpostcontent.blocks[0].type).toBe('header-two');
+
+        })
+    })*/
 });
+
+
+/*
 
 describe('When a request to single category is made', () => {
     beforeAll(() =>
@@ -135,11 +196,6 @@ describe('When a request to single category is made', () => {
         expect(response[0].blogpostcontent.blocks[0].text).toBe('Lorem ipsum dolor sit amet');
         expect(response[0].blogpostcontent.blocks[0].type).toBe('header-two');*/
 
-    });
-
-    afterEach(() => provider.verify());
-    afterAll(() => provider.finalize());
-});
 
 
 
@@ -185,41 +241,10 @@ describe('When a request to get the current user', () => {
     afterEach(() => provider.verify());
     afterAll(() => provider.finalize());
 });
-*/
+*!/
 
 
-const mockedBlogpost = {
-    id:1,
-    title:"Mocked Blogpost",
-  //  nextpost:"Test-5",
-  //  previouspost:null,
-    categorydisplayvalue:"Test",
-    categoryslug:"test",
-    slug:"mocked-blogpost",
-    date:"2021-05-28T09:04:55.343Z",
-    image:"",
-  //  autor:null,
-    email:null,
-    instagram:null,
-    twitter:null,
-    github:null,
-    facebook:null,
-    blogpostcontent:
-        {
-            blocks:[
-                {
-                    key:"csc33",
-                    data:{},
-                    text:"This is a dummy post",
-                    type:"unstyled",
-                    depth:0,
-                    entityRanges:[],
-                    inlineStyleRanges:[]
-                }],
-            entityMap:{}
-        },
-    isarchived:0
-}
+
 
 
 const mockedUpdatedBlogpost = {
@@ -433,7 +458,7 @@ describe('When a request to list all categories is made', () => {
 
     afterEach(() => provider.verify());
     afterAll(() => provider.finalize());
-});
+});*/
 
 
 
