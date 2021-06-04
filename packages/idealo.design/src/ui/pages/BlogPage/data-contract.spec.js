@@ -321,18 +321,15 @@ describe('When a request to delete a blogposts is made', () => {
                 },
                 willRespondWith: {
                     status: 200,
-                    body: {mockedBlogpost}
+                    body: 'successfully deleted blogpost'
                 }
             });
         })
     );
 
     test('should return the deleted blogpost', async () => {
-        const response = await deleteSinglePost(mockedBlogpost, URL + PORT);
-        expect(response.id).toBe(1);
-        expect(response.title).toBe('Mocked Blogpost');
-        expect(response.blogpostcontent.blocks[0].text).toBe('This is a dummy post');
-        expect(response.slug).toBe('mocked-blogpost');
+        const response = await deleteSinglePost(mockedBlogpost, ()=>{},URL + PORT);
+        expect(response).toBe('successfully deleted blogpost')
     });
 
     afterEach(() => provider.verify());

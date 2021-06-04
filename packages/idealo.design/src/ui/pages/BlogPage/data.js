@@ -59,15 +59,20 @@ export async function fetchUserInfo(base_url = API_BASE) {
   return data;
 }
 
-export async function deleteSinglePost(post, base_url = API_BASE) {
+export async function deleteSinglePost(post, cb,base_url = API_BASE) {
     const body = JSON.stringify(post);
 
-    await fetch(`${base_url}/api/blogposts/delete`, {
+    const resp=await fetch(`${base_url}/api/blogposts/delete`, {
         method: 'DELETE',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body
+    }).then(function (response){
+        cb();
+        return 'successfully deleted blogpost'
     })
-    return post
+
+    return resp;
+
 }
 
 export async function archiveSinglePost(post,cb,base_url = API_BASE) {
