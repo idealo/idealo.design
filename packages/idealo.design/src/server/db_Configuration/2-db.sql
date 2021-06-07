@@ -1,5 +1,4 @@
 ALTER TABLE blogposts
-    ADD autor varchar(255),
     ADD email varchar(255),
     ADD instagram varchar(255),
     ADD twitter varchar(255),
