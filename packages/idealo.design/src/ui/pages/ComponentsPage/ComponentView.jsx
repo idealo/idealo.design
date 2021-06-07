@@ -24,9 +24,13 @@ class ComponentView extends React.Component {
     }
 
     closeMenu() {
-        this.setState({ showMenu: false }, () => {
-            document.removeEventListener('click', this.closeMenu);
-        });
+        if (!this.dropdownMenu.contains(event.target)) {
+
+            this.setState({ showMenu: false }, () => {
+                document.removeEventListener('click', this.closeMenu);
+            });
+
+        }
     }
 
 
@@ -34,17 +38,19 @@ class ComponentView extends React.Component {
     render() {
         return (
            <div>
-               <button onClick={this.showMenu}>Dropdown</button>
+               <button onClick={this.showMenu}>By Technology</button>
 
 
 
         {
             this.state.showMenu
                 ? (
-                    <div className="menu">
-                        <div><button> Menu item 1</button></div>
-                        <div><button> Menu item 2</button></div>
-                        <div><button> Menu item 3</button></div>
+                    <div className="menu"
+                         ref={(element) => {
+                             this.dropdownMenu = element;
+                         }}>
+                        <div><button> React Stacks</button></div>
+                        <div><button> Classic Stacks</button></div>
                     </div>
                 ) : null
         }
