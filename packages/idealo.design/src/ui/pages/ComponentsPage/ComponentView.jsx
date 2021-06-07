@@ -2,33 +2,56 @@ import React from "react";
 import {withRouter} from "react-router";
 
 class ComponentView extends React.Component {
-    myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
-    };
-
-    onclick(event) {
-        if (!event.target.matches('.dropbtn')) {
-            const dropdowns = document.getElementsByClassName("dropdown-content");
-            let i;
-            for (i = 0; i < dropdowns.length; i++) {
-                const openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+        this.state = {
+            showMenu: false,
         }
+        this.showMenu = this.showMenu.bind(this);
+        this.closeMenu = this.closeMenu.bind(this);
     }
+    handleClick() {
+        console.log('Click happened');
+    }
+
+    showMenu(event) {
+        event.preventDefault();
+
+        this.setState({ showMenu: true }, () => {
+            document.addEventListener('click', this.closeMenu);
+        });
+    }
+
+    closeMenu() {
+        this.setState({ showMenu: false }, () => {
+            document.removeEventListener('click', this.closeMenu);
+        });
+    }
+
+
 
     render() {
         return (
-            <div className="dropdown">
-                <button onClick="myFunction()" className="dropbtn">Dropdown</button>
-                <div id="myDropdown" className="dropdown-content">
-                    <a href="#home">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </div>
+           <div>
+               <button onClick={this.showMenu}>Dropdown</button>
+
+
+
+        {
+            this.state.showMenu
+                ? (
+                    <div className="menu">
+                        <div><button> Menu item 1</button></div>
+                        <div><button> Menu item 2</button></div>
+                        <div><button> Menu item 3</button></div>
+                    </div>
+                ) : null
+        }
+
+
+    </div>
+
         );
     }
 }
