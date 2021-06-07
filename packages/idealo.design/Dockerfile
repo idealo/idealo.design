@@ -3,8 +3,8 @@ FROM node:14.16.1 as builder
 WORKDIR /home/node/app
 
 COPY . ./
-RUN npm install
-RUN npm run build
+RUN npm ci
+RUN npm build
 
 
 FROM node:14.16.1-alpine as runner
