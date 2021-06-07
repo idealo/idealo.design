@@ -48,6 +48,6 @@ values
     'Docker',
     '2021-01-20 14:45:45.351Z',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/2000px-Docker_%28container_engine%29_logo.svg.png',
-    '{"blocks": [{"key": "3aovb", "data": {}, "text": "Das ist Docker.", "type": "unstyled", "depth": 0, "entityRanges": [], "inlineStyleRanges": []}], "entityMap": {}}'
+    '{"blocks": [{"key": "3aovb", "data": {}, "text": "Das ist Docker.", "type": "unstyled", "depth": 0, "entityRanges": [], "inlineStyleRanges": []}], "entityMap": {}}',
     'Eda Güngör'
 );
