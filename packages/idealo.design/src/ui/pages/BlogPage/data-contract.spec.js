@@ -110,6 +110,7 @@ const mockedArchivedBlogpost = {
 describe('all Tests', () => {
     afterAll(() => provider.finalize());
     beforeAll(() => provider.setup());
+    afterEach(()=> provider.removeInteractions())
 
     describe('test list', () => {
         beforeEach(() => {
@@ -124,7 +125,6 @@ describe('all Tests', () => {
                     body: eachLike(mockedBlogpost, {min: 5})
                 }
             });
-            //provider.removeInteractions()
         });
         test('should return a list of five blogposts', async () => {
             const response = await fetchList(URL + PORT);
@@ -172,14 +172,13 @@ describe('all Tests', () => {
                 uponReceiving: 'a request to single category',
                 withRequest: {
                     method: 'GET',
-                    path: "/api/blogposts/?test"
+                    path: "/api/blogposts"
                 },
                 willRespondWith: {
                     status: 200,
                     body: eachLike(mockedBlogpost)
                 }
             })
-
         })
 
         test('should return a list of blogposts with a single category ', async () => {
