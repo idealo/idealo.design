@@ -124,6 +124,7 @@ describe('all Tests', () => {
                     body: eachLike(mockedBlogpost, {min: 5})
                 }
             });
+            //provider.removeInteractions()
         });
         test('should return a list of five blogposts', async () => {
             const response = await fetchList(URL + PORT);
@@ -214,7 +215,7 @@ describe('all Tests', () => {
         })
 
         test('should return archived blogpost', async () => {
-            const response = await archiveSinglePost(mockedBlogpost, ()=>{},URL + PORT);
+            const response = await archiveSinglePost(mockedBlogpost, URL + PORT);
             expect(response.isarchived).toBe(1);
         });
     })
@@ -237,7 +238,7 @@ describe('all Tests', () => {
         })
 
         test('should return the deleted blogpost', async () => {
-            const response = await deleteSinglePost(mockedBlogpost, () => {}, URL + PORT);
+            const response = await deleteSinglePost(mockedBlogpost,  URL + PORT);
             expect(response).toBe('successfully deleted blogpost')
         });
     })
