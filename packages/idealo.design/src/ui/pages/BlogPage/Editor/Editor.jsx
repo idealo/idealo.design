@@ -152,19 +152,20 @@ export class RichTextEditor extends React.Component {
   }
 
   handleValidation() {
-    const a = fetchAllTitles();
+    const a = JSON.stringify(fetchAllTitles());
     console.log('gefetchte json:', a);
-      /*let tmpArray = []
-      for (let i = 0; i < a; i++) {
+      // let tmpArray = []
+      /*for (let i = 0; i < a.length; i++) {
         console.log('a.title:', a.title[i]);
-        tmpArray.push(JSON.stringify(a.title[i]))
-      }
-      console.log('array:', tmpArray);*/
+        let obj = a[i];
+        console.log('hallo', obj)*/
+        //tmpArray.push(JSON.stringify(a.title[i]))
+      //console.log('array:', tmpArray);
 
     let formIsValid = true;
     let errors = {};
     const blacklist = ['new-post'];
-    const existingTitle = a;
+    const existingTitle = JSON.parse(a);
     console.log('unsere Titel sind:', existingTitle);
 
 
@@ -180,7 +181,7 @@ export class RichTextEditor extends React.Component {
       }
     });
 
-    existingTitle.JSON.bind(word => {
+    existingTitle.map(word => {
       if (word === slugify(this.state.title).replace(/^\s+|\s+$/g, '').toLowerCase()) {
         formIsValid = false;
         errors ['title-value'] = 'Title can not be that, because we already have a blogpost with that title';
