@@ -5,7 +5,7 @@ WORKDIR /home/node/app
 COPY . ./
 RUN npm config set color false
 RUN npm ci
-RUN npm build
+RUN npm run build
 
 WORKDIR /home/node/app/dist
 
