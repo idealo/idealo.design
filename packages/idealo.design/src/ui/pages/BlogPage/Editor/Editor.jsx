@@ -31,6 +31,7 @@ export class RichTextEditor extends React.Component {
       isSubmitPromptOpen: false,
       cats: [],
       error: [],
+      existingTitle: [],
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -139,8 +140,6 @@ export class RichTextEditor extends React.Component {
   }
 
   handleValidation() {
-    const a = fetchAllTitles();
-    console.log('gefetchte json:', a);
     const titles = [];
     fetch('/api/title')
           .then(response => {
@@ -150,13 +149,11 @@ export class RichTextEditor extends React.Component {
             for (let i = 0; i < data.length; i++) {
               titles.push(data[i].title)
             }
-            console.log('das array:', titles);
+            this.setState( {existingTitle : titles});
           });
     let formIsValid = true;
     let errors = {};
     const blacklist = ['new-post'];
-    const existingTitle = titles;
-    console.log('unsere Titel sind:', existingTitle);
 
 
     if (!this.state.title) {
@@ -171,10 +168,10 @@ export class RichTextEditor extends React.Component {
       }
     });
 
-    existingTitle.map(word => {
-      if (word === slugify(this.state.title).replace(/^\s+|\s+$/g, '').toLowerCase()) {
+    this.state.existingTitle.map(word => {
+      if (slugify(word).replace(/^\s+|\s+$/g, '').toLowerCase() === slugify(this.state.title).replace(/^\s+|\s+$/g, '').toLowerCase()) {
         formIsValid = false;
-        errors ['title-value'] = 'Title can not be that, because we already have a blogpost with that title';
+        errors ['existing-title-value'] = 'Title can not be that, because we already have a blogpost with that title';
       }
     });
 
@@ -196,6 +193,11 @@ export class RichTextEditor extends React.Component {
     e.preventDefault();
     if(!this.handleValidation() && this.state.error['title-value']){
       alert("Title is invalid. Please choose a different title!");
+      return;
+    }
+
+    if(!this.handleValidation() && this.state.error['existing-title-value']){
+      alert("Title already exists. Please choose a different title!");
       return;
     }
 
@@ -251,7 +253,6 @@ export class RichTextEditor extends React.Component {
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body
     }).then(function(response) {
-      console.log(response)
       return response.json();
     });
        this.props.history.block(() => {return true;})
@@ -335,7 +336,7 @@ export class RichTextEditor extends React.Component {
          : <h1 title="createHeading">Create blogpost</h1>}
 
         <div className={s.InputFields}>
-          <input className={this.state.error['title-empty'] ? s.empty : '' || this.state.error['title-value'] ? s.empty : ''} onChange={this.handleChange} name="title" title="titleInput" value={this.state.title} placeholder="Title"/>
+          <input className={this.state.error['title-empty'] ? s.empty : '' || this.state.error['title-value'] ? s.empty : '' || this.state.error['existing-title-value'] ? s.empty : ''} onChange={this.handleChange} name="title" title="titleInput" value={this.state.title} placeholder="Title"/>
           <form name="category" className="select-container" title="categorySelect">
             <CreatableSelect
                 getOptionLabel={option => option.categorydisplayvalue}
