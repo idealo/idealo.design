@@ -17,6 +17,7 @@ import {
   FoundationsPage,
   OtherPage,
   WelcomePage,
+  ComponentsPage
 } from './pages'
 
 import PageLayout from 'Components/PageLayout'
@@ -36,6 +37,9 @@ function App() {
         </Route>
         <Route path="/compounds/:slug?">
           <CompoundsPage />
+        </Route>
+        <Route path="/components/:slug?">
+          <ComponentsPage />
         </Route>
         <Route path="/blog">
           <BlogPage />

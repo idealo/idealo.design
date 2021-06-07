@@ -50,6 +50,15 @@ function createSections(addedData) {
       ]
     },
     {
+      //icon: ,
+      title: 'Components',
+      children: [
+        { title: 'Overview', href: '/components' },
+        { title: 'For react stacks', href: '/components/for-react-stacks' },
+        { title: 'For classic stacks', href: '/components/for-classic-stacks' },
+      ]
+    },
+    {
       icon: 'otherIcon',
       title: 'Blog',
       children: [{ title: 'Overview', href: '/blog' }]
