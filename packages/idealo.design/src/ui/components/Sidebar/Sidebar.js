@@ -9,6 +9,7 @@ import ChevronIcon from './ico_chevron_right.svg'
 import FoundationsIcon from './ico_foundations.svg'
 import ElementsIcon from './ico_elements.svg'
 import CompoundsIcon from './ico_components.svg'
+import ComponentsIcon from './ico_components.svg'
 import AssetsIcon from './ico_assets.svg'
 import OtherIcon from './ico_datasheet_outline.svg'
 
@@ -50,7 +51,7 @@ function createSections(addedData) {
       ]
     },
     {
-      //icon: ,
+      icon: 'componentsIcon',
       title: 'Components',
       children: [
         { title: 'Overview', href: '/components' },
@@ -96,6 +97,8 @@ function RenderIcon({ name }) {
     return <AssetsIcon className={s.VerticalNav__TopLevelIcon}/>
   case 'compoundsIcon':
     return <CompoundsIcon className={s.VerticalNav__TopLevelIcon}/>
+  case 'componentsIcon':
+    return <ComponentsIcon className={s.VerticalNav__TopLevelIcon}/>
   case 'elementsIcon':
     return <ElementsIcon className={s.VerticalNav__TopLevelIcon}/>
   case 'foundationsIcon':
