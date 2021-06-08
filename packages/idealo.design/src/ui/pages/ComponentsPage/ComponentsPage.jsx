@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 
-import ComponentView from './ListView'
+import ComponentView from './ComponentView'
 import {fetchUserInfo} from "../BlogPage/data";
 
 export default function ComponentsPage({ match }) {
