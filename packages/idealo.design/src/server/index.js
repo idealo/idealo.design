@@ -207,7 +207,6 @@ app.put('/api/blogposts', isAuthenticated, async (req, res) => {
   return res.json(createdBlogpost);
 });
 
-
 app.delete('/api/blogposts/delete', isAuthenticated, async (req,res) => {
   const blogpost = req.body;
   const deletedBlogpost = await deleteSinglePost(blogpost)

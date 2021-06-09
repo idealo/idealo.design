@@ -30,7 +30,7 @@ const mockedBlogpost = {
     title:"Mocked Blogpost",
     categorydisplayvalue:"Test",
     categoryslug:"test",
-    slug:"mocked-blogpost",
+    slug:"Test",
     date:"2021-05-28T09:04:55.343Z",
     image:"",
     email:null,
@@ -127,7 +127,7 @@ describe('all Tests', () => {
             });
         });
         test('should return a list of five blogposts', async () => {
-            const response = await fetchList(URL + PORT);
+            const response = await fetchList(provider.mockService.baseUrl);
             expect(response[0].title).toBe('Mocked Blogpost');
             expect(response[0].categoryslug).toBe('test');
             expect(response[0].categorydisplayvalue).toBe('Test');
@@ -152,11 +152,11 @@ describe('all Tests', () => {
         );
 
         test('should return a single blogpost', async () => {
-            const response = await fetchSinglePost({slug: "Test-2-previous-next"}, URL + PORT);
+            const response = await fetchSinglePost({slug: "Test-2-previous-next"}, provider.mockService.baseUrl);
             expect(response.title).toBe('Mocked Blogpost');
             expect(response.categorydisplayvalue).toBe('Test');
             expect(response.categoryslug).toBe('test');
-            expect(response.slug).toBe('mocked-blogpost');
+            expect(response.slug).toBe('Test');
             expect(response.date).toBe('2021-05-28T09:04:55.343Z');
 
             expect(response.blogpostcontent.blocks[0].key).toBe('csc33');
@@ -182,11 +182,11 @@ describe('all Tests', () => {
         })
 
         test('should return a list of blogposts with a single category ', async () => {
-            const response = await fetchPostsByCategorySlug({categorySlug: "test"}, URL + PORT);
+            const response = await fetchPostsByCategorySlug({categorySlug: "test"}, provider.mockService.baseUrl);
             expect(response[0].title).toBe('Mocked Blogpost');
             expect(response[0].categorydisplayvalue).toBe('Test');
             expect(response[0].categoryslug).toBe('test');
-            expect(response[0].slug).toBe('mocked-blogpost');
+            expect(response[0].slug).toBe('Test');
             expect(response[0].date).toBe('2021-05-28T09:04:55.343Z');
 
             expect(response[0].blogpostcontent.blocks[0].key).toBe('csc33');
@@ -214,7 +214,7 @@ describe('all Tests', () => {
         })
 
         test('should return archived blogpost', async () => {
-            const response = await archiveSinglePost(mockedBlogpost, URL + PORT);
+            const response = await archiveSinglePost(mockedBlogpost, provider.mockService.baseUrl);
             expect(response.isarchived).toBe(1);
         });
     })
@@ -237,7 +237,7 @@ describe('all Tests', () => {
         })
 
         test('should return the deleted blogpost', async () => {
-            const response = await deleteSinglePost(mockedBlogpost,  URL + PORT);
+            const response = await deleteSinglePost(mockedBlogpost,  provider.mockService.baseUrl);
             expect(response).toBe('successfully deleted blogpost')
         });
     })
@@ -260,7 +260,7 @@ describe('all Tests', () => {
         })
 
         test('should return update Blogpost', async () => {
-            const response = await updateSinglePost({slug: 'mocked-blogpost', post: mockedBlogpost},()=>{},URL+PORT,);
+            const response = await updateSinglePost({slug: 'mocked-blogpost', post: mockedBlogpost},()=>{},provider.mockService.baseUrl);
             expect(response.title).toBe('Updated Mocked Blogpost')
             expect(response.slug).toBe('updated-mocked-blogpost')
         })
@@ -288,7 +288,7 @@ describe('all Tests', () => {
         })
 
         test('should return categories', async () => {
-            const response = await fetchDistinctCategories(URL + PORT);
+            const response = await fetchDistinctCategories(provider.mockService.baseUrl);
             expect(response[0].categorydisplayvalue).toBe('Testing Category');
             expect(response[0].categoryslug).toBe('testing-category');
         })
@@ -317,7 +317,7 @@ describe('all Tests', () => {
         })
 
         test('should return categories', async () => {
-            const response = await fetchAllCategories(URL + PORT);
+            const response = await fetchAllCategories(provider.mockService.baseUrl);
             expect(response[0].categoryslug).toBe('new-category');
             expect(response[0].sum).toBe(4);
         })
@@ -349,7 +349,7 @@ describe('all Tests', () => {
         })
 
         test('should return user data', async () => {
-            const response = await fetchUserInfo(URL + PORT);
+            const response = await fetchUserInfo(provider.mockService.baseUrl);
             expect(response.status).toBe('LOGGED_IN');
             expect(response.user.displayName).toBe('Jane Doe');
             expect(response.user.givenName).toBe('Jane');

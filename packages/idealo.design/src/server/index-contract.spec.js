@@ -11,7 +11,7 @@ describe('Pact Verification', () => {
             pactUrls: [path.resolve(process.cwd(), 'src/__tests__/pact/consumer-provider.json')],
             publishVerificationResult: true,
             providerVersion: '1.0.0',
-            logLevel: 'INFO',
+            logLevel: 'DEBUG',
         };
 
         return new Verifier(opts).verifyProvider();
