@@ -58,15 +58,48 @@ class ComponentView extends React.Component {
                             ) : null
                     }
                 </div>
-                <div>
-                <div className={s.element} >
-                    <div className={s.element1}>
 
+                <div className={s.container}>
+                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
+                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+                        est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+                        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                        takimata sanctus est Lorem ipsum dolor sit amet.
                     </div>
-                    <div className={s.element1}>
-
+                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
+                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+                        est Lorem ipsum dolor sit
                     </div>
-                </div>
+                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
+                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+                        est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+                        At vero eos et
+                    </div>
+                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
+                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+                        est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+                        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                        takimata sanctus est Lorem ipsum dolor sit amet.
+                    </div>
+                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
+                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+                        est Lorem ipsum dolor sit
+                    </div>
+                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
+                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+                        est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+                        At vero eos et
+                    </div>
                 </div>
             </div>
 

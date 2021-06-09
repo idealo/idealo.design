@@ -1,13 +1,13 @@
-.element{
-  margin: 10px;
-  padding: 90px 20px;
-  border: 2px black solid;
-
+.container{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
-.element1{
-  margin: 10px;
-  padding: 70px 20px;
-  border: 2px black dotted;
-  display: inline-block;
+.item {
+  background: #f0f0f0;
+  width: 25%;
+  margin: 5px 3px;
+  padding: 10px;
 }
+
