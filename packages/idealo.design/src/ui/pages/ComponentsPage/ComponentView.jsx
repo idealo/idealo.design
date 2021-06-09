@@ -1,6 +1,7 @@
 import React from "react";
 import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
+import { ReactComponent as Logo } from '../../../../public/ids_v02.svg';
 
 class ComponentView extends React.Component {
     constructor(props) {
@@ -40,7 +41,7 @@ class ComponentView extends React.Component {
         return (
             <div>
                 <div>
-                    <button onClick={this.showMenu}>By Technology</button>
+                    <button className={s.dropdown} onClick={this.showMenu}>By Technology</button>
                     {
                         this.state.showMenu
                             ? (
@@ -60,45 +61,35 @@ class ComponentView extends React.Component {
                 </div>
 
                 <div className={s.container}>
-                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
-                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                        est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-                        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                        takimata sanctus est Lorem ipsum dolor sit amet.
+                    <div className={s.item}>
+                        <Logo/>
+                        <h2>Radio Button</h2>
+                        #motif-ui #react
                     </div>
-                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
-                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                        est Lorem ipsum dolor sit
+                    <div className={s.item}>
+                        <Logo/>
+                        <h2>Radio Button</h2>
+                        #motif-ui #react
                     </div>
-                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
-                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                        est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-                        At vero eos et
+                    <div className={s.item}>
+                        <Logo/>
+                        <h2>Radio Button</h2>
+                        #motif-ui #react
                     </div>
-                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
-                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                        est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-                        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                        takimata sanctus est Lorem ipsum dolor sit amet.
+                    <div className={s.item}>
+                        <Logo/>
+                        <h2>Radio Button</h2>
+                        #motif-ui #react
                     </div>
-                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
-                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                        est Lorem ipsum dolor sit
+                    <div className={s.item}>
+                        <Logo/>
+                        <h2>Radio Button</h2>
+                        #motif-ui #react
                     </div>
-                    <div className={s.item}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
-                        et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-                        est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-                        At vero eos et
+                    <div className={s.item}>
+                        <Logo/>
+                        <h2>Radio Button</h2>
+                        #motif-ui #react
                     </div>
                 </div>
             </div>
