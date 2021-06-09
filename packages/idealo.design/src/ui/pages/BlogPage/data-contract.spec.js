@@ -113,8 +113,8 @@ describe('all Tests', () => {
     afterEach(()=> provider.removeInteractions())
 
     describe('test list', () => {
-        beforeEach(() => {
-            provider.addInteraction({
+        test('should return a list of five blogposts', async () => {
+            await provider.addInteraction({
                 uponReceiving: 'a request to list all blogposts',
                 withRequest: {
                     method: 'GET',
@@ -124,19 +124,18 @@ describe('all Tests', () => {
                     status: 200,
                     body: eachLike(mockedBlogpost, {min: 5})
                 }
-            });
-        });
-        test('should return a list of five blogposts', async () => {
+            })
+
             const response = await fetchList(provider.mockService.baseUrl);
-            expect(response[0].title).toBe('Mocked Blogpost');
-            expect(response[0].categoryslug).toBe('test');
-            expect(response[0].categorydisplayvalue).toBe('Test');
+                expect(response[0].title).toBe('Mocked Blogpost');
+                expect(response[0].categoryslug).toBe('test');
+                expect(response[0].categorydisplayvalue).toBe('Test');
         });
     })
 
     describe('When a request to single blogpost is made', () => {
-        beforeEach(() =>
-            provider.addInteraction({
+        test('should return a single blogpost', async () => {
+            await provider.addInteraction({
                 uponReceiving: 'a request to single blogpost',
                 withRequest: {
                     method: 'GET',
@@ -149,9 +148,7 @@ describe('all Tests', () => {
                     )
                 }
             })
-        );
 
-        test('should return a single blogpost', async () => {
             const response = await fetchSinglePost({slug: "Test-2-previous-next"}, provider.mockService.baseUrl);
             expect(response.title).toBe('Mocked Blogpost');
             expect(response.categorydisplayvalue).toBe('Test');
@@ -167,8 +164,8 @@ describe('all Tests', () => {
     });
 
     describe('test category slug', () => {
-        beforeEach(() => {
-            provider.addInteraction({
+        test('should return a list of blogposts with a single category ', async () => {
+            await provider.addInteraction({
                 uponReceiving: 'a request to single category',
                 withRequest: {
                     method: 'GET',
@@ -179,26 +176,23 @@ describe('all Tests', () => {
                     body: eachLike(mockedBlogpost)
                 }
             })
-        })
 
-        test('should return a list of blogposts with a single category ', async () => {
             const response = await fetchPostsByCategorySlug({categorySlug: "test"}, provider.mockService.baseUrl);
-            expect(response[0].title).toBe('Mocked Blogpost');
-            expect(response[0].categorydisplayvalue).toBe('Test');
-            expect(response[0].categoryslug).toBe('test');
-            expect(response[0].slug).toBe('Test');
-            expect(response[0].date).toBe('2021-05-28T09:04:55.343Z');
+                expect(response[0].title).toBe('Mocked Blogpost');
+                expect(response[0].categorydisplayvalue).toBe('Test');
+                expect(response[0].categoryslug).toBe('test');
+                expect(response[0].slug).toBe('Test');
+                expect(response[0].date).toBe('2021-05-28T09:04:55.343Z');
 
-            expect(response[0].blogpostcontent.blocks[0].key).toBe('csc33');
-            expect(response[0].blogpostcontent.blocks[0].text).toBe('This is a dummy post');
-            expect(response[0].blogpostcontent.blocks[0].type).toBe('unstyled');
-
+                expect(response[0].blogpostcontent.blocks[0].key).toBe('csc33');
+                expect(response[0].blogpostcontent.blocks[0].text).toBe('This is a dummy post');
+                expect(response[0].blogpostcontent.blocks[0].type).toBe('unstyled');
         })
     })
 
     describe('test to archive a single post', ()=>{
-        beforeEach(() => {
-            provider.addInteraction({
+        test('should return archived blogpost', async () => {
+            await provider.addInteraction({
                 uponReceiving: 'a request to archive a blogpost',
                 withRequest: {
                     method: 'PUT',
@@ -211,11 +205,8 @@ describe('all Tests', () => {
                     body: like(mockedArchivedBlogpost)
                 }
             });
-        })
-
-        test('should return archived blogpost', async () => {
             const response = await archiveSinglePost(mockedBlogpost, provider.mockService.baseUrl);
-            expect(response.isarchived).toBe(1);
+                expect(response.isarchived).toBe(1);
         });
     })
 
@@ -261,14 +252,14 @@ describe('all Tests', () => {
 
         test('should return update Blogpost', async () => {
             const response = await updateSinglePost({slug: 'mocked-blogpost', post: mockedBlogpost},()=>{},provider.mockService.baseUrl);
-            expect(response.title).toBe('Updated Mocked Blogpost')
-            expect(response.slug).toBe('updated-mocked-blogpost')
+                expect(response.title).toBe('Updated Mocked Blogpost')
+                expect(response.slug).toBe('updated-mocked-blogpost')
         })
     })
 
     describe('When a request to fetch distinct categories is made', () => {
-        beforeEach(()=> {
-            provider.addInteraction({
+        test('should return categories', async () => {
+            await provider.addInteraction({
                 uponReceiving: 'a request to fetch distinct categories',
                 withRequest: {
                     method: 'GET',
@@ -285,9 +276,7 @@ describe('all Tests', () => {
                     )
                 }
             })
-        })
 
-        test('should return categories', async () => {
             const response = await fetchDistinctCategories(provider.mockService.baseUrl);
             expect(response[0].categorydisplayvalue).toBe('Testing Category');
             expect(response[0].categoryslug).toBe('testing-category');
@@ -295,8 +284,8 @@ describe('all Tests', () => {
     })
 
     describe('When a request to list all categories is made', ()=> {
-        beforeEach(()=> {
-            provider.addInteraction({
+        test('should return categories', async () => {
+            await provider.addInteraction({
                 uponReceiving: 'a request to list all categories',
                 withRequest: {
                     method: 'GET',
@@ -314,18 +303,16 @@ describe('all Tests', () => {
                     )
                 }
             })
-        })
 
-        test('should return categories', async () => {
             const response = await fetchAllCategories(provider.mockService.baseUrl);
-            expect(response[0].categoryslug).toBe('new-category');
-            expect(response[0].sum).toBe(4);
+                expect(response[0].categoryslug).toBe('new-category');
+                expect(response[0].sum).toBe(4);
         })
     })
 
     describe('test user login', ()=> {
-        beforeEach(()=> {
-            provider.addInteraction({
+        test('should return user data', async () => {
+            await provider.addInteraction({
                 uponReceiving: 'a request to authenticate',
                 withRequest: {
                     method: 'GET',
@@ -345,10 +332,8 @@ describe('all Tests', () => {
                         }
                     )
                 }
-            });
-        })
+            })
 
-        test('should return user data', async () => {
             const response = await fetchUserInfo(provider.mockService.baseUrl);
             expect(response.status).toBe('LOGGED_IN');
             expect(response.user.displayName).toBe('Jane Doe');

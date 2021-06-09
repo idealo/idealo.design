@@ -25,12 +25,12 @@ jest.mock('./db', () => {
 
 describe('Pact Verification', () => {
 
-    app.listen(7777, '0000',() => console.log('server running for api testing') )
+    app.listen(1111, '0000',() => console.log('server running for api testing') )
 
     test('should validate the expectations of our consumer', () => {
         const opts = {
             provider: 'Provider',
-            providerBaseUrl: '7777',
+            providerBaseUrl: '1111',
            // pactBrokerUrl: process.env.PACT_BROKER_URL,
           //  pactBrokerToken: process.env.PACT_BROKER_TOKEN,
             pactUrls: [path.resolve(process.cwd(), 'src/__tests__/pact/consumer-provider.json')],
