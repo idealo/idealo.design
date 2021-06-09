@@ -1,7 +1,9 @@
 import React from "react";
 import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
-import { ReactComponent as Logo } from '../../../../public/ids_v02.svg';
+import { ReactComponent as Logo } from '../../../../public/logo.svg';
+import { ReactComponent as Arrow } from '../../../../public/ico_chevron_right.svg'
+import { Dropdown, Selection } from 'react-dropdown-now';
 
 class ComponentView extends React.Component {
     constructor(props) {
@@ -40,8 +42,8 @@ class ComponentView extends React.Component {
     render() {
         return (
             <div>
-                <div>
-                    <button className={s.dropdown} onClick={this.showMenu}>By Technology</button>
+                {/*<div>
+                    <button className={s.dropdown} onClick={this.showMenu}>By Technology </button><arrow/>
                     {
                         this.state.showMenu
                             ? (
@@ -58,6 +60,15 @@ class ComponentView extends React.Component {
                                 </div>
                             ) : null
                     }
+                </div>*/}
+                <div className={s.dropdown}>
+                    <Dropdown
+                        placeholder="By Technology"
+                        options={['React Stacks', 'Classic Stacks']}
+                        onChange={(value) => console.log('change!', value)}
+                        onSelect={(value) => console.log('selected!', value)}
+                        onClose={(closedBySelection) => console.log('closedBySelection?:', closedBySelection)}
+                    />
                 </div>
 
                 <div className={s.container}>

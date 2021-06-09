@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import s from './Sidebar.module.scss'
 
-import ChevronIcon from './ico_chevron_right.svg'
+import ChevronIcon from '../../../../public/ico_chevron_right.svg'
 import FoundationsIcon from './ico_foundations.svg'
 import ElementsIcon from './ico_elements.svg'
 import CompoundsIcon from './ico_components.svg'
