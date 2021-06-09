@@ -12,6 +12,7 @@ import slugify from 'slugify'
 
 import passport  from 'passport'
 import { OAuth2Strategy } from 'passport-oauth'
+import {dangerousTestModeArgument} from "./index-contract.spec";
 
 import Renderer from './renderer'
 
@@ -47,8 +48,6 @@ const PORT = process.env.HTTP_PORT || 8080
 const app = express()
 
 const RedisStore = connectRedis(session)
-
-const dangerousTestModeArgument = process.argv[process.argv.indexOf('dangerousTestModeArgument')] || false
 
 redis.on('error', err => {
   console.log('redis error: ', err)
@@ -210,6 +209,7 @@ app.put('/api/blogposts', isAuthenticated, async (req, res) => {
 app.delete('/api/blogposts/delete', isAuthenticated, async (req,res) => {
   const blogpost = req.body;
   const deletedBlogpost = await deleteSinglePost(blogpost)
+  console.log('deleted blogpost: ', deletedBlogpost)
   return res.json(deletedBlogpost)
 })
 

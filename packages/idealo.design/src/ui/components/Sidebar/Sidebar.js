@@ -12,7 +12,7 @@ import CompoundsIcon from './ico_components.svg'
 import AssetsIcon from './ico_assets.svg'
 import OtherIcon from './ico_datasheet_outline.svg'
 
-import * as Elems from 'Data/__generated__elements__'
+import * as Elems from './../../../../../idealo.design/data/__generated__elements__'
 import { fetchDistinctCategories } from "../../pages/BlogPage/data"
 
 function createSections(addedData) {

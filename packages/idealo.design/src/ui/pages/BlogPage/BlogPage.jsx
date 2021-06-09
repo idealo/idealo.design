@@ -2,12 +2,10 @@ import React, {useEffect, useState} from 'react'
 
 import {
   // BrowserRouter as Router,
-  StaticRouter as Router,
   Switch,
   Route, Redirect,
 } from "react-router-dom";
 
-import PageLayout from 'Components/PageLayout'
 
 import ListView from './ListView'
 import DetailView from './DetailView'

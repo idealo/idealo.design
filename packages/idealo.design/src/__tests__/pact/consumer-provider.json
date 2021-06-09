@@ -22,7 +22,7 @@
             "title": "Mocked Blogpost",
             "categorydisplayvalue": "Test",
             "categoryslug": "test",
-            "slug": "mocked-blogpost",
+            "slug": "Test",
             "date": "2021-05-28T09:04:55.343Z",
             "image": "",
             "email": null,
@@ -57,7 +57,7 @@
             "title": "Mocked Blogpost",
             "categorydisplayvalue": "Test",
             "categoryslug": "test",
-            "slug": "mocked-blogpost",
+            "slug": "Test",
             "date": "2021-05-28T09:04:55.343Z",
             "image": "",
             "email": null,
@@ -92,77 +92,7 @@
             "title": "Mocked Blogpost",
             "categorydisplayvalue": "Test",
             "categoryslug": "test",
-            "slug": "mocked-blogpost",
-            "date": "2021-05-28T09:04:55.343Z",
-            "image": "",
-            "email": null,
-            "instagram": null,
-            "twitter": null,
-            "github": null,
-            "facebook": null,
-            "blogpostcontent": {
-              "blocks": [
-                {
-                  "key": "csc33",
-                  "data": {
-                  },
-                  "text": "This is a dummy post",
-                  "type": "unstyled",
-                  "depth": 0,
-                  "entityRanges": [
-
-                  ],
-                  "inlineStyleRanges": [
-
-                  ]
-                }
-              ],
-              "entityMap": {
-              }
-            },
-            "isarchived": 0
-          },
-          {
-            "id": 1,
-            "title": "Mocked Blogpost",
-            "categorydisplayvalue": "Test",
-            "categoryslug": "test",
-            "slug": "mocked-blogpost",
-            "date": "2021-05-28T09:04:55.343Z",
-            "image": "",
-            "email": null,
-            "instagram": null,
-            "twitter": null,
-            "github": null,
-            "facebook": null,
-            "blogpostcontent": {
-              "blocks": [
-                {
-                  "key": "csc33",
-                  "data": {
-                  },
-                  "text": "This is a dummy post",
-                  "type": "unstyled",
-                  "depth": 0,
-                  "entityRanges": [
-
-                  ],
-                  "inlineStyleRanges": [
-
-                  ]
-                }
-              ],
-              "entityMap": {
-              }
-            },
-            "isarchived": 0
-          },
-          {
-            "id": 1,
-            "title": "Mocked Blogpost",
-            "categorydisplayvalue": "Test",
-            "categoryslug": "test",
-            "slug": "mocked-blogpost",
+            "slug": "Test",
             "date": "2021-05-28T09:04:55.343Z",
             "image": "",
             "email": null,
@@ -195,7 +125,7 @@
         ],
         "matchingRules": {
           "$.body": {
-            "min": 5
+            "min": 3
           },
           "$.body[*].*": {
             "match": "type"
@@ -219,7 +149,64 @@
             "title": "Mocked Blogpost",
             "categorydisplayvalue": "Test",
             "categoryslug": "test",
-            "slug": "mocked-blogpost",
+            "slug": "Test",
+            "date": "2021-05-28T09:04:55.343Z",
+            "image": "",
+            "email": null,
+            "instagram": null,
+            "twitter": null,
+            "github": null,
+            "facebook": null,
+            "blogpostcontent": {
+              "blocks": [
+                {
+                  "key": "csc33",
+                  "data": {
+                  },
+                  "text": "This is a dummy post",
+                  "type": "unstyled",
+                  "depth": 0,
+                  "entityRanges": [
+
+                  ],
+                  "inlineStyleRanges": [
+
+                  ]
+                }
+              ],
+              "entityMap": {
+              }
+            },
+            "isarchived": 0
+          }
+        ],
+        "matchingRules": {
+          "$.body": {
+            "min": 1
+          },
+          "$.body[*].*": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "a request to single category",
+      "request": {
+        "method": "GET",
+        "path": "/api/blogposts"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": [
+          {
+            "id": 1,
+            "title": "Mocked Blogpost",
+            "categorydisplayvalue": "Test",
+            "categoryslug": "test",
+            "slug": "Test",
             "date": "2021-05-28T09:04:55.343Z",
             "image": "",
             "email": null,
@@ -274,7 +261,7 @@
           "title": "Mocked Blogpost",
           "categorydisplayvalue": "Test",
           "categoryslug": "test",
-          "slug": "mocked-blogpost",
+          "slug": "Test",
           "date": "2021-05-28T09:04:55.343Z",
           "image": "",
           "email": null,
@@ -352,58 +339,6 @@
       }
     },
     {
-      "description": "a request to delete a blogpost",
-      "request": {
-        "method": "DELETE",
-        "path": "/api/blogposts/delete",
-        "headers": {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        },
-        "body": {
-          "id": 1,
-          "title": "Mocked Blogpost",
-          "categorydisplayvalue": "Test",
-          "categoryslug": "test",
-          "slug": "mocked-blogpost",
-          "date": "2021-05-28T09:04:55.343Z",
-          "image": "",
-          "email": null,
-          "instagram": null,
-          "twitter": null,
-          "github": null,
-          "facebook": null,
-          "blogpostcontent": {
-            "blocks": [
-              {
-                "key": "csc33",
-                "data": {
-                },
-                "text": "This is a dummy post",
-                "type": "unstyled",
-                "depth": 0,
-                "entityRanges": [
-
-                ],
-                "inlineStyleRanges": [
-
-                ]
-              }
-            ],
-            "entityMap": {
-            }
-          },
-          "isarchived": 0
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-        },
-        "body": "successfully deleted blogpost"
-      }
-    },
-    {
       "description": "a request to update a blogpost",
       "request": {
         "method": "PUT",
@@ -417,7 +352,7 @@
           "title": "Mocked Blogpost",
           "categorydisplayvalue": "Test",
           "categoryslug": "test",
-          "slug": "mocked-blogpost",
+          "slug": "Test",
           "date": "2021-05-28T09:04:55.343Z",
           "image": "",
           "email": null,
@@ -566,47 +501,6 @@
             "match": "type"
           },
           "$.body[*].categoryslug": {
-            "match": "type"
-          }
-        }
-      }
-    },
-    {
-      "description": "a request to authenticate",
-      "request": {
-        "method": "GET",
-        "path": "/api/me"
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-        },
-        "body": {
-          "status": "LOGGED_IN",
-          "user": {
-            "displayName": "Jane Doe",
-            "givenName": "Jane",
-            "surname": "Doe",
-            "id": "ABC1234"
-          }
-        },
-        "matchingRules": {
-          "$.body": {
-            "match": "type"
-          },
-          "$.body.status": {
-            "match": "type"
-          },
-          "$.body.user.displayName": {
-            "match": "type"
-          },
-          "$.body.user.givenName": {
-            "match": "type"
-          },
-          "$.body.user.surname": {
-            "match": "type"
-          },
-          "$.body.user.id": {
             "match": "type"
           }
         }

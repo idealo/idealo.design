@@ -25,7 +25,7 @@ const provider = new Pact({
     logLevel: 'INFO',
 });
 
-const mockedBlogpost = {
+export const mockedBlogpost = {
     id:1,
     title:"Mocked Blogpost",
     categorydisplayvalue:"Test",
@@ -55,7 +55,7 @@ const mockedBlogpost = {
     isarchived:0
 }
 
-const mockedUpdatedBlogpost = {
+export const mockedUpdatedBlogpost = {
     id:1,
     title:"Updated Mocked Blogpost",
     categorydisplayvalue:"Test",
@@ -77,7 +77,7 @@ const mockedUpdatedBlogpost = {
         },
 }
 
-const mockedArchivedBlogpost = {
+export const mockedArchivedBlogpost = {
     id:1,
     title:"Mocked Blogpost",
     categorydisplayvalue:"Test",
@@ -122,7 +122,7 @@ describe('all Tests', () => {
                 },
                 willRespondWith: {
                     status: 200,
-                    body: eachLike(mockedBlogpost, {min: 5})
+                    body: eachLike(mockedBlogpost, {min: 3})
                 }
             })
 
@@ -210,9 +210,9 @@ describe('all Tests', () => {
         });
     })
 
-    describe('test to delete a single post', ()=> {
-        beforeEach(() => {
-            provider.addInteraction({
+    /*describe('test to delete a single post', ()=> {
+        test('should return the deleted blogpost', async () => {
+            await provider.addInteraction({
                 uponReceiving: 'a request to delete a blogpost',
                 withRequest: {
                     method: 'DELETE',
@@ -225,17 +225,14 @@ describe('all Tests', () => {
                     body: 'successfully deleted blogpost'
                 }
             });
-        })
-
-        test('should return the deleted blogpost', async () => {
             const response = await deleteSinglePost(mockedBlogpost,  provider.mockService.baseUrl);
             expect(response).toBe('successfully deleted blogpost')
         });
-    })
+    })*/
 
     describe('test to update a single post', ()=> {
-        beforeEach(()=> {
-            provider.addInteraction({
+        test('should return update Blogpost', async () => {
+            await provider.addInteraction({
                 uponReceiving: 'a request to update a blogpost',
                 withRequest: {
                     method: 'PUT',
@@ -248,9 +245,6 @@ describe('all Tests', () => {
                     body: like(mockedUpdatedBlogpost)
                 }
             })
-        })
-
-        test('should return update Blogpost', async () => {
             const response = await updateSinglePost({slug: 'mocked-blogpost', post: mockedBlogpost},()=>{},provider.mockService.baseUrl);
                 expect(response.title).toBe('Updated Mocked Blogpost')
                 expect(response.slug).toBe('updated-mocked-blogpost')
@@ -310,7 +304,7 @@ describe('all Tests', () => {
         })
     })
 
-    describe('test user login', ()=> {
+    /*describe('test user login', ()=> {
         test('should return user data', async () => {
             await provider.addInteraction({
                 uponReceiving: 'a request to authenticate',
@@ -341,5 +335,5 @@ describe('all Tests', () => {
             expect(response.user.surname).toBe('Doe');
             expect(response.user.id).toBe('ABC1234');
         });
-    })
+    })*/
 });

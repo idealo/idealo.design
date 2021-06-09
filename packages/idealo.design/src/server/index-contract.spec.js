@@ -10,6 +10,8 @@ import { fetchList,
     fetchAllCategories,
     fetchSinglePost
 } from './db'
+import '@testing-library/jest-dom/extend-expect';
+import {mockedArchivedBlogpost, mockedBlogpost, mockedUpdatedBlogpost} from '../ui/pages/BlogPage/data-contract.spec'
 
 jest.mock('./db', () => {
     return { fetchList: jest.fn(),
@@ -23,20 +25,50 @@ jest.mock('./db', () => {
     }
 })
 
+export const dangerousTestModeArgument = true;
+const distinctCategories = {
+    categorydisplayvalue: "Testing Category",
+    categoryslug: "testing-category"
+}
+const allCategories = {
+    categoryslug: "new-category",
+    sum : 4
+}
+
+const user = {
+    status: "LOGGED_IN",
+    user: {
+        displayName: "Jane Doe",
+        givenName: "Jane",
+        surname: "Doe",
+        id: "ABC1234"
+    }
+}
+
 describe('Pact Verification', () => {
 
-    app.listen(1111, '0000',() => console.log('server running for api testing') )
+    app.listen(7777, '0000',() => console.log('server running for api testing') )
+
+    fetchList.mockReturnValue([mockedBlogpost, mockedBlogpost, mockedBlogpost])
+    updateSinglePost.mockReturnValue(mockedUpdatedBlogpost)
+    fetchSinglePost.mockReturnValue([mockedBlogpost])
+    fetchPostsByCategorySlug.mockReturnValue(mockedBlogpost)
+    archiveSinglePost.mockReturnValue(mockedArchivedBlogpost)
+    //deleteSinglePost.mockReturnValue(mockedBlogpost)
+    fetchDistinctCategories.mockReturnValue([distinctCategories,distinctCategories, distinctCategories, distinctCategories])
+    fetchAllCategories.mockReturnValue([allCategories,allCategories,allCategories,allCategories])
 
     test('should validate the expectations of our consumer', () => {
         const opts = {
             provider: 'Provider',
-            providerBaseUrl: '1111',
+            providerBaseUrl: 'http://localhost:7777',
            // pactBrokerUrl: process.env.PACT_BROKER_URL,
           //  pactBrokerToken: process.env.PACT_BROKER_TOKEN,
             pactUrls: [path.resolve(process.cwd(), 'src/__tests__/pact/consumer-provider.json')],
+            //headers: user,
             publishVerificationResult: true,
             providerVersion: '1.0.0',
-            logLevel: 'DEBUG',
+            logLevel: 'INFO',
         };
 
         return new Verifier(opts).verifyProvider();

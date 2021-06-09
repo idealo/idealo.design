@@ -1,7 +1,4 @@
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
 import PageLayout from '../components/PageLayout'
-import MainContent from '../components/MainContent'
 import ComponentsList from '../components/ComponentsList'
 import PagesList from '../components/PagesList'
 

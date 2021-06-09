@@ -1,5 +1,5 @@
-I, [2021-06-04T17:14:23.442989 #16893]  INFO -- : Registered expected interaction GET /api/blogposts
-D, [2021-06-04T17:14:23.443246 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.732786 #11425]  INFO -- : Registered expected interaction GET /api/blogposts
+D, [2021-06-09T15:34:17.732986 #11425] DEBUG -- : {
   "description": "a request to list all blogposts",
   "request": {
     "method": "GET",
@@ -16,7 +16,7 @@ D, [2021-06-04T17:14:23.443246 #16893] DEBUG -- : {
         "title": "Mocked Blogpost",
         "categorydisplayvalue": "Test",
         "categoryslug": "test",
-        "slug": "mocked-blogpost",
+        "slug": "Test",
         "date": "2021-05-28T09:04:55.343Z",
         "image": "",
         "email": null,
@@ -46,13 +46,13 @@ D, [2021-06-04T17:14:23.443246 #16893] DEBUG -- : {
         },
         "isarchived": 0
       },
-      "min": 5
+      "min": 3
     }
   },
   "metadata": null
 }
-I, [2021-06-04T17:14:23.444496 #16893]  INFO -- : Received request GET /api/blogposts
-D, [2021-06-04T17:14:23.444848 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.739001 #11425]  INFO -- : Received request GET /api/blogposts
+D, [2021-06-09T15:34:17.739094 #11425] DEBUG -- : {
   "path": "/api/blogposts",
   "query": "",
   "method": "get",
@@ -61,12 +61,12 @@ D, [2021-06-04T17:14:23.444848 #16893] DEBUG -- : {
     "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
     "Accept-Encoding": "gzip,deflate",
     "Connection": "close",
-    "Host": "localhost:4000",
+    "Host": "127.0.0.1:4000",
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-04T17:14:23.445530 #16893]  INFO -- : Found matching response for GET /api/blogposts
-D, [2021-06-04T17:14:23.445690 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.739568 #11425]  INFO -- : Found matching response for GET /api/blogposts
+D, [2021-06-09T15:34:17.739669 #11425] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -77,7 +77,7 @@ D, [2021-06-04T17:14:23.445690 #16893] DEBUG -- : {
       "title": "Mocked Blogpost",
       "categorydisplayvalue": "Test",
       "categoryslug": "test",
-      "slug": "mocked-blogpost",
+      "slug": "Test",
       "date": "2021-05-28T09:04:55.343Z",
       "image": "",
       "email": null,
@@ -107,11 +107,12 @@ D, [2021-06-04T17:14:23.445690 #16893] DEBUG -- : {
       },
       "isarchived": 0
     },
-    "min": 5
+    "min": 3
   }
 }
-I, [2021-06-04T17:14:23.456693 #16893]  INFO -- : Registered expected interaction GET /api/blogposts/Test-2-previous-next
-D, [2021-06-04T17:14:23.456908 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.745262 #11425]  INFO -- : Cleared interactions
+I, [2021-06-09T15:34:17.750588 #11425]  INFO -- : Registered expected interaction GET /api/blogposts/Test-2-previous-next
+D, [2021-06-09T15:34:17.750694 #11425] DEBUG -- : {
   "description": "a request to single blogpost",
   "request": {
     "method": "GET",
@@ -128,7 +129,7 @@ D, [2021-06-04T17:14:23.456908 #16893] DEBUG -- : {
         "title": "Mocked Blogpost",
         "categorydisplayvalue": "Test",
         "categoryslug": "test",
-        "slug": "mocked-blogpost",
+        "slug": "Test",
         "date": "2021-05-28T09:04:55.343Z",
         "image": "",
         "email": null,
@@ -163,8 +164,8 @@ D, [2021-06-04T17:14:23.456908 #16893] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-06-04T17:14:23.462296 #16893]  INFO -- : Received request GET /api/blogposts/Test-2-previous-next
-D, [2021-06-04T17:14:23.462485 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.754344 #11425]  INFO -- : Received request GET /api/blogposts/Test-2-previous-next
+D, [2021-06-09T15:34:17.754579 #11425] DEBUG -- : {
   "path": "/api/blogposts/Test-2-previous-next",
   "query": "",
   "method": "get",
@@ -173,12 +174,12 @@ D, [2021-06-04T17:14:23.462485 #16893] DEBUG -- : {
     "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
     "Accept-Encoding": "gzip,deflate",
     "Connection": "close",
-    "Host": "localhost:4000",
+    "Host": "127.0.0.1:4000",
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-04T17:14:23.462736 #16893]  INFO -- : Found matching response for GET /api/blogposts/Test-2-previous-next
-D, [2021-06-04T17:14:23.462845 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.754781 #11425]  INFO -- : Found matching response for GET /api/blogposts/Test-2-previous-next
+D, [2021-06-09T15:34:17.754928 #11425] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -189,7 +190,7 @@ D, [2021-06-04T17:14:23.462845 #16893] DEBUG -- : {
       "title": "Mocked Blogpost",
       "categorydisplayvalue": "Test",
       "categoryslug": "test",
-      "slug": "mocked-blogpost",
+      "slug": "Test",
       "date": "2021-05-28T09:04:55.343Z",
       "image": "",
       "email": null,
@@ -222,12 +223,13 @@ D, [2021-06-04T17:14:23.462845 #16893] DEBUG -- : {
     "min": 1
   }
 }
-I, [2021-06-04T17:14:23.480982 #16893]  INFO -- : Registered expected interaction GET /api/blogposts/?test
-D, [2021-06-04T17:14:23.481145 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.759772 #11425]  INFO -- : Cleared interactions
+I, [2021-06-09T15:34:17.764371 #11425]  INFO -- : Registered expected interaction GET /api/blogposts
+D, [2021-06-09T15:34:17.764529 #11425] DEBUG -- : {
   "description": "a request to single category",
   "request": {
     "method": "GET",
-    "path": "/api/blogposts/?test"
+    "path": "/api/blogposts"
   },
   "response": {
     "status": 200,
@@ -240,7 +242,7 @@ D, [2021-06-04T17:14:23.481145 #16893] DEBUG -- : {
         "title": "Mocked Blogpost",
         "categorydisplayvalue": "Test",
         "categoryslug": "test",
-        "slug": "mocked-blogpost",
+        "slug": "Test",
         "date": "2021-05-28T09:04:55.343Z",
         "image": "",
         "email": null,
@@ -275,8 +277,8 @@ D, [2021-06-04T17:14:23.481145 #16893] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-06-04T17:14:23.482820 #16893]  INFO -- : Received request GET /api/blogposts?byCategorySlug=test
-D, [2021-06-04T17:14:23.482970 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.768327 #11425]  INFO -- : Received request GET /api/blogposts?byCategorySlug=test
+D, [2021-06-09T15:34:17.768458 #11425] DEBUG -- : {
   "path": "/api/blogposts",
   "query": "byCategorySlug=test",
   "method": "get",
@@ -285,12 +287,12 @@ D, [2021-06-04T17:14:23.482970 #16893] DEBUG -- : {
     "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
     "Accept-Encoding": "gzip,deflate",
     "Connection": "close",
-    "Host": "localhost:4000",
+    "Host": "127.0.0.1:4000",
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-04T17:14:23.484169 #16893]  INFO -- : Found matching response for GET /api/blogposts
-D, [2021-06-04T17:14:23.484417 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.768626 #11425]  INFO -- : Found matching response for GET /api/blogposts
+D, [2021-06-09T15:34:17.768772 #11425] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -301,7 +303,7 @@ D, [2021-06-04T17:14:23.484417 #16893] DEBUG -- : {
       "title": "Mocked Blogpost",
       "categorydisplayvalue": "Test",
       "categoryslug": "test",
-      "slug": "mocked-blogpost",
+      "slug": "Test",
       "date": "2021-05-28T09:04:55.343Z",
       "image": "",
       "email": null,
@@ -331,11 +333,12 @@ D, [2021-06-04T17:14:23.484417 #16893] DEBUG -- : {
       },
       "isarchived": 0
     },
-    "min": 5
+    "min": 1
   }
 }
-I, [2021-06-04T17:14:23.492539 #16893]  INFO -- : Registered expected interaction PUT /api/blogposts/archive
-D, [2021-06-04T17:14:23.492764 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.774456 #11425]  INFO -- : Cleared interactions
+I, [2021-06-09T15:34:17.779807 #11425]  INFO -- : Registered expected interaction PUT /api/blogposts/archive
+D, [2021-06-09T15:34:17.779941 #11425] DEBUG -- : {
   "description": "a request to archive a blogpost",
   "request": {
     "method": "PUT",
@@ -349,7 +352,7 @@ D, [2021-06-04T17:14:23.492764 #16893] DEBUG -- : {
       "title": "Mocked Blogpost",
       "categorydisplayvalue": "Test",
       "categoryslug": "test",
-      "slug": "mocked-blogpost",
+      "slug": "Test",
       "date": "2021-05-28T09:04:55.343Z",
       "image": "",
       "email": null,
@@ -425,9 +428,8 @@ D, [2021-06-04T17:14:23.492764 #16893] DEBUG -- : {
   },
   "metadata": null
 }
-W, [2021-06-04T17:14:23.492799 #16893]  WARN -- : You currently have 4 interactions mocked at the same time. This suggests the scope of your consumer tests is larger than recommended, and you may find them hard to debug and maintain. See https://pact.io/too-many-interactions for more information.
-I, [2021-06-04T17:14:23.494503 #16893]  INFO -- : Received request PUT /api/blogposts/archive
-D, [2021-06-04T17:14:23.494697 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.783933 #11425]  INFO -- : Received request PUT /api/blogposts/archive
+D, [2021-06-09T15:34:17.784149 #11425] DEBUG -- : {
   "path": "/api/blogposts/archive",
   "query": "",
   "method": "put",
@@ -436,7 +438,7 @@ D, [2021-06-04T17:14:23.494697 #16893] DEBUG -- : {
     "title": "Mocked Blogpost",
     "categorydisplayvalue": "Test",
     "categoryslug": "test",
-    "slug": "mocked-blogpost",
+    "slug": "Test",
     "date": "2021-05-28T09:04:55.343Z",
     "image": "",
     "email": null,
@@ -467,18 +469,18 @@ D, [2021-06-04T17:14:23.494697 #16893] DEBUG -- : {
     "isarchived": 0
   },
   "headers": {
-    "Content-Length": "417",
+    "Content-Length": "406",
     "Content-Type": "application/json",
     "Accept": "application/json",
     "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
     "Accept-Encoding": "gzip,deflate",
     "Connection": "close",
-    "Host": "localhost:4000",
+    "Host": "127.0.0.1:4000",
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-04T17:14:23.495159 #16893]  INFO -- : Found matching response for PUT /api/blogposts/archive
-D, [2021-06-04T17:14:23.495352 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.784470 #11425]  INFO -- : Found matching response for PUT /api/blogposts/archive
+D, [2021-06-09T15:34:17.784621 #11425] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -521,121 +523,9 @@ D, [2021-06-04T17:14:23.495352 #16893] DEBUG -- : {
     }
   }
 }
-I, [2021-06-04T17:14:23.502469 #16893]  INFO -- : Registered expected interaction DELETE /api/blogposts/delete
-D, [2021-06-04T17:14:23.502731 #16893] DEBUG -- : {
-  "description": "a request to delete a blogpost",
-  "request": {
-    "method": "DELETE",
-    "path": "/api/blogposts/delete",
-    "headers": {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    },
-    "body": {
-      "id": 1,
-      "title": "Mocked Blogpost",
-      "categorydisplayvalue": "Test",
-      "categoryslug": "test",
-      "slug": "mocked-blogpost",
-      "date": "2021-05-28T09:04:55.343Z",
-      "image": "",
-      "email": null,
-      "instagram": null,
-      "twitter": null,
-      "github": null,
-      "facebook": null,
-      "blogpostcontent": {
-        "blocks": [
-          {
-            "key": "csc33",
-            "data": {
-            },
-            "text": "This is a dummy post",
-            "type": "unstyled",
-            "depth": 0,
-            "entityRanges": [
-
-            ],
-            "inlineStyleRanges": [
-
-            ]
-          }
-        ],
-        "entityMap": {
-        }
-      },
-      "isarchived": 0
-    }
-  },
-  "response": {
-    "status": 200,
-    "headers": {
-    },
-    "body": "successfully deleted blogpost"
-  },
-  "metadata": null
-}
-W, [2021-06-04T17:14:23.502762 #16893]  WARN -- : You currently have 5 interactions mocked at the same time. This suggests the scope of your consumer tests is larger than recommended, and you may find them hard to debug and maintain. See https://pact.io/too-many-interactions for more information.
-I, [2021-06-04T17:14:23.505050 #16893]  INFO -- : Received request DELETE /api/blogposts/delete
-D, [2021-06-04T17:14:23.505424 #16893] DEBUG -- : {
-  "path": "/api/blogposts/delete",
-  "query": "",
-  "method": "delete",
-  "body": {
-    "id": 1,
-    "title": "Mocked Blogpost",
-    "categorydisplayvalue": "Test",
-    "categoryslug": "test",
-    "slug": "mocked-blogpost",
-    "date": "2021-05-28T09:04:55.343Z",
-    "image": "",
-    "email": null,
-    "instagram": null,
-    "twitter": null,
-    "github": null,
-    "facebook": null,
-    "blogpostcontent": {
-      "blocks": [
-        {
-          "key": "csc33",
-          "data": {
-          },
-          "text": "This is a dummy post",
-          "type": "unstyled",
-          "depth": 0,
-          "entityRanges": [
-
-          ],
-          "inlineStyleRanges": [
-
-          ]
-        }
-      ],
-      "entityMap": {
-      }
-    },
-    "isarchived": 0
-  },
-  "headers": {
-    "Content-Length": "417",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-    "Accept-Encoding": "gzip,deflate",
-    "Connection": "close",
-    "Host": "localhost:4000",
-    "Version": "HTTP/1.1"
-  }
-}
-I, [2021-06-04T17:14:23.506244 #16893]  INFO -- : Found matching response for DELETE /api/blogposts/delete
-D, [2021-06-04T17:14:23.506423 #16893] DEBUG -- : {
-  "status": 200,
-  "headers": {
-  },
-  "body": "successfully deleted blogpost"
-}
-I, [2021-06-04T17:14:23.516255 #16893]  INFO -- : Registered expected interaction PUT /api/blogposts
-D, [2021-06-04T17:14:23.516576 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.788177 #11425]  INFO -- : Cleared interactions
+I, [2021-06-09T15:34:17.792778 #11425]  INFO -- : Registered expected interaction PUT /api/blogposts
+D, [2021-06-09T15:34:17.792907 #11425] DEBUG -- : {
   "description": "a request to update a blogpost",
   "request": {
     "method": "PUT",
@@ -649,7 +539,7 @@ D, [2021-06-04T17:14:23.516576 #16893] DEBUG -- : {
       "title": "Mocked Blogpost",
       "categorydisplayvalue": "Test",
       "categoryslug": "test",
-      "slug": "mocked-blogpost",
+      "slug": "Test",
       "date": "2021-05-28T09:04:55.343Z",
       "image": "",
       "email": null,
@@ -717,9 +607,8 @@ D, [2021-06-04T17:14:23.516576 #16893] DEBUG -- : {
   },
   "metadata": null
 }
-W, [2021-06-04T17:14:23.516665 #16893]  WARN -- : You currently have 6 interactions mocked at the same time. This suggests the scope of your consumer tests is larger than recommended, and you may find them hard to debug and maintain. See https://pact.io/too-many-interactions for more information.
-I, [2021-06-04T17:14:23.521099 #16893]  INFO -- : Received request PUT /api/blogposts
-D, [2021-06-04T17:14:23.521461 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.796287 #11425]  INFO -- : Received request PUT /api/blogposts
+D, [2021-06-09T15:34:17.796450 #11425] DEBUG -- : {
   "path": "/api/blogposts",
   "query": "",
   "method": "put",
@@ -728,7 +617,7 @@ D, [2021-06-04T17:14:23.521461 #16893] DEBUG -- : {
     "title": "Mocked Blogpost",
     "categorydisplayvalue": "Test",
     "categoryslug": "test",
-    "slug": "mocked-blogpost",
+    "slug": "Test",
     "date": "2021-05-28T09:04:55.343Z",
     "image": "",
     "email": null,
@@ -759,18 +648,18 @@ D, [2021-06-04T17:14:23.521461 #16893] DEBUG -- : {
     "isarchived": 0
   },
   "headers": {
-    "Content-Length": "417",
+    "Content-Length": "406",
     "Content-Type": "application/json",
     "Accept": "application/json",
     "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
     "Accept-Encoding": "gzip,deflate",
     "Connection": "close",
-    "Host": "localhost:4000",
+    "Host": "127.0.0.1:4000",
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-04T17:14:23.522378 #16893]  INFO -- : Found matching response for PUT /api/blogposts
-D, [2021-06-04T17:14:23.522653 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.796714 #11425]  INFO -- : Found matching response for PUT /api/blogposts
+D, [2021-06-09T15:34:17.796820 #11425] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -805,8 +694,9 @@ D, [2021-06-04T17:14:23.522653 #16893] DEBUG -- : {
     }
   }
 }
-I, [2021-06-04T17:14:23.531096 #16893]  INFO -- : Registered expected interaction GET /api/distinctCategories
-D, [2021-06-04T17:14:23.531246 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.800034 #11425]  INFO -- : Cleared interactions
+I, [2021-06-09T15:34:17.805094 #11425]  INFO -- : Registered expected interaction GET /api/distinctCategories
+D, [2021-06-09T15:34:17.805220 #11425] DEBUG -- : {
   "description": "a request to fetch distinct categories",
   "request": {
     "method": "GET",
@@ -833,9 +723,8 @@ D, [2021-06-04T17:14:23.531246 #16893] DEBUG -- : {
   },
   "metadata": null
 }
-W, [2021-06-04T17:14:23.531300 #16893]  WARN -- : You currently have 7 interactions mocked at the same time. This suggests the scope of your consumer tests is larger than recommended, and you may find them hard to debug and maintain. See https://pact.io/too-many-interactions for more information.
-I, [2021-06-04T17:14:23.533927 #16893]  INFO -- : Received request GET /api/distinctCategories
-D, [2021-06-04T17:14:23.534057 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.808927 #11425]  INFO -- : Received request GET /api/distinctCategories
+D, [2021-06-09T15:34:17.809028 #11425] DEBUG -- : {
   "path": "/api/distinctCategories",
   "query": "",
   "method": "get",
@@ -844,12 +733,12 @@ D, [2021-06-04T17:14:23.534057 #16893] DEBUG -- : {
     "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
     "Accept-Encoding": "gzip,deflate",
     "Connection": "close",
-    "Host": "localhost:4000",
+    "Host": "127.0.0.1:4000",
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-04T17:14:23.534382 #16893]  INFO -- : Found matching response for GET /api/distinctCategories
-D, [2021-06-04T17:14:23.534509 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.809218 #11425]  INFO -- : Found matching response for GET /api/distinctCategories
+D, [2021-06-09T15:34:17.809299 #11425] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -868,8 +757,9 @@ D, [2021-06-04T17:14:23.534509 #16893] DEBUG -- : {
     "min": 4
   }
 }
-I, [2021-06-04T17:14:23.543384 #16893]  INFO -- : Registered expected interaction GET /api/categories
-D, [2021-06-04T17:14:23.543540 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.813150 #11425]  INFO -- : Cleared interactions
+I, [2021-06-09T15:34:17.817852 #11425]  INFO -- : Registered expected interaction GET /api/categories
+D, [2021-06-09T15:34:17.817951 #11425] DEBUG -- : {
   "description": "a request to list all categories",
   "request": {
     "method": "GET",
@@ -893,9 +783,8 @@ D, [2021-06-04T17:14:23.543540 #16893] DEBUG -- : {
   },
   "metadata": null
 }
-W, [2021-06-04T17:14:23.543631 #16893]  WARN -- : You currently have 8 interactions mocked at the same time. This suggests the scope of your consumer tests is larger than recommended, and you may find them hard to debug and maintain. See https://pact.io/too-many-interactions for more information.
-I, [2021-06-04T17:14:23.548152 #16893]  INFO -- : Received request GET /api/categories
-D, [2021-06-04T17:14:23.548458 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.821487 #11425]  INFO -- : Received request GET /api/categories
+D, [2021-06-09T15:34:17.821597 #11425] DEBUG -- : {
   "path": "/api/categories",
   "query": "",
   "method": "get",
@@ -904,12 +793,12 @@ D, [2021-06-04T17:14:23.548458 #16893] DEBUG -- : {
     "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
     "Accept-Encoding": "gzip,deflate",
     "Connection": "close",
-    "Host": "localhost:4000",
+    "Host": "127.0.0.1:4000",
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-04T17:14:23.549034 #16893]  INFO -- : Found matching response for GET /api/categories
-D, [2021-06-04T17:14:23.549176 #16893] DEBUG -- : {
+I, [2021-06-09T15:34:17.821762 #11425]  INFO -- : Found matching response for GET /api/categories
+D, [2021-06-09T15:34:17.821854 #11425] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -925,93 +814,5 @@ D, [2021-06-04T17:14:23.549176 #16893] DEBUG -- : {
     "min": 4
   }
 }
-I, [2021-06-04T17:14:23.558616 #16893]  INFO -- : Registered expected interaction GET /api/me
-D, [2021-06-04T17:14:23.558832 #16893] DEBUG -- : {
-  "description": "a request to authenticate",
-  "request": {
-    "method": "GET",
-    "path": "/api/me"
-  },
-  "response": {
-    "status": 200,
-    "headers": {
-    },
-    "body": {
-      "json_class": "Pact::SomethingLike",
-      "contents": {
-        "status": {
-          "json_class": "Pact::SomethingLike",
-          "contents": "LOGGED_IN"
-        },
-        "user": {
-          "displayName": {
-            "json_class": "Pact::SomethingLike",
-            "contents": "Jane Doe"
-          },
-          "givenName": {
-            "json_class": "Pact::SomethingLike",
-            "contents": "Jane"
-          },
-          "surname": {
-            "json_class": "Pact::SomethingLike",
-            "contents": "Doe"
-          },
-          "id": {
-            "json_class": "Pact::SomethingLike",
-            "contents": "ABC1234"
-          }
-        }
-      }
-    }
-  },
-  "metadata": null
-}
-W, [2021-06-04T17:14:23.558966 #16893]  WARN -- : You currently have 9 interactions mocked at the same time. This suggests the scope of your consumer tests is larger than recommended, and you may find them hard to debug and maintain. See https://pact.io/too-many-interactions for more information.
-I, [2021-06-04T17:14:23.561406 #16893]  INFO -- : Received request GET /api/me
-D, [2021-06-04T17:14:23.561546 #16893] DEBUG -- : {
-  "path": "/api/me",
-  "query": "",
-  "method": "get",
-  "headers": {
-    "Accept": "*/*",
-    "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-    "Accept-Encoding": "gzip,deflate",
-    "Connection": "close",
-    "Host": "localhost:4000",
-    "Version": "HTTP/1.1"
-  }
-}
-I, [2021-06-04T17:14:23.561884 #16893]  INFO -- : Found matching response for GET /api/me
-D, [2021-06-04T17:14:23.562016 #16893] DEBUG -- : {
-  "status": 200,
-  "headers": {
-  },
-  "body": {
-    "json_class": "Pact::SomethingLike",
-    "contents": {
-      "status": {
-        "json_class": "Pact::SomethingLike",
-        "contents": "LOGGED_IN"
-      },
-      "user": {
-        "displayName": {
-          "json_class": "Pact::SomethingLike",
-          "contents": "Jane Doe"
-        },
-        "givenName": {
-          "json_class": "Pact::SomethingLike",
-          "contents": "Jane"
-        },
-        "surname": {
-          "json_class": "Pact::SomethingLike",
-          "contents": "Doe"
-        },
-        "id": {
-          "json_class": "Pact::SomethingLike",
-          "contents": "ABC1234"
-        }
-      }
-    }
-  }
-}
-I, [2021-06-04T17:14:23.571097 #16893]  INFO -- : Writing pact for Provider to /Library/WebServer/Documents/idealo/nwp/packages/idealo.design/src/__tests__/pact/consumer-provider.json
+I, [2021-06-09T15:34:17.825765 #11425]  INFO -- : Cleared interactions
+I, [2021-06-09T15:34:17.829958 #11425]  INFO -- : Writing pact for Provider to /Library/WebServer/Documents/idealo/nwp/packages/idealo.design/src/__tests__/pact/consumer-provider.json

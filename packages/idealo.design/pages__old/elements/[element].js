@@ -1,6 +1,5 @@
 import React from 'react'
 
-import PageLayout from 'components/PageLayout'
 import ElementPage from 'components/ElementPage'
 import Router, { withRouter, useRouter } from 'next/router'
 
