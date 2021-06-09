@@ -30,6 +30,11 @@ export async function fetchAllCategories() {
   return cats;
 }
 
+export async function fetchAllTitles() {
+    const titles = await sql`select title from blogposts;`
+    return titles;
+}
+
 export async function storeSinglePost({
     title = '',
     date,

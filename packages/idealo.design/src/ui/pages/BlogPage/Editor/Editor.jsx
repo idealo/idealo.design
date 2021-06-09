@@ -8,7 +8,7 @@ import '~/draft-js/dist/Draft.css'
 import s from './Editor.module.scss';
 import Prompt from './Prompt';
 import PromptSuccess from "./PromptSuccess";
-import { fetchSinglePost, updateSinglePost, fetchDistinctCategories} from '../data';
+import { fetchSinglePost, updateSinglePost, fetchDistinctCategories, fetchAllTitles} from '../data';
 import CreatableSelect from 'react-select/creatable';
 import slugify from "slugify";
 
@@ -31,6 +31,7 @@ export class RichTextEditor extends React.Component {
       isSubmitPromptOpen: false,
       cats: [],
       error: [],
+      existingTitle: [],
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -139,9 +140,21 @@ export class RichTextEditor extends React.Component {
   }
 
   handleValidation() {
+    const titles = [];
+    fetch('/api/title')
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            for (let i = 0; i < data.length; i++) {
+              titles.push(data[i].title)
+            }
+            this.setState( {existingTitle : titles});
+          });
     let formIsValid = true;
     let errors = {};
     const blacklist = ['new-post'];
+
 
     if (!this.state.title) {
       formIsValid = false;
@@ -152,6 +165,13 @@ export class RichTextEditor extends React.Component {
       if (word === slugify(this.state.title).replace(/^\s+|\s+$/g, '').toLowerCase()) {
         formIsValid = false;
         errors ['title-value'] = 'Title can not be "new post"';
+      }
+    });
+
+    this.state.existingTitle.map(word => {
+      if (slugify(word).replace(/^\s+|\s+$/g, '').toLowerCase() === slugify(this.state.title).replace(/^\s+|\s+$/g, '').toLowerCase()) {
+        formIsValid = false;
+        errors ['existing-title-value'] = 'Title can not be that, because we already have a blogpost with that title';
       }
     });
 
@@ -173,6 +193,11 @@ export class RichTextEditor extends React.Component {
     e.preventDefault();
     if(!this.handleValidation() && this.state.error['title-value']){
       alert("Title is invalid. Please choose a different title!");
+      return;
+    }
+
+    if(!this.handleValidation() && this.state.error['existing-title-value']){
+      alert("Title already exists. Please choose a different title!");
       return;
     }
 
@@ -228,7 +253,6 @@ export class RichTextEditor extends React.Component {
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body
     }).then(function(response) {
-      console.log(response)
       return response.json();
     });
        this.props.history.block(() => {return true;})
@@ -312,7 +336,7 @@ export class RichTextEditor extends React.Component {
          : <h1 title="createHeading">Create blogpost</h1>}
 
         <div className={s.InputFields}>
-          <input className={this.state.error['title-empty'] ? s.empty : '' || this.state.error['title-value'] ? s.empty : ''} onChange={this.handleChange} name="title" title="titleInput" value={this.state.title} placeholder="Title"/>
+          <input className={this.state.error['title-empty'] ? s.empty : '' || this.state.error['title-value'] ? s.empty : '' || this.state.error['existing-title-value'] ? s.empty : ''} onChange={this.handleChange} name="title" title="titleInput" value={this.state.title} placeholder="Title"/>
           <form name="category" className="select-container" title="categorySelect">
             <CreatableSelect
                 getOptionLabel={option => option.categorydisplayvalue}
