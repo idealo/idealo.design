@@ -7,9 +7,9 @@
 }
 
 .item {
-  background: #f0f0f0;
+  background: $color_gray_200;
   width: 25%;
-  margin: 5px 3px;
+  margin: 7px 2px;
   padding: 10px;
 }
 
@@ -26,16 +26,8 @@
   margin: 5px 3px;
 }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  padding: 12px 16px;
-  z-index: 1;
-}
 
-.dropdown:hover .dropdown-content {
-  display: block;
+.logo {
+  width: 100%;
+  height: auto
 }
