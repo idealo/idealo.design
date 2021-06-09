@@ -83,25 +83,23 @@ class ComponentView extends React.Component {
                     />
                 </div>
                 <div className={s.container}>
-                    {   this.state.filterValue.value === 'All Technology' || this.state.filterValue=== 'All Technology' ?
-                            this.state.components.map((components) => (
-                                    <div className={s.item}>
-                                        <Logo className={s.logo}/>
-                                        <h2>{components.name}</h2>
-                                        <div>
-                                            <p>{components.tagImport} {components.tagStacks}</p>
-                                        </div>
-                                    </div>
-                            )) :
-                            this.state.components.filter(components => components.tagStacks === this.state.filterValue.value).map((components) => (
-                                <div className={s.item}>
-                                    <Logo className={s.logo}/>
-                                    <h2>{components.name}</h2>
-                                    <div>
-                                        <p>{components.tagImport} {components.tagStacks}</p>
-                                    </div>
+                    {this.state.filterValue.value === 'All Technology' || this.state.filterValue=== 'All Technology' ?
+                        this.state.components.map((components) => (
+                            <div className={s.item} key={components.id}>
+                                <Logo className={s.logo}/>
+                                <h2>{components.name}</h2>
+                                <p className={s.tags}>{components.tagImport}&nbsp;&nbsp;&nbsp;{components.tagStacks}</p>
+                            </div>
+                        )) :
+                        this.state.components.filter(components => components.tagStacks === this.state.filterValue.value).map((components) => (
+                            <div className={s.item} key={components.id}>
+                                <Logo className={s.logo}/>
+                                <h2>{components.name}</h2>
+                                <div>
+                                    <p className={s.tags}>{components.tagImport}&nbsp;&nbsp;&nbsp;{components.tagStacks}</p>
                                 </div>
-                            ))
+                            </div>
+                        ))
                     }
                 </div>
             </div>
