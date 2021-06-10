@@ -1,5 +1,5 @@
-I, [2021-06-09T15:34:17.732786 #11425]  INFO -- : Registered expected interaction GET /api/blogposts
-D, [2021-06-09T15:34:17.732986 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.259675 #14538]  INFO -- : Registered expected interaction GET /api/blogposts
+D, [2021-06-10T12:29:28.259872 #14538] DEBUG -- : {
   "description": "a request to list all blogposts",
   "request": {
     "method": "GET",
@@ -51,8 +51,8 @@ D, [2021-06-09T15:34:17.732986 #11425] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-06-09T15:34:17.739001 #11425]  INFO -- : Received request GET /api/blogposts
-D, [2021-06-09T15:34:17.739094 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.265968 #14538]  INFO -- : Received request GET /api/blogposts
+D, [2021-06-10T12:29:28.266065 #14538] DEBUG -- : {
   "path": "/api/blogposts",
   "query": "",
   "method": "get",
@@ -65,8 +65,8 @@ D, [2021-06-09T15:34:17.739094 #11425] DEBUG -- : {
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-09T15:34:17.739568 #11425]  INFO -- : Found matching response for GET /api/blogposts
-D, [2021-06-09T15:34:17.739669 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.266568 #14538]  INFO -- : Found matching response for GET /api/blogposts
+D, [2021-06-10T12:29:28.266682 #14538] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -110,9 +110,9 @@ D, [2021-06-09T15:34:17.739669 #11425] DEBUG -- : {
     "min": 3
   }
 }
-I, [2021-06-09T15:34:17.745262 #11425]  INFO -- : Cleared interactions
-I, [2021-06-09T15:34:17.750588 #11425]  INFO -- : Registered expected interaction GET /api/blogposts/Test-2-previous-next
-D, [2021-06-09T15:34:17.750694 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.272382 #14538]  INFO -- : Cleared interactions
+I, [2021-06-10T12:29:28.276768 #14538]  INFO -- : Registered expected interaction GET /api/blogposts/Test-2-previous-next
+D, [2021-06-10T12:29:28.276864 #14538] DEBUG -- : {
   "description": "a request to single blogpost",
   "request": {
     "method": "GET",
@@ -164,8 +164,8 @@ D, [2021-06-09T15:34:17.750694 #11425] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-06-09T15:34:17.754344 #11425]  INFO -- : Received request GET /api/blogposts/Test-2-previous-next
-D, [2021-06-09T15:34:17.754579 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.281069 #14538]  INFO -- : Received request GET /api/blogposts/Test-2-previous-next
+D, [2021-06-10T12:29:28.281160 #14538] DEBUG -- : {
   "path": "/api/blogposts/Test-2-previous-next",
   "query": "",
   "method": "get",
@@ -178,8 +178,8 @@ D, [2021-06-09T15:34:17.754579 #11425] DEBUG -- : {
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-09T15:34:17.754781 #11425]  INFO -- : Found matching response for GET /api/blogposts/Test-2-previous-next
-D, [2021-06-09T15:34:17.754928 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.281301 #14538]  INFO -- : Found matching response for GET /api/blogposts/Test-2-previous-next
+D, [2021-06-10T12:29:28.281414 #14538] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -223,9 +223,9 @@ D, [2021-06-09T15:34:17.754928 #11425] DEBUG -- : {
     "min": 1
   }
 }
-I, [2021-06-09T15:34:17.759772 #11425]  INFO -- : Cleared interactions
-I, [2021-06-09T15:34:17.764371 #11425]  INFO -- : Registered expected interaction GET /api/blogposts
-D, [2021-06-09T15:34:17.764529 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.285666 #14538]  INFO -- : Cleared interactions
+I, [2021-06-10T12:29:28.289405 #14538]  INFO -- : Registered expected interaction GET /api/blogposts
+D, [2021-06-10T12:29:28.289493 #14538] DEBUG -- : {
   "description": "a request to single category",
   "request": {
     "method": "GET",
@@ -277,8 +277,8 @@ D, [2021-06-09T15:34:17.764529 #11425] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-06-09T15:34:17.768327 #11425]  INFO -- : Received request GET /api/blogposts?byCategorySlug=test
-D, [2021-06-09T15:34:17.768458 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.292492 #14538]  INFO -- : Received request GET /api/blogposts?byCategorySlug=test
+D, [2021-06-10T12:29:28.292561 #14538] DEBUG -- : {
   "path": "/api/blogposts",
   "query": "byCategorySlug=test",
   "method": "get",
@@ -291,8 +291,8 @@ D, [2021-06-09T15:34:17.768458 #11425] DEBUG -- : {
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-09T15:34:17.768626 #11425]  INFO -- : Found matching response for GET /api/blogposts
-D, [2021-06-09T15:34:17.768772 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.292716 #14538]  INFO -- : Found matching response for GET /api/blogposts
+D, [2021-06-10T12:29:28.292829 #14538] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -336,9 +336,9 @@ D, [2021-06-09T15:34:17.768772 #11425] DEBUG -- : {
     "min": 1
   }
 }
-I, [2021-06-09T15:34:17.774456 #11425]  INFO -- : Cleared interactions
-I, [2021-06-09T15:34:17.779807 #11425]  INFO -- : Registered expected interaction PUT /api/blogposts/archive
-D, [2021-06-09T15:34:17.779941 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.297477 #14538]  INFO -- : Cleared interactions
+I, [2021-06-10T12:29:28.301304 #14538]  INFO -- : Registered expected interaction PUT /api/blogposts/archive
+D, [2021-06-10T12:29:28.301424 #14538] DEBUG -- : {
   "description": "a request to archive a blogpost",
   "request": {
     "method": "PUT",
@@ -428,8 +428,8 @@ D, [2021-06-09T15:34:17.779941 #11425] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-06-09T15:34:17.783933 #11425]  INFO -- : Received request PUT /api/blogposts/archive
-D, [2021-06-09T15:34:17.784149 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.304974 #14538]  INFO -- : Received request PUT /api/blogposts/archive
+D, [2021-06-10T12:29:28.305115 #14538] DEBUG -- : {
   "path": "/api/blogposts/archive",
   "query": "",
   "method": "put",
@@ -479,8 +479,8 @@ D, [2021-06-09T15:34:17.784149 #11425] DEBUG -- : {
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-09T15:34:17.784470 #11425]  INFO -- : Found matching response for PUT /api/blogposts/archive
-D, [2021-06-09T15:34:17.784621 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.305423 #14538]  INFO -- : Found matching response for PUT /api/blogposts/archive
+D, [2021-06-10T12:29:28.305538 #14538] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -523,9 +523,9 @@ D, [2021-06-09T15:34:17.784621 #11425] DEBUG -- : {
     }
   }
 }
-I, [2021-06-09T15:34:17.788177 #11425]  INFO -- : Cleared interactions
-I, [2021-06-09T15:34:17.792778 #11425]  INFO -- : Registered expected interaction PUT /api/blogposts
-D, [2021-06-09T15:34:17.792907 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.309095 #14538]  INFO -- : Cleared interactions
+I, [2021-06-10T12:29:28.312785 #14538]  INFO -- : Registered expected interaction PUT /api/blogposts
+D, [2021-06-10T12:29:28.312896 #14538] DEBUG -- : {
   "description": "a request to update a blogpost",
   "request": {
     "method": "PUT",
@@ -607,8 +607,8 @@ D, [2021-06-09T15:34:17.792907 #11425] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-06-09T15:34:17.796287 #11425]  INFO -- : Received request PUT /api/blogposts
-D, [2021-06-09T15:34:17.796450 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.315981 #14538]  INFO -- : Received request PUT /api/blogposts
+D, [2021-06-10T12:29:28.316097 #14538] DEBUG -- : {
   "path": "/api/blogposts",
   "query": "",
   "method": "put",
@@ -658,8 +658,8 @@ D, [2021-06-09T15:34:17.796450 #11425] DEBUG -- : {
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-09T15:34:17.796714 #11425]  INFO -- : Found matching response for PUT /api/blogposts
-D, [2021-06-09T15:34:17.796820 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.316324 #14538]  INFO -- : Found matching response for PUT /api/blogposts
+D, [2021-06-10T12:29:28.316415 #14538] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -694,9 +694,9 @@ D, [2021-06-09T15:34:17.796820 #11425] DEBUG -- : {
     }
   }
 }
-I, [2021-06-09T15:34:17.800034 #11425]  INFO -- : Cleared interactions
-I, [2021-06-09T15:34:17.805094 #11425]  INFO -- : Registered expected interaction GET /api/distinctCategories
-D, [2021-06-09T15:34:17.805220 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.319270 #14538]  INFO -- : Cleared interactions
+I, [2021-06-10T12:29:28.322403 #14538]  INFO -- : Registered expected interaction GET /api/distinctCategories
+D, [2021-06-10T12:29:28.322479 #14538] DEBUG -- : {
   "description": "a request to fetch distinct categories",
   "request": {
     "method": "GET",
@@ -723,8 +723,8 @@ D, [2021-06-09T15:34:17.805220 #11425] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-06-09T15:34:17.808927 #11425]  INFO -- : Received request GET /api/distinctCategories
-D, [2021-06-09T15:34:17.809028 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.325156 #14538]  INFO -- : Received request GET /api/distinctCategories
+D, [2021-06-10T12:29:28.325224 #14538] DEBUG -- : {
   "path": "/api/distinctCategories",
   "query": "",
   "method": "get",
@@ -737,8 +737,8 @@ D, [2021-06-09T15:34:17.809028 #11425] DEBUG -- : {
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-09T15:34:17.809218 #11425]  INFO -- : Found matching response for GET /api/distinctCategories
-D, [2021-06-09T15:34:17.809299 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.325361 #14538]  INFO -- : Found matching response for GET /api/distinctCategories
+D, [2021-06-10T12:29:28.325428 #14538] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -757,9 +757,9 @@ D, [2021-06-09T15:34:17.809299 #11425] DEBUG -- : {
     "min": 4
   }
 }
-I, [2021-06-09T15:34:17.813150 #11425]  INFO -- : Cleared interactions
-I, [2021-06-09T15:34:17.817852 #11425]  INFO -- : Registered expected interaction GET /api/categories
-D, [2021-06-09T15:34:17.817951 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.328321 #14538]  INFO -- : Cleared interactions
+I, [2021-06-10T12:29:28.331522 #14538]  INFO -- : Registered expected interaction GET /api/categories
+D, [2021-06-10T12:29:28.331603 #14538] DEBUG -- : {
   "description": "a request to list all categories",
   "request": {
     "method": "GET",
@@ -783,8 +783,8 @@ D, [2021-06-09T15:34:17.817951 #11425] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-06-09T15:34:17.821487 #11425]  INFO -- : Received request GET /api/categories
-D, [2021-06-09T15:34:17.821597 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.334286 #14538]  INFO -- : Received request GET /api/categories
+D, [2021-06-10T12:29:28.334376 #14538] DEBUG -- : {
   "path": "/api/categories",
   "query": "",
   "method": "get",
@@ -797,8 +797,8 @@ D, [2021-06-09T15:34:17.821597 #11425] DEBUG -- : {
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-06-09T15:34:17.821762 #11425]  INFO -- : Found matching response for GET /api/categories
-D, [2021-06-09T15:34:17.821854 #11425] DEBUG -- : {
+I, [2021-06-10T12:29:28.334492 #14538]  INFO -- : Found matching response for GET /api/categories
+D, [2021-06-10T12:29:28.334564 #14538] DEBUG -- : {
   "status": 200,
   "headers": {
   },
@@ -814,5 +814,118 @@ D, [2021-06-09T15:34:17.821854 #11425] DEBUG -- : {
     "min": 4
   }
 }
-I, [2021-06-09T15:34:17.825765 #11425]  INFO -- : Cleared interactions
-I, [2021-06-09T15:34:17.829958 #11425]  INFO -- : Writing pact for Provider to /Library/WebServer/Documents/idealo/nwp/packages/idealo.design/src/__tests__/pact/consumer-provider.json
+I, [2021-06-10T12:29:28.337339 #14538]  INFO -- : Cleared interactions
+I, [2021-06-10T12:29:28.340362 #14538]  INFO -- : Registered expected interaction PUT /api/blogposts/delete
+D, [2021-06-10T12:29:28.340440 #14538] DEBUG -- : {
+  "description": "a request to delete a blogpost",
+  "request": {
+    "method": "PUT",
+    "path": "/api/blogposts/delete",
+    "headers": {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": 1,
+      "title": "Mocked Blogpost",
+      "categorydisplayvalue": "Test",
+      "categoryslug": "test",
+      "slug": "Test",
+      "date": "2021-05-28T09:04:55.343Z",
+      "image": "",
+      "email": null,
+      "instagram": null,
+      "twitter": null,
+      "github": null,
+      "facebook": null,
+      "blogpostcontent": {
+        "blocks": [
+          {
+            "key": "csc33",
+            "data": {
+            },
+            "text": "This is a dummy post",
+            "type": "unstyled",
+            "depth": 0,
+            "entityRanges": [
+
+            ],
+            "inlineStyleRanges": [
+
+            ]
+          }
+        ],
+        "entityMap": {
+        }
+      },
+      "isarchived": 0
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+    },
+    "body": "successfully deleted blogpost"
+  },
+  "metadata": null
+}
+I, [2021-06-10T12:29:28.342965 #14538]  INFO -- : Received request PUT /api/blogposts/delete
+D, [2021-06-10T12:29:28.343095 #14538] DEBUG -- : {
+  "path": "/api/blogposts/delete",
+  "query": "",
+  "method": "put",
+  "body": {
+    "id": 1,
+    "title": "Mocked Blogpost",
+    "categorydisplayvalue": "Test",
+    "categoryslug": "test",
+    "slug": "Test",
+    "date": "2021-05-28T09:04:55.343Z",
+    "image": "",
+    "email": null,
+    "instagram": null,
+    "twitter": null,
+    "github": null,
+    "facebook": null,
+    "blogpostcontent": {
+      "blocks": [
+        {
+          "key": "csc33",
+          "data": {
+          },
+          "text": "This is a dummy post",
+          "type": "unstyled",
+          "depth": 0,
+          "entityRanges": [
+
+          ],
+          "inlineStyleRanges": [
+
+          ]
+        }
+      ],
+      "entityMap": {
+      }
+    },
+    "isarchived": 0
+  },
+  "headers": {
+    "Content-Length": "406",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+    "Accept-Encoding": "gzip,deflate",
+    "Connection": "close",
+    "Host": "127.0.0.1:4000",
+    "Version": "HTTP/1.1"
+  }
+}
+I, [2021-06-10T12:29:28.343280 #14538]  INFO -- : Found matching response for PUT /api/blogposts/delete
+D, [2021-06-10T12:29:28.343324 #14538] DEBUG -- : {
+  "status": 200,
+  "headers": {
+  },
+  "body": "successfully deleted blogpost"
+}
+I, [2021-06-10T12:29:28.345806 #14538]  INFO -- : Cleared interactions
+I, [2021-06-10T12:29:28.348588 #14538]  INFO -- : Writing pact for Provider to /Library/WebServer/Documents/idealo/nwp/packages/idealo.design/src/__tests__/pact/consumer-provider.json

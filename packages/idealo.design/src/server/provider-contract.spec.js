@@ -1,6 +1,6 @@
 import { Verifier } from '@pact-foundation/pact'
 import path from 'path'
-import { app , dangerousTestModeArgument} from './index'
+import { app } from './index'
 import { fetchList,
     updateSinglePost,
     deleteSinglePost,
@@ -57,7 +57,7 @@ describe('Pact Verification', () => {
         archiveSinglePost.mockReturnValue(mockedArchivedBlogpost)
         fetchDistinctCategories.mockReturnValue([distinctCategories,distinctCategories, distinctCategories, distinctCategories])
         fetchAllCategories.mockReturnValue([allCategories,allCategories,allCategories,allCategories])
-        deleteSinglePost.mockReturnValue(mockedBlogpost)
+        deleteSinglePost.mockReturnValue('successfully deleted blogpost')
 
         const opts = {
             provider: 'Provider',

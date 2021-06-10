@@ -505,6 +505,58 @@
           }
         }
       }
+    },
+    {
+      "description": "a request to delete a blogpost",
+      "request": {
+        "method": "PUT",
+        "path": "/api/blogposts/delete",
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id": 1,
+          "title": "Mocked Blogpost",
+          "categorydisplayvalue": "Test",
+          "categoryslug": "test",
+          "slug": "Test",
+          "date": "2021-05-28T09:04:55.343Z",
+          "image": "",
+          "email": null,
+          "instagram": null,
+          "twitter": null,
+          "github": null,
+          "facebook": null,
+          "blogpostcontent": {
+            "blocks": [
+              {
+                "key": "csc33",
+                "data": {
+                },
+                "text": "This is a dummy post",
+                "type": "unstyled",
+                "depth": 0,
+                "entityRanges": [
+
+                ],
+                "inlineStyleRanges": [
+
+                ]
+              }
+            ],
+            "entityMap": {
+            }
+          },
+          "isarchived": 0
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": "successfully deleted blogpost"
+      }
     }
   ],
   "metadata": {

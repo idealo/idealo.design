@@ -63,7 +63,7 @@ export async function deleteSinglePost(post, base_url = API_BASE) {
     const body = JSON.stringify(post);
 
     const resp=await fetch(`${base_url}/api/blogposts/delete`, {
-        method: 'DELETE',
+        method: 'PUT',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body
     }).then(function (response){

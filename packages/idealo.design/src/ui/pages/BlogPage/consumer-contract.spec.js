@@ -317,12 +317,12 @@ describe('all Tests', () => {
         });
     })*/
 
-    /*describe('test to delete a single post', ()=> {
+    describe('test to delete a single post', ()=> {
        test('should return the deleted blogpost', async () => {
            await provider.addInteraction({
                uponReceiving: 'a request to delete a blogpost',
                withRequest: {
-                   method: 'DELETE',
+                   method: 'PUT',
                    path: '/api/blogposts/delete',
                    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
                    body: mockedBlogpost,
@@ -335,5 +335,5 @@ describe('all Tests', () => {
            const response = await deleteSinglePost(mockedBlogpost,  provider.mockService.baseUrl);
            expect(response).toBe('successfully deleted blogpost')
        });
-   })*/
+   })
 });

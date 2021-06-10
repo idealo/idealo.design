@@ -212,12 +212,12 @@ app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
   return res.json(archiveBlogpost)
 })
 
-app.delete('/api/blogposts/delete', isAuthenticated, async (req,res) => {
+app.put('/api/blogposts/delete', isAuthenticated, async (req,res) => {
   const blogpost = req.body;
   console.log('toBeDeletedBlogpost: ', blogpost)
   const deletedBlogpost = await deleteSinglePost(blogpost)
   console.log('deletedBlogpost: ', deletedBlogpost)
-  return res.json(deletedBlogpost)
+  return res.json('successfully deleted blogpost')
 })
 
 app.listen(PORT, '0.0.0.0',() => {
