@@ -3,47 +3,42 @@ import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Logo } from '../../../../public/logo.svg';
 import { Dropdown } from 'react-dropdown-now';
+//import { Multiselect } from 'multiselect-react-dropdown';
 
 const components = [
     {
         id: 1,
         name: 'Radio Button',
-        tagAll: '#all',
         tagImport: '#motive-ui',
         tagStacks: '#react'
     },
     {
         id: 2,
         name: 'Select',
-        tagAll: '#all',
         tagImport: '#motive-ui',
         tagStacks: '#react'
     },
     {
         id: 3,
         name: 'Radio Button',
-        tagAll: '#all',
         tagImport: '#motive-ui',
         tagStacks: '#classic'
     },
     {
         id: 4,
         name: 'Radio Button',
-        tagAll: '#all',
         tagImport: '#figma',
         tagStacks: '#react'
     },
     {
         id: 5,
         name: 'Select',
-        tagAll: '#all',
         tagImport: '#figma',
         tagStacks: '#react'
     },
     {
         id: 6,
         name: 'Radio Button',
-        tagAll: '#all',
         tagImport: '#figma',
         tagStacks: '#classic'
     },
@@ -51,11 +46,14 @@ const components = [
 
 class ComponentView extends React.Component {
 
+
     constructor(props) {
         super(props);
         this.state = {
             filterValue: 'All Technology',
-            components :[]
+            components : [],
+            //selectedValue : '',
+            //options: ['All Technology','#react', '#classic'],
         }
     }
 
@@ -82,6 +80,15 @@ class ComponentView extends React.Component {
                         onClose={(closedBySelection) => console.log('closedBySelection?:', closedBySelection)}
                     />
                 </div>
+                {/*<div>
+                    <Multiselect
+                        options={this.state.options} // Options to display in the dropdown
+                        selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
+                        onSelect={this.onSelect} // Function will trigger on select event
+                        onRemove={this.onRemove} // Function will trigger on remove event
+                        displayValue="name" // Property name to display in the dropdown options
+                    />
+                </div>*/}
                 <div className={s.container}>
                     {this.state.filterValue.value === 'All Technology' || this.state.filterValue=== 'All Technology' ?
                         this.state.components.map((components) => (
