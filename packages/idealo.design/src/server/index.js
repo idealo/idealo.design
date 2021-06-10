@@ -12,7 +12,6 @@ import slugify from 'slugify'
 
 import passport  from 'passport'
 import { OAuth2Strategy } from 'passport-oauth'
-import {dangerousTestModeArgument} from "./index-contract.spec";
 
 import Renderer from './renderer'
 
@@ -111,11 +110,13 @@ if (CLIENT_ID) {
   }));
 }
 
+process.env.dangerousTestModeArgument = 'false';
+
 function isAuthenticated(req, res, next) {
   if(req.session.user){
     return next();
   }
-  if(dangerousTestModeArgument){
+  if(process.env.dangerousTestModeArgument==='true'){
     return next();
   }
   res.status(403).send('You do not have rights to visit this page');
@@ -193,30 +194,30 @@ app.get('/*', (req, res) => {
 })
 
 app.put('/api/blogposts', isAuthenticated, async (req, res) => {
-  console.log('api put req', req);
-  
   const updatedBlogpost = req.body;
   updatedBlogpost.slug = slugify(updatedBlogpost.title);
   updatedBlogpost.date = (new Date()).toISOString();
-  console.log('updatedBlogpost', updatedBlogpost);
-  
+
   const createdBlogpost = await updateSinglePost(updatedBlogpost);
   console.log("api put", createdBlogpost);
   
   return res.json(createdBlogpost);
 });
 
-app.delete('/api/blogposts/delete', isAuthenticated, async (req,res) => {
-  const blogpost = req.body;
-  const deletedBlogpost = await deleteSinglePost(blogpost)
-  console.log('deleted blogpost: ', deletedBlogpost)
-  return res.json(deletedBlogpost)
-})
-
 app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
   const blogpost = req.body;
+  console.log('toBeArchivedBlogpost: ', blogpost)
   const archiveBlogpost = await archiveSinglePost(blogpost);
+  console.log('archivedBlogpost', archiveBlogpost)
   return res.json(archiveBlogpost)
+})
+
+app.delete('/api/blogposts/delete', isAuthenticated, async (req,res) => {
+  const blogpost = req.body;
+  console.log('toBeDeletedBlogpost: ', blogpost)
+  const deletedBlogpost = await deleteSinglePost(blogpost)
+  console.log('deletedBlogpost: ', deletedBlogpost)
+  return res.json(deletedBlogpost)
 })
 
 app.listen(PORT, '0.0.0.0',() => {

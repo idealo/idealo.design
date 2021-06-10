@@ -1,6 +1,6 @@
 import { Verifier } from '@pact-foundation/pact'
 import path from 'path'
-import { app } from './index'
+import { app , dangerousTestModeArgument} from './index'
 import { fetchList,
     updateSinglePost,
     deleteSinglePost,
@@ -11,21 +11,20 @@ import { fetchList,
     fetchSinglePost
 } from './db'
 import '@testing-library/jest-dom/extend-expect';
-import {mockedArchivedBlogpost, mockedBlogpost, mockedUpdatedBlogpost} from '../ui/pages/BlogPage/data-contract.spec'
+import {mockedArchivedBlogpost, mockedBlogpost, mockedUpdatedBlogpost} from '../ui/pages/BlogPage/consumer-contract.spec'
 
 jest.mock('./db', () => {
     return { fetchList: jest.fn(),
         updateSinglePost: jest.fn(),
-        deleteSinglePost: jest.fn(),
         archiveSinglePost: jest.fn(),
         fetchPostsByCategorySlug: jest.fn(),
         fetchDistinctCategories: jest.fn(),
         fetchAllCategories: jest.fn(),
-        fetchSinglePost: jest.fn()
+        fetchSinglePost: jest.fn(),
+        deleteSinglePost: jest.fn()
     }
 })
 
-export const dangerousTestModeArgument = true;
 const distinctCategories = {
     categorydisplayvalue: "Testing Category",
     categoryslug: "testing-category"
@@ -46,19 +45,20 @@ const user = {
 }
 
 describe('Pact Verification', () => {
+    process.env.dangerousTestModeArgument = 'true';
 
     app.listen(7777, '0000',() => console.log('server running for api testing') )
 
-    fetchList.mockReturnValue([mockedBlogpost, mockedBlogpost, mockedBlogpost])
-    updateSinglePost.mockReturnValue(mockedUpdatedBlogpost)
-    fetchSinglePost.mockReturnValue([mockedBlogpost])
-    fetchPostsByCategorySlug.mockReturnValue(mockedBlogpost)
-    archiveSinglePost.mockReturnValue(mockedArchivedBlogpost)
-    //deleteSinglePost.mockReturnValue(mockedBlogpost)
-    fetchDistinctCategories.mockReturnValue([distinctCategories,distinctCategories, distinctCategories, distinctCategories])
-    fetchAllCategories.mockReturnValue([allCategories,allCategories,allCategories,allCategories])
-
     test('should validate the expectations of our consumer', () => {
+        fetchList.mockReturnValue([mockedBlogpost, mockedBlogpost, mockedBlogpost])
+        updateSinglePost.mockReturnValue(mockedUpdatedBlogpost)
+        fetchSinglePost.mockReturnValue([mockedBlogpost])
+        fetchPostsByCategorySlug.mockReturnValue(mockedBlogpost)
+        archiveSinglePost.mockReturnValue(mockedArchivedBlogpost)
+        fetchDistinctCategories.mockReturnValue([distinctCategories,distinctCategories, distinctCategories, distinctCategories])
+        fetchAllCategories.mockReturnValue([allCategories,allCategories,allCategories,allCategories])
+        deleteSinglePost.mockReturnValue(mockedBlogpost)
+
         const opts = {
             provider: 'Provider',
             providerBaseUrl: 'http://localhost:7777',
@@ -68,9 +68,13 @@ describe('Pact Verification', () => {
             //headers: user,
             publishVerificationResult: true,
             providerVersion: '1.0.0',
-            logLevel: 'INFO',
-        };
+            logLevel: 'DEBUG',
+        }
 
-        return new Verifier(opts).verifyProvider();
-    });
-});
+        return new Verifier(opts).verifyProvider().then(output => {
+            console.log('pact verification complete !')
+            console.log(output)
+            process.env.dangerousTestModeArgument='false'
+        })
+    })
+})

@@ -210,26 +210,6 @@ describe('all Tests', () => {
         });
     })
 
-    /*describe('test to delete a single post', ()=> {
-        test('should return the deleted blogpost', async () => {
-            await provider.addInteraction({
-                uponReceiving: 'a request to delete a blogpost',
-                withRequest: {
-                    method: 'DELETE',
-                    path: '/api/blogposts/delete',
-                    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-                    body: mockedBlogpost,
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: 'successfully deleted blogpost'
-                }
-            });
-            const response = await deleteSinglePost(mockedBlogpost,  provider.mockService.baseUrl);
-            expect(response).toBe('successfully deleted blogpost')
-        });
-    })*/
-
     describe('test to update a single post', ()=> {
         test('should return update Blogpost', async () => {
             await provider.addInteraction({
@@ -336,4 +316,24 @@ describe('all Tests', () => {
             expect(response.user.id).toBe('ABC1234');
         });
     })*/
+
+    /*describe('test to delete a single post', ()=> {
+       test('should return the deleted blogpost', async () => {
+           await provider.addInteraction({
+               uponReceiving: 'a request to delete a blogpost',
+               withRequest: {
+                   method: 'DELETE',
+                   path: '/api/blogposts/delete',
+                   headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+                   body: mockedBlogpost,
+               },
+               willRespondWith: {
+                   status: 200,
+                   body: 'successfully deleted blogpost'
+               }
+           });
+           const response = await deleteSinglePost(mockedBlogpost,  provider.mockService.baseUrl);
+           expect(response).toBe('successfully deleted blogpost')
+       });
+   })*/
 });
