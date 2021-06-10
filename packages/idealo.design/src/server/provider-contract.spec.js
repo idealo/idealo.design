@@ -12,6 +12,7 @@ import { fetchList,
 } from './db'
 import '@testing-library/jest-dom/extend-expect';
 import {mockedArchivedBlogpost, mockedBlogpost, mockedUpdatedBlogpost} from '../ui/pages/BlogPage/consumer-contract.spec'
+import {fetchUserInfo} from "../ui/pages/BlogPage/data";
 
 jest.mock('./db', () => {
     return { fetchList: jest.fn(),
@@ -69,6 +70,10 @@ describe('Pact Verification', () => {
             publishVerificationResult: true,
             providerVersion: '1.0.0',
             logLevel: 'DEBUG',
+            requestFilter: (req, res, next) => {
+                req.headers["authorization"] = `mock`
+                next()
+            }
         }
 
         return new Verifier(opts).verifyProvider().then(output => {

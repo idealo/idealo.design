@@ -507,6 +507,47 @@
       }
     },
     {
+      "description": "a request to authenticate",
+      "request": {
+        "method": "GET",
+        "path": "/api/me"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": {
+          "status": "LOGGED_IN",
+          "user": {
+            "displayName": "Jane Doe",
+            "givenName": "Jane",
+            "surname": "Doe",
+            "id": "ABC1234"
+          }
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          },
+          "$.body.status": {
+            "match": "type"
+          },
+          "$.body.user.displayName": {
+            "match": "type"
+          },
+          "$.body.user.givenName": {
+            "match": "type"
+          },
+          "$.body.user.surname": {
+            "match": "type"
+          },
+          "$.body.user.id": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
       "description": "a request to delete a blogpost",
       "request": {
         "method": "PUT",

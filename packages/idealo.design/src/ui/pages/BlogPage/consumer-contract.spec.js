@@ -284,7 +284,7 @@ describe('all Tests', () => {
         })
     })
 
-    /*describe('test user login', ()=> {
+    describe('test user login', ()=> {
         test('should return user data', async () => {
             await provider.addInteraction({
                 uponReceiving: 'a request to authenticate',
@@ -315,7 +315,7 @@ describe('all Tests', () => {
             expect(response.user.surname).toBe('Doe');
             expect(response.user.id).toBe('ABC1234');
         });
-    })*/
+    })
 
     describe('test to delete a single post', ()=> {
        test('should return the deleted blogpost', async () => {

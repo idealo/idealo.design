@@ -141,6 +141,17 @@ app.get('/api/me', (req, res) => {
     resp.status = 'LOGGED_IN';
     resp.user = user;
   }
+
+  if(req.header('authorization') === 'mock'){
+    resp.status = 'LOGGED_IN';
+    resp.user = {
+      displayName: "Jane Doe",
+      givenName: "Jane",
+      surname: "Doe",
+      id: "ABC1234"
+    };
+  }
+
   res.json(resp);
 } )
 
