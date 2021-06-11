@@ -1,6 +1,8 @@
 import postgres from 'postgres'
 // const sql = postgres({ database: 'blog', username: 'postgres' })
-const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://postgres@localhost:5432/blog'
+// const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://postgres@localhost:5432/blog'
+
+const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://database-idealo-design.c9fyhsob8bxc.eu-central-1.rds.amazonaws.com'
 const sql = postgres(POSTGRES_URL)
 
 export async function fetchList() {
@@ -26,6 +28,11 @@ export async function fetchPostsByCategorySlug({ categorySlug }) {
 export async function fetchAllCategories() {
   const cats = await sql`select categoryslug,count(id) as sum  from blogposts group by categoryslug order by sum desc limit 5;`
   return cats;
+}
+
+export async function fetchAllTitles() {
+    const titles = await sql`select title from blogposts;`
+    return titles;
 }
 
 export async function storeSinglePost({

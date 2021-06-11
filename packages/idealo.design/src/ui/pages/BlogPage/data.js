@@ -18,7 +18,7 @@ export async function updateSinglePost({slug, post} , cb,base_url = API_BASE) {
         body
       }
   ).then(function(response) {
-      cb();
+    cb();
     return response.json();
   });
   return resp
@@ -52,6 +52,13 @@ export async function fetchDistinctCategories(base_url = API_BASE) {
     return data;
 }
 
+export async function fetchAllTitles(base_url = API_BASE) {
+    const resp = await fetch(`${base_url}/api/title`);
+    const data = await resp.json();
+    return data;
+}
+
+
 export async function fetchUserInfo(base_url = API_BASE) {
   const resp = await fetch( `${base_url}/api/me` );
   const data = await resp.json();
@@ -69,7 +76,6 @@ export async function deleteSinglePost(post, base_url = API_BASE) {
     }).then(function (response){
         return 'successfully deleted blogpost'
     })
-
     return resp;
 }
 
@@ -83,7 +89,5 @@ export async function archiveSinglePost(post,base_url = API_BASE) {
     }).then(function (response){
         return response.json()
     })
-
-    //const data = await response.json()
     return resp;
 }

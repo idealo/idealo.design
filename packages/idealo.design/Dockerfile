@@ -1,16 +1,16 @@
-FROM node:14.16.1 as builder
+FROM node:14.16.1 
 
 WORKDIR /home/node/app
 
-COPY packages/idealo.design/ ./
-RUN npm install
+COPY . ./
+RUN npm config set color false
+RUN npm ci
 RUN npm run build
 
+WORKDIR /home/node/app/dist
 
-FROM node:14.16.1-alpine as runner
-
-WORKDIR /home/node/app
-
-COPY --from=builder /home/node/app/dist .
+EXPOSE 8080
 
 CMD ["node", "server.js"]
+
+
