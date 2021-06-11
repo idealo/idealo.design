@@ -3,9 +3,9 @@ import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
-import {fetchComponents} from "../../../server/db";
 
-const components = [
+
+/*const components = [
     {
         id: 1,
         name: 'Checkbox1',
@@ -42,7 +42,7 @@ const components = [
         tagImport: '#figma',
         tagStacks: '#classic'
     },
-];
+];*/
 
 class ComponentView extends React.Component {
 
@@ -56,10 +56,19 @@ class ComponentView extends React.Component {
     }
 
     async componentDidMount() {
-        this.setState(
-            this.state.components = components,
-            //fetchComponents(),
-        )
+        const comp = [];
+        fetch('/api/components')
+            .then(response => {
+                console.log('fetch', response.json());
+                return response.json();
+            })
+            .then(data => {
+                for (let i = 0; i < data.length; i++) {
+                    comp.push(data[i].title)
+                }
+                this.setState({components: comp});
+                console.log('components', comp);
+            });
         this.setState(
             this.state.options = [
                 { label: 'All', value: 'All'},
@@ -90,9 +99,9 @@ class ComponentView extends React.Component {
                         classNamePrefix="select"
                     />
                 </div>
-                <div className={s.container}>
+                {/*<div className={s.container}>
                     {this.state.filterValue.map((tag) => (
-                        tag === [] || tag === 'All' ?
+                        tag === 'All' ?
                             this.state.components.map((components) => (
                                 <div className={s.item} key={components.id}>
                                     <Checkbox className={s.logo}/>
@@ -111,7 +120,7 @@ class ComponentView extends React.Component {
                                 </div>
                             ))
                     ))}
-                </div>
+                </div>*/}
             </div>
         );
     }
