@@ -17,8 +17,8 @@ const PORT = 4000;
 const URL = 'http://localhost:';
 
 const provider = new Pact({
-    consumer: 'Consumer',
-    provider: 'Provider',
+    consumer: 'Consumer for blogPage',
+    provider: 'Provider for functions in ./data (BlogPage)',
     port: PORT,
     log: path.resolve(process.cwd(), 'src/__tests__/pact', 'pact.log'),
     dir: path.resolve(process.cwd(), 'src/__tests__/pact'),

@@ -237,8 +237,4 @@ app.put('/api/blogposts/delete', isAuthenticated, async (req,res) => {
   return res.json('successfully deleted blogpost')
 })
 
-app.listen(PORT, '0.0.0.0',() => {
-  console.log(` -> 0.0.0.0:${PORT}`)
-})
-
 export { app }

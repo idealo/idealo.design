@@ -1,6 +1,6 @@
 import { Verifier } from '@pact-foundation/pact'
 import path from 'path'
-import { app } from './index'
+import { app } from './server'
 import { fetchList,
     updateSinglePost,
     deleteSinglePost,
@@ -61,7 +61,7 @@ describe('Pact Verification', () => {
         deleteSinglePost.mockReturnValue('successfully deleted blogpost')
 
         const opts = {
-            provider: 'Provider',
+            provider: 'Provider test for database blog',
             providerBaseUrl: 'http://localhost:7777',
            // pactBrokerUrl: process.env.PACT_BROKER_URL,
           //  pactBrokerToken: process.env.PACT_BROKER_TOKEN,
