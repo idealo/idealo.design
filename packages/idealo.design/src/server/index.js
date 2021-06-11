@@ -25,7 +25,7 @@ import {
   fetchDistinctCategories,
   deleteSinglePost,
   archiveSinglePost,
-  fetchAllTitles,
+  fetchAllTitles, fetchComponents,
 } from './db';
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
@@ -220,6 +220,20 @@ app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
   const archiveBlogpost = await archiveSinglePost(blogpost);
   return res.json(archiveBlogpost)
 })
+
+
+
+
+
+/*
+
+app.get('/api/components', isAuthenticated, async (req, res) => {
+  const components = await fetchComponents();
+  return res.json(components);
+})
+*/
+
+
 
 app.listen(PORT, '0.0.0.0',() => {
   console.log(` -> 0.0.0.0:${PORT}`)

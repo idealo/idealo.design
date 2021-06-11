@@ -3,6 +3,7 @@ import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
+import {fetchComponents} from "../../../server/db";
 
 const components = [
     {
@@ -57,6 +58,7 @@ class ComponentView extends React.Component {
     async componentDidMount() {
         this.setState(
             this.state.components = components,
+            //fetchComponents(),
         )
         this.setState(
             this.state.options = [
@@ -77,8 +79,8 @@ class ComponentView extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className={s.multiSelect}>
+            <div className={s.list}>
+                <div className={s.select}>
                     <Select
                         isMulti
                         defaultValue={{ label: 'All', value: 'All'}}
