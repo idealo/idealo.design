@@ -12,7 +12,6 @@ import { fetchList,
 } from './db'
 import '@testing-library/jest-dom/extend-expect';
 import {mockedArchivedBlogpost, mockedBlogpost, mockedUpdatedBlogpost} from '../ui/pages/BlogPage/consumer-contract.spec'
-import {fetchUserInfo} from "../ui/pages/BlogPage/data";
 
 jest.mock('./db', () => {
     return { fetchList: jest.fn(),
@@ -35,16 +34,6 @@ const allCategories = {
     sum : 4
 }
 
-const user = {
-    status: "LOGGED_IN",
-    user: {
-        displayName: "Jane Doe",
-        givenName: "Jane",
-        surname: "Doe",
-        id: "ABC1234"
-    }
-}
-
 describe('Pact Verification', () => {
     process.env.dangerousTestModeArgument = 'true';
 
@@ -61,17 +50,16 @@ describe('Pact Verification', () => {
         deleteSinglePost.mockReturnValue('successfully deleted blogpost')
 
         const opts = {
-            provider: 'Provider test for database blog',
+            provider: 'BlogTestingProvider',
             providerBaseUrl: 'http://localhost:7777',
            // pactBrokerUrl: process.env.PACT_BROKER_URL,
           //  pactBrokerToken: process.env.PACT_BROKER_TOKEN,
-            pactUrls: [path.resolve(process.cwd(), 'src/__tests__/pact/consumer-provider.json')],
-            //headers: user,
+            pactUrls: [path.resolve(process.cwd(), 'src/__tests__/pact/blogtestingconsumer-blogtestingprovider.json')],
             publishVerificationResult: true,
             providerVersion: '1.0.0',
-            logLevel: 'DEBUG',
+            logLevel: 'INFO',
             requestFilter: (req, res, next) => {
-                req.headers["authorization"] = `mock`
+                req.headers["authorization"] = true
                 next()
             }
         }
@@ -79,7 +67,6 @@ describe('Pact Verification', () => {
         return new Verifier(opts).verifyProvider().then(output => {
             console.log('pact verification complete !')
             console.log(output)
-            process.env.dangerousTestModeArgument='false'
         })
     })
 })

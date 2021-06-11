@@ -17,8 +17,8 @@ const PORT = 4000;
 const URL = 'http://localhost:';
 
 const provider = new Pact({
-    consumer: 'Consumer for blogPage',
-    provider: 'Provider for functions in ./data (BlogPage)',
+    consumer: 'BlogTestingConsumer',
+    provider: 'BlogTestingProvider',
     port: PORT,
     log: path.resolve(process.cwd(), 'src/__tests__/pact', 'pact.log'),
     dir: path.resolve(process.cwd(), 'src/__tests__/pact'),
@@ -297,12 +297,7 @@ describe('all Tests', () => {
                     body: like(
                         {
                             status: like("LOGGED_IN"),
-                            user: {
-                                displayName: like("Jane Doe"),
-                                givenName: like("Jane"),
-                                surname: like("Doe"),
-                                id: like("ABC1234")
-                            }
+                            user: null
                         }
                     )
                 }
@@ -310,10 +305,6 @@ describe('all Tests', () => {
 
             const response = await fetchUserInfo(provider.mockService.baseUrl);
             expect(response.status).toBe('LOGGED_IN');
-            expect(response.user.displayName).toBe('Jane Doe');
-            expect(response.user.givenName).toBe('Jane');
-            expect(response.user.surname).toBe('Doe');
-            expect(response.user.id).toBe('ABC1234');
         });
     })
 

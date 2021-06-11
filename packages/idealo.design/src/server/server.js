@@ -49,6 +49,7 @@ const app = express()
 
 const RedisStore = connectRedis(session)
 
+
 redis.on('error', err => {
   console.log('redis error: ', err)
 })
@@ -68,7 +69,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false },
-  store: new RedisStore({ host: 'localhost', port: 6379, client: redis, ttl: 86400 })
+  if(redis){
+    store: new RedisStore({ host: 'localhost', port: 6379, client: redis, ttl: 86400 })
+  }
+
 }))
 
 app.use(passport.initialize())
@@ -111,15 +115,12 @@ if (CLIENT_ID) {
   }));
 }
 
-process.env.dangerousTestModeArgument = 'false';
-
 function isAuthenticated(req, res, next) {
-  if(req.session.user){
+  const testUser = req.header('authorization')
+  if(req.session.user || testUser){
     return next();
   }
-  if(process.env.dangerousTestModeArgument==='true'){
-    return next();
-  }
+
   res.status(403).send('You do not have rights to visit this page');
 }
 
@@ -135,6 +136,8 @@ app.get('/auth/provider/callback',
 
 app.get('/api/me', (req, res) => {
   const user = req.session.user;
+  const testuser= req.header('authorization')
+
   const resp = {
     status: 'NOT_LOGGED_IN'
   };
@@ -143,14 +146,9 @@ app.get('/api/me', (req, res) => {
     resp.user = user;
   }
 
-  if(req.header('authorization') === 'mock'){
+  if(testuser){
     resp.status = 'LOGGED_IN';
-    resp.user = {
-      displayName: "Jane Doe",
-      givenName: "Jane",
-      surname: "Doe",
-      id: "ABC1234"
-    };
+    resp.user = null;
   }
 
   res.json(resp);
