@@ -94,7 +94,7 @@ class ComponentView extends React.Component {
                 <div className={s.select}>
                     <Select
                         isMulti
-                        defaultValue = {{label: 'All', tag_name:'All'}}
+                        defaultValue = {{tag_name:'All'}}
                         options={this.state.options}
                         className="basic-multi-select"
                         onChange={(tag_name) => this.setFilter(tag_name)}
