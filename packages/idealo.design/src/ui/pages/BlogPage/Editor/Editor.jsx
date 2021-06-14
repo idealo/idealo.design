@@ -396,12 +396,6 @@ export class RichTextEditor extends React.Component {
         </>
     );
   }
-
-  /*wrongTitle() {
-    span = <span></span>
-    console.log("Der Titel stimmt so nicht")
-    return span;
-  }*/
 }
 
 // Custom overrides for "code" style.

@@ -25,7 +25,9 @@ import {
   fetchDistinctCategories,
   deleteSinglePost,
   archiveSinglePost,
-  fetchAllTitles, fetchComponents,
+  fetchAllTitles,
+  fetchComponents,
+  fetchTags
 } from './db';
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
@@ -185,6 +187,16 @@ app.get('/api/title', isAuthenticated, async (req, res) => {
   return res.json(titles);
 })
 
+app.get('/api/components', isAuthenticated, async (req, res) => {
+  const components = await fetchComponents();
+  return res.json(components);
+})
+
+app.get('/api/tags', isAuthenticated, async (req, res) => {
+  const tags = await fetchTags();
+  return res.json(tags);
+})
+
 app.get('/api/distinctCategories', async (req, res) => {
   const categories = await fetchDistinctCategories();
   return res.json(categories);
@@ -225,13 +237,7 @@ app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
 
 
 
-/*
 
-app.get('/api/components', isAuthenticated, async (req, res) => {
-  const components = await fetchComponents();
-  return res.json(components);
-})
-*/
 
 
 

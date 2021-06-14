@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
-
+import {fetchComponents,fetchTags} from "./component_data";
 
 /*const components = [
     {
@@ -56,33 +56,35 @@ class ComponentView extends React.Component {
     }
 
     async componentDidMount() {
-        const comp = [];
-        fetch('/api/components')
-            .then(response => {
-                console.log('fetch', response.json());
-                return response.json();
-            })
-            .then(data => {
-                for (let i = 0; i < data.length; i++) {
-                    comp.push(data[i].title)
-                }
-                this.setState({components: comp});
-                console.log('components', comp);
-            });
-        this.setState(
-            this.state.options = [
-                { label: 'All', value: 'All'},
-                { label: '#react', value: '#react'},
-                { label: '#classic', value: '#classic'},
-                { label: '#figma', value: '#figma'},
-                { label: '#motive-ui', value: '#motive-ui'},
-            ]
+
+        this.setState({ components:  await fetchComponents() });
+        this.setState({
+            options : [{ label: 'All', value: 'All'},{ label: '#react', value: '#react'},{ label: '#classic', value: '#classic'},{ label: '#figma', value: '#figma'},{ label: '#motive-ui', value: '#motive-ui'},]
+            }
         )
+        console.log('options',this.state.options);
+
+        this.setState({
+            options: await fetchTags()
+        });
+        console.log('tags', this.state.options);
+
+    }
+
+    jsonToArray() {
+        const test = JSON.parse(this.state.components)
+        const testArray = [];
+        for( let i=0; i < test.length; i++)
+        {
+            testArray.push(test[i]);
+        }
+        return testArray;
     }
 
     setFilter(select) {
         const a = [];
         select.map((select) => (a.push(select.value)))
+
         this.setState( this.state.filterValue = a);
     }
 
@@ -92,16 +94,16 @@ class ComponentView extends React.Component {
                 <div className={s.select}>
                     <Select
                         isMulti
-                        defaultValue={{ label: 'All', value: 'All'}}
+                        defaultValue = {{label: 'All', tag_name:'All'}}
                         options={this.state.options}
                         className="basic-multi-select"
-                        onChange={(value) => this.setFilter(value)}
+                        onChange={(tag_name) => this.setFilter(tag_name)}
                         classNamePrefix="select"
                     />
                 </div>
                 {/*<div className={s.container}>
                     {this.state.filterValue.map((tag) => (
-                        tag === 'All' ?
+                        tag === [] || tag === 'All' ?
                             this.state.components.map((components) => (
                                 <div className={s.item} key={components.id}>
                                     <Checkbox className={s.logo}/>
@@ -120,6 +122,9 @@ class ComponentView extends React.Component {
                                 </div>
                             ))
                     ))}
+                </div>*/}
+                {/*<div className={s.container}>
+                    {this.state.components}
                 </div>*/}
             </div>
         );

@@ -33,12 +33,15 @@ export async function fetchAllTitles() {
     return titles;
 }
 
-/*export async function fetchComponents() {
-    const components = await sql`select * from components;`
+export async function fetchComponents() {
+    const components = await sql`select title from components;`
     return components;
-}*/
+}
 
-
+export async function fetchTags() {
+    const tags = await sql`select tag_name from tags;`
+    return tags;
+}
 
 export async function storeSinglePost({
     title = '',
