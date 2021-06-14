@@ -5,37 +5,6 @@
   margin: 1rem;
   margin-right: 2.5rem;
   position: relative;
-
-  .select {
-    margin: 5px;
-    width: 40%;
-    background: $color_gray_200;
-  }
-
-  .basic-multi-select{
-    margin: 5px;
-    padding: 50px;
-    width: 40%;
-    background: $color_gray_200;
-  }
-
-  .container{
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-
-  .item {
-    background: $color_gray_200;
-    width: 25%;
-    margin: 7px 2px;
-    padding: 10px;
-  }
-
-  .tags {
-    color: blue;
-  }
-
 }
 
 .logo {
@@ -43,3 +12,32 @@
   height: auto
 }
 
+.multiselect {
+  margin: 5px;
+  width: 40%;
+  background: $color_gray_200;
+}
+
+.basic-multi-select{
+  margin: 5px;
+  padding: 50px;
+  width: 40%;
+  background: $color_gray_200;
+}
+
+.container{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.item {
+  background: $color_gray_200;
+  width: 25%;
+  margin: 7px 2px;
+  padding: 10px;
+}
+
+.tags {
+  color: blue;
+}
