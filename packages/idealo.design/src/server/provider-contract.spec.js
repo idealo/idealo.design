@@ -45,7 +45,6 @@ const fakeUser = {
 }
 
 describe('Pact Verification', () => {
-    process.env.dangerousTestModeArgument = 'true';
 
     app.listen(7777, '0000',() => console.log('server running for api testing') )
 
@@ -68,22 +67,20 @@ describe('Pact Verification', () => {
             publishVerificationResult: true,
             providerVersion: '1.0.0',
             logLevel: 'INFO',
-            /*CustomProviderHeaders: {
-                Authorization: fakeUser
-            },*/
             requestFilter: (req, res, next) => {
-                //req.headers['status']=fakeUser.status
                 req.headers['authorization']=JSON.stringify(fakeUser.user)
-                //req.session.user = fakeUser
 
-                //console.log('session: ',req.session.user)
                 next()
             }
         }
 
         return new Verifier(opts).verifyProvider().then(output => {
+            server.close()
             console.log('pact verification complete !')
             console.log(output)
+        }).catch(error => {
+            server.close()
+            fail(error)
         })
     })
 })

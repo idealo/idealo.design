@@ -214,24 +214,19 @@ app.put('/api/blogposts', isAuthenticated, async (req, res) => {
   updatedBlogpost.date = (new Date()).toISOString();
 
   const createdBlogpost = await updateSinglePost(updatedBlogpost);
-  console.log("api put", createdBlogpost);
-  
+
   return res.json(createdBlogpost);
 });
 
 app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
   const blogpost = req.body;
-  console.log('toBeArchivedBlogpost: ', blogpost)
   const archiveBlogpost = await archiveSinglePost(blogpost);
-  console.log('archivedBlogpost', archiveBlogpost)
   return res.json(archiveBlogpost)
 })
 
 app.put('/api/blogposts/delete', isAuthenticated, async (req,res) => {
   const blogpost = req.body;
-  console.log('toBeDeletedBlogpost: ', blogpost)
   const deletedBlogpost = await deleteSinglePost(blogpost)
-  console.log('deletedBlogpost: ', deletedBlogpost)
   return res.json('successfully deleted blogpost')
 })
 
