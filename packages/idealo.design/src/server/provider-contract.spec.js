@@ -34,6 +34,16 @@ const allCategories = {
     sum : 4
 }
 
+const fakeUser = {
+    status: "LOGGED_IN",
+    user: {
+        displayName: "Jane Doe",
+        givenName: "Jane",
+        surname: "Doe",
+        id: "ABC1234"
+    }
+}
+
 describe('Pact Verification', () => {
     process.env.dangerousTestModeArgument = 'true';
 
@@ -58,8 +68,15 @@ describe('Pact Verification', () => {
             publishVerificationResult: true,
             providerVersion: '1.0.0',
             logLevel: 'INFO',
+            /*CustomProviderHeaders: {
+                Authorization: fakeUser
+            },*/
             requestFilter: (req, res, next) => {
-                req.headers["authorization"] = true
+                //req.headers['status']=fakeUser.status
+                req.headers['authorization']=JSON.stringify(fakeUser.user)
+                //req.session.user = fakeUser
+
+                //console.log('session: ',req.session.user)
                 next()
             }
         }
