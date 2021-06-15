@@ -59,27 +59,18 @@ class ComponentView extends React.Component {
 
         //this.setState({ components:  await fetchComponents() });
         this.setState(
-            this.state.components = components,
+            this.state.components = await fetchComponents(),
         )
-        this.setState(
-            this.state.options = [
-                { label: 'All', value: 'All'},
-                { label: '#react', value: '#react'},
-                { label: '#classic', value: '#classic'},
-                { label: '#figma', value: '#figma'},
-                { label: '#motive-ui', value: '#motive-ui'},
-            ]
-        )
-        console.log('options',this.state.options);
-/*
+        this.fillComponents();
+        console.log('components',this.state.components)
         this.setState({
             options: await fetchTags()
         });
         this.fillOptions();
-        console.log('options',this.state.options);*/
+        console.log('options',this.state.options);
     }
 
-    /*fillOptions(){
+    fillOptions(){
         const optionsForFill = [{label: "all" , value: 'all'}]
         for(let i=0; i<this.state.options.length; i++){
             optionsForFill.push({label: this.state.options[i].tag_name, value: this.state.options[i].tag_name})
@@ -87,7 +78,17 @@ class ComponentView extends React.Component {
         this.setState({
             options: optionsForFill
         })
-    }*/
+    }
+
+    fillComponents(){
+        const componentsForFill = []
+        for(let i=0; i<this.state.components.length; i++){
+            componentsForFill.push({title : this.state.components[i].title})
+        }
+        console.log('title',componentsForFill);
+
+
+    }
 
     setFilter(select) {
         const a = [];
@@ -98,29 +99,30 @@ class ComponentView extends React.Component {
 
     render() {
         return (
-            <div className={s.list}>
+            <div>
                 <div className={s.multiselect}>
-                    <Select
-                        isMulti
-                        defaultValue = {{label: "all" , value: 'all'}}
-                        options={this.state.options}
-                        className="basic-multi-select"
-                        onChange={(value) => this.setFilter(value)}
-                        classNamePrefix="select"
-                    />
-                </div>
-                <div className={s.container}>
-                    {this.state.filterValue.map((tag) => (
-                        tag === [] || tag === 'all' ?
-                            components.map((components) => (
-                                <div className={s.item} key={components.id}>
-                                    <Checkbox className={s.logo}/>
-                                    <h2>{components.name}</h2>
-                                    <p className={s.tags}>{components.tagImport}&nbsp;&nbsp;&nbsp;{components.tagStacks}</p>
-                                </div>
+                        <Select
+                            isMulti
+                            defaultValue={{ label: 'All', value: 'All'}}
+                            options={this.state.options}
+                            className="basic-multi-select"
+                            onChange={(value) => this.setFilter(value)}
+                            classNamePrefix="select"
+                        />
+                    </div>
+                {/*<div className={s.container}>
+
+                        {this.state.filterValue.map((tag) => (
+                            tag === [] || tag === 'All' ?
+                                this.state.components.map((components) => (
+                                    <div className={s.item} key={components.id}>
+                                        <Checkbox className={s.logo}/>
+                                        <h2>{components.name}</h2>
+                                        <p className={s.tags}>{components.tagImport}&nbsp;&nbsp;&nbsp;{components.tagStacks}</p>
+                                    </div>
                             ))
-                        :
-                            components.filter(components => components.tagStacks === tag || components.tagImport === tag).map((components) => (
+                            :
+                            this.state.components.filter(components => components.tagStacks === tag || components.tagImport === tag).map((components) => (
                                 <div className={s.item} key={components.id}>
                                     <Checkbox className={s.logo}/>
                                     <h2>{components.name}</h2>
@@ -129,11 +131,17 @@ class ComponentView extends React.Component {
                                     </div>
                                 </div>
                             ))
-                    ))}
-                </div>
-                {/*<div className={s.container}>
-                    {this.state.components}
-                </div>*/}
+                        ))}
+                    </div>*/}
+                    <div className={s.container}>
+                        {this.state.components.map((components) => (
+                            <div className={s.item} key={components.id}>
+                                <Checkbox className={s.logo}/>
+                                <h2>{components.title}</h2>
+                            </div>
+                            ))
+                        }
+                    </div>
             </div>
         );
     }
