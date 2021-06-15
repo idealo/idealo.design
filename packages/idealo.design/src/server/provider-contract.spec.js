@@ -36,7 +36,7 @@ const allCategories = {
 
 describe('Pact Verification', () => {
 
-    app.listen(7777, '0000',() => console.log('server running for api testing') )
+    const server = app.listen(7777, '0000',() => console.log('server running for api testing') )
 
     test('should validate the expectations of our consumer', () => {
         fetchList.mockReturnValue([mockedBlogpost, mockedBlogpost, mockedBlogpost])
