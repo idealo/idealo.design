@@ -1,48 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
 import { fetchComponents, fetchTags } from "./component_data";
 
-const components = [
-    {
-        id: 1,
-        name: 'Checkbox1',
-        tagImport: '#motive-ui',
-        tagStacks: '#react',
-    },
-    {
-        id: 2,
-        name: 'Select',
-        tagImport: '#motive-ui',
-        tagStacks: '#react',
-    },
-    {
-        id: 3,
-        name: 'Checkbox2',
-        tagImport: '#motive-ui',
-        tagStacks: '#classic'
-    },
-    {
-        id: 4,
-        name: 'Checkbox3',
-        tagImport: '#figma',
-        tagStacks: '#react'
-    },
-    {
-        id: 5,
-        name: 'Checkbox4',
-        tagImport: '#figma',
-        tagStacks: '#react'
-    },
-    {
-        id: 6,
-        name: 'Checkbox5',
-        tagImport: '#figma',
-        tagStacks: '#classic'
-    },
-];
 
 class ComponentView extends React.Component {
 
@@ -56,18 +18,14 @@ class ComponentView extends React.Component {
     }
 
     async componentDidMount() {
-
-        //this.setState({ components:  await fetchComponents() });
         this.setState(
             this.state.components = await fetchComponents(),
         )
         this.fillComponents();
-        console.log('components',this.state.components)
         this.setState({
             options: await fetchTags()
         });
         this.fillOptions();
-        console.log('options',this.state.options);
     }
 
     fillOptions(){
@@ -85,14 +43,10 @@ class ComponentView extends React.Component {
         for(let i=0; i<this.state.components.length; i++){
             componentsForFill.push({title : this.state.components[i].title})
         }
-        console.log('title',componentsForFill);
-
-
     }
 
     setFilter(select) {
         const a = [];
-        console.log('select', select);
         select.map((select) => (a.push(select.value)))
         this.setState( this.state.filterValue = a);
     }
