@@ -46,7 +46,7 @@ const fakeUser = {
 
 describe('Pact Verification', () => {
 
-    app.listen(7777, '0000',() => console.log('server running for api testing') )
+    const server = app.listen(7777, '0000',() => console.log('server running for api testing') )
 
     test('should validate the expectations of our consumer', () => {
         fetchList.mockReturnValue([mockedBlogpost, mockedBlogpost, mockedBlogpost])
@@ -69,7 +69,6 @@ describe('Pact Verification', () => {
             logLevel: 'INFO',
             requestFilter: (req, res, next) => {
                 req.headers['authorization']=JSON.stringify(fakeUser.user)
-
                 next()
             }
         }
