@@ -34,16 +34,6 @@ const allCategories = {
     sum : 4
 }
 
-const fakeUser = {
-    status: "LOGGED_IN",
-    user: {
-        displayName: "Jane Doe",
-        givenName: "Jane",
-        surname: "Doe",
-        id: "ABC1234"
-    }
-}
-
 describe('Pact Verification', () => {
 
     app.listen(7777, '0000',() => console.log('server running for api testing') )
@@ -67,11 +57,6 @@ describe('Pact Verification', () => {
             publishVerificationResult: true,
             providerVersion: '1.0.0',
             logLevel: 'INFO',
-            requestFilter: (req, res, next) => {
-                req.headers['authorization']=JSON.stringify(fakeUser.user)
-
-                next()
-            }
         }
 
         return new Verifier(opts).verifyProvider().then(output => {

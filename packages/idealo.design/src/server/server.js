@@ -49,6 +49,7 @@ const app = express()
 
 const RedisStore = connectRedis(session)
 
+const dangerousTestModeArgument = process.argv[process.argv.indexOf('dangerousTestModeArgument')] || false
 
 redis.on('error', err => {
   console.log('redis error: ', err)
@@ -116,8 +117,13 @@ if (CLIENT_ID) {
 }
 
 function isAuthenticated(req, res, next) {
-  const testUser = req.header('authorization')
-  if(req.session.user || testUser){
+  if(req.session.user){
+    return next();
+  }
+
+  console.log('blub', dangerousTestModeArgument)
+
+  if(dangerousTestModeArgument){
     return next();
   }
 
@@ -136,7 +142,6 @@ app.get('/auth/provider/callback',
 
 app.get('/api/me', (req, res) => {
   const user = req.session.user;
-  const testuser= req.header('authorization')
 
   const resp = {
     status: 'NOT_LOGGED_IN'
@@ -146,13 +151,13 @@ app.get('/api/me', (req, res) => {
     resp.user = user;
   }
 
-  if(testuser){
+  if(dangerousTestModeArgument){
     resp.status = 'LOGGED_IN';
     resp.user = null;
   }
 
   res.json(resp);
-} )
+})
 
 app.get("/logout", function(req, res) {
   req.session.destroy(() => {
