@@ -11,7 +11,7 @@ class ComponentView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterValue: ['All'],
+            filterValue: [],
             components: [],
             options: [],
             filteredComponents: []
@@ -30,30 +30,7 @@ class ComponentView extends React.Component {
         for(let i=0; i<this.state.options.length; i++){
             optionsForFill.push({label: this.state.options[i].tag_name, value: this.state.options[i].tag_name})
         }
-        this.setState({
-            options: optionsForFill
-        })
-    }
-
-    fillFilterComponents(){
-        if(this.state.filteredComponents.length < 1) {
-            this.setState({filteredComponents: this.state.components})
-        }
-        else{
-            this.setState({filteredComponents:[]})
-            const filteredComponents = [];
-            for(let i=0; i<this.state.components.length; i++){
-                for(let j=0; j<this.state.filterValue.length; j++) {
-                    for(let x=0; x<this.state.components[i].tags.length; x++){
-                        if(this.state.components[i].tags[x] === this.state.filterValue[j]){
-                            filteredComponents.push(this.state.components[i])
-                        }
-                    }
-                }
-            }
-            filteredComponents.filter(function(ele , pos){return filteredComponents.indexOf(ele) === pos;});
-            this.setState({filteredComponents: filteredComponents})
-        }
+        this.setState({ options: optionsForFill })
     }
 
     fillComponents(){
@@ -74,30 +51,33 @@ class ComponentView extends React.Component {
         }
         this.setState({components : componentsForFill})
     }
-/*
 
-    getTheTags() {
-        console.log('filterValueTag',filterValueTag)
-        for (let j = 0; j < this.state.components.length; j++) {
-            console.log('this.state.components.tags[j].length',this.state.components.tags[j].length)
-            /!*for (let i = 0; i < this.state.components.tags[j].length; i++) {
-                console.log('this.state.components.tags[i]',this.state.components.tags[i]);
-                if (this.state.components.tags[i] === filterValueTag) {
-                    return true;
-                }
-            }*!/
+
+    fillFilterComponents(){
+        if(this.state.filterValue.length < 1) {
+            this.setState({filteredComponents: this.state.components})
         }
-        return '#react'
+        else{
+            this.setState({filteredComponents:[]})
+            const filteredComponents = [];
+            for(let j=0; j<this.state.filterValue.length; j++) {
+                for(let i=0; i<this.state.components.length; i++){
+                    for(let x=0; x<this.state.components[i].tags.length; x++){
+                        if(this.state.components[i].tags[x] === this.state.filterValue[j]){
+                            filteredComponents.push(this.state.components[i])
+                        }
+                    }
+                }
+            }
+            const uniqueFilteredComponents = [...new Set(filteredComponents)]
+            this.setState({filteredComponents: uniqueFilteredComponents})
+        }
     }
-*/
-
-
-
 
     setFilter(select) {
-        const a = [];
-        select.map((select) => (a.push(select.value)))
-        this.setState( this.state.filterValue = a);
+        const filterValue = [];
+        select.map((select) => (filterValue.push(select.value)))
+        this.setState( this.state.filterValue = filterValue);
         this.fillFilterComponents();
     }
 
@@ -107,7 +87,6 @@ class ComponentView extends React.Component {
                 <div className={s.multiselect}>
                         <Select
                             isMulti
-                            //defaultValue={{ label: 'All', value: 'All'}}
                             options={this.state.options}
                             className="basic-multi-select"
                             onChange={(value) => this.setFilter(value)}
@@ -122,42 +101,7 @@ class ComponentView extends React.Component {
                             <h3 className={s.tags} >{component.tags}</h3>
                         </div>
                     ))}
-
                 </div>
-               {/* <div className={s.container}>
-
-                        {this.state.filterValue.map((tag) => (
-                            tag === 'All' ?
-                                this.state.components.map((component) => (
-                                    <div className={s.item} key={component.id}>
-                                        <Checkbox className={s.logo}/>
-                                        <h1>{component.title}</h1>
-                                        <h3 className={s.tags} >{component.tags}</h3>
-                                    </div>
-                            ))
-                            :
-
-                            this.state.components.filter(tag === this.getTheTags()).map((component) => (
-                                <div className={s.item} key={component.id}>
-                                    <div className={s.item} key={component.id}>
-                                        <Checkbox className={s.logo}/>
-                                        <h1>{component.title}</h1>
-                                        <h3 className={s.tags} >{component.tags}</h3>
-                                    </div>
-                                </div>
-                            ))
-                        ))}
-                    </div>*/}
-                    {/*<div className={s.container}>
-                        {this.state.components.map((components) => (
-                            <div className={s.item} key={components.id}>
-                                <Checkbox className={s.logo}/>
-                                <h1>{components.title}</h1>
-                                <h3 className={s.tags} >{components.tags}</h3>
-                            </div>
-                            ))
-                        }
-                    </div>*/}
             </div>
         );
     }
