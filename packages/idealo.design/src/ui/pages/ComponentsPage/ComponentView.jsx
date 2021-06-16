@@ -3,7 +3,7 @@ import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
-import { fetchComponents, fetchTags } from "./component_data";
+import { fetchComponents, fetchTags, fetchMap } from "./component_data";
 
 
 class ComponentView extends React.Component {
@@ -19,8 +19,10 @@ class ComponentView extends React.Component {
 
     async componentDidMount() {
         this.setState(
-            this.state.components = await fetchComponents(),
+            this.state.components = await fetchMap(),
+
         )
+        console.log('hallo 😎', this.state.components);
         this.fillComponents();
         this.setState({
             options: await fetchTags()
@@ -41,7 +43,7 @@ class ComponentView extends React.Component {
     fillComponents(){
         const componentsForFill = []
         for(let i=0; i<this.state.components.length; i++){
-            componentsForFill.push({title : this.state.components[i].title})
+            componentsForFill.push({title : this.state.components[i].title, tag: this.state.components[i].tag_name})
         }
     }
 
@@ -91,7 +93,8 @@ class ComponentView extends React.Component {
                         {this.state.components.map((components) => (
                             <div className={s.item} key={components.id}>
                                 <Checkbox className={s.logo}/>
-                                <h2>{components.title}</h2>
+                                <h5>{components.title}</h5>
+                                <h5 className={s.tags}>{components.tag}</h5>
                             </div>
                             ))
                         }

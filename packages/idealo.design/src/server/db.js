@@ -44,7 +44,7 @@ export async function fetchTags() {
 }
 
 export async function fetchMap(){
-    const fin = await sql `select c.title, t.tag_name from components_tags_map as ct, components as c, tags as t where ct.tag_id = t.tag_id and c.component_id = ct.component_id;`
+    const fin = await sql `select ct.component_id, c.title, t.tag_name from components_tags_map as ct, components as c, tags as t where ct.tag_id = t.tag_id and c.component_id = ct.component_id;`
     return fin;
 }
 
