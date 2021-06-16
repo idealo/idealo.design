@@ -28,9 +28,17 @@ import {
   fetchAllTitles,
 } from './db';
 
-const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
-const redis = redisLib.createClient(REDIS_URL)
-const getAsync = promisify(redis.get).bind(redis)
+const dangerousTestModeArgument = !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false
+
+if(!dangerousTestModeArgument){
+  const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
+  const redis = redisLib.createClient(REDIS_URL)
+  const getAsync = promisify(redis.get).bind(redis)
+
+  redis.on('error', err => {
+    console.log('redis error: ', err)
+  })
+}
 
 // dev env: 'http://localhost:8080/auth/provider/callback'
 const CALLBACK_URL = process.env.CALLBACK_URL || 'https://idealo.design/auth/provider/callback'
@@ -48,12 +56,6 @@ const PORT = process.env.HTTP_PORT || 8080
 const app = express()
 
 const RedisStore = connectRedis(session)
-
-const dangerousTestModeArgument = !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false
-
-redis.on('error', err => {
-  console.log('redis error: ', err)
-})
 
 passport.serializeUser((user, done) => {
   done(null, user.id)
@@ -73,7 +75,6 @@ app.use(session({
   if(redis){
     store: new RedisStore({ host: 'localhost', port: 6379, client: redis, ttl: 86400 })
   }
-
 }))
 
 app.use(passport.initialize())
@@ -120,8 +121,6 @@ function isAuthenticated(req, res, next) {
   if(req.session.user){
     return next();
   }
-
-  console.log('blub', dangerousTestModeArgument)
 
   if(dangerousTestModeArgument){
     return next();
