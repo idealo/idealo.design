@@ -18,16 +18,10 @@ class ComponentView extends React.Component {
     }
 
     async componentDidMount() {
-        this.setState(
-            this.state.components = await fetchMap(),
-
-        )
-        console.log('hallo 😎', this.state.components);
+        this.setState({components : await fetchMap(), options: await fetchTags()})
         this.fillComponents();
-        this.setState({
-            options: await fetchTags()
-        });
         this.fillOptions();
+        this.getTheTags();
     }
 
     fillOptions(){
@@ -42,10 +36,36 @@ class ComponentView extends React.Component {
 
     fillComponents(){
         const componentsForFill = []
-        for(let i=0; i<this.state.components.length; i++){
-            componentsForFill.push({title : this.state.components[i].title, tag: this.state.components[i].tag_name})
+        const tags = []
+        for(let i=0; i<this.state.components.length; i++)
+        {
+
+            for(let j=i+1; j<this.state.components.length; j++){
+                if(this.state.components[i].component_id === this.state.components[j].component_id){
+                    tags.push(this.state.components[i].tag_name);
+                    tags.push(this.state.components[j].tag_name);
+                    var tagString = JSON.stringify(tags)
+                    console.log('😇😇🚴‍♀', this.state.components[i].component_id, this.state.components[i].title, tagString);
+                    console.log('parse', JSON.parse(tagString))
+                    componentsForFill.push({id: this.state.components[i].component_id, title : this.state.components[i].title, tags: JSON.parse(tagString) })
+                }
+            }
+            while(tags.length > 0) {
+                tags.pop();
+            }
         }
+        console.log('idee 🐶', componentsForFill);
+        this.setState({components : componentsForFill})
     }
+
+    getTheTags(){
+        this.state.components.map((c) => (
+            c.tags.map((t) =>
+                console.log('c',t)
+            )
+        ))
+    }
+
 
     setFilter(select) {
         const a = [];
@@ -93,8 +113,8 @@ class ComponentView extends React.Component {
                         {this.state.components.map((components) => (
                             <div className={s.item} key={components.id}>
                                 <Checkbox className={s.logo}/>
-                                <h5>{components.title}</h5>
-                                <h5 className={s.tags}>{components.tag}</h5>
+                                <h1>{components.title}</h1>
+                                <h3 className={s.tags} >{components.tags}</h3>
                             </div>
                             ))
                         }
