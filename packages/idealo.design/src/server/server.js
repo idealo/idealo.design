@@ -49,7 +49,7 @@ const app = express()
 
 const RedisStore = connectRedis(session)
 
-const dangerousTestModeArgument = process.argv[process.argv.indexOf('dangerousTestModeArgument')] || false
+const dangerousTestModeArgument = !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false
 
 redis.on('error', err => {
   console.log('redis error: ', err)
