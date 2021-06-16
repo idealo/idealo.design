@@ -1,4 +1,4 @@
-UPDATE blogposts SET previouspost where id=5 = 'contract-testing';
+UPDATE blogposts SET previouspost = 'contract-testing' where id=5;
 
 insert into blogposts (id,
                        title,
