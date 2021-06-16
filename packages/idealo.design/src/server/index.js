@@ -27,7 +27,8 @@ import {
   archiveSinglePost,
   fetchAllTitles,
   fetchComponents,
-  fetchTags
+  fetchTags,
+  fetchMap
 } from './db';
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
@@ -180,6 +181,11 @@ app.post('/api/blogposts', isAuthenticated, async (req, res) => {
 app.get('/api/categories', isAuthenticated, async (req, res) => {
   const categories = await fetchAllCategories();
   return res.json(categories);
+})
+
+app.get('/api/map', isAuthenticated, async (req, res) => {
+  const map = await fetchMap();
+  return res.json(map);
 })
 
 app.get('/api/title', isAuthenticated, async (req, res) => {

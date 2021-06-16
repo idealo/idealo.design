@@ -9,3 +9,8 @@ export async function fetchTags() {
     const resp = await fetch(`${API_BASE}/api/tags`);
     return await resp.json();
 }
+
+export async function fetchMap() {
+    const resp = await fetch(`${API_BASE}/api/map`);
+    return await resp.json();
+}
