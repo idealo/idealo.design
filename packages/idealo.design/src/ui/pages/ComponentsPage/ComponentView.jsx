@@ -1,5 +1,5 @@
 import React from "react";
-import {withRouter} from "react-router";
+import {Route, Router, withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
@@ -81,18 +81,34 @@ class ComponentView extends React.Component {
         this.fillFilterComponents();
     }
 
+    selectURL(value) {
+        this.setFilter(value)
+        let path = 'tags=';
+        for(let j=0; j<this.state.filterValue.length-1; j++) {
+            path+=this.state.filterValue[j]+','
+        }
+        path+=this.state.filterValue[this.state.filterValue.length-1]
+        //return path;
+        const url = <a href={`/components?${path}`}>otter</a>;
+
+    };
+
+
     render() {
         return (
             <div>
-                <div className={s.multiselect}>
-                        <Select
+                <div className={s.multiselect} >
+                            <Select
                             isMulti
                             options={this.state.options}
                             className="basic-multi-select"
-                            onChange={(value) => this.setFilter(value)}
+                            onChange={(value) => this.selectURL(value)}
                             classNamePrefix="select"
                         />
                     </div>
+                {/*<h5>
+                    <a href={`/components?${this.selectURL()}`}>click me</a>
+                </h5>*/}
                 <div className={s.container}>
                     {this.state.filteredComponents.map((component) =>(
                         <div className={s.item} key={component.id}>
@@ -105,6 +121,7 @@ class ComponentView extends React.Component {
             </div>
         );
     }
+
 }
 
 export default withRouter(ComponentView);

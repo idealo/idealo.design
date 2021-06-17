@@ -31,6 +31,9 @@ export default function ComponentsPage({ match }) {
                 <Route exact path='/components'>
                     <ComponentView />
                 </Route>
+                <Route exact path='/components/:slug'>
+                    <ComponentView />
+                </Route>
                 <Route exact path='/components/for-react-stacks'>
                     <ReactStackView />
                 </Route>
