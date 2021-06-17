@@ -14,3 +14,9 @@ export async function fetchMap() {
     const resp = await fetch(`${API_BASE}/api/map`);
     return await resp.json();
 }
+
+export async function updateComponentsTags(){
+    console.log('update Components Tags 😀😀')
+    const resp = await fetch(`${API_BASE}/api/components/update`);
+    return await resp.json();
+}

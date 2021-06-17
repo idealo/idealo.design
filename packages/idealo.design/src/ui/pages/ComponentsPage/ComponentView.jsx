@@ -3,7 +3,7 @@ import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
-import { fetchComponents, fetchTags, fetchMap } from "./component_data";
+import { fetchComponents, fetchTags, fetchMap, updateComponentsTags } from "./component_data";
 
 
 class ComponentView extends React.Component {
@@ -84,6 +84,7 @@ class ComponentView extends React.Component {
     render() {
         return (
             <div>
+                <button onClick={updateComponentsTags()}>Trigger the one and only update</button>
                 <div className={s.multiselect}>
                         <Select
                             isMulti

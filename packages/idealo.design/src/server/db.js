@@ -2,6 +2,7 @@ import postgres from 'postgres'
 // const sql = postgres({ database: 'blog', username: 'postgres' })
 const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://postgres@localhost:5432/blog'
 const sql = postgres(POSTGRES_URL)
+import data from './mockMotifImport/mockedImportedComponent1.json'
 
 /*blog page*/
 export async function fetchList() {
@@ -167,7 +168,6 @@ export async function archiveSinglePost(blog) {
 }
 
 /*components page*/
-
 export async function fetchComponents() {
     const components = await sql`select title from components;`
     return components;
@@ -182,5 +182,24 @@ export async function fetchMap(){
     const fin = await sql `select ct.component_id, c.title, t.tag_name from components_tags_map as ct, components as c, tags as t where ct.tag_id = t.tag_id and c.component_id = ct.component_id;`
     return fin;
 }
-//delete all data from tables components, tags & components_tags_map
-//insert imported data (package.json from import) into table components
+
+export async function processImportUpdateComponentsTables(/*takes the fresh data from motif ui*/){
+    const [updateTransaction] = await sql.begin(async sql => {
+        const importComponentName = data.name
+        const importedComponentsTags = data.keywords
+
+        //delete all data from tables components
+        const deletedComponentsTable = await sql `delete from components`
+
+        //delete table tags
+        const deletedTagsTable = await sql `delete from tags`
+
+        //delete table components_tags_map
+        const deletedMapTable = await sql `delete from components_tags_map`
+
+        //insert imported data (package.json from import) into table components
+
+
+    })
+    return [updateTransaction]
+}

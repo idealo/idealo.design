@@ -28,7 +28,7 @@ import {
   fetchAllTitles,
   fetchComponents,
   fetchTags,
-  fetchMap
+  fetchMap, processImportUpdateComponentsTables
 } from './db';
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
@@ -150,6 +150,27 @@ app.get("/logout", function(req, res) {
   });
 });
 
+/*controller for components page*/
+app.get('/api/components', isAuthenticated, async (req, res) => {
+  const components = await fetchComponents();
+  return res.json(components);
+})
+
+app.get('/api/tags', isAuthenticated, async (req, res) => {
+  const tags = await fetchTags();
+  return res.json(tags);
+})
+
+app.get('/api/map', isAuthenticated, async (req, res) => {
+  const map = await fetchMap();
+  return res.json(map);
+})
+
+app.put('/api/components/update', isAuthenticated, async (req, res) => {
+  const updated = await processImportUpdateComponentsTables();
+  return res.json(updated);
+})
+
 app.get('/api/blogposts/:slug?', async (req, res) => {
   const { slug } = req.params;
   if (!slug) {
@@ -183,24 +204,9 @@ app.get('/api/categories', isAuthenticated, async (req, res) => {
   return res.json(categories);
 })
 
-app.get('/api/map', isAuthenticated, async (req, res) => {
-  const map = await fetchMap();
-  return res.json(map);
-})
-
 app.get('/api/title', isAuthenticated, async (req, res) => {
   const titles = await fetchAllTitles();
   return res.json(titles);
-})
-
-app.get('/api/components', isAuthenticated, async (req, res) => {
-  const components = await fetchComponents();
-  return res.json(components);
-})
-
-app.get('/api/tags', isAuthenticated, async (req, res) => {
-  const tags = await fetchTags();
-  return res.json(tags);
 })
 
 app.get('/api/distinctCategories', async (req, res) => {
@@ -226,7 +232,6 @@ app.put('/api/blogposts', isAuthenticated, async (req, res) => {
   return res.json(createdBlogpost);
 });
 
-
 app.delete('/api/blogposts/delete', isAuthenticated, async (req,res) => {
   const blogpost = req.body;
   const deletedBlogpost = await deleteSinglePost(blogpost)
@@ -238,14 +243,6 @@ app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
   const archiveBlogpost = await archiveSinglePost(blogpost);
   return res.json(archiveBlogpost)
 })
-
-
-
-
-
-
-
-
 
 app.listen(PORT, '0.0.0.0',() => {
   console.log(` -> 0.0.0.0:${PORT}`)
