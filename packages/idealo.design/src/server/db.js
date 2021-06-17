@@ -3,6 +3,7 @@ import postgres from 'postgres'
 const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://postgres@localhost:5432/blog'
 const sql = postgres(POSTGRES_URL)
 
+/*blog page*/
 export async function fetchList() {
    const list = await sql`select * from blogposts where isArchived = 0 ORDER BY blogposts.date DESC`;
    return list;
@@ -31,21 +32,6 @@ export async function fetchAllCategories() {
 export async function fetchAllTitles() {
     const titles = await sql`select title from blogposts;`
     return titles;
-}
-
-export async function fetchComponents() {
-    const components = await sql`select title from components;`
-    return components;
-}
-
-export async function fetchTags() {
-    const tags = await sql`select tag_name from tags;`
-    return tags;
-}
-
-export async function fetchMap(){
-    const fin = await sql `select ct.component_id, c.title, t.tag_name from components_tags_map as ct, components as c, tags as t where ct.tag_id = t.tag_id and c.component_id = ct.component_id;`
-    return fin;
 }
 
 export async function storeSinglePost({
@@ -179,3 +165,22 @@ export async function archiveSinglePost(blog) {
     })
     return [archiveTransaction]
 }
+
+/*components page*/
+
+export async function fetchComponents() {
+    const components = await sql`select title from components;`
+    return components;
+}
+
+export async function fetchTags() {
+    const tags = await sql`select tag_name from tags;`
+    return tags;
+}
+
+export async function fetchMap(){
+    const fin = await sql `select ct.component_id, c.title, t.tag_name from components_tags_map as ct, components as c, tags as t where ct.tag_id = t.tag_id and c.component_id = ct.component_id;`
+    return fin;
+}
+//delete all data from tables components, tags & components_tags_map
+//insert imported data (package.json from import) into table components
