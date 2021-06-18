@@ -4,7 +4,36 @@ import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
 import { fetchComponents, fetchTags, fetchMap } from "./component_data";
+import slugify from "slugify";
 
+function getParams(location) {
+    const searchParams = new URLSearchParams(location.search);
+    return {
+        query: searchParams.get('query') || '',
+    };
+}
+
+//const params = getParams('www.first-contrib.fr?query=react');
+
+//console.log(params);
+
+const MainPage = (props) => {
+    const { location } = props;
+    const { query } = getParams(location);
+
+    return (
+        <h2>{`My query: ${query}`}</h2>
+    );
+}
+
+function setParams({ query = ""}) {
+    const searchParams = new URLSearchParams();
+    searchParams.set("query", query);
+    return searchParams.toString();
+}
+
+//const url = setParams({ query: "javascript" });
+//console.log(url); // "query=javascript"
 
 class ComponentView extends React.Component {
 
@@ -14,7 +43,8 @@ class ComponentView extends React.Component {
             filterValue: [],
             components: [],
             options: [],
-            filteredComponents: []
+            filteredComponents: [],
+            //sections: []
         }
     }
 
@@ -23,6 +53,8 @@ class ComponentView extends React.Component {
         this.fillComponents();
         this.fillOptions();
         this.fillFilterComponents();
+        this.setURL();
+        console.log('window location href',window.location.href);
     }
 
     fillOptions(){
@@ -81,31 +113,97 @@ class ComponentView extends React.Component {
         this.fillFilterComponents();
     }
 
-    selectURL(value) {
+/*    selectURL(value) {
         this.setFilter(value)
         let path = 'tags=';
         for(let j=0; j<this.state.filterValue.length-1; j++) {
             path+=this.state.filterValue[j]+','
         }
         path+=this.state.filterValue[this.state.filterValue.length-1]
-        //return path;
-        const url = <a href={`/components?${path}`}>otter</a>;
+        return path;
+        // const url = <a href={`/components?${path}`}>otter</a>;
 
     };
 
+    createURLs(value) {
+        this.setFilter(value)
+        //const urls = value;
+        return [
+            {
+                title: 'Components',
+                children: [
+                    { title: 'Overview', href: '/components' }]
+                    .concat(this.state.filterValue.map(value => {
+                        const url = value
+                        console.log('url', url);
+                        return {
+                            title: url,
+                            href: `/components?${url}`
+                        }
+                    }))
+            }
+        ]
+    }*/
+
+    /*state = { inputValue: "" };
+
+    updateInputValue = e => this.setState({ inputValue: e.target.value });*/
+
+    updateInputValue = e => this.setState({ value: e.target.filterValue });
+
+    updateURL = (value) => {
+        this.setFilter(value)
+        const url = setParams({ query: this.state.filterValue });
+        console.log('url', url);
+        this.props.history.push(`?${url}`);
+        //this.setState({url: window.location.href});
+    };
+
+
+    setURL(){
+        const filterValue = [];
+        const url = slugify(window.location.href.toString()).replace('percent23', '#');
+        console.log('href to string:', url);
+        for(let j=0; j<this.state.options.length; j++){
+            if(url.includes(this.state.options[j])){
+                console.log('it works');
+            }
+            /*if(slugify(window.location.href).includes(slugify(this.state.options[j]).replace('%23', '#'))){
+                console.log('lnfljsadnla', this.state.options[j].replace('%23', '#'));
+                filterValue.push(this.state.options[j]);
+            }*/
+        }
+        this.setState({filterValue: filterValue});
+        console.log('filterValue', filterValue);
+    }
 
     render() {
         return (
             <div>
-                <div className={s.multiselect} >
-                            <Select
+                <React.Fragment>
+                    <div className={s.multiselect} >
+                        <Select
                             isMulti
+                            defaultValue={this.state.filterValue}
                             options={this.state.options}
                             className="basic-multi-select"
-                            onChange={(value) => this.selectURL(value)}
+                            onChange={(value) => this.updateURL(value)}
                             classNamePrefix="select"
                         />
                     </div>
+                    <input
+                        type="text"
+                        placeholder="Change your URL !"
+                        value={this.state.inputValue}
+                        onChange={this.updateInputValue}
+                    />
+                    <input
+                        type="button"
+                        className="button"
+                        value="Update the URL !"
+                        onClick={this.updateURL}
+                    />
+                </React.Fragment>
                 {/*<h5>
                     <a href={`/components?${this.selectURL()}`}>click me</a>
                 </h5>*/}

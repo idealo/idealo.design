@@ -55,7 +55,6 @@ function createSections(addedData) {
       title: 'Components',
       children: [
         { title: 'Overview', href: '/components' },
-        { title: 'Overview', href: '/components/:slug' },
         { title: 'For react stacks', href: '/components/for-react-stacks' },
         { title: 'For classic stacks', href: '/components/for-classic-stacks' },
       ]

@@ -12,6 +12,7 @@ import ComponentView from './ComponentView'
 import {fetchUserInfo} from "../BlogPage/data";
 import ReactStackView from "./ReactStackView";
 import ClassicStackView from "./ClassicStackView";
+import EditorView from "../BlogPage/EditorView";
 
 export default function ComponentsPage({ match }) {
 
@@ -25,13 +26,11 @@ export default function ComponentsPage({ match }) {
         setUserInfo(user);
     }
 
+
     return (
         <>
             <Switch>
                 <Route exact path='/components'>
-                    <ComponentView />
-                </Route>
-                <Route exact path='/components/:slug'>
                     <ComponentView />
                 </Route>
                 <Route exact path='/components/for-react-stacks'>
