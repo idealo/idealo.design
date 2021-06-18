@@ -196,7 +196,7 @@ export async function processImportUpdateComponentsTables(){
         //delete table tags
         const deletedTagsTable = await sql `delete from tags`
 
-        //insert imported data (package.json from import) into table components
+        //insert imported data (package.json from import) into table components and table tags
         for(let i = 0; i<importedComponents.length;i++){
             await sql `insert into components (title) values (${importedComponents[i].name})`
             for(let j=0; j<importedComponents[i].keywords.length;j++){
@@ -205,6 +205,20 @@ export async function processImportUpdateComponentsTables(){
         }
         await sql `delete from tags where tag_id not in (select max(tag_id) from tags group by tag_name)`
 
+        //insert data into table components_tags_map
+        for(let i = 0;i<importedComponents.length;i++){
+            const idComponent = await sql `select component_id from components where title=${importedComponents[i].name}` //{component_id: 1}
+            const idKeywords = [] //[{tag_id:1}, {tag_id: :2}]
+            for(let j=0; j<importedComponents[i].keywords.length;j++){
+                idKeywords.push(await sql `select tag_id from tags where tag_name = ${importedComponents[i].keywords[j]}`)
+            }
+
+            for(let z=0;z<idComponent.length;z++){
+                for(let x=0;x<idKeywords.length;x++){
+                    await sql `insert into components_tags_map(component_id, tag_id) values (${idComponent[z].component_id}, ${idKeywords[x][0].tag_id})`
+                }
+            }
+        }
         return [importedComponents, deletedComponentsTable, deletedMapTable, deletedTagsTable]
     })
     return [updateTransaction]
