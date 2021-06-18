@@ -2,7 +2,7 @@ import postgres from 'postgres'
 // const sql = postgres({ database: 'blog', username: 'postgres' })
 const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://postgres@localhost:5432/blog'
 const sql = postgres(POSTGRES_URL)
-import data from './mockMotifImport/mockedImportedComponent1.json'
+import {components} from './mockMotifImport/saveImportedComponents'
 
 /*blog page*/
 export async function fetchList() {
@@ -185,8 +185,10 @@ export async function fetchMap(){
 
 export async function processImportUpdateComponentsTables(/*takes the fresh data from motif ui*/){
     const [updateTransaction] = await sql.begin(async sql => {
-        const importComponentName = data.name
-        const importedComponentsTags = data.keywords
+        const importedComponents = components //hat folgende Struktur : [{name: compo1, keywords: []},{name: compo2, keywords: []}]
+
+        //delete table components_tags_map
+        const deletedMapTable = await sql `delete from components_tags_map`
 
         //delete all data from tables components
         const deletedComponentsTable = await sql `delete from components`
@@ -194,12 +196,22 @@ export async function processImportUpdateComponentsTables(/*takes the fresh data
         //delete table tags
         const deletedTagsTable = await sql `delete from tags`
 
-        //delete table components_tags_map
-        const deletedMapTable = await sql `delete from components_tags_map`
-
         //insert imported data (package.json from import) into table components
+        for(let i = 0; i<importedComponents.length;i++){
+            await sql `insert into components (title) values (${importedComponents[i].name})`
+
+            for(let j=0; j<importedComponents[i].keywords.length;j++){
+                const column= await sql `select tag_name from tags`
+                console.log('column', [column])
+                if(column.tag_name!==importedComponents[i].keywords[j]){
+                    await sql `insert into tags (tag_name) values (${importedComponents[i].keywords[j]})` //how to make that distinct ?
+                }
+            }
+        }
 
 
+
+        return [importedComponents, deletedComponentsTable, deletedMapTable, deletedTagsTable]
     })
     return [updateTransaction]
 }

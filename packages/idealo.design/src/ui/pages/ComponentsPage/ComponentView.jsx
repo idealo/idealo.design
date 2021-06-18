@@ -3,19 +3,24 @@ import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
-import { fetchComponents, fetchTags, fetchMap, updateComponentsTags } from "./component_data";
+import { fetchTags, fetchMap, updateComponentsTags } from "./component_data";
 
 
 class ComponentView extends React.Component {
 
     constructor(props) {
         super(props);
+        const { history } = props;
         this.state = {
             filterValue: [],
             components: [],
             options: [],
-            filteredComponents: []
+            filteredComponents: [],
+            history: history
         }
+
+
+        this.handleImportComponents = this.handleImportComponents.bind(this)
     }
 
     async componentDidMount() {
@@ -52,7 +57,6 @@ class ComponentView extends React.Component {
         this.setState({components : componentsForFill})
     }
 
-
     fillFilterComponents(){
         if(this.state.filterValue.length < 1) {
             this.setState({filteredComponents: this.state.components})
@@ -74,6 +78,10 @@ class ComponentView extends React.Component {
         }
     }
 
+    handleImportComponents() {
+        updateComponentsTags().then(r => this.state.history.push('/components'))
+    }
+
     setFilter(select) {
         const filterValue = [];
         select.map((select) => (filterValue.push(select.value)))
@@ -84,7 +92,7 @@ class ComponentView extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={updateComponentsTags()}>Trigger the one and only update</button>
+                <button onClick={this.handleImportComponents}>Trigger the one and only update</button>
                 <div className={s.multiselect}>
                         <Select
                             isMulti
