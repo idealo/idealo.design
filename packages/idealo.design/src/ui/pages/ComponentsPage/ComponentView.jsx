@@ -73,28 +73,21 @@ class ComponentView extends React.Component {
     }
 
     fillFilterComponents() {
-        console.log('filterValue',this.state.filterValue)
         if (this.state.filterValue.length < 1) {
             this.setState({filteredComponents: this.state.components})
         } else {
             this.setState({filteredComponents: []})
             const filteredComponents = [];
             for (let j = 0; j < this.state.filterValue.length; j++) {
-                console.log('Test1')
                 for (let i = 0; i < this.state.components.length; i++) {
-                    console.log('test2')
                     for (let x = 0; x < this.state.components[i].tags.length; x++) {
-                        console.log('Test3')
-                        console.log('tags',this.state.components[i].tags[x], 'filtervalue',this.state.filterValue[j])
                         if (this.state.components[i].tags[x] === this.state.filterValue[j]) {
-                            console.log('Test4')
                             filteredComponents.push(this.state.components[i])
                         }
                     }
                 }
             }
             const uniqueFilteredComponents = [...new Set(filteredComponents)]
-            console.log('filter', uniqueFilteredComponents)
             this.setState({filteredComponents: uniqueFilteredComponents})
         }
     }
