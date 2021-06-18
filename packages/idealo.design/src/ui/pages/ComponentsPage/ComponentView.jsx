@@ -43,19 +43,22 @@ class ComponentView extends React.Component {
         const componentsForFill = []
         let tags = []
         const tagsOfAll = []
-        let j = 0;
 
         for (let i = 0; i < this.state.components.length; i++) {
-            if (this.state.components[i].component_id === this.state.components[j + 1].component_id) {
-                tags.push(this.state.components[i].tag_name);
-                j++
+            if((i+1)>=this.state.components.length){
+                tags.push('#'+this.state.components[i].tag_name);
             }else{
-                tags.push(this.state.components[j+1].tag_name);
-                tagsOfAll.push(tags)
-                tags=[]
+                if (this.state.components[i].component_id === this.state.components[i + 1].component_id) {
+                    tags.push('#'+this.state.components[i].tag_name);
+                }else{
+                    tags.push('#'+this.state.components[i].tag_name);
+                    tagsOfAll.push(tags)
+                    tags=[]
+                }
             }
         }
         tagsOfAll.push(tags)
+        console.log(tagsOfAll)
 
         for (let i = 0; i < this.state.list.length; i++) {
             componentsForFill.push({
