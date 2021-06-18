@@ -20,41 +20,53 @@ create table if not exists components_tags_map (
     );
 
 insert into components (
+                        component_id,
     title
 )
 values
 (
+ 1,
     'Checkbox1'
 ),
 (
+ 2,
     'Checkbox2'
 ),
 (
+ 3,
     'Checkbox3'
 ),
 (
+ 4,
     'Checkbox4'
 ),
 (
+ 5,
     'Checkbox5'
 ),
 (
+ 6,
     'Checkbox6'
 );
 
 insert into tags (
+                  tag_id,
                   tag_name
 )
 values(
+       1,
        '#classic'
 ),
 (
+ 2,
        '#react'
 ),
 (
+ 3,
        '#motif-ui'
 ),
 (
+ 4,
         '#figma'
 );
 

@@ -169,7 +169,7 @@ export async function archiveSinglePost(blog) {
 
 /*components page*/
 export async function fetchComponents() {
-    const components = await sql`select title from components;`
+    const components = await sql`select * from components;`
     return components;
 }
 
