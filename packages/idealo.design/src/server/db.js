@@ -183,9 +183,9 @@ export async function fetchMap(){
     return fin;
 }
 
-export async function processImportUpdateComponentsTables(/*takes the fresh data from motif ui*/){
+export async function processImportUpdateComponentsTables(){
     const [updateTransaction] = await sql.begin(async sql => {
-        const importedComponents = components //hat folgende Struktur : [{name: compo1, keywords: []},{name: compo2, keywords: []}]
+        const importedComponents = components //with following structure : [{name: compo1, keywords: []},{name: compo2, keywords: []}]
 
         //delete table components_tags_map
         const deletedMapTable = await sql `delete from components_tags_map`
@@ -199,17 +199,11 @@ export async function processImportUpdateComponentsTables(/*takes the fresh data
         //insert imported data (package.json from import) into table components
         for(let i = 0; i<importedComponents.length;i++){
             await sql `insert into components (title) values (${importedComponents[i].name})`
-
             for(let j=0; j<importedComponents[i].keywords.length;j++){
-                const column= await sql `select tag_name from tags`
-                console.log('column', [column])
-                if(column.tag_name!==importedComponents[i].keywords[j]){
-                    await sql `insert into tags (tag_name) values (${importedComponents[i].keywords[j]})` //how to make that distinct ?
-                }
+                await sql `insert into tags (tag_name) values (${importedComponents[i].keywords[j]})`
             }
         }
-
-
+        await sql `delete from tags where tag_id not in (select max(tag_id) from tags group by tag_name)`
 
         return [importedComponents, deletedComponentsTable, deletedMapTable, deletedTagsTable]
     })
