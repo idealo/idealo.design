@@ -42,31 +42,20 @@ class ComponentView extends React.Component {
     fillComponents() {
         const componentsForFill = []
         let tags = []
-        const tagsOfAll = []
 
-        for (let i = 0; i < this.state.components.length; i++) {
-            if((i+1)>=this.state.components.length){
-                tags.push('#'+this.state.components[i].tag_name);
-            }else{
-                if (this.state.components[i].component_id === this.state.components[i + 1].component_id) {
-                    tags.push('#'+this.state.components[i].tag_name);
-                }else{
-                    tags.push('#'+this.state.components[i].tag_name);
-                    tagsOfAll.push(tags)
-                    tags=[]
+        for(let c=0;c<this.state.list.length;c++){
+            for(let i=0;i<this.state.components.length;i++){
+                if(this.state.list[c].component_id===this.state.components[i].component_id){
+                    tags.push('#'+this.state.components[i].tag_name)
                 }
             }
-        }
-        tagsOfAll.push(tags)
-        console.log(tagsOfAll)
 
-        for (let i = 0; i < this.state.list.length; i++) {
             componentsForFill.push({
-                id: this.state.list[i].component_id,
-                title: this.state.list[i].title,
-                tags: JSON.parse(JSON.stringify(tagsOfAll[i]))
+                id: this.state.list[c].component_id,
+                title: this.state.list[c].title,
+                tags: JSON.parse(JSON.stringify(tags))
             })
-
+            tags=[]
         }
         console.log('components', componentsForFill)
         this.setState({components: componentsForFill})
