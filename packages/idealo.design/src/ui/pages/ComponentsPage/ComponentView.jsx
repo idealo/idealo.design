@@ -10,14 +10,12 @@ class ComponentView extends React.Component {
 
     constructor(props) {
         super(props);
-        const {history} = props;
         this.state = {
             filterValue: [],
             components: [],
             list: [],
             options: [],
             filteredComponents: [],
-            history: history
         }
 
 
@@ -67,10 +65,15 @@ class ComponentView extends React.Component {
         } else {
             this.setState({filteredComponents: []})
             const filteredComponents = [];
+
             for (let j = 0; j < this.state.filterValue.length; j++) {
                 for (let i = 0; i < this.state.components.length; i++) {
                     for (let x = 0; x < this.state.components[i].tags.length; x++) {
-                        if (this.state.components[i].tags[x] === this.state.filterValue[j]) {
+                        //check weather filterValue-array is a subarray of components[i].tags
+                        const check = this.state.filterValue.every((el) => {
+                            return this.state.components[i].tags.indexOf(el)!==-1
+                        });
+                        if(check){
                             filteredComponents.push(this.state.components[i])
                         }
                     }
@@ -82,7 +85,7 @@ class ComponentView extends React.Component {
     }
 
     async handleImportComponents() {
-        await updateComponentsTags().then(r => this.state.history.push('/components'))
+        await updateComponentsTags().then(window.location.reload())
     }
 
     setFilter(select) {
@@ -109,7 +112,7 @@ class ComponentView extends React.Component {
                     {this.state.filteredComponents.map((component) =>(
                         <div className={s.item} key={component.id}>
                             <Checkbox className={s.logo}/>
-                            <h1>{component.title}</h1>
+                            <h1 className={s.h1}>{component.title}</h1>
                             <h3 className={s.tags} >{component.tags}</h3>
                         </div>
                     ))}

@@ -7,10 +7,7 @@
   position: relative;
 }
 
-.logo {
-  width: 100%;
-  height: auto
-}
+
 
 .multiselect {
   margin: 5px;
@@ -36,8 +33,17 @@
   width: 25%;
   margin: 7px 2px;
   padding: 10px;
+  .h1{
+    font-size: 120%;
+  }
+  .logo {
+    width: 100%;
+    height: auto
+  }
+  .tags {
+    color: blue;
+    font-size: 90%;
+  }
 }
 
-.tags {
-  color: blue;
-}
+
