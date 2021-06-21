@@ -6,6 +6,7 @@ import MainContent from '../MainContent'
 
 import Header from '../Header'
 import Sidebar from '../Sidebar'
+import Footer from '../Footer'
 
 
 function determineViewport() {
@@ -62,6 +63,7 @@ class PageLayout extends React.Component {
         <MainContent isSidebarOpen={this.state.isSidebarOpen}>
           {this.props.children}
         </MainContent>
+        <Footer/>
       </div>
     )
   }
