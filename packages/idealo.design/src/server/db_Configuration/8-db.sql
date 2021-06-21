@@ -11,10 +11,9 @@ create table if not exists tags (
     );
 
 create table if not exists components_tags_map (
-    id serial,
     component_id integer not null,
     tag_id integer not null,
-    primary key(id),
+    primary key(component_id, tag_id),
     foreign key (component_id) references components(component_id),
     foreign key (tag_id) references tags(tag_id)
     );
