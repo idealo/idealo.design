@@ -183,8 +183,26 @@ export async function fetchMap(){
     return fin;
 }
 
+export async function updateSingleComponent({component_id}){
+    const updateSingleComponentTransaction = await sql.begin( async sql => {
+        //only tags and name can be updated
+
+
+    })
+    return updateSingleComponentTransaction
+}
+
+export async function deleteSingleComponent(){
+
+}
+
+export async function fetchSingleComponent({component_id}){
+    const singleComponent = await sql `select ct.component_id, c.title, t.tag_name from components_tags_map as ct, components as c, tags as t where ct.tag_id = t.tag_id and c.component_id = ct.component_id and c.component_id=${component_id};`
+    return singleComponent
+}
+
 export async function processImportUpdateComponentsTables(){
-    const [updateTransaction] = await sql.begin(async sql => {
+    const updateTransaction = await sql.begin(async sql => {
         const importedComponents = components //with following structure : [{name: compo1, keywords: []},{name: compo2, keywords: []}]
 
         //delete table components_tags_map
@@ -221,5 +239,5 @@ export async function processImportUpdateComponentsTables(){
         }
         return [importedComponents, deletedComponentsTable, deletedMapTable, deletedTagsTable]
     })
-    return [updateTransaction]
+    return updateTransaction
 }
