@@ -162,10 +162,35 @@ class ComponentView extends React.Component {
 
     setURL(){
         const filterValue = [];
-        const url = slugify(window.location.href.toString()).replace('percent23', '#');
+        let hallo = [];
+        const url = window.location.href;
+        for(let i=0; i<this.state.options.length; i++){
+            const obj = JSON.parse(this.state.options[i]);
+            console.log('this.state.options[i]', this.state.options[i]);
+            console.log('obj', obj);
+            //hallo = this.state.options[i].obj;
+        }
+
+        //console.log('hallo', hallo);
+
+        // Store JSON data in a JS variable var json =
+        // '{"name": "Peter", "age": 22, "country": "United States"}';
+        // Converting JSON-encoded string to JS object
+        // var obj = JSON.parse(json);
+        // Accessing individual value from JS object alert(obj.name);
+        // Outputs: Peter alert(obj.age);
+        // Outputs: 22 alert(obj.country);
+        // Outputs: United States
+
+        const obj = JSON.parse(this.state.options);
+        console.log('obj', obj);
+
+        //const optionsb  = [slugify(JSON.parse(this.state.options)).replace('#', '')];
+        //const url = slugify(window.location.href.toString()).replace('%23', 'hallo');
         console.log('href to string:', url);
-        for(let j=0; j<this.state.options.length; j++){
-            if(url.includes(this.state.options[j])){
+        console.log('optionsb', optionsb);
+        for(let j=0; j<optionsb.length; j++){
+            if(url.includes(optionsb[j])){
                 console.log('it works');
             }
             /*if(slugify(window.location.href).includes(slugify(this.state.options[j]).replace('%23', '#'))){
@@ -191,7 +216,7 @@ class ComponentView extends React.Component {
                             classNamePrefix="select"
                         />
                     </div>
-                    <input
+                    {/*<input
                         type="text"
                         placeholder="Change your URL !"
                         value={this.state.inputValue}
@@ -202,7 +227,7 @@ class ComponentView extends React.Component {
                         className="button"
                         value="Update the URL !"
                         onClick={this.updateURL}
-                    />
+                    />*/}
                 </React.Fragment>
                 {/*<h5>
                     <a href={`/components?${this.selectURL()}`}>click me</a>
