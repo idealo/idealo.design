@@ -21,6 +21,7 @@ class ComponentView extends React.Component {
             components: [],
             options: [],
             filteredComponents: [],
+            test: []
         }
     }
 
@@ -96,13 +97,23 @@ class ComponentView extends React.Component {
 
     setURL(){
         const filterValue = [];
+        const test = [];
+        let a = '[';
         const url = slugify(window.location.href.toString());
         for(let i=0; i<this.state.options.length; i++) {
             if(url.includes(this.state.options[i].value.substr(1))){
                 filterValue.push(this.state.options[i].value)
+                test.push(this.state.options[i])
             }
         }
-        this.setState({filterValue:filterValue})
+        for(let i=0; i<test.length-1;i++){
+            a = a + '{label: "'+test[i].label+ '", value: "'+test[i].value+'"},'
+        }
+        a += '{label: "'+test[test.length-1].label+ '", value: "'+test[test.length-1].value+'"}'
+        a = a + ']';
+        console.log('a:',a.toString())
+        console.log('[{label: "#classic", value: "#classic"},{label: "#react", value: "#react"}]',test)
+        this.setState({filterValue:filterValue, test: a})
         this.fillFilterComponents();
     }
 
@@ -112,8 +123,8 @@ class ComponentView extends React.Component {
                 <React.Fragment>
                     <div className={s.multiselect} >
                         <Select
+                            defaultValue={this.state.test}
                             isMulti
-                            defaultValue={this.state.filterValue}
                             options={this.state.options}
                             className="basic-multi-select"
                             onChange={(value) => this.updateURL(value)}
