@@ -21,7 +21,7 @@ class ComponentView extends React.Component {
             components: [],
             options: [],
             filteredComponents: [],
-            test: []
+            startOptions: []
         }
     }
 
@@ -60,7 +60,6 @@ class ComponentView extends React.Component {
         this.setState({components : componentsForFill})
     }
 
-
     fillFilterComponents(){
         if(this.state.filterValue.length < 1) {
             this.setState({filteredComponents: this.state.components})
@@ -93,12 +92,12 @@ class ComponentView extends React.Component {
         this.setFilter(value)
         const url = setParams({ query: this.state.filterValue });
         this.props.history.push(`?${url}`);
+        this.setURL();
     };
 
     setURL(){
         const filterValue = [];
         const startOptions = [];
-        let a = '[';
         const url = slugify(window.location.href.toString());
         for(let i=0; i<this.state.options.length; i++) {
             if(url.includes(this.state.options[i].value.substr(1))){
@@ -106,16 +105,8 @@ class ComponentView extends React.Component {
                 startOptions.push(this.state.options[i])
             }
         }
-        this.setState({filterValue:filterValue, test: startOptions})
-        console.log('🐸',this.state.test)
+        this.setState({filterValue:filterValue, startOptions: startOptions})
         this.fillFilterComponents();
-    }
-
-    setDefaultValue() {
-        const b = [{label: "#classic", value: "#classic"},{label: "#react", value: "#react"}]
-        console.log('🐶',this.state.test)
-        return [{label: "#classic", value: "#classic"},{label: "#react", value: "#react"}];
-
     }
 
     render() {
@@ -124,12 +115,11 @@ class ComponentView extends React.Component {
                 <React.Fragment>
                     <div className={s.multiselect} >
                         <Select
-                            defaultValue={this.setDefaultValue()}
                             isMulti
-                            options={this.state.options}
                             className="basic-multi-select"
+                            value={this.state.startOptions}
                             onChange={(value) => this.updateURL(value)}
-                            classNamePrefix="select"
+                            options={this.state.options}
                         />
                     </div>
                 </React.Fragment>
@@ -145,7 +135,6 @@ class ComponentView extends React.Component {
             </div>
         );
     }
-
 }
 
 export default withRouter(ComponentView);
