@@ -197,8 +197,13 @@ export async function deleteSingleComponent(){
 }
 
 export async function fetchSingleComponent({component_id}){
-    const singleComponent = await sql `select ct.component_id, c.title, t.tag_name from components_tags_map as ct, components as c, tags as t where ct.tag_id = t.tag_id and c.component_id = ct.component_id and c.component_id=${component_id};`
-    return singleComponent
+    const tagsComponent = await sql `select t.tag_name from components_tags_map as ct, components as c, tags as t where ct.tag_id = t.tag_id and c.component_id = ct.component_id and c.component_id=${component_id};`
+    const singleComponent = await sql `select * from components c where  c.component_id=${component_id};`
+    const tags =[]
+    for(let i =0;i<tagsComponent.length;i++){
+        tags.push(tagsComponent[i].tag_name)
+    }
+    return {component: singleComponent, tags:tags}
 }
 
 export async function processImportUpdateComponentsTables(){
