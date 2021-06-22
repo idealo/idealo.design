@@ -26,7 +26,6 @@ export default function ComponentsPage({ match }) {
         setUserInfo(user);
     }
 
-
     return (
         <>
             <Switch>
