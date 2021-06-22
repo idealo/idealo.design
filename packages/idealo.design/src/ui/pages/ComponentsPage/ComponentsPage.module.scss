@@ -1,12 +1,11 @@
 @import 'Styles/colors';
 
-.list{
+.list {
   overflow: hidden;
   margin: 1rem;
   margin-right: 2.5rem;
   position: relative;
 }
-
 
 
 .multiselect {
@@ -15,14 +14,14 @@
   background: $color_gray_200;
 }
 
-.basic-multi-select{
+.basic-multi-select {
   margin: 5px;
   padding: 50px;
   width: 40%;
   background: $color_gray_200;
 }
 
-.container{
+.container {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -33,13 +32,16 @@
   width: 25%;
   margin: 7px 2px;
   padding: 10px;
-  .h1{
+
+  .h1 {
     font-size: 120%;
   }
+
   .logo {
     width: 100%;
     height: auto
   }
+
   .tags {
     color: blue;
     font-size: 90%;

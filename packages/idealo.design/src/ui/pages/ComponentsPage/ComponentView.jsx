@@ -3,7 +3,7 @@ import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import {ReactComponent as Checkbox} from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
-import {fetchTags, fetchMap, updateComponentsTags, fetchComponents} from "./component_data";
+import {fetchComponents, fetchMap, fetchTags, updateComponentsTags} from "./component_data";
 
 
 class ComponentView extends React.Component {
@@ -41,10 +41,10 @@ class ComponentView extends React.Component {
         const componentsForFill = []
         let tags = []
 
-        for(let c=0;c<this.state.list.length;c++){
-            for(let i=0;i<this.state.components.length;i++){
-                if(this.state.list[c].component_id===this.state.components[i].component_id){
-                    tags.push('#'+this.state.components[i].tag_name)
+        for (let c = 0; c < this.state.list.length; c++) {
+            for (let i = 0; i < this.state.components.length; i++) {
+                if (this.state.list[c].component_id === this.state.components[i].component_id) {
+                    tags.push('#' + this.state.components[i].tag_name)
                 }
             }
 
@@ -53,7 +53,7 @@ class ComponentView extends React.Component {
                 title: this.state.list[c].title,
                 tags: JSON.parse(JSON.stringify(tags))
             })
-            tags=[]
+            tags = []
         }
         console.log('components', componentsForFill)
         this.setState({components: componentsForFill})
@@ -71,9 +71,9 @@ class ComponentView extends React.Component {
                     for (let x = 0; x < this.state.components[i].tags.length; x++) {
                         //check weather filterValue-array is a subarray of components[i].tags
                         const check = this.state.filterValue.every((el) => {
-                            return this.state.components[i].tags.indexOf(el)!==-1
+                            return this.state.components[i].tags.indexOf(el) !== -1
                         });
-                        if(check){
+                        if (check) {
                             filteredComponents.push(this.state.components[i])
                         }
                     }
@@ -90,7 +90,7 @@ class ComponentView extends React.Component {
 
     setFilter(select) {
         const filterValue = [];
-        select.map((select) => (filterValue.push('#'+select.value)))
+        select.map((select) => (filterValue.push('#' + select.value)))
         this.setState(this.state.filterValue = filterValue);
         this.fillFilterComponents();
     }
@@ -109,11 +109,11 @@ class ComponentView extends React.Component {
                     />
                 </div>
                 <div className={s.container}>
-                    {this.state.filteredComponents.map((component) =>(
+                    {this.state.filteredComponents.map((component) => (
                         <div className={s.item} key={component.id}>
                             <Checkbox className={s.logo}/>
                             <h1 className={s.h1}>{component.title}</h1>
-                            <h3 className={s.tags} >{component.tags}</h3>
+                            <h3 className={s.tags}>{component.tags}</h3>
                         </div>
                     ))}
                 </div>

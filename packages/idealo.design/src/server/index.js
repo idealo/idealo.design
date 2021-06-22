@@ -1,4 +1,4 @@
-import { promisify } from 'util'
+import {promisify} from 'util'
 import path from 'path'
 
 import express from 'express'
@@ -10,28 +10,28 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import slugify from 'slugify'
 
-import passport  from 'passport'
-import { OAuth2Strategy } from 'passport-oauth'
+import passport from 'passport'
+import {OAuth2Strategy} from 'passport-oauth'
 
 import Renderer from './renderer'
 
 import {
-  fetchList,
-  fetchAllCategories,
-  fetchPostsByCategorySlug,
-  fetchSinglePost,
-  storeSinglePost,
-  updateSinglePost,
-  fetchDistinctCategories,
-  deleteSinglePost,
   archiveSinglePost,
+  deleteSinglePost,
+  fetchAllCategories,
   fetchAllTitles,
   fetchComponents,
-  fetchTags,
+  fetchDistinctCategories,
+  fetchList,
   fetchMap,
-  processImportUpdateComponentsTables,
-  updateSingleComponent,
+  fetchPostsByCategorySlug,
   fetchSingleComponent,
+  fetchSinglePost,
+  fetchTags,
+  processImportUpdateComponentsTables,
+  storeSinglePost,
+  updateSingleComponent,
+  updateSinglePost,
 } from './db';
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
@@ -56,25 +56,25 @@ const app = express()
 const RedisStore = connectRedis(session)
 
 redis.on('error', err => {
-  console.log('redis error: ', err)
+    console.log('redis error: ', err)
 })
 
 passport.serializeUser((user, done) => {
-  done(null, user.id)
+    done(null, user.id)
 });
 
 passport.deserializeUser(async (id, done) => {
-  const session = await getAsync(`sess:${id}`)
-  done(null, session)
+    const session = await getAsync(`sess:${id}`)
+    done(null, session)
 });
 
 app.use(session({
-  secret: 'i am not so secret pleaaase change me soon',
-  name: '_idealodesign',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false },
-  store: new RedisStore({ host: 'localhost', port: 6379, client: redis, ttl: 86400 })
+    secret: 'i am not so secret pleaaase change me soon',
+    name: '_idealodesign',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {secure: false},
+    store: new RedisStore({host: 'localhost', port: 6379, client: redis, ttl: 86400})
 }))
 
 app.use(passport.initialize())
@@ -84,188 +84,190 @@ app.use(cors());
 app.use(bodyParser.json());
 
 if (CLIENT_ID) {
-  passport.use('provider', new OAuth2Strategy({
-    authorizationURL: AUTHZ_URL,
-    tokenURL: TOKEN_URL,
-    clientID: CLIENT_ID,
-    clientSecret: CLIENT_SECRET,
-    callbackURL: CALLBACK_URL,
-    passReqToCallback: true,
-  }, async (req, accessToken, refreshToken, profile, done) => {
-    console.log('PASSPORT::')
-    console.log('accessToken:', accessToken)
-    console.log('refreshToken:', refreshToken)
-    console.log('done:', done)
-    console.log('req: ', req)
+    passport.use('provider', new OAuth2Strategy({
+        authorizationURL: AUTHZ_URL,
+        tokenURL: TOKEN_URL,
+        clientID: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        callbackURL: CALLBACK_URL,
+        passReqToCallback: true,
+    }, async (req, accessToken, refreshToken, profile, done) => {
+        console.log('PASSPORT::')
+        console.log('accessToken:', accessToken)
+        console.log('refreshToken:', refreshToken)
+        console.log('done:', done)
+        console.log('req: ', req)
 
-    let user
+        let user
 
-    try {
-      const resp = await fetch(PROFILE_ENDPOINT, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
+        try {
+            const resp = await fetch(PROFILE_ENDPOINT, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+
+            user = await resp.json()
+        } catch (err) {
+            console.log('error fetching profile: ', err)
         }
-      })
 
-      user = await resp.json()
-    } catch (err) {
-      console.log('error fetching profile: ', err)
-    }
-
-    req.session.user = user;
-    done(null, user)
-  }));
+        req.session.user = user;
+        done(null, user)
+    }));
 }
 
 function isAuthenticated(req, res, next) {
-  if(req.session.user){
-    return next();
-  }
-  res.status(403).send('You do not have rights to visit this page');
+    if (req.session.user) {
+        return next();
+    }
+    res.status(403).send('You do not have rights to visit this page');
 }
 
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.get('/auth/provider', passport.authenticate('provider', {
-  scope: 'openid',
+    scope: 'openid',
 }))
 
 app.get('/auth/provider/callback',
-        passport.authenticate('provider', { successRedirect: '/',
-                                            failureRedirect: '/login' }))
+    passport.authenticate('provider', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    }))
 
 app.get('/api/me', (req, res) => {
-  const user = req.session.user;
-  const resp = {
-    status: 'NOT_LOGGED_IN'
-  };
-  if (user) {
-    resp.status = 'LOGGED_IN';
-    resp.user = user;
-  }
-  res.json(resp);
-} )
+    const user = req.session.user;
+    const resp = {
+        status: 'NOT_LOGGED_IN'
+    };
+    if (user) {
+        resp.status = 'LOGGED_IN';
+        resp.user = user;
+    }
+    res.json(resp);
+})
 
-app.get("/logout", function(req, res) {
-  req.session.destroy(() => {
-    req.logout();
-    res.redirect("/");
-  });
+app.get("/logout", function (req, res) {
+    req.session.destroy(() => {
+        req.logout();
+        res.redirect("/");
+    });
 });
 
 /*controller for components page*/
 app.get('/api/components', isAuthenticated, async (req, res) => {
-  const components = await fetchComponents();
-  return res.json(components);
+    const components = await fetchComponents();
+    return res.json(components);
 })
 
 app.get('/api/tags', isAuthenticated, async (req, res) => {
-  const tags = await fetchTags();
-  return res.json(tags);
+    const tags = await fetchTags();
+    return res.json(tags);
 })
 
 app.get('/api/map', isAuthenticated, async (req, res) => {
-  const map = await fetchMap();
-  return res.json(map);
+    const map = await fetchMap();
+    return res.json(map);
 })
 
 app.put('/api/components/update', isAuthenticated, async (req, res) => {
-  const updated = await processImportUpdateComponentsTables();
-  return res.json(updated);
+    const updated = await processImportUpdateComponentsTables();
+    return res.json(updated);
 })
 
 app.put('/api/components/:component_id?', isAuthenticated, async (req, res) => {
-  const { component_id } = req.params
-  const updatedComponent = await updateSingleComponent({component_id});
-  return res.json(updatedComponent)
+    const {component_id} = req.params
+    const updatedComponent = await updateSingleComponent({component_id});
+    return res.json(updatedComponent)
 })
 
 app.get('/api/components/:component_id?', isAuthenticated, async (req, res) => {
-  const { component_id } = req.params
-  const singleComponent = await fetchSingleComponent({component_id});
-  return res.json(singleComponent)
+    const {component_id} = req.params
+    const singleComponent = await fetchSingleComponent({component_id});
+    return res.json(singleComponent)
 })
 
 app.delete('/api/components/:component_id?', isAuthenticated, async (req, res) => {
-  const { component_id } = req.params
-  const deletedSingleComponent = await deleteSinglePost({component_id});
-  return res.json(deletedSingleComponent)
+    const {component_id} = req.params
+    const deletedSingleComponent = await deleteSinglePost({component_id});
+    return res.json(deletedSingleComponent)
 })
 
 /*controller for blog page*/
 app.get('/api/blogposts/:slug?', async (req, res) => {
-  const { slug } = req.params;
-  if (!slug) {
-    const { byCategorySlug: categorySlug } = req.query;
-    let posts = [];
+    const {slug} = req.params;
+    if (!slug) {
+        const {byCategorySlug: categorySlug} = req.query;
+        let posts = [];
 
-    if (categorySlug) {
-      posts = await fetchPostsByCategorySlug({categorySlug});
-    } else {
-      posts = await fetchList();
+        if (categorySlug) {
+            posts = await fetchPostsByCategorySlug({categorySlug});
+        } else {
+            posts = await fetchList();
+        }
+        return res.json(posts);
     }
-    return res.json(posts);
-  }
 
-  const blogpost = await fetchSinglePost({ slug });
-  return res.json(blogpost);
+    const blogpost = await fetchSinglePost({slug});
+    return res.json(blogpost);
 })
 
 app.post('/api/blogposts', isAuthenticated, async (req, res) => {
-  const newBlogpost = req.body;
-  newBlogpost.slug = slugify(newBlogpost.title);
-  newBlogpost.date = (new Date()).toISOString();
-  newBlogpost.blogpostcontent = req.body.blogpostcontent;
-  const createdBlogpost = await storeSinglePost(newBlogpost);
+    const newBlogpost = req.body;
+    newBlogpost.slug = slugify(newBlogpost.title);
+    newBlogpost.date = (new Date()).toISOString();
+    newBlogpost.blogpostcontent = req.body.blogpostcontent;
+    const createdBlogpost = await storeSinglePost(newBlogpost);
 
-  return res.json(createdBlogpost);
+    return res.json(createdBlogpost);
 });
 
 app.get('/api/categories', isAuthenticated, async (req, res) => {
-  const categories = await fetchAllCategories();
-  return res.json(categories);
+    const categories = await fetchAllCategories();
+    return res.json(categories);
 })
 
 app.get('/api/title', isAuthenticated, async (req, res) => {
-  const titles = await fetchAllTitles();
-  return res.json(titles);
+    const titles = await fetchAllTitles();
+    return res.json(titles);
 })
 
 app.get('/api/distinctCategories', async (req, res) => {
-  const categories = await fetchDistinctCategories();
-  return res.json(categories);
+    const categories = await fetchDistinctCategories();
+    return res.json(categories);
 })
 
 app.get('/*', (req, res) => {
-  return Renderer(req, res)
+    return Renderer(req, res)
 })
 
 app.put('/api/blogposts', isAuthenticated, async (req, res) => {
-  console.log('api put req', req);
-  
-  const updatedBlogpost = req.body;
-  updatedBlogpost.slug = slugify(updatedBlogpost.title);
-  updatedBlogpost.date = (new Date()).toISOString();
-  console.log('updatedBlogpost', updatedBlogpost);
-  
-  const createdBlogpost = await updateSinglePost(updatedBlogpost);
-  console.log("api put", createdBlogpost);
-  
-  return res.json(createdBlogpost);
+    console.log('api put req', req);
+
+    const updatedBlogpost = req.body;
+    updatedBlogpost.slug = slugify(updatedBlogpost.title);
+    updatedBlogpost.date = (new Date()).toISOString();
+    console.log('updatedBlogpost', updatedBlogpost);
+
+    const createdBlogpost = await updateSinglePost(updatedBlogpost);
+    console.log("api put", createdBlogpost);
+
+    return res.json(createdBlogpost);
 });
 
-app.delete('/api/blogposts/delete', isAuthenticated, async (req,res) => {
-  const blogpost = req.body;
-  const deletedBlogpost = await deleteSinglePost(blogpost)
-  return res.json(deletedBlogpost)
+app.delete('/api/blogposts/delete', isAuthenticated, async (req, res) => {
+    const blogpost = req.body;
+    const deletedBlogpost = await deleteSinglePost(blogpost)
+    return res.json(deletedBlogpost)
 })
 
-app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
-  const blogpost = req.body;
-  const archiveBlogpost = await archiveSinglePost(blogpost);
-  return res.json(archiveBlogpost)
+app.put('/api/blogposts/archive', isAuthenticated, async (req, res) => {
+    const blogpost = req.body;
+    const archiveBlogpost = await archiveSinglePost(blogpost);
+    return res.json(archiveBlogpost)
 })
 
-app.listen(PORT, '0.0.0.0',() => {
-  console.log(` -> 0.0.0.0:${PORT}`)
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(` -> 0.0.0.0:${PORT}`)
 })

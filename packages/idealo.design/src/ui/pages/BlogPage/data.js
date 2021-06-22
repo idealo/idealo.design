@@ -2,46 +2,46 @@
 const API_BASE = '';
 
 export async function fetchList() {
-  const resp = await fetch(`${API_BASE}/api/blogposts`);
-  const data = await resp.json();
-  return data;
+    const resp = await fetch(`${API_BASE}/api/blogposts`);
+    const data = await resp.json();
+    return data;
 }
 
-export async function updateSinglePost({ slug, post }, cb) {
-  const body = JSON.stringify(post);
+export async function updateSinglePost({slug, post}, cb) {
+    const body = JSON.stringify(post);
 
-  const resp = await fetch(`${API_BASE}/api/blogposts`, {
-        method: 'PUT',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body
-      }
-  ).then(function(response) {
-    cb();
-    return response.json();
-  });
+    const resp = await fetch(`${API_BASE}/api/blogposts`, {
+            method: 'PUT',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+            body
+        }
+    ).then(function (response) {
+        cb();
+        return response.json();
+    });
 
 }
 
-export async function fetchSinglePost({ slug }) {
-  if (!slug) return null;
+export async function fetchSinglePost({slug}) {
+    if (!slug) return null;
 
-  const resp = await fetch(`${API_BASE}/api/blogposts/${slug}`);
-  const data = await resp.json();
-  return data.pop();
+    const resp = await fetch(`${API_BASE}/api/blogposts/${slug}`);
+    const data = await resp.json();
+    return data.pop();
 }
 
-export async function fetchPostsByCategorySlug({ categorySlug }) {
-  if (!categorySlug) return [];
+export async function fetchPostsByCategorySlug({categorySlug}) {
+    if (!categorySlug) return [];
 
-  const resp = await fetch(`${API_BASE}/api/blogposts?byCategorySlug=${categorySlug}`);
-  const data = await resp.json();
-  return data;
+    const resp = await fetch(`${API_BASE}/api/blogposts?byCategorySlug=${categorySlug}`);
+    const data = await resp.json();
+    return data;
 }
 
 export async function fetchAllCategories() {
-  const resp = await fetch(`${API_BASE}/api/categories`);
-  const data = await resp.json();
-  return data;
+    const resp = await fetch(`${API_BASE}/api/categories`);
+    const data = await resp.json();
+    return data;
 }
 
 export async function fetchAllTitles() {
@@ -57,10 +57,10 @@ export async function fetchDistinctCategories() {
 }
 
 export async function fetchUserInfo() {
-  const resp = await fetch( `${API_BASE}/api/me` );
-  const data = await resp.json();
+    const resp = await fetch(`${API_BASE}/api/me`);
+    const data = await resp.json();
 
-  return data;
+    return data;
 }
 
 export async function deleteSinglePost(post) {
@@ -68,7 +68,7 @@ export async function deleteSinglePost(post) {
 
     await fetch(`${API_BASE}/api/blogposts/delete`, {
         method: 'DELETE',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body
     })
 }
@@ -76,9 +76,9 @@ export async function deleteSinglePost(post) {
 export async function archiveSinglePost(post) {
     const body = JSON.stringify(post);
 
-    await fetch(`${API_BASE}/api/blogposts/archive`,{
+    await fetch(`${API_BASE}/api/blogposts/archive`, {
         method: 'PUT',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body
     });
 }
