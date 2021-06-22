@@ -32,6 +32,7 @@ import {
   storeSinglePost,
   updateSingleComponent,
   updateSinglePost,
+    deleteSingleComponent
 } from './db';
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
@@ -176,21 +177,25 @@ app.put('/api/components/update', isAuthenticated, async (req, res) => {
     return res.json(updated);
 })
 
-app.put('/api/components/:component_id?', isAuthenticated, async (req, res) => {
-    const {component_id} = req.params
-    const updatedComponent = await updateSingleComponent({component_id});
+app.put('/api/components/:component_id?', /*isAuthenticated,*/async (req, res) => {
+    const updateComponent = req.body
+    console.log('update index.js: ', req.body)
+    const component_id = req.params
+    const updatedComponent = await updateSingleComponent({updateComponent, component_id});
     return res.json(updatedComponent)
 })
 
-app.get('/api/components/:component_id?', isAuthenticated, async (req, res) => {
+app.get('/api/components/:component_id?', /*isAuthenticated,*/ async (req, res) => {
     const {component_id} = req.params
     const singleComponent = await fetchSingleComponent({component_id});
     return res.json(singleComponent)
 })
 
-app.delete('/api/components/:component_id?', isAuthenticated, async (req, res) => {
+app.delete('/api/components/:component_id?', /*isAuthenticated,*/ async (req, res) => {
+    console.log('index.js')
     const {component_id} = req.params
-    const deletedSingleComponent = await deleteSinglePost({component_id});
+    console.log('index.js- params', req.params)
+    const deletedSingleComponent = await deleteSingleComponent({component_id});
     return res.json(deletedSingleComponent)
 })
 

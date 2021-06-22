@@ -26,3 +26,20 @@ export async function updateComponentsTags() {
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
     });
 }
+
+export async function deleteSingleComponent({component_id}) {
+    await fetch(`${API_BASE}/api/components/${component_id}`, {
+        method: 'DELETE',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+    });
+}
+
+export async function updateSingleComponent({component, component_id}) {
+    const body = JSON.stringify(component);
+
+    await fetch(`${API_BASE}/api/components/${component_id}`, {
+        method: 'PUT',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        body
+    });
+}

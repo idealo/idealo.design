@@ -173,17 +173,40 @@ export async function fetchMap() {
     return fin;
 }
 
-export async function updateSingleComponent({component_id}) {
+export async function updateSingleComponent(component, component_id) {
     const updateSingleComponentTransaction = await sql.begin(async sql => {
-        //only tags and name can be updated
+        const updateNameSingleComponent =  await sql `update components set title = ${component.updateComponent.title} where component_id=${component.updateComponent.component_id};`
+        for(let i=0; i<component.updateComponent.tags.length; i++) {
+            const checkTag = await sql `select tag_name from tags where tag_name = ${component.updateComponent.tags[i]};`
+            console.log('CheckTag noch mal: ', checkTag[0].tag_name)
+            const newTag = await sql `select tag_id from tags where tag_name = ${component.updateComponent.tags[i]};`
+            console.log('newTag: ', newTag)
 
 
+
+            if (!checkTag[0].tag_name){
+                console.log('juhu')
+                await sql `insert into tags (tag_name) values (${component.updateComponent.tags[i]});`
+            }
+            await sql `insert into components_tags_map (component_id, tag_id) values (${component.updateComponent.component_id}, ${newTag[0].tag_id}) on conflict do nothing;`
+        }
+
+
+        // 4) Ein Tag löschen
+    return updateNameSingleComponent
     })
     return updateSingleComponentTransaction
 }
 
-export async function deleteSingleComponent() {
-
+export async function deleteSingleComponent({component_id}){
+    console.log('db.js')
+    const deleteSingleComponent = await sql.begin(async sql => {
+        const deletedComponentsTagsMap = await sql `delete from components_tags_map where component_id=${component_id};`
+        const deletedComponent = await sql `delete from components where component_id=${component_id};`
+        const allRelevantTags = await sql `delete from tags where tag_id not in (select distinct tag_id from components_tags_map);`
+        return [deletedComponentsTagsMap, deletedComponent, allRelevantTags]
+    })
+    return deleteSingleComponent
 }
 
 export async function fetchSingleComponent({component_id}) {
