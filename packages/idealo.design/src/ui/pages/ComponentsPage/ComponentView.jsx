@@ -85,7 +85,6 @@ class ComponentView extends React.Component {
         const filterValue = [];
         select.map((select) => (filterValue.push(select.value)))
         this.setState( this.state.filterValue = filterValue);
-        console.log('filterValue:',filterValue)
         this.fillFilterComponents();
     }
 
@@ -97,15 +96,11 @@ class ComponentView extends React.Component {
 
     setURL(){
         const filterValue = [];
-        let optionsWithoutFirstSymbol = [];
         const url = slugify(window.location.href.toString());
         for(let i=0; i<this.state.options.length; i++) {
-            optionsWithoutFirstSymbol.push(this.state.options[i].value.substr(1));
-        }
-        for(let i=0; i<optionsWithoutFirstSymbol.length; i++) {
-                if(url.includes(optionsWithoutFirstSymbol[i])){
-                    filterValue.push('#'+optionsWithoutFirstSymbol[i])
-                }
+            if(url.includes(this.state.options[i].value.substr(1))){
+                filterValue.push(this.state.options[i].value)
+            }
         }
         this.setState({filterValue:filterValue})
         this.fillFilterComponents();
