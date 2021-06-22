@@ -6,22 +6,16 @@ import Select from 'react-select';
 import { fetchTags, fetchMap } from "./component_data";
 import slugify from "slugify";
 
-function setParams({ query = ""}) {
-    const searchParams = new URLSearchParams();
-    searchParams.set("query", query);
-    return searchParams.toString();
-}
-
 class ComponentView extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            filterValue: [],
             components: [],
             options: [],
             filteredComponents: [],
-            startOptions: []
+            filterValue: [],
+            URLOptions: []
         }
     }
 
@@ -30,19 +24,11 @@ class ComponentView extends React.Component {
         this.fillComponents();
         this.fillOptions();
         this.fillFilterComponents();
-        this.setURL();
-    }
-
-    fillOptions(){
-        const optionsForFill = []
-        for(let i=0; i<this.state.options.length; i++){
-            optionsForFill.push({label: this.state.options[i].tag_name, value: this.state.options[i].tag_name})
-        }
-        this.setState({ options: optionsForFill })
+        this.checkURL();
     }
 
     fillComponents(){
-        const componentsForFill = []
+        const components = []
         const tags = []
         for(let i=0; i<this.state.components.length; i++)
         {
@@ -50,14 +36,22 @@ class ComponentView extends React.Component {
                 if(this.state.components[i].component_id === this.state.components[j].component_id){
                     tags.push(this.state.components[i].tag_name);
                     tags.push(this.state.components[j].tag_name);
-                    componentsForFill.push({id: this.state.components[i].component_id, title : this.state.components[i].title, tags: JSON.parse(JSON.stringify(tags)) })
+                    components.push({id: this.state.components[i].component_id, title : this.state.components[i].title, tags: JSON.parse(JSON.stringify(tags)) })
                 }
             }
             while(tags.length > 0) {
                 tags.pop();
             }
         }
-        this.setState({components : componentsForFill})
+        this.setState({components : components})
+    }
+
+    fillOptions(){
+        const options = []
+        for(let i=0; i<this.state.options.length; i++){
+            options.push({label: this.state.options[i].tag_name, value: this.state.options[i].tag_name})
+        }
+        this.setState({ options: options })
     }
 
     fillFilterComponents(){
@@ -76,36 +70,32 @@ class ComponentView extends React.Component {
                     }
                 }
             }
-            const uniqueFilteredComponents = [...new Set(filteredComponents)]
-            this.setState({filteredComponents: uniqueFilteredComponents})
+            this.setState({filteredComponents: [...new Set(filteredComponents)]})
         }
     }
 
-    setFilter(select) {
+    handleChange(select){
         const filterValue = [];
         select.map((select) => (filterValue.push(select.value)))
+        const searchParams = new URLSearchParams();
+        searchParams.set("query", filterValue.toString());
+        this.props.history.push(`?${searchParams.toString()}`);
         this.setState( this.state.filterValue = filterValue);
         this.fillFilterComponents();
-    }
-
-    updateURL = (value) => {
-        this.setFilter(value)
-        const url = setParams({ query: this.state.filterValue });
-        this.props.history.push(`?${url}`);
-        this.setURL();
+        this.checkURL();
     };
 
-    setURL(){
+    checkURL(){
         const filterValue = [];
-        const startOptions = [];
+        const URLOptions = [];
         const url = slugify(window.location.href.toString());
         for(let i=0; i<this.state.options.length; i++) {
             if(url.includes(this.state.options[i].value.substr(1))){
                 filterValue.push(this.state.options[i].value)
-                startOptions.push(this.state.options[i])
+                URLOptions.push(this.state.options[i])
             }
         }
-        this.setState({filterValue:filterValue, startOptions: startOptions})
+        this.setState({filterValue:filterValue, URLOptions: URLOptions})
         this.fillFilterComponents();
     }
 
@@ -117,8 +107,8 @@ class ComponentView extends React.Component {
                         <Select
                             isMulti
                             className="basic-multi-select"
-                            value={this.state.startOptions}
-                            onChange={(value) => this.updateURL(value)}
+                            value={this.state.URLOptions}
+                            onChange={(select) => this.handleChange(select)}
                             options={this.state.options}
                         />
                     </div>
