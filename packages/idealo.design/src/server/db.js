@@ -174,52 +174,35 @@ export async function fetchMap() {
 }
 
 export async function updateSingleComponent(component) {
-    //neues array mit der Änderung des TagNamen wird übergeben --> Problem: welcher Name/welche id stand dort vorher? sonst können wir die nicht in der map-tabelle löschen
     const updateSingleComponentTransaction = await sql.begin(async sql => {
         const updateNameSingleComponent =  await sql `update components set title = ${component.title} where component_id=${component.component_id};`
         for(let i=0; i<component.tags.length; i++) {
-            //check whether tag from component-tag-array is in table tags
             const checkTag = await sql `select exists(select * from tags where tag_name = ${component.tags[i]});`
 
             if (!checkTag[0].exists){
-                console.log('tag',component.tags[i],'doesnt exists in table tags')
-
-                //insert new tag into table tags with a new id
                 await sql `insert into tags (tag_name) values (${component.tags[i]});`
-
-                //store the new id in a variable from the new tag in table tags
                 const newTagId = await sql `select tag_id from tags where tag_name = ${component.tags[i]};`
-
-                //insert the new component-tag-pair in the table component_tags_map
-                console.log('new tag id', newTagId[0].tag_id)
-                console.log('component id', component.component_id)
                 await sql `insert into components_tags_map (component_id, tag_id) values (${component.component_id}, ${newTagId[0].tag_id});`
             }
         }
-        //delete the old tag from the component-tag-array in the table components_tags_maps
-        //-->check whether there is a tag in the table components_tags_map which doesnt exist in the actual component-tag-array
         const wholeTagsInclOldTag = await sql `select tag_name from components_tags_map natural join tags natural join components where component_id=${component.component_id}`
         const tagNames = []
         for (let i = 0; i < wholeTagsInclOldTag.length; i++) {
             tagNames.push(wholeTagsInclOldTag[i].tag_name)
         }
-        console.log('test array ',tagNames)
-        console.log('actual tag array',component.tags)
 
-        //--> check here whether there is tag which doesnt exist in the other array
-        let oldTagName= []
+        let oldTagNames= []
         for (let t = 0; t < tagNames.length; t++) {
             if (!component.tags.includes(tagNames[t])) {
-                console.log(component.tags[t], ' includes not array')
-                oldTagName.push(tagNames[t])
+                oldTagNames.push(tagNames[t])
             }
         }
-        //-->check the id(s) from old tag name(s) and delete that row(s) from table components_tags_map
-        console.log('oldTagName',oldTagName)
-        for(let x=0;x<oldTagName.length;x++){
-            const oldTagId = await sql `select tag_id from tags where tag_name=${oldTagName[x]}`
+        for(let x=0;x<oldTagNames.length;x++){
+            const oldTagId = await sql `select tag_id from tags where tag_name=${oldTagNames[x]}`
             await sql `delete from components_tags_map where component_id=${component.component_id} and tag_id=${oldTagId[0].tag_id}`
         }
+
+        await sql `delete from tags where tag_id not in (select distinct tag_id from components_tags_map)`
         return updateNameSingleComponent
     })
     return updateSingleComponentTransaction

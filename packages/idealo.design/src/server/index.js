@@ -172,28 +172,26 @@ app.get('/api/map', isAuthenticated, async (req, res) => {
     return res.json(map);
 })
 
-app.put('/api/components/update', /*isAuthenticated,*/ async (req, res) => {
+app.put('/api/components/update', isAuthenticated, async (req, res) => {
     const updated = await processImportUpdateComponentsTables();
     return res.json(updated);
 })
 
-app.put('/api/components/:component_id?', /*isAuthenticated,*/async (req, res) => {
+app.put('/api/components/:component_id?', isAuthenticated,async (req, res) => {
     const component = req.body
     //const component_id = req.params
     const updatedComponent = await updateSingleComponent(component);
     return res.json(updatedComponent)
 })
 
-app.get('/api/components/:component_id?', /*isAuthenticated,*/ async (req, res) => {
+app.get('/api/components/:component_id?', isAuthenticated, async (req, res) => {
     const {component_id} = req.params
     const singleComponent = await fetchSingleComponent({component_id});
     return res.json(singleComponent)
 })
 
-app.delete('/api/components/:component_id?', /*isAuthenticated,*/ async (req, res) => {
-    console.log('index.js')
+app.delete('/api/components/:component_id?', isAuthenticated, async (req, res) => {
     const {component_id} = req.params
-    console.log('index.js- params', req.params)
     const deletedSingleComponent = await deleteSingleComponent({component_id});
     return res.json(deletedSingleComponent)
 })
