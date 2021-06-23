@@ -1,0 +1,53 @@
+{
+  "name": "@motif/input-field",
+  "version": "1.6.0",
+  "description": "InputField component for Motif UI",
+  "keywords": [
+    "motif",
+    "motif-ui",
+    "input-field",
+    "form",
+    "react"
+  ],
+  "license": "ISC",
+  "main": "build/input-field.js",
+  "types": "build/input-field.d.ts",
+  "directories": {
+    "build": "build"
+  },
+  "files": [
+    "build"
+  ],
+  "publishConfig": {
+    "registry": "https://repo.eu.idealo.com/artifactory/api/npm/npm-local",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@code.eu.idealo.com:7999/sfeco/motif-ui.git"
+  },
+  "scripts": {
+    "build": "motif-builder",
+    "build:dev": "motif-builder -m development",
+    "prepublishOnly": "yarn build",
+    "test": "echo \"Not implemented yet\""
+  },
+  "devDependencies": {
+    "@motif/scripts": "^0.1.3",
+    "@types/jest": "^24.0.12",
+    "@types/react": "^16.8.15",
+    "@types/react-dom": "^16.0.11",
+    "@types/styled-components": "^4.1.4",
+    "jest": "^24.0.0",
+    "polished": "^3.2.0",
+    "styled-components": "^4.1.3",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.2.2"
+  },
+  "peerDependencies": {
+    "polished": "^2.3.3",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "styled-components": "^4.1.3"
+  }
+}

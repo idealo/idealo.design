@@ -1,112 +1,114 @@
 .List {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
 }
 
 .Content {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 10;
-    width: 100%;
-    margin: 2rem 0;
-    overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 10;
+  width: 100%;
+  margin: 2rem 0;
+  overflow: hidden;
 
-    -ms-box-orient: vertical;
-    -ms-line-clamp: 10;
+  -ms-box-orient: vertical;
+  -ms-line-clamp: 10;
 
-    -moz-box-orient: vertical;
-    -moz-line-clamp: 10;
+  -moz-box-orient: vertical;
+  -moz-line-clamp: 10;
 
-    img {
-        width: 100px;
-        float: left;
-        margin-right: 1rem;
+  img {
+    width: 100px;
+    float: left;
+    margin-right: 1rem;
+  }
+
+  .blogpostTitle {
+    margin: 0 auto 1.5rem auto;
+
+    a {
+      &:visited {
+        color: black;
+      }
+
+      color: black;
+      text-decoration: none;
     }
+  }
 
-    .blogpostTitle {
-        margin: 0 auto 1.5rem auto;
-
-        a {
-            &:visited {
-                color: black;
-            }
-
-            color: black;
-            text-decoration: none;
-        }
-    }
-
-    &:first-child {
-        margin-top: 0; 
-    }
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 .ContentBox {
-    // padding: 1rem;
-    margin: 1rem;
-    margin-right: 2.5rem;
-    overflow: hidden;
+  // padding: 1rem;
+  margin: 1rem;
+  margin-right: 2.5rem;
+  overflow: hidden;
 
-    button {
-        background-color: #395F86;
-        border: none;
-        color: white;
-        padding: 10px 30px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-    }
+  button {
+    background-color: #395F86;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
 
-    .blogpostTitle{
-        text-align: center;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color:  #395F86;
-    }
-    .blogpostDate{
-        text-align: center;
-        font-size: smaller;
-        margin-bottom: 2rem;
-    }
+  .blogpostTitle {
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    color: #395F86;
+  }
+
+  .blogpostDate {
+    text-align: center;
+    font-size: smaller;
+    margin-bottom: 2rem;
+  }
 
 
-    img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 90%;
-    }
-    .SocialMediaIcons img {
-        width: 30px;
-        height: 30px;
-        display: inline;
-        margin-top: 1.5rem;
-    } 
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+  }
+
+  .SocialMediaIcons img {
+    width: 30px;
+    height: 30px;
+    display: inline;
+    margin-top: 1.5rem;
+  }
 }
 
 .Menu {
-    display: flex;
+  display: flex;
 
-    button {
-        background-color: #395F86;
-        border: none;
-        color: white;
-        padding: 10px 30px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
+  button {
+    background-color: #395F86;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 
-        &:last-child {
-            margin-left: auto;
-        }
-
-        &:nth-last-child(2){
-            margin-left: auto;
-        }
+    &:last-child {
+      margin-left: auto;
     }
+
+    &:nth-last-child(2) {
+      margin-left: auto;
+    }
+  }
 
 
 }
@@ -116,43 +118,43 @@
 }
 
 .ButtonNavigation {
-    display: flex;
-    margin-top: 2rem;
+  display: flex;
+  margin-top: 2rem;
 
-    .ButtonPrevious {
-        background-color: #395F86;
-        border: none;
-        color: white;
-        padding: 10px 30px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-    }
+  .ButtonPrevious {
+    background-color: #395F86;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
 
-    .ButtonNext {
-        background-color: #395F86;
-        margin-left: auto;
-        border: none;
-        color: white;
-        padding: 10px 30px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-    }
+  .ButtonNext {
+    background-color: #395F86;
+    margin-left: auto;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
 
 }
 
 .HighlightedTeaser {
-    @extend .ContentBox;
-    margin-left: 0;
-    margin-right: 1rem;
-    min-height: 15rem;
+  @extend .ContentBox;
+  margin-left: 0;
+  margin-right: 1rem;
+  min-height: 15rem;
 }
 
 
 .Autor {
-    text-align: center;
-    font-size:larger;
+  text-align: center;
+  font-size: larger;
 }

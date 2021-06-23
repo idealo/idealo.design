@@ -1,19 +1,18 @@
-import { DOCS_MODE } from 'global';
-import React, { FunctionComponent } from 'react';
-import ReactDOM from 'react-dom';
-
-import { Location, LocationProvider } from '@storybook/router';
-import { Provider as ManagerProvider, Combo, API } from '@storybook/api';
-import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import { HelmetProvider } from 'react-helmet-async';
-import { Global, createGlobal, styled } from '@storybook/theming';
+import {DOCS_MODE, document} from 'global';
+import React from 'react';
+import {styled, ThemeProvider} from '@storybook/theming';
+import {HelmetProvider} from 'react-helmet-async';
 // import App from './app';
-
 // import Provider from './provider';
+import {configure} from '@storybook/react'
+import renderStorybookUI, {Provider} from '@storybook/ui';
+// import React from 'react'
+// import { Panel } from '@storybook/ui/dist/components/panel/panel'
+// import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming/dist';
+import {addons} from '@storybook/addons/dist';
 
-import { configure } from '@storybook/react'
-import { document } from 'global';
-import renderStorybookUI from '@storybook/ui';
+
+import dynamic from 'next/dynamic'
 
 // @ts-ignore
 ThemeProvider.displayName = 'ThemeProvider';
@@ -29,25 +28,6 @@ const getDocsMode = () => {
 };
 
 const Container = process.env.XSTORYBOOK_EXAMPLE_APP ? React.StrictMode : React.Fragment;
-
-// import React from 'react'
-import { Desktop } from '@storybook/ui/dist/components/layout/desktop'
-import { Sidebar, Nav } from '@storybook/ui/dist/containers/nav'
-import Preview from '@storybook/ui/dist/containers/preview'
-import Panel from '@storybook/ui/dist/containers/panel'
-import Notifications from '@storybook/ui/dist/containers/notifications'
-import SettingsPages from '@storybook/ui/dist/settings'
-
-import { SPanel, SMain, SPreview, Layout } from '@storybook/ui/dist/components/layout/container'
-// import { Panel } from '@storybook/ui/dist/components/panel/panel'
-import { styled as theme } from '@storybook/theming/dist/'
-// import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming/dist';
-import App from '@storybook/ui/dist/app'
-import { Root, Provider } from '@storybook/ui'
-import { addons } from '@storybook/addons/dist';
-
-
-import dynamic from 'next/dynamic'
 
 // import { Provider } from '@storybook/ui/dist';
 
@@ -121,11 +101,16 @@ class MyProvider extends Provider {
         this.addons = addons;
 
         this.channel = {
-            on: () => {},
-            off: () => {},
-            emit: () => {},
-            addListener: () => {},
-            addPeerListener: () => {},
+            on: () => {
+            },
+            off: () => {
+            },
+            emit: () => {
+            },
+            addListener: () => {
+            },
+            addPeerListener: () => {
+            },
         };
     }
 
@@ -172,16 +157,14 @@ const provider = new MyProvider();
 // );
 
 const RootWithNoSSR = dynamic(
-    () => <ComponentPreview />,
-    { ssr: false }
+    () => <ComponentPreview/>,
+    {ssr: false}
 )
 
 console.log('RootWithNoSSR', RootWithNoSSR)
 
 
-const State = {
-    
-};
+const State = {};
 
 class ComponentPreview extends React.Component {
 

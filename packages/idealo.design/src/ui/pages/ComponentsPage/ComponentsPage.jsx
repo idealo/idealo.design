@@ -1,11 +1,6 @@
 import React, {useEffect, useState} from 'react'
 
-import {
-    // BrowserRouter as Router,
-    StaticRouter as Router,
-    Switch,
-    Route, Redirect,
-} from "react-router-dom";
+import {Route, Switch,} from "react-router-dom";
 
 
 import ComponentView from './ComponentView'
@@ -14,9 +9,9 @@ import ReactStackView from "./ReactStackView";
 import ClassicStackView from "./ClassicStackView";
 import EditorView from "../BlogPage/EditorView";
 
-export default function ComponentsPage({ match }) {
+export default function ComponentsPage({match}) {
 
-    const [ userInfo, setUserInfo ] = useState([]);
+    const [userInfo, setUserInfo] = useState([]);
 
     useEffect(() => {
         fetchUserInfo().then(setUser);
@@ -30,7 +25,7 @@ export default function ComponentsPage({ match }) {
         <>
             <Switch>
                 <Route exact path='/components'>
-                    <ComponentView />
+                    <ComponentView/>
                 </Route>
                 <Route exact path='/components/for-react-stacks'>
                     <ReactStackView />
