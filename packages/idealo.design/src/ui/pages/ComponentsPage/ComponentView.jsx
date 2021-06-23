@@ -67,7 +67,6 @@ class ComponentView extends React.Component {
             for (let j = 0; j < this.state.filterValue.length; j++) {
                 for (let i = 0; i < this.state.components.length; i++) {
                     for (let x = 0; x < this.state.components[i].tags.length; x++) {
-                        //check weather filterValue-array is a subarray of components[i].tags
                         const check = this.state.filterValue.every((el) => {
                             return this.state.components[i].tags.indexOf(el) !== -1
                         });
@@ -102,8 +101,8 @@ class ComponentView extends React.Component {
         const URLOptions = [];
         const url = slugify(window.location.href.toString());
         for(let i=0; i<this.state.options.length; i++) {
-            if(url.includes(this.state.options[i].value.substr(1))){
-                filterValue.push(this.state.options[i].value)
+            if(url.includes(this.state.options[i].value)){
+                filterValue.push('#' + this.state.options[i].value)
                 URLOptions.push(this.state.options[i])
             }
         }
