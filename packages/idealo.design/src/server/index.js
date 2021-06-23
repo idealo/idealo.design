@@ -172,16 +172,16 @@ app.get('/api/map', isAuthenticated, async (req, res) => {
     return res.json(map);
 })
 
-app.put('/api/components/update', isAuthenticated, async (req, res) => {
+app.put('/api/components/update', /*isAuthenticated,*/ async (req, res) => {
     const updated = await processImportUpdateComponentsTables();
     return res.json(updated);
 })
 
 app.put('/api/components/:component_id?', /*isAuthenticated,*/async (req, res) => {
-    const updateComponent = req.body
+    const component = req.body
     console.log('update index.js: ', req.body)
     const component_id = req.params
-    const updatedComponent = await updateSingleComponent({updateComponent, component_id});
+    const updatedComponent = await updateSingleComponent(component);
     return res.json(updatedComponent)
 })
 
