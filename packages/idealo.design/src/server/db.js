@@ -1,7 +1,8 @@
 import postgres from 'postgres'
 import {components} from './mockMotifImport/saveImportedComponents'
 // const sql = postgres({ database: 'blog', username: 'postgres' })
-const POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://postgres@localhost:5432/blog'
+
+const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://database-idealo-design.c9fyhsob8bxc.eu-central-1.rds.amazonaws.com'
 const sql = postgres(POSTGRES_URL)
 
 /*blog page*/
