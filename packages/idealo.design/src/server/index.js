@@ -179,8 +179,7 @@ app.put('/api/components/update', /*isAuthenticated,*/ async (req, res) => {
 
 app.put('/api/components/:component_id?', /*isAuthenticated,*/async (req, res) => {
     const component = req.body
-    console.log('update index.js: ', req.body)
-    const component_id = req.params
+    //const component_id = req.params
     const updatedComponent = await updateSingleComponent(component);
     return res.json(updatedComponent)
 })
