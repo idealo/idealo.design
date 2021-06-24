@@ -1,4 +1,4 @@
-import { promisify } from 'util'
+import {promisify} from 'util'
 import path from 'path'
 
 import express from 'express'
@@ -10,14 +10,18 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import slugify from 'slugify'
 
-import passport  from 'passport'
-import { OAuth2Strategy } from 'passport-oauth'
+import passport from 'passport'
+import {OAuth2Strategy} from 'passport-oauth'
 
 import Renderer from './renderer'
 
 import {
-  fetchList,
+  archiveSinglePost,
+  deleteSinglePost,
   fetchAllCategories,
+  fetchAllTitles,
+  fetchDistinctCategories,
+  fetchList,
   fetchPostsByCategorySlug,
   fetchSinglePost,
   storeSinglePost,
@@ -37,14 +41,17 @@ import {
 
 const dangerousTestModeArgument = !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false
 
-if(!dangerousTestModeArgument){
+if (!dangerousTestModeArgument) {
   const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
   const redis = redisLib.createClient(REDIS_URL)
   const getAsync = promisify(redis.get).bind(redis)
-
   redis.on('error', err => {
     console.log('redis error: ', err)
   })
+  passport.deserializeUser(async (id, done) => {
+    const session = await getAsync(`sess:${id}`)
+    done(null, session)
+  });
 }
 
 // dev env: 'http://localhost:8080/auth/provider/callback'
@@ -68,19 +75,14 @@ passport.serializeUser((user, done) => {
   done(null, user.id)
 });
 
-passport.deserializeUser(async (id, done) => {
-  const session = await getAsync(`sess:${id}`)
-  done(null, session)
-});
-
 app.use(session({
   secret: 'i am not so secret pleaaase change me soon',
   name: '_idealodesign',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false },
-  if(redis){
-    store: new RedisStore({ host: 'localhost', port: 6379, client: redis, ttl: 86400 })
+  cookie: {secure: false},
+  if(redis) {
+    store: new RedisStore({host: 'localhost', port: 6379, client: redis, ttl: 86400})
   }
 }))
 
@@ -125,11 +127,11 @@ if (CLIENT_ID) {
 }
 
 function isAuthenticated(req, res, next) {
-  if(req.session.user){
+  if (req.session.user) {
     return next();
   }
 
-  if(dangerousTestModeArgument){
+  if (dangerousTestModeArgument) {
     return next();
   }
 
@@ -143,8 +145,10 @@ app.get('/auth/provider', passport.authenticate('provider', {
 }))
 
 app.get('/auth/provider/callback',
-        passport.authenticate('provider', { successRedirect: '/',
-                                            failureRedirect: '/login' }))
+    passport.authenticate('provider', {
+      successRedirect: '/',
+      failureRedirect: '/login'
+    }))
 
 app.get('/api/me', (req, res) => {
   const user = req.session.user;
@@ -157,7 +161,7 @@ app.get('/api/me', (req, res) => {
     resp.user = user;
   }
 
-  if(dangerousTestModeArgument){
+  if (dangerousTestModeArgument) {
     resp.status = 'LOGGED_IN';
     resp.user = null;
   }
@@ -165,7 +169,7 @@ app.get('/api/me', (req, res) => {
   res.json(resp);
 })
 
-app.get("/logout", function(req, res) {
+app.get("/logout", function (req, res) {
   req.session.destroy(() => {
     req.logout();
     res.redirect("/");
@@ -211,9 +215,9 @@ app.delete('/api/components/:component_id?', isAuthenticated, async (req, res) =
 })
 
 app.get('/api/blogposts/:slug?', async (req, res) => {
-  const { slug } = req.params;
+  const {slug} = req.params;
   if (!slug) {
-    const { byCategorySlug: categorySlug } = req.query;
+    const {byCategorySlug: categorySlug} = req.query;
     let posts = [];
 
     if (categorySlug) {
@@ -224,7 +228,7 @@ app.get('/api/blogposts/:slug?', async (req, res) => {
     return res.json(posts);
   }
 
-  const blogpost = await fetchSinglePost({ slug });
+  const blogpost = await fetchSinglePost({slug});
   return res.json(blogpost);
 })
 
@@ -267,16 +271,16 @@ app.put('/api/blogposts', isAuthenticated, async (req, res) => {
   return res.json(createdBlogpost);
 });
 
-app.put('/api/blogposts/archive',isAuthenticated, async (req,res) => {
+app.put('/api/blogposts/archive', isAuthenticated, async (req, res) => {
   const blogpost = req.body;
   const archiveBlogpost = await archiveSinglePost(blogpost);
   return res.json(archiveBlogpost)
 })
 
-app.put('/api/blogposts/delete', isAuthenticated, async (req,res) => {
+app.put('/api/blogposts/delete', isAuthenticated, async (req, res) => {
   const blogpost = req.body;
   const deletedBlogpost = await deleteSinglePost(blogpost)
   return res.json('successfully deleted blogpost')
 })
 
-export { app }
+export {app}
