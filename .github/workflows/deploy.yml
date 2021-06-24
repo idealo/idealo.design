@@ -5,6 +5,20 @@ on:
     branches: [ master ]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 13
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13
+      - run: npm ci
+      - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:unit
+      - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:consumer
+      - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:provider
+
   upload-to-beanstalk:
     runs-on: ubuntu-latest
     permissions:
@@ -15,7 +29,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create package
-        run: pushd ./packages/idealo.design && zip -r deploy.zip . -x '*.git*' && popd && mv ./packages/idealo.design/deploy.zip . 
+        run: pushd ./packages/idealo.design && zip -r deploy.zip . -x '*.git*' && popd && mv ./packages/idealo.design/deploy.zip .
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v17
@@ -29,5 +43,3 @@ jobs:
           region: eu-central-1
           deployment_package: deploy.zip
           wait_for_deployment: true
-
-

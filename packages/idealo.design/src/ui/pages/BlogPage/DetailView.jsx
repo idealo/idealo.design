@@ -83,11 +83,15 @@ export class DetailView extends React.Component {
     }
 
     handleDeletion() {
-        deleteSinglePost(this.state.blogpost).then(r => this.state.history.push('/blog'))
+        deleteSinglePost(this.state.blogpost).then(
+            this.state.history.push('/blog')
+        )
     }
 
     handleArchive() {
-        archiveSinglePost(this.state.blogpost).then(r => this.state.history.push('/blog'))
+        archiveSinglePost(this.state.blogpost).then(
+            this.state.history.push('/blog')
+        )
     }
 
     onModalLeave() {

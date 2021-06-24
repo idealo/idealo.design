@@ -14,6 +14,7 @@ import passport from 'passport'
 import {OAuth2Strategy} from 'passport-oauth'
 
 import Renderer from './renderer'
+import {app} from "./server";
 
 import {
     archiveSinglePost,

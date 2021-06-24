@@ -83,13 +83,23 @@ export async function updateSinglePost(blog) {
 }
 
 export async function deleteSinglePost(blog) {
-    const [deleteTransaction] = await sql.begin(async sql => {
-        const [toBeDeletedBlogpost] = await sql`select * from blogposts where id=${blog.id}`
+        const [deleteTransaction] = await sql.begin(async sql => {
+            const [toBeDeletedBlogpost] = await sql `select * from blogposts where id=${blog.id}`
 
-        let deletedBlogpost;
-        let updateNextDatabase;
-        let updatePreviousDatabase;
+            let deletedBlogpost;
+            let updateNextDatabase;
+            let updatePreviousDatabase;
 
+            if(toBeDeletedBlogpost.previouspost == null && toBeDeletedBlogpost.nextpost ){
+                updatePreviousDatabase=await sql `update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.slug}`
+                deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
+            }
+
+            else if(toBeDeletedBlogpost.nextpost == null && toBeDeletedBlogpost.previouspost){
+                updateNextDatabase=await sql `update blogposts set nextpost = null where nextpost = ${toBeDeletedBlogpost.slug}`
+                deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
+            }
+          
         if (toBeDeletedBlogpost.previouspost == null) {
             updatePreviousDatabase = await sql`update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.slug}`
             deletedBlogpost = await sql`delete from blogposts where id = ${toBeDeletedBlogpost.id}`

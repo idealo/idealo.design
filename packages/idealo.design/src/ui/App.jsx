@@ -15,7 +15,7 @@ import {
     WelcomePage
 } from './pages'
 
-import PageLayout from 'Components/PageLayout'
+import PageLayout from './components/PageLayout'
 
 import s from './styles/main.scss'
 import './styles/colors.scss'
