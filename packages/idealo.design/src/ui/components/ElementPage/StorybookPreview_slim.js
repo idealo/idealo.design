@@ -1,12 +1,17 @@
-import { DOCS_MODE } from 'global';
-import React, { FunctionComponent } from 'react';
-import ReactDOM from 'react-dom';
+import {DOCS_MODE} from 'global';
+import React from 'react';
+import {API} from '@storybook/api';
+import {styled, ThemeProvider} from '@storybook/theming';
+import {HelmetProvider} from 'react-helmet-async';
+// import React from 'react'
+import Preview from '@storybook/ui/dist/containers/preview'
+// import { Panel } from '@storybook/ui/dist/components/panel/panel'
+// import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming/dist';
+import {Provider} from '@storybook/ui/dist'
+import {addons} from '@storybook/addons/dist';
 
-import { Location, LocationProvider } from '@storybook/router';
-import { Provider as ManagerProvider, Combo, API } from '@storybook/api';
-import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import { HelmetProvider } from 'react-helmet-async';
-import { Global, createGlobal, styled } from '@storybook/theming';
+
+import dynamic from 'next/dynamic'
 // import App from './app';
 
 // import Provider from './provider';
@@ -26,25 +31,6 @@ const getDocsMode = () => {
 };
 
 const Container = process.env.XSTORYBOOK_EXAMPLE_APP ? React.StrictMode : React.Fragment;
-
-// import React from 'react'
-import { Desktop } from '@storybook/ui/dist/components/layout/desktop'
-import { Sidebar, Nav } from '@storybook/ui/dist/containers/nav'
-import Preview from '@storybook/ui/dist/containers/preview'
-import Panel from '@storybook/ui/dist/containers/panel'
-import Notifications from '@storybook/ui/dist/containers/notifications'
-import SettingsPages from '@storybook/ui/dist/settings'
-
-import { SPanel, SMain, SPreview, Layout } from '@storybook/ui/dist/components/layout/container'
-// import { Panel } from '@storybook/ui/dist/components/panel/panel'
-import { styled as theme } from '@storybook/theming/dist/'
-// import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming/dist';
-import App from '@storybook/ui/dist/app'
-import { Root, Provider } from '@storybook/ui/dist'
-import { addons } from '@storybook/addons/dist';
-
-
-import dynamic from 'next/dynamic'
 
 // import { Provider } from '@storybook/ui/dist';
 
@@ -118,11 +104,16 @@ class MyProvider extends Provider {
         this.addons = addons;
 
         this.channel = {
-            on: () => {},
-            off: () => {},
-            emit: () => {},
-            addListener: () => {},
-            addPeerListener: () => {},
+            on: () => {
+            },
+            off: () => {
+            },
+            emit: () => {
+            },
+            addListener: () => {
+            },
+            addPeerListener: () => {
+            },
         };
     }
 
@@ -166,16 +157,14 @@ const provider = new MyProvider()
 // );
 
 const RootWithNoSSR = dynamic(
-    () => <ComponentPreview />,
-    { ssr: false }
+    () => <ComponentPreview/>,
+    {ssr: false}
 )
 
 console.log('RootWithNoSSR', RootWithNoSSR)
 
 
-const State = {
-    
-};
+const State = {};
 
 class ComponentPreview extends React.Component {
 
@@ -189,13 +178,13 @@ class ComponentPreview extends React.Component {
 
         return (
             <Preview
-              api={api}
-              viewMode={viewMode}
-              id={previewId}
-              options={options}
-              viewMode={viewMode}
-              description={description}
-              baseUrl={baseUrl}
+                api={api}
+                viewMode={viewMode}
+                id={previewId}
+                options={options}
+                viewMode={viewMode}
+                description={description}
+                baseUrl={baseUrl}
             />
         );
     }
@@ -205,5 +194,5 @@ ComponentPreview.defaultProps = {
     id: "componentPreview",
 };
 
-export { ComponentPreview as default }
+export {ComponentPreview as default}
 

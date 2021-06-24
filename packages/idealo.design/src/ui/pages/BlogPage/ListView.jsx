@@ -1,19 +1,17 @@
 import React from 'react';
 
-import withStyles from 'isomorphic-style-loader/withStyles'
-
 import {fetchList, fetchPostsByCategorySlug, fetchUserInfo} from './data';
 import s from './Blogpage.module.scss';
 import draftToHtml from '../../../vendor/draftjs-to-html';
-import { htmlToText } from 'html-to-text';
-import { withRouter } from "react-router";
+import {htmlToText} from 'html-to-text';
+import {withRouter} from "react-router";
 
-export class ListView extends React.Component{
+export class ListView extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            userInfo : {},
+            userInfo: {},
             list: []
         }
         this.handleNewPost = this.handleNewPost.bind(this)
@@ -38,36 +36,35 @@ export class ListView extends React.Component{
         //window.document.removeEventListener('keyup', this.handleOnKeyUp)
     }
 
-    async updateListView(){
-        try{
+    async updateListView() {
+        try {
             const slug = this.props.match.params.slug
-            if(slug){
+            if (slug) {
                 this.setState({
-                    list : await fetchPostsByCategorySlug({categorySlug: slug})
+                    list: await fetchPostsByCategorySlug({categorySlug: slug})
                 })
-            }else {
+            } else {
                 this.setState({
                     list: await fetchList()
                 })
             }
-        }catch(error){
+        } catch (error) {
 
         }
     }
 
-    handleNewPost(){
+    handleNewPost() {
         this.props.history.push("/blog/new-post");
 
     }
 
-    getReactElement(a){
+    getReactElement(a) {
         const htmlBlogContent = draftToHtml(a);
         const plainText = htmlBlogContent.replace(/<[^>]*>/g, '');
         return htmlToText(plainText);
     }
 
-    render(
-    ) {
+    render() {
         return (
             <div>
                 {this.state.userInfo.status === 'LOGGED_IN'
@@ -82,9 +79,9 @@ export class ListView extends React.Component{
                         textAlign: 'center',
                         fontSize: '14px',
                     }} onClick={this.handleNewPost} title="newPostButton">New Post</button>
-                    : <div> </div>}
+                    : <div></div>}
 
-                <div style={{ clear: 'both' }}/>
+                <div style={{clear: 'both'}}/>
 
 
                 <div className={s.List}>
@@ -103,4 +100,5 @@ export class ListView extends React.Component{
         )
     }
 }
+
 export default withRouter(ListView);

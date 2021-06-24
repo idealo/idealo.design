@@ -1,6 +1,5 @@
 import fetch from "node-fetch"
 
-// const API_BASE = 'http://localhost:8080';
 const API_BASE = '';
 
 export async function fetchList(base_url = API_BASE) {
@@ -58,17 +57,14 @@ export async function fetchAllTitles(base_url = API_BASE) {
     return data;
 }
 
-
 export async function fetchUserInfo(base_url = API_BASE) {
   const resp = await fetch( `${base_url}/api/me` );
   const data = await resp.json();
-
   return data;
 }
 
 export async function deleteSinglePost(post, base_url = API_BASE) {
     const body = JSON.stringify(post);
-
     const resp=await fetch(`${base_url}/api/blogposts/delete`, {
         method: 'PUT',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -81,10 +77,9 @@ export async function deleteSinglePost(post, base_url = API_BASE) {
 
 export async function archiveSinglePost(post,base_url = API_BASE) {
     const body = JSON.stringify(post);
-
     const resp = await fetch(`${base_url}/api/blogposts/archive`,{
         method: 'PUT',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body
     }).then(function (response){
         return response.json()

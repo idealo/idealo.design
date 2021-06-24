@@ -2,8 +2,6 @@ import React from 'react'
 
 import withStyles from 'isomorphic-style-loader/withStyles'
 
-import Highlight from 'react-highlight'
-
 import Card from 'components/Card'
 
 import s from './ElementBody.module.scss'
@@ -56,16 +54,16 @@ class ElementBody extends React.Component {
 
         return (
             <div className={s.ElementBody}>
-              {sections.map((section, idx) => (
-                  <Card key={idx}>
-                    <section>
-                      <a name={section.title} style={style}/>
-                      <h2>{section.title}</h2>
-                      {/* <RenderElement /> */}
-                      {/* <div dangerouslySetInnerHTML={{ __html: section.content }} /> */}
-                    </section>
-                  </Card>
-              ))}
+                {sections.map((section, idx) => (
+                    <Card key={idx}>
+                        <section>
+                            <a name={section.title} style={style}/>
+                            <h2>{section.title}</h2>
+                            {/* <RenderElement /> */}
+                            {/* <div dangerouslySetInnerHTML={{ __html: section.content }} /> */}
+                        </section>
+                    </Card>
+                ))}
             </div>
         )
     }
