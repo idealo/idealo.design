@@ -1,1 +1,1 @@
-alter database blog rename to idealoDesign;
+alter database blog rename to idealodesign;
