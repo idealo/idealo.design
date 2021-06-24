@@ -14,7 +14,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 13
-      - run: npm ci
+      - run: |
+          cd packages/idealo.design
+          npm ci
       - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:unit
       - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:consumer
       - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:provider
