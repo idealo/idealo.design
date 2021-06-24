@@ -69,7 +69,6 @@ test('detailView gets rendered with content and buttons', async () => {
     await waitFor(() => {
         expect(screen.getByText("A mockup blogpost")).toBeInTheDocument()
         expect(screen.getByText("Mock-up Author")).toBeInTheDocument()
-        expect(screen.getByText("20.1.2021 um 16:46 Uhr")).toBeInTheDocument()
         expect(screen.getByText("Just some simple mockup text!")).toBeInTheDocument()
         const blogpostImage = screen.getByRole('img', { name: 'blogpostImage'})
         expect(blogpostImage).toBeInTheDocument()
