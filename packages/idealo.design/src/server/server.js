@@ -26,6 +26,13 @@ import {
   deleteSinglePost,
   archiveSinglePost,
   fetchAllTitles,
+  fetchComponents,
+  fetchTags,
+  fetchMap,
+  processImportUpdateComponentsTables,
+  updateSingleComponent,
+  fetchSingleComponent,
+  deleteSingleComponent,
 } from './db';
 
 const dangerousTestModeArgument = !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false
@@ -164,6 +171,44 @@ app.get("/logout", function(req, res) {
     res.redirect("/");
   });
 });
+
+app.get('/api/components', isAuthenticated, async (req, res) => {
+  const components = await fetchComponents();
+  return res.json(components);
+})
+
+app.get('/api/tags', isAuthenticated, async (req, res) => {
+  const tags = await fetchTags();
+  return res.json(tags);
+})
+
+app.get('/api/map', isAuthenticated, async (req, res) => {
+  const map = await fetchMap();
+  return res.json(map);
+})
+
+app.put('/api/components/update', isAuthenticated, async (req, res) => {
+  const updated = await processImportUpdateComponentsTables();
+  return res.json(updated);
+})
+
+app.put('/api/components/:component_id?', isAuthenticated,async (req, res) => {
+  const component = req.body
+  const updatedComponent = await updateSingleComponent(component);
+  return res.json(updatedComponent)
+})
+
+app.get('/api/components/:component_id?', isAuthenticated, async (req, res) => {
+  const {component_id} = req.params
+  const singleComponent = await fetchSingleComponent({component_id});
+  return res.json(singleComponent)
+})
+
+app.delete('/api/components/:component_id?', isAuthenticated, async (req, res) => {
+  const {component_id} = req.params
+  const deletedSingleComponent = await deleteSingleComponent({component_id});
+  return res.json(deletedSingleComponent)
+})
 
 app.get('/api/blogposts/:slug?', async (req, res) => {
   const { slug } = req.params;
