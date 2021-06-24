@@ -2,8 +2,7 @@ import React from "react";
 import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
-import Select from 'react-select';
-import {fetchTags, fetchMap, fetchComponents} from "./component_data";
+import {fetchMap, fetchComponents} from "./component_data";
 
 
 class ClassicStackView extends React.Component {
@@ -20,53 +19,43 @@ class ClassicStackView extends React.Component {
     async componentDidMount() {
         this.setState({components : await fetchMap(), list: await fetchComponents()})
         this.fillComponents();
-        this.fillFilterComponents();
     }
 
     fillComponents(){
         const components = []
-        const react = []
         let tags = []
-
+        const reactComponents = []
         for (let c = 0; c < this.state.list.length; c++) {
             for (let i = 0; i < this.state.components.length; i++) {
                 if (this.state.list[c].component_id === this.state.components[i].component_id) {
                     tags.push('#' + this.state.components[i].tag_name)
                 }
             }
-            for (let l = 0; l < tags.length; l++){
-                if(tags[l] === '#react'){
-                    react.push({
-                        id: this.state.list[c].component_id,
-                        title: this.state.list[c].title,
-                        tags: JSON.parse(JSON.stringify(tags))
-                    })
-                }
-            }
+            components.push({
+                id: this.state.list[c].component_id,
+                title: this.state.list[c].title,
+                tags: JSON.parse(JSON.stringify(tags))
+            })
             tags = []
         }
-        for (let c = 0; c < this.state.list.length; c++) {
-            for (let i = 0; i < this.state.components.length; i++) {
-                if (this.state.list[c].component_id === this.state.components[i].component_id) {
-                    tags.push('#' + this.state.components[i].tag_name)
+        for (let i = 0; i < components.length; i++) {
+            for (let j = 0; j < components[i].tags.length; j++) {
+                if(components[i].tags[j] === '#react'){
+                    reactComponents.push(components[i]);
                 }
             }
-            for( let l = 0; l < react.length; l++){
-                if(this.state.list[c].component_id !== react[l].component_id){
-                    console.log('🎂🎂', react);
-                    components.push({
-                        id: this.state.list[c].component_id,
-                        title: this.state.list[c].title,
-                        tags: JSON.parse(JSON.stringify(tags))
-                    })
-                    console.log(console.log('🚥', components));
-                    console.log(console.log('⚽️', this.state.list));
+        }
+        for (let c = 0; c < components.length; c++) {
+            for (let i = 0; i < reactComponents.length; i++) {
+                if(components[c] === reactComponents[i]){
+                    components.splice(c,1);
                 }
+
             }
-            tags = []
         }
         this.setState({components : components})
     }
+
 
     render() {
         return (
@@ -75,7 +64,7 @@ class ClassicStackView extends React.Component {
                     {this.state.components.map((component) =>(
                         <div className={s.item} key={component.id}>
                             <Checkbox className={s.logo}/>
-                            <h1>{component.title}</h1>
+                            <h1 className={s.h1}>{component.title}</h1>
                             <h3 className={s.tags} >{component.tags}</h3>
                         </div>
                     ))}

@@ -20,7 +20,6 @@ class ReactStackView extends React.Component {
     async componentDidMount() {
         this.setState({components : await fetchMap(), list: await fetchComponents()})
         this.fillComponents();
-        this.fillFilterComponents();
     }
 
     fillComponents(){
@@ -54,7 +53,7 @@ class ReactStackView extends React.Component {
                     {this.state.components.map((component) =>(
                         <div className={s.item} key={component.id}>
                             <Checkbox className={s.logo}/>
-                            <h1>{component.title}</h1>
+                            <h1 className={s.h1}>{component.title}</h1>
                             <h3 className={s.tags} >{component.tags}</h3>
                         </div>
                     ))}
