@@ -1,9 +1,6 @@
 import React from 'react'
-
-import PageLayout from 'components/PageLayout'
-import ElementHeader from 'components/ElementHeader/ElementHeader'
 import ElementBody from 'components/ElementHeader/ElementBody'
-import Router, { withRouter } from 'next/router'
+import Router, {withRouter} from 'next/router'
 
 import {getElementBySlug} from 'data/elements'
 
@@ -23,7 +20,7 @@ class ElementDetails extends React.Component {
     }
 
     componentDidMount() {
-        const { elementName } = this.props.router.query
+        const {elementName} = this.props.router.query
 
         this.setState({
             element: getElementBySlug(elementName)
@@ -37,7 +34,7 @@ class ElementDetails extends React.Component {
     }
 
     handleRouteChange() {
-        const { elementName } = this.props.router.query
+        const {elementName} = this.props.router.query
 
         console.debug('elementName', elementName)
 
@@ -48,7 +45,7 @@ class ElementDetails extends React.Component {
 
     render() {
         return (
-            <ElementBody element={this.state.element} />
+            <ElementBody element={this.state.element}/>
         )
     }
 }

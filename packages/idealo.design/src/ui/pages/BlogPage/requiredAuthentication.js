@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchUserInfo } from './data';
+import {fetchUserInfo} from './data';
 
 export function requiredAuthentication(Component) {
     return class AuthenticatedComponent extends React.Component {
@@ -25,7 +25,7 @@ export function requiredAuthentication(Component) {
             );
             return (
                 <div>
-                    { this.state.isLoggedIn ? <Component {...this.props} /> : loginErrorMessage }
+                    {this.state.isLoggedIn ? <Component {...this.props} /> : loginErrorMessage}
                 </div>
             );
         }
