@@ -17,9 +17,9 @@ jobs:
       - run: |
           cd packages/idealo.design
           npm ci
-      - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:unit
-      - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:consumer
-      - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:provider
+          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:unit
+          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:consumer
+          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:provider
 
   upload-to-beanstalk:
     runs-on: ubuntu-latest
