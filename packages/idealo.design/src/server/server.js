@@ -16,11 +16,7 @@ import {OAuth2Strategy} from 'passport-oauth'
 import Renderer from './renderer'
 
 import {
-  archiveSinglePost,
-  deleteSinglePost,
   fetchAllCategories,
-  fetchAllTitles,
-  fetchDistinctCategories,
   fetchList,
   fetchPostsByCategorySlug,
   fetchSinglePost,
