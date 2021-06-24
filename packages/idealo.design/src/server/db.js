@@ -99,12 +99,12 @@ export async function deleteSinglePost(blog) {
             let updateNextDatabase;
             let updatePreviousDatabase;
 
-            if(toBeDeletedBlogpost.previouspost == null){
+            if(toBeDeletedBlogpost.previouspost == null && toBeDeletedBlogpost.nextpost ){
                 updatePreviousDatabase=await sql `update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.slug}`
                 deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
             }
 
-            else if(toBeDeletedBlogpost.nextpost == null){
+            else if(toBeDeletedBlogpost.nextpost == null && toBeDeletedBlogpost.previouspost){
                 updateNextDatabase=await sql `update blogposts set nextpost = null where nextpost = ${toBeDeletedBlogpost.slug}`
                 deletedBlogpost=await sql `delete from blogposts where id = ${toBeDeletedBlogpost.id}`
             }

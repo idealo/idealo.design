@@ -1,6 +1,6 @@
 import React from 'react'
 
-import MainContent from 'Components/MainContent'
+//import MainContent from 'Components/MainContent'
 import content from './content.json'
 
 function RenderElement(props) {

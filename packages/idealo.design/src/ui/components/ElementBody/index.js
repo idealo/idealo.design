@@ -1,7 +1,4 @@
 import React from 'react'
-
-import PageLayout from 'components/PageLayout'
-import ElementHeader from 'components/ElementHeader/ElementHeader'
 import ElementBody from 'components/ElementHeader/ElementBody'
 import Router, { withRouter } from 'next/router'
 

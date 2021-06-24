@@ -1,8 +1,8 @@
 import React from 'react'
 
-import PageLayout from 'Components/PageLayout'
+//import PageLayout from 'Components/PageLayout'
 
-import ElementPage from 'Components/ElementPage'
+//import ElementPage from 'Components/ElementPage'
 
 export default function WelcomePage(props) {
 
