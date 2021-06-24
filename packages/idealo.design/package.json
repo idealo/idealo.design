@@ -5,7 +5,9 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:unit": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./src/__tests__",
+    "test:consumer": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./src/ui",
+    "test:provider": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./src/server",
     "build": "webpack"
   },
   "jest": {

@@ -19,7 +19,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm test
+      - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:unit
+      - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:consumer
+      - run: DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:provider
 
   upload-to-beanstalk:
     runs-on: ubuntu-latest
