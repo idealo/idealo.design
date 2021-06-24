@@ -1,7 +1,16 @@
 @import 'Styles/colors';
 
 .Footer {
+  div{
+    a{
+      color: #D7E3EF;
+    }
+  }
+
+  color: #D7E3EF;
   background-color: $color_marine_400;
-  height: 2rem;
+  height: 60px;
   width: 100%;
+  position: absolute;
+  bottom: 0;
 }

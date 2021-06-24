@@ -11,6 +11,7 @@ class Footer extends React.Component {
         return(
             <footer className={s.Footer}>
                 <div className="footer">
+                    <a href="https://www.idealo.co.uk/terms.html">About/Terms & Conditions</a>
                     <p>This is some content in sticky footer</p>
                 </div>
             </footer>
