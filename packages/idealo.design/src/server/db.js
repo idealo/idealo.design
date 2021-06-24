@@ -1,39 +1,31 @@
 import postgres from 'postgres'
 import {components} from './mockMotifImport/saveImportedComponents'
-// const sql = postgres({ database: 'blog', username: 'postgres' })
 
 const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://database-idealo-design.c9fyhsob8bxc.eu-central-1.rds.amazonaws.com'
 const sql = postgres(POSTGRES_URL)
 
-/*blog page*/
 export async function fetchList() {
-    const list = await sql`select * from blogposts where isArchived = 0 ORDER BY blogposts.date DESC`;
-    return list;
+    return sql`select * from blogposts where isArchived = 0 ORDER BY blogposts.date DESC`;
 }
 
 export async function fetchSinglePost({slug}) {
-    const post = await sql`select * from blogposts where slug = ${slug};`
-    return post;
+    return sql`select * from blogposts where slug = ${slug};`;
 }
 
 export async function fetchDistinctCategories() {
-    const categories = await sql`select distinct categoryDisplayValue, LOWER(categorySlug) as categoryslug from blogposts where isArchived = 0`;
-    return categories;
+    return sql`select distinct categoryDisplayValue, LOWER(categorySlug) as categoryslug from blogposts where isArchived = 0`;
 }
 
 export async function fetchPostsByCategorySlug({categorySlug}) {
-    const list = await sql`select * from blogposts where categoryslug = ${categorySlug} AND isArchived = 0 ORDER BY blogposts.date DESC`;
-    return list;
+    return sql`select * from blogposts where categoryslug = ${categorySlug} AND isArchived = 0 ORDER BY blogposts.date DESC`;
 }
 
 export async function fetchAllCategories() {
-    const cats = await sql`select categoryslug,count(id) as sum  from blogposts group by categoryslug order by sum desc limit 5;`
-    return cats;
+    return sql`select categoryslug,count(id) as sum  from blogposts group by categoryslug order by sum desc limit 5;`;
 }
 
 export async function fetchAllTitles() {
-    const titles = await sql`select title from blogposts;`
-    return titles;
+    return sql`select title from blogposts;`;
 }
 
 export async function storeSinglePost({
@@ -83,13 +75,11 @@ export async function storeSinglePost({
 
 export async function updateSinglePost(blog) {
 
-    const updatedPost = await sql`
+    return sql`
         update blogposts set ${
         sql(blog, 'title', 'categoryDisplayValue', 'categorySlug', 'blogpostcontent')
     } where
-            id = ${blog.id}`
-
-    return updatedPost;
+            id = ${blog.id}`;
 }
 
 export async function deleteSinglePost(blog) {
@@ -158,66 +148,74 @@ export async function archiveSinglePost(blog) {
     return [archiveTransaction]
 }
 
-/*components page*/
 export async function fetchComponents() {
-    const components = await sql`select * from components;`
-    return components;
+    return sql`select *
+                     from components;`;
 }
 
 export async function fetchTags() {
-    const tags = await sql`select tag_name from tags;`
-    return tags;
+    return sql`select tag_name from tags;`;
 }
 
 export async function fetchMap() {
-    const fin = await sql`select ct.component_id, c.title, t.tag_name from components_tags_map as ct, components as c, tags as t where ct.tag_id = t.tag_id and c.component_id = ct.component_id;`
-    return fin;
+    return sql`select ct.component_id, c.title, t.tag_name
+                     from components_tags_map as ct,
+                          components as c,
+                          tags as t
+                     where ct.tag_id = t.tag_id
+                       and c.component_id = ct.component_id;`;
 }
 
 export async function updateSingleComponent(component) {
-    const updateSingleComponentTransaction = await sql.begin(async sql => {
-        const updateNameSingleComponent =  await sql `update components set title = ${component.title} where component_id=${component.component_id};`
-        for(let i=0; i<component.tags.length; i++) {
-            const checkTag = await sql `select exists(select * from tags where tag_name = ${component.tags[i]});`
+    return sql.begin(async sql => {
+        const updateNameSingleComponent = await sql`update components
+                                                    set title = ${component.title}
+                                                    where component_id = ${component.component_id};`
+        for (let i = 0; i < component.tags.length; i++) {
+            const checkTag = await sql`select exists(select * from tags where tag_name = ${component.tags[i]});`
 
-            if (!checkTag[0].exists){
-                await sql `insert into tags (tag_name) values (${component.tags[i]});`
-                const newTagId = await sql `select tag_id from tags where tag_name = ${component.tags[i]};`
-                await sql `insert into components_tags_map (component_id, tag_id) values (${component.component_id}, ${newTagId[0].tag_id});`
+            if (!checkTag[0].exists) {
+                await sql`insert into tags (tag_name) values (${component.tags[i]});`
+                const newTagId = await sql`select tag_id from tags where tag_name = ${component.tags[i]};`
+                await sql`insert into components_tags_map (component_id, tag_id) values (${component.component_id}, ${newTagId[0].tag_id});`
             }
         }
-        const wholeTagsInclOldTag = await sql `select tag_name from components_tags_map natural join tags natural join components where component_id=${component.component_id}`
+        const wholeTagsInclOldTag = await sql`select tag_name
+                                              from components_tags_map
+                                                       natural join tags
+                                                       natural join components
+                                              where component_id = ${component.component_id}`
         const tagNames = []
         for (let i = 0; i < wholeTagsInclOldTag.length; i++) {
             tagNames.push(wholeTagsInclOldTag[i].tag_name)
         }
 
-        let oldTagNames= []
+        let oldTagNames = []
         for (let t = 0; t < tagNames.length; t++) {
             if (!component.tags.includes(tagNames[t])) {
                 oldTagNames.push(tagNames[t])
             }
         }
-        for(let x=0;x<oldTagNames.length;x++){
-            const oldTagId = await sql `select tag_id from tags where tag_name=${oldTagNames[x]}`
-            await sql `delete from components_tags_map where component_id=${component.component_id} and tag_id=${oldTagId[0].tag_id}`
+        for (let x = 0; x < oldTagNames.length; x++) {
+            const oldTagId = await sql`select tag_id from tags where tag_name=${oldTagNames[x]}`
+            await sql`delete from components_tags_map where component_id=${component.component_id} and tag_id=${oldTagId[0].tag_id}`
         }
 
-        await sql `delete from tags where tag_id not in (select distinct tag_id from components_tags_map)`
+        await sql`delete from tags where tag_id not in (select distinct tag_id from components_tags_map)`
         return updateNameSingleComponent
     })
-    return updateSingleComponentTransaction
 }
 
 export async function deleteSingleComponent({component_id}){
     console.log('db.js')
-    const deleteSingleComponent = await sql.begin(async sql => {
-        const deletedComponentsTagsMap = await sql `delete from components_tags_map where component_id=${component_id};`
-        const deletedComponent = await sql `delete from components where component_id=${component_id};`
-        const allRelevantTags = await sql `delete from tags where tag_id not in (select distinct tag_id from components_tags_map);`
+    return sql.begin(async sql => {
+        const deletedComponentsTagsMap = await sql`delete from components_tags_map where component_id=${component_id};`
+        const deletedComponent = await sql`delete
+                                           from components
+                                           where component_id = ${component_id};`
+        const allRelevantTags = await sql`delete from tags where tag_id not in (select distinct tag_id from components_tags_map);`
         return [deletedComponentsTagsMap, deletedComponent, allRelevantTags]
     })
-    return deleteSingleComponent
 }
 
 export async function fetchSingleComponent({component_id}) {
@@ -231,19 +229,15 @@ export async function fetchSingleComponent({component_id}) {
 }
 
 export async function processImportUpdateComponentsTables() {
-    const updateTransaction = await sql.begin(async sql => {
-        const importedComponents = components //with following structure : [{name: compo1, keywords: []},{name: compo2, keywords: []}]
+    return sql.begin(async sql => {
+        const importedComponents = components
 
-        //delete table components_tags_map
         const deletedMapTable = await sql`delete from components_tags_map`
 
-        //delete all data from tables components
         const deletedComponentsTable = await sql`delete from components`
 
-        //delete table tags
         const deletedTagsTable = await sql`delete from tags`
 
-        //insert imported data (package.json from import) into table components and table tags
         for (let i = 0; i < importedComponents.length; i++) {
             await sql`insert into components (title) values (${importedComponents[i].name})`
             for (let j = 0; j < importedComponents[i].keywords.length; j++) {
@@ -252,7 +246,6 @@ export async function processImportUpdateComponentsTables() {
         }
         await sql`delete from tags where tag_id not in (select max(tag_id) from tags group by tag_name)`
 
-        //insert data into table components_tags_map
         for (let i = 0; i < importedComponents.length; i++) {
             const idComponent = await sql`select component_id from components where title=${importedComponents[i].name}` //{component_id: 1}
             const idKeywords = [] //[{tag_id:1}, {tag_id: :2}]
@@ -268,5 +261,4 @@ export async function processImportUpdateComponentsTables() {
         }
         return [importedComponents, deletedComponentsTable, deletedMapTable, deletedTagsTable]
     })
-    return updateTransaction
 }

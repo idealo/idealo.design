@@ -1,14 +1,3 @@
-/*export function importData() {
-
-    const dataPath = './';
-    const components = []
-
-    for(let i=0; i<dataPath.length; i++){
-        components.push(importComponent(dataPath[i]))
-    }
-    return components
-}*/
-
 import compo1 from './mockedImportedComponent1.json'
 import compo2 from './mockedImportedComponent2.json'
 import compo3 from './mockedImportedComponent3.json'

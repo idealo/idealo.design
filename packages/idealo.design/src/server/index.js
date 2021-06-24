@@ -16,30 +16,30 @@ import {OAuth2Strategy} from 'passport-oauth'
 import Renderer from './renderer'
 
 import {
-  archiveSinglePost,
-  deleteSinglePost,
-  fetchAllCategories,
-  fetchAllTitles,
-  fetchComponents,
-  fetchDistinctCategories,
-  fetchList,
-  fetchMap,
-  fetchPostsByCategorySlug,
-  fetchSingleComponent,
-  fetchSinglePost,
-  fetchTags,
-  processImportUpdateComponentsTables,
-  storeSinglePost,
-  updateSingleComponent,
-  updateSinglePost,
-    deleteSingleComponent
+    archiveSinglePost,
+    deleteSinglePost,
+    fetchAllCategories,
+    fetchAllTitles,
+    fetchDistinctCategories,
+    fetchPostsByCategorySlug,
+    fetchSinglePost,
+    storeSinglePost,
+    updateSinglePost,
+    fetchComponents,
+    fetchList,
+    fetchMap,
+    fetchSingleComponent,
+    fetchTags,
+    processImportUpdateComponentsTables,
+    updateSingleComponent,
+    deleteSingleComponent,
+
 } from './db';
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
 const redis = redisLib.createClient(REDIS_URL)
 const getAsync = promisify(redis.get).bind(redis)
 
-// dev env: 'http://localhost:8080/auth/provider/callback'
 const CALLBACK_URL = process.env.CALLBACK_URL || 'https://idealo.design/auth/provider/callback'
 const CLIENT_ID = process.env.OAUTH2_CLIENT_ID
 const CLIENT_SECRET = process.env.OAUTH2_CLIENT_SECRET
@@ -156,7 +156,6 @@ app.get("/logout", function (req, res) {
     });
 });
 
-/*controller for components page*/
 app.get('/api/components', isAuthenticated, async (req, res) => {
     const components = await fetchComponents();
     return res.json(components);
@@ -179,7 +178,6 @@ app.put('/api/components/update', isAuthenticated, async (req, res) => {
 
 app.put('/api/components/:component_id?', isAuthenticated,async (req, res) => {
     const component = req.body
-    //const component_id = req.params
     const updatedComponent = await updateSingleComponent(component);
     return res.json(updatedComponent)
 })
@@ -196,7 +194,6 @@ app.delete('/api/components/:component_id?', isAuthenticated, async (req, res) =
     return res.json(deletedSingleComponent)
 })
 
-/*controller for blog page*/
 app.get('/api/blogposts/:slug?', async (req, res) => {
     const {slug} = req.params;
     if (!slug) {
