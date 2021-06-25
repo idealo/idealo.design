@@ -1,12 +1,22 @@
-import { DOCS_MODE } from 'global';
-import React, { FunctionComponent } from 'react';
-import ReactDOM from 'react-dom';
+import {DOCS_MODE} from 'global';
+import React from 'react';
 
-import { Location, LocationProvider } from '@storybook/router';
-import { Provider as ManagerProvider, Combo } from '@storybook/api';
-import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import { HelmetProvider } from 'react-helmet-async';
-import { Global, createGlobal, styled } from '@storybook/theming';
+import {Location, LocationProvider} from '@storybook/router';
+import {Provider as ManagerProvider} from '@storybook/api';
+import {ensure as ensureTheme, styled, ThemeProvider} from '@storybook/theming';
+import {HelmetProvider} from 'react-helmet-async';
+// import React from 'react'
+import {Desktop} from '@storybook/ui/dist/components/layout/desktop'
+import stuff, {Sidebar} from '@storybook/ui/dist/containers/nav'
+import Preview from '@storybook/ui/dist/containers/preview'
+import Panel from '@storybook/ui/dist/containers/panel'
+import Notifications from '@storybook/ui/dist/containers/notifications'
+import SettingsPages from '@storybook/ui/dist/settings'
+// import { Panel } from '@storybook/ui/dist/components/panel/panel'
+// import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming/dist';
+import {Provider} from '@storybook/ui/dist'
+import {addons} from '@storybook/addons/dist';
+import dynamic from 'next/dynamic'
 // import App from './app';
 
 // import Provider from './provider';
@@ -26,27 +36,8 @@ const getDocsMode = () => {
 
 const Container = process.env.XSTORYBOOK_EXAMPLE_APP ? React.StrictMode : React.Fragment;
 
-// import React from 'react'
-import { Desktop } from '@storybook/ui/dist/components/layout/desktop'
-import { Sidebar } from '@storybook/ui/dist/containers/nav'
-import stuff from '@storybook/ui/dist/containers/nav'
-import Preview from '@storybook/ui/dist/containers/preview'
-import Panel from '@storybook/ui/dist/containers/panel'
-import Notifications from '@storybook/ui/dist/containers/notifications'
-import SettingsPages from '@storybook/ui/dist/settings'
-
-import { SPanel, SMain, SPreview, Layout } from '@storybook/ui/dist/components/layout/container'
-// import { Panel } from '@storybook/ui/dist/components/panel/panel'
-import { styled as theme } from '@storybook/theming/dist/'
-// import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming/dist';
-import App from '@storybook/ui/dist/app'
-import { Root, Provider } from '@storybook/ui/dist'
-import { addons } from '@storybook/addons/dist';
-
 
 console.debug('stuff', stuff())
-
-import dynamic from 'next/dynamic'
 
 // import { Provider } from '@storybook/ui/dist';
 
@@ -120,11 +111,16 @@ class MyProvider extends Provider {
         this.addons = addons;
 
         this.channel = {
-            on: () => {},
-            off: () => {},
-            emit: () => {},
-            addListener: () => {},
-            addPeerListener: () => {},
+            on: () => {
+            },
+            off: () => {
+            },
+            emit: () => {
+            },
+            addListener: () => {
+            },
+            addPeerListener: () => {
+            },
         };
     }
 
@@ -168,8 +164,8 @@ const provider = new MyProvider()
 // );
 
 const RootWithNoSSR = dynamic(
-    () => <ComponentPreview />,
-    { ssr: false }
+    () => <ComponentPreview/>,
+    {ssr: false}
 )
 
 console.log('RootWithNoSSR', RootWithNoSSR)
@@ -177,138 +173,138 @@ console.log('RootWithNoSSR', RootWithNoSSR)
 
 class ComponentPreview extends React.Component {
 
-  render() {
+    render() {
 
-    return (
-      <Container key="container">
-        <HelmetProvider key="helmet.Provider">
-          <LocationProvider key="location.provider">
-            <Location key="location.consumer">
-              {(locationData) => (
-                <ManagerProvider
-                  key="manager"
-                  provider={provider}
-                  {...locationData}
-                  docsMode={getDocsMode()}
-                >
-                  {({ state, api}) => {
-                    const panelCount = Object.keys(api.getPanels()).length;
-                    const story = api.getData(state.storyId);
+        return (
+            <Container key="container">
+                <HelmetProvider key="helmet.Provider">
+                    <LocationProvider key="location.provider">
+                        <Location key="location.consumer">
+                            {(locationData) => (
+                                <ManagerProvider
+                                    key="manager"
+                                    provider={provider}
+                                    {...locationData}
+                                    docsMode={getDocsMode()}
+                                >
+                                    {({state, api}) => {
+                                        const panelCount = Object.keys(api.getPanels()).length;
+                                        const story = api.getData(state.storyId);
 
-                    const props = {
-                      Sidebar,
-                      Preview,
-                      Panel,
-                      Notifications,
-                      Nav,
-                      pages: [
-                        {
-                          key: 'settings',
-                          render: () => <SettingsPages />,
-                        }
-                      ]
-                    };
+                                        const props = {
+                                            Sidebar,
+                                            Preview,
+                                            Panel,
+                                            Notifications,
+                                            Nav,
+                                            pages: [
+                                                {
+                                                    key: 'settings',
+                                                    render: () => <SettingsPages/>,
+                                                }
+                                            ]
+                                        };
 
-                    const size = { width: 500, height: 500 };
-                    const { width, height } = size;
+                                        const size = {width: 500, height: 500};
+                                        const {width, height} = size;
 
-                    return (
-                      <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
-                        <View>
-                          {/* <Global styles={createGlobal} /> */}
-                          <Desktop
-                            {...props}
-                            viewMode={state.viewMode}
-                            options={state.layout}
-                            docsOnly={story && story.parameters && story.parameters.docsOnly}
-                            {...{width, height}}
-                            panelCount={panelCount}
-                          />
-                          <h1>muh</h1>
-                        </View>
-                      </ThemeProvider>
-                    );
-                  }}
-                </ManagerProvider>
-              )}
-            </Location>
-          </LocationProvider>
-        </HelmetProvider>
-      </Container>
-    );
+                                        return (
+                                            <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
+                                                <View>
+                                                    {/* <Global styles={createGlobal} /> */}
+                                                    <Desktop
+                                                        {...props}
+                                                        viewMode={state.viewMode}
+                                                        options={state.layout}
+                                                        docsOnly={story && story.parameters && story.parameters.docsOnly}
+                                                        {...{width, height}}
+                                                        panelCount={panelCount}
+                                                    />
+                                                    <h1>muh</h1>
+                                                </View>
+                                            </ThemeProvider>
+                                        );
+                                    }}
+                                </ManagerProvider>
+                            )}
+                        </Location>
+                    </LocationProvider>
+                </HelmetProvider>
+            </Container>
+        );
 
-    // return (
-    //     <Container key="container">
-    //       <HelmetProvider key="helmet.Provider">
-    //         <LocationProvider key="location.provider">
-    //           <Location key="location.consumer">
-    //             {(locationData) => (
-    //                 <ManagerProvider
-    //                   key="manager"
-    //                   provider={provider}
-    //                   {...locationData}
-    //                   docsMode={getDocsMode()}
-    //                 >
-    //                   {({ state, api }) => {
-    //                       const panelCount = Object.keys(api.getPanels()).length;
-    //                       const story = api.getData(state.storyId);
+        // return (
+        //     <Container key="container">
+        //       <HelmetProvider key="helmet.Provider">
+        //         <LocationProvider key="location.provider">
+        //           <Location key="location.consumer">
+        //             {(locationData) => (
+        //                 <ManagerProvider
+        //                   key="manager"
+        //                   provider={provider}
+        //                   {...locationData}
+        //                   docsMode={getDocsMode()}
+        //                 >
+        //                   {({ state, api }) => {
+        //                       const panelCount = Object.keys(api.getPanels()).length;
+        //                       const story = api.getData(state.storyId);
 
-    //                       const props = {
-    //                           Sidebar,
-    //                           Preview,
-    //                           Panel,
-    //                           Notifications,
-    //                           pages: [
-    //                               {
-    //                                   key: 'settings',
-    //                                   render: () => <SettingsPages />,
-    //                                   /* route: ({ children }) => ( */
-    //                                   /*     {JSON.stringify(children)} */
-    //                                   /* ), */
-    //                               },
-    //                           ],
-    //                       }
+        //                       const props = {
+        //                           Sidebar,
+        //                           Preview,
+        //                           Panel,
+        //                           Notifications,
+        //                           pages: [
+        //                               {
+        //                                   key: 'settings',
+        //                                   render: () => <SettingsPages />,
+        //                                   /* route: ({ children }) => ( */
+        //                                   /*     {JSON.stringify(children)} */
+        //                                   /* ), */
+        //                               },
+        //                           ],
+        //                       }
 
-    //                       const size = { width: 500, height: 500 };
-    //                       const { width, height } = size;
+        //                       const size = { width: 500, height: 500 };
+        //                       const { width, height } = size;
 
-    //                       return (
-    //                           <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
-    //                             <View>
-    //                               <Global styles={createGlobal} />
-    //                               <Desktop
-    //                                 {...props}
-    //                                 viewMode={state.viewMode}
-    //                                 options={state.layout}
-    //                                 docsOnly={story && story.parameters && story.parameters.docsOnly}
-    //                                 {...{ width, height }}
-    //                                 panelCount={panelCount}
-    //                               />
-    //                             </View>
+        //                       return (
+        //                           <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
+        //                             <View>
+        //                               <Global styles={createGlobal} />
+        //                               <Desktop
+        //                                 {...props}
+        //                                 viewMode={state.viewMode}
+        //                                 options={state.layout}
+        //                                 docsOnly={story && story.parameters && story.parameters.docsOnly}
+        //                                 {...{ width, height }}
+        //                                 panelCount={panelCount}
+        //                               />
+        //                             </View>
 
-    //                             {/* <App */}
-    //                             {/*   key="app" */}
-    //                             {/*   viewMode={state.viewMode} */}
-    //                             {/*   layout={state.layout} */}
-    //                             {/*   panelCount={panelCount} */}
-    //                             {/*   docsOnly={story && story.parameters && story.parameters.docsOnly} */}
-    //                             {/* /> */}
-    //                           </ThemeProvider>
-    //                       );
-    //                   }}
-    //                 </ManagerProvider>
-    //             )}
-    //           </Location>
-    //         </LocationProvider>
-    //       </HelmetProvider>
-    //     </Container>
-    // )
-  }
+        //                             {/* <App */}
+        //                             {/*   key="app" */}
+        //                             {/*   viewMode={state.viewMode} */}
+        //                             {/*   layout={state.layout} */}
+        //                             {/*   panelCount={panelCount} */}
+        //                             {/*   docsOnly={story && story.parameters && story.parameters.docsOnly} */}
+        //                             {/* /> */}
+        //                           </ThemeProvider>
+        //                       );
+        //                   }}
+        //                 </ManagerProvider>
+        //             )}
+        //           </Location>
+        //         </LocationProvider>
+        //       </HelmetProvider>
+        //     </Container>
+        // )
+    }
 }
 
 ComponentPreview.defaultProps = {
     id: "componentPreview",
 }
 
-export { ComponentPreview as default }
+export {ComponentPreview as default}
 
