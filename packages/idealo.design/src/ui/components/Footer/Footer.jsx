@@ -10,16 +10,14 @@ class Footer extends React.Component {
     render() {
         return(
             <footer className={s.Footer}>
-                <div className="footer-links">
-                    <a href="https://www.idealo.co.uk/terms.html">Privacy</a>
-                    <a href="https://www.facebook.com/idealo/"><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/>Facebook</a>
-
-                    <a href="https://www.idealo.co.uk/privacypolicy.html">About/Terms & Conditions</a>
-                    <p>This is some content in sticky footer</p>
-                    //put links for social media here
-                    <a href="https://www.facebook.com/idealo/"><img alt="" src="https://img.icons8.com/dusk/64/000000/facebook.png"/>Facebook</a>
-                    <a href="https://twitter.com/idealo_uk"><img alt="" src="https://img.icons8.com/doodle/48/000000/twitter--v1.png"/>twitter</a>
-
+                <div className={s.Links}>
+                    <a href="https://www.idealo.co.uk/privacypolicy.html">Privacy Policy</a>
+                    <a href="https://www.idealo.co.uk/terms.html">About/Terms & Conditions</a>
+                </div>
+                <div className={s.SocialMedia}>
+                    <a href="https://www.facebook.com/idealo/"><img src="https://www.vectorico.com/wp-content/uploads/2018/02/Facebook-Icon-Dark.png" alt="Facebook Logo" height={40} width={40}/></a>
+                    <a href="https://twitter.com/idealo_uk"><img src="https://www.vectorico.com/wp-content/uploads/2018/02/Instagram-Icon.png" alt="Instagram Logo"height={40} width={40}/></a>
+                    <a href="https://twitter.com/idealo_uk"><img src="https://www.vectorico.com/wp-content/uploads/2018/02/Twitter-Social-Icon.png" alt="Twitter Logo" height={40} width={40}/></a>
                 </div>
             </footer>
         )
