@@ -1,0 +1,28 @@
+@import 'Styles/colors';
+
+.Footer {
+  display: flex;
+  .Links{
+    margin-top: 1rem;
+    a{
+      color: #D7E3EF;
+      text-decoration: none;
+      font-size: .75rem;
+      margin-left: 2rem;
+    }
+  }
+  .SocialMedia {
+    margin-top: 0.7rem;
+    margin-left: 70%;
+    a{
+      padding: 0.5rem;
+    }
+  }
+  color: #D7E3EF;
+  background-color: $color_marine_400;
+  height: 60px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
