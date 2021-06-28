@@ -36,6 +36,7 @@ import {
 } from './db';
 
 const dangerousTestModeArgument = !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false
+const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
 
 if (!dangerousTestModeArgument) {
   const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
@@ -127,7 +128,7 @@ function isAuthenticated(req, res, next) {
     return next();
   }
 
-  if (dangerousTestModeArgument) {
+  if (dangerousTestModeArgument || dangerousUpdateModeArgument) {
     return next();
   }
 
@@ -188,7 +189,8 @@ app.get('/api/map', isAuthenticated, async (req, res) => {
 })
 
 app.put('/api/components/update', isAuthenticated, async (req, res) => {
-  const updated = await processImportUpdateComponentsTables();
+  const importedComponents = req.body
+  const updated = await processImportUpdateComponentsTables(importedComponents);
   return res.json(updated);
 })
 

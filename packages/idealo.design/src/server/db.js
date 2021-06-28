@@ -238,9 +238,8 @@ export async function fetchSingleComponent({component_id}) {
     return {component: singleComponent, tags: tags}
 }
 
-export async function processImportUpdateComponentsTables() {
+export async function processImportUpdateComponentsTables(importedComponents) {
     return sql.begin(async sql => {
-        const importedComponents = components
 
         const deletedMapTable = await sql`delete from components_tags_map`
 
