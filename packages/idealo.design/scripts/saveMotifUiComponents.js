@@ -1,32 +1,34 @@
-const fs = require("fs");
-const fse = require("fs-extra");
+const fs = require("fs-extra");
 const path= require('path')
 
 const motifUiFolder = path.resolve(__dirname,'../src/server/motif-ui-components')
 const pathToMotifUiRepo = path.resolve(__dirname,'../../../../motif-ui/src')
 
-const removeFolder = () => {
-    fs.rmdir(motifUiFolder, { recursive: true }, (err) => {
-        if (err) {
-            throw err;
-        }
+async function removeFolder(folder) {
+    try{
+        await fs.remove(folder)
         console.log('delete folder successfully!');
-    })
+
+    }catch(e){
+        console.error(e)
+        throw e
+    }
 }
 
-const copyFolder = () => {
-    fse.copy(pathToMotifUiRepo, motifUiFolder, err => {
-        if (err) return console.error(err);
-        console.log('copied folder successfully!');
-    })
+function copyFolder(source, destination){
+    try{
+        fs.copy(source, destination, err => {
+            if (err) return console.error(err);
+            console.log('copied folder successfully!');
+        })
+    }catch(e){
+        console.error(e)
+        throw e
+    }
+
 }
 
-try {
-    removeFolder()
-    setTimeout(()=>{
-        copyFolder()
-        },3000
-    )
-} catch (err) {
-    console.error(err)
-}
+removeFolder(motifUiFolder).then(()=>{
+    copyFolder(pathToMotifUiRepo,motifUiFolder)
+})
+

@@ -3,3 +3,4 @@ node_modules
 .next
 dist
 src/__tests__/pact
+src/server/motif-ui-components
