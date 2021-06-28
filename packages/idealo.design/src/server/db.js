@@ -1,5 +1,5 @@
 import postgres from 'postgres'
-import {components} from './mockMotifImport/saveImportedComponents'
+import {components} from './saveImportedComponents'
 
 const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://database-idealo-design.c9fyhsob8bxc.eu-central-1.rds.amazonaws.com'
 const sql = postgres(POSTGRES_URL)
@@ -238,9 +238,8 @@ export async function fetchSingleComponent({component_id}) {
     return {component: singleComponent, tags: tags}
 }
 
-export async function processImportUpdateComponentsTables() {
+export async function processImportUpdateComponentsTables(importedComponents) {
     return sql.begin(async sql => {
-        const importedComponents = components
 
         const deletedMapTable = await sql`delete from components_tags_map`
 

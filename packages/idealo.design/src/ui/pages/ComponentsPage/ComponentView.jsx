@@ -113,7 +113,6 @@ class ComponentView extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.handleImportComponents}>Trigger the one and only update</button>
                 <React.Fragment>
                     <div className={s.multiselect} >
                         <Select
