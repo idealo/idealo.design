@@ -240,11 +240,11 @@ export async function fetchSingleComponent({component_id}) {
 export async function processImportUpdateComponentsTables(importedComponents) {
     return sql.begin(async sql => {
 
-        const deletedMapTable = await sql`delete from components_tags_map`
+        await sql`delete from components_tags_map`
 
-        const deletedComponentsTable = await sql`delete from components`
+        await sql`delete from components`
 
-        const deletedTagsTable = await sql`delete from tags`
+        await sql`delete from tags`
 
         for (let i = 0; i < importedComponents.length; i++) {
             await sql`insert into components (title) values (${importedComponents[i].name})`
@@ -267,6 +267,6 @@ export async function processImportUpdateComponentsTables(importedComponents) {
                 }
             }
         }
-        return [importedComponents, deletedComponentsTable, deletedMapTable, deletedTagsTable]
+        return importedComponents
     })
 }
