@@ -10,6 +10,7 @@ const allMotifComponents = "../src/server/motif-ui-components/"
 const http = require('http')
 
 let allComponents = []
+let isFinished = false
 
 const options = {
     hostname: '0.0.0.0',
@@ -47,6 +48,7 @@ async function readPackageJsons (files){
             });
         }
     });
+    isFinished=true;
 }
 
 async function handleImportProcess(source, destination, directory){
@@ -61,27 +63,24 @@ async function handleImportProcess(source, destination, directory){
 }
 
 handleImportProcess(pathToMotifUiRepo, motifUiFolder, allMotifComponents).then(()=>{
-    //wait a moment until components-array is filled
-    setTimeout(() => {
-            const req = http.request(options, res => {
-                console.log(`statusCode: ${res.statusCode}`)
+    while(isFinished){
+        const req = http.request(options, res => {
+            console.log(`statusCode: ${res.statusCode}`)
 
-                res.on('data', d => {
-                    process.stdout.write(d)
-                })
+            res.on('data', d => {
+                process.stdout.write(d)
             })
+        })
 
-            req.on('error', error => {
-                console.error(error)
-            })
+        req.on('error', error => {
+            console.error(error)
+        })
 
-            const data = JSON.stringify(allComponents)
+        const data = JSON.stringify(allComponents)
 
-            req.write(data)
-            req.end()
-
-        }, 3000
-    )
+        req.write(data)
+        req.end()
+    }
 })
 
 
