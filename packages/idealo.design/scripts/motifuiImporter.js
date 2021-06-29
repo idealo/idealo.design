@@ -10,7 +10,7 @@ const allMotifComponents = "../src/server/motif-ui-components/"
 const http = require('http')
 
 let allComponents = []
-let isFinished = false
+const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
 
 const options = {
     hostname: '0.0.0.0',
@@ -47,42 +47,47 @@ async function readPackageJsons (files){
                 }
             });
         }
-    });
-    isFinished=true;
+    })
 }
-
 async function handleImportProcess(source, destination, directory){
     await fse.remove(destination)
-        .then(()=> console.log('delete folder successfully!'))
+        .then(()=> console.log('delete folder successfully'))
         .catch(err => console.log(err))
     await fse.copy(source, destination)
-        .then(()=> console.log('copied successfully'))
+        .then(()=>console.log('copy folder successfully'))
         .catch(err => console.log(err))
     readDirectory(directory)
         .then((result)=>readPackageJsons(result))
 }
 
-handleImportProcess(pathToMotifUiRepo, motifUiFolder, allMotifComponents).then(()=>{
-    while(isFinished){
-        const req = http.request(options, res => {
-            console.log(`statusCode: ${res.statusCode}`)
+function sendDataToHttpRequest(data){
+    const req = http.request(options, res => {
+        console.log(`statusCode: ${res.statusCode}`)
 
-            res.on('data', d => {
-                process.stdout.write(d)
-            })
+        res.on('data', d => {
+            process.stdout.write(d)
         })
+    })
 
-        req.on('error', error => {
-            console.error(error)
-        })
+    req.on('error', error => {
+        console.error(error)
+    })
 
-        const data = JSON.stringify(allComponents)
+    req.write(JSON.stringify(data))
+    req.end()
+}
 
-        req.write(data)
-        req.end()
-    }
-})
+if(dangerousUpdateModeArgument){
+    handleImportProcess(pathToMotifUiRepo, motifUiFolder, allMotifComponents)
+    //sendDataToHttpRequest(allComponents)
+    setTimeout(()=>{
+        sendDataToHttpRequest(allComponents)
+    },3000)
+}else{
+    console.error('something went wrong')
+}
 
+module.exports.modeArgument = dangerousUpdateModeArgument
 
 
 
