@@ -35,8 +35,8 @@ import {
   deleteSingleComponent,
 } from './db';
 
+import dangerousUpdateModeArgument from "../../scripts/motifuiImporter";
 const dangerousTestModeArgument = !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false
-const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
 
 if (!dangerousTestModeArgument) {
   const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379'
