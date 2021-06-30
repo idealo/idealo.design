@@ -1,9 +1,9 @@
 import React from "react";
 import { withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
-import {ReactComponent as Checkbox} from '../../../../public/Checkbox.svg';
+//import {ReactComponent as Checkbox} from '../../../../public/Checkbox.svg';
 import Select from 'react-select';
-import {fetchComponents, fetchMap, fetchTags, updateComponentsTags} from "./component_data";
+import {fetchComponents, fetchMap, fetchTags, updateComponentsTags, fetchComponentsScreenshots} from "./component_data";
 import slugify from "slugify";
 
 class ComponentView extends React.Component {
@@ -13,6 +13,7 @@ class ComponentView extends React.Component {
         this.state = {
             filterValue: [],
             components: [],
+            screenshots: [],
             list: [],
             options: [],
             filteredComponents: [],
@@ -22,7 +23,7 @@ class ComponentView extends React.Component {
     }
 
     async componentDidMount() {
-        this.setState({components: await fetchMap(), options: await fetchTags(), list: await fetchComponents()})
+        this.setState({components: await fetchMap(), options: await fetchTags(), list: await fetchComponents(), screenshots: await fetchComponentsScreenshots()})
         this.fillComponents();
         this.fillOptions();
         this.fillFilterComponents();
@@ -32,6 +33,7 @@ class ComponentView extends React.Component {
     fillComponents() {
         const components = []
         let tags = []
+        let screenshots = []
 
         for (let c = 0; c < this.state.list.length; c++) {
             for (let i = 0; i < this.state.components.length; i++) {
@@ -39,13 +41,22 @@ class ComponentView extends React.Component {
                     tags.push('#' + this.state.components[i].tag_name)
                 }
             }
+
+            for(let x=0; x<this.state.screenshots.length; x++){
+                if(this.state.list[c].component_id === this.state.screenshots[x].component_id){
+                    screenshots.push(this.state.screenshots[x].screenshot)
+                }
+            }
             components.push({
                 id: this.state.list[c].component_id,
                 title: this.state.list[c].title,
-                tags: JSON.parse(JSON.stringify(tags))
+                tags: JSON.parse(JSON.stringify(tags)),
+                screenshots: JSON.parse(JSON.stringify(screenshots))
             })
             tags = []
+            screenshots = []
         }
+        console.log('components', components)
         this.setState({components : components})
     }
 
@@ -127,7 +138,8 @@ class ComponentView extends React.Component {
                 <div className={s.container}>
                     {this.state.filteredComponents.map((component) => (
                         <div className={s.item} key={component.id}>
-                            <Checkbox className={s.logo}/>
+                            {/*<Checkbox className={s.logo}/>*/}
+                            {/*<img src={require('../../../../public/Bildschirmfoto.png')} alt={'where is it?'}/>*/}
                             <h1 className={s.title}>{component.title}</h1>
                             <h3 className={s.tags}>{component.tags}</h3>
                         </div>

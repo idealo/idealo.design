@@ -32,7 +32,7 @@ import {
   processImportUpdateComponentsTables,
   updateSingleComponent,
   fetchSingleComponent,
-  deleteSingleComponent,
+  deleteSingleComponent, fetchScreenshots, fetchComponentsScreenshots,
 } from './db';
 
 import dangerousUpdateModeArgument from "../../scripts/motifuiImporter";
@@ -188,7 +188,12 @@ app.get('/api/map', isAuthenticated, async (req, res) => {
   return res.json(map);
 })
 
-app.put('/api/components/update', isAuthenticated, async (req, res) => {
+app.get('/api/components/screenshots', isAuthenticated, async (req, res) => {
+  const componentsScreenshots = await fetchComponentsScreenshots();
+  return res.json(componentsScreenshots);
+})
+
+app.put('/api/components/update', /*isAuthenticated,*/ async (req, res) => {
   const importedComponents = req.body
   const updated = await processImportUpdateComponentsTables(importedComponents);
   return res.json(updated);

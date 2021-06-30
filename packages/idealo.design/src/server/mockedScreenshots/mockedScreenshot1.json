@@ -1,0 +1,14 @@
+{
+  "name": "@motif/button",
+  "keywords": [
+    "motif",
+    "motif-ui",
+    "button",
+    "react"
+  ],
+  "screenshots": [
+    "../../../../public/Checkbox.svg",
+    "../../../../public/logo.svg",
+    "../../../../public/ids_v02.svg"
+  ]
+}

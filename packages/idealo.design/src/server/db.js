@@ -1,4 +1,5 @@
 import postgres from 'postgres'
+import mockedCompo from './mockedScreenshots/mockedScreenshot1.json'
 
 const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://database-idealo-design.c9fyhsob8bxc.eu-central-1.rds.amazonaws.com'
 const sql = postgres(POSTGRES_URL)
@@ -175,6 +176,10 @@ export async function fetchMap() {
                        and c.component_id = ct.component_id;`;
 }
 
+export async function fetchComponentsScreenshots(){
+    return sql `select * from components natural join screenshots`
+}
+
 export async function updateSingleComponent(component) {
     return sql.begin(async sql => {
         const updateNameSingleComponent = await sql`update components
@@ -237,10 +242,13 @@ export async function fetchSingleComponent({component_id}) {
     return {component: singleComponent, tags: tags}
 }
 
-export async function processImportUpdateComponentsTables(importedComponents) {
+export async function processImportUpdateComponentsTables(importedComponents) { //[{name: compo.name, keywords: [compo.keywords], screenshots: [compo.screenshotsPath]}, {}]
     return sql.begin(async sql => {
+        importedComponents = [mockedCompo]
 
         await sql`delete from components_tags_map`
+
+        await sql `delete from screenshots`
 
         await sql`delete from components`
 
@@ -250,6 +258,10 @@ export async function processImportUpdateComponentsTables(importedComponents) {
             await sql`insert into components (title) values (${importedComponents[i].name})`
             for (let j = 0; j < importedComponents[i].keywords.length; j++) {
                 await sql`insert into tags (tag_name) values (${importedComponents[i].keywords[j]})`
+            }
+            for(let x=0; x<importedComponents[i].screenshots.length;x++){
+                const idComponent = await sql`select component_id from components where title=${importedComponents[i].name}` //{component_id: 1}
+                await sql `insert into screenshots(component_id, screenshot_path) values (${idComponent[i].component_id}, ${importedComponents[i].screenshots[x]})`
             }
         }
         await sql`delete from tags where tag_id not in (select max(tag_id) from tags group by tag_name)`
