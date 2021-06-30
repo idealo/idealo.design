@@ -8,7 +8,6 @@ const fse = require("fs-extra")
 const allMotifComponents = "../src/server/motif-ui-components/"
 const http = require('http')
 
-let allComponents = []
 const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
 
 const options = {
@@ -32,19 +31,20 @@ async function readDirectory(directory) {
 }
 
 async function readPackageJsons (files){
+    const components = []
     for (const file of files) {
         if(!file.includes('.')){
             await fs.promises.readFile(allMotifComponents + file + '/package.json', 'utf8').then(function (result) {
                 const compo = JSON.parse(result)
                 if (compo.keywords !== undefined) {
-                    allComponents.push({name: compo.name, keywords: compo.keywords})
+                    components.push({name: compo.name, keywords: compo.keywords})
                 }
             })
                 .catch(function (err) {
                     console.log(err)
                 })
         }
-    }return allComponents
+    }return components
 }
 
 function sendDataToHttpRequest(data){
