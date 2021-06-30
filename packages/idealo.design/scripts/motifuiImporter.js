@@ -5,7 +5,6 @@ const pathToMotifUiRepo = path.resolve(__dirname,'../../../../motif-ui/src')
 
 const fs = require('fs');
 const fse = require("fs-extra")
-const allMotifComponents = "./../src/server/motif-ui-components/"
 const http = require('http')
 
 const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
