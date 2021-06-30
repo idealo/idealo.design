@@ -1,11 +1,11 @@
 const path= require('path')
 
-const motifUiFolder = path.resolve(__dirname,'../src/server/motif-ui-components/')
+const motifUiFolder = path.resolve(__dirname,'./../src/server/motif-ui-components/')
 const pathToMotifUiRepo = path.resolve(__dirname,'../../../../motif-ui/src')
 
 const fs = require('fs');
 const fse = require("fs-extra")
-const allMotifComponents = "../src/server/motif-ui-components/"
+const allMotifComponents = "./../src/server/motif-ui-components/"
 const http = require('http')
 
 const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
@@ -30,11 +30,11 @@ async function readDirectory(directory) {
     });
 }
 
-async function readPackageJsons (files){
+async function readPackageJsons (files, destination){
     const components = []
     for (const file of files) {
         if(!file.includes('.')){
-            await fs.promises.readFile(allMotifComponents + file + '/package.json', 'utf8').then(function (result) {
+            await fs.promises.readFile(destination +'/' + file + '/package.json', 'utf8').then(function (result) {
                 const compo = JSON.parse(result)
                 if (compo.keywords !== undefined) {
                     components.push({name: compo.name, keywords: compo.keywords})
@@ -64,19 +64,19 @@ function sendDataToHttpRequest(data){
     req.end()
 }
 
-async function handleImportProcess(source, destination, directory){
+async function handleImportProcess(source, destination){
     await fse.remove(destination)
         .then(()=> console.log('delete folder successfully'))
         .catch(err => console.log(err))
     await fse.copy(source, destination)
         .then(()=>console.log('copy folder successfully'))
         .catch(err => console.log(err))
-    readDirectory(motifUiFolder)
-        .then((result)=>readPackageJsons(result)).then((result)=>sendDataToHttpRequest(result))
+    readDirectory(destination)
+        .then((result)=>readPackageJsons(result, destination)).then((result)=>sendDataToHttpRequest(result))
 }
 
 if(dangerousUpdateModeArgument){
-    handleImportProcess(pathToMotifUiRepo, motifUiFolder, allMotifComponents).then(()=>console.log('process finished'))
+    handleImportProcess(pathToMotifUiRepo, motifUiFolder).then(()=>console.log('process finished'))
 }else{
     console.error('something went wrong')
 }
