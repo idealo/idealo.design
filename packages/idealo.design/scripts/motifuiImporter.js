@@ -3,8 +3,7 @@ const path= require('path')
 const motifUiFolder = path.resolve(__dirname,'../src/server/motif-ui-components/')
 const pathToMotifUiRepo = path.resolve(__dirname,'../../../../motif-ui/src')
 
-const fs = require("fs");
-const fsp = require("fs").promises
+const fs = require('fs');
 const fse = require("fs-extra")
 const allMotifComponents = "../src/server/motif-ui-components/"
 const http = require('http')
@@ -24,7 +23,7 @@ const options = {
 }
 
 async function readDirectory(directory) {
-    return await fsp.readdir(directory, (err) => {
+    return await fs.promises.readdir(directory, (err) => {
         if (err) {
             console.log("Could not list the directory.", err);
             process.exit(1);
@@ -33,31 +32,19 @@ async function readDirectory(directory) {
 }
 
 async function readPackageJsons (files){
-    await files.forEach(file => {
+    for (const file of files) {
         if(!file.includes('.')){
-            fs.readFile(allMotifComponents + file + '/package.json', 'utf8', (err, data) => {
-                const compo = JSON.parse(data)
-                if (err) {
-                    console.log(err)
-                    return err
-                }else{
-                    if(compo.keywords!==undefined){
-                        allComponents.push({name: compo.name, keywords: compo.keywords})
-                    }
+            await fs.promises.readFile(allMotifComponents + file + '/package.json', 'utf8').then(function (result) {
+                const compo = JSON.parse(result)
+                if (compo.keywords !== undefined) {
+                    allComponents.push({name: compo.name, keywords: compo.keywords})
                 }
-            });
+            })
+                .catch(function (err) {
+                    console.log(err)
+                })
         }
-    })
-}
-async function handleImportProcess(source, destination, directory){
-    await fse.remove(destination)
-        .then(()=> console.log('delete folder successfully'))
-        .catch(err => console.log(err))
-    await fse.copy(source, destination)
-        .then(()=>console.log('copy folder successfully'))
-        .catch(err => console.log(err))
-    readDirectory(directory)
-        .then((result)=>readPackageJsons(result))
+    }return allComponents
 }
 
 function sendDataToHttpRequest(data){
@@ -77,12 +64,19 @@ function sendDataToHttpRequest(data){
     req.end()
 }
 
+async function handleImportProcess(source, destination, directory){
+    await fse.remove(destination)
+        .then(()=> console.log('delete folder successfully'))
+        .catch(err => console.log(err))
+    await fse.copy(source, destination)
+        .then(()=>console.log('copy folder successfully'))
+        .catch(err => console.log(err))
+    readDirectory(motifUiFolder)
+        .then((result)=>readPackageJsons(result)).then((result)=>sendDataToHttpRequest(result))
+}
+
 if(dangerousUpdateModeArgument){
-    handleImportProcess(pathToMotifUiRepo, motifUiFolder, allMotifComponents)
-    //sendDataToHttpRequest(allComponents)
-    setTimeout(()=>{
-        sendDataToHttpRequest(allComponents)
-    },3000)
+    handleImportProcess(pathToMotifUiRepo, motifUiFolder, allMotifComponents).then(()=>console.log('process finished'))
 }else{
     console.error('something went wrong')
 }
