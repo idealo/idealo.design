@@ -6,7 +6,6 @@ const glob = require('glob')
 
 const motifUiFolder = path.resolve(__dirname, './../src/server/motif-ui-components/')
 const pathToMotifUiRepo = path.resolve(__dirname, '../../../../motif-ui/src')
-
 const localScreenshots = path.resolve(__dirname, '../src/server/screenshots')
 const pathToMotifUIScreenshots = path.resolve(__dirname, '../../../../motif-ui/__screenshots__')
 
@@ -35,43 +34,42 @@ async function readDirectory(directory) {
 async function extractComponents(subdirectories, destinationMotifUI) {
     const components = []
     for (const subdirectory of subdirectories) {
-        if (!subdirectory.includes('.')) {
-            await fs.promises.readFile(destinationMotifUI + '/' + subdirectory + '/package.json', 'utf8').then(function (result) {
-                const compo = JSON.parse(result)
-                if (compo.keywords !== undefined) {
-                    components.push({name: compo.name, keywords: compo.keywords})
-                }
-            })
-                .catch(function (err) {
-                    console.log(err)
-                })
-            let screenshotFolder
+        if (!subdirectory.includes('.') && subdirectory !== 'scripts') {
             await readDirectory(destinationMotifUI + '/' + subdirectory + '/src')
-                .then((files)=>{
-                const options = {matchBase: true, cwd: destinationMotifUI + '/' + subdirectory + '/src'};
-                glob("*.story.tsx", options, function (err, storybookFile){
-                    if(err){
-                        console.log(err);
-                    } else {
-                        const storybookFilePath = storybookFile[0]
-                        fs.promises.readFile(destinationMotifUI + '/' + subdirectory + '/src/' + storybookFilePath, 'utf-8').then(function (result) {
-                            if (result.includes('const stories = storiesOf(')) {
-                                const startIndex = result.indexOf('storiesOf(')
-                                const endIndex = result.indexOf(', module')
-                                screenshotFolder = result.substring(endIndex-1, startIndex + 11)
-                                console.log('its magic️', screenshotFolder)
-                                readDirectory(localScreenshots + '/' + screenshotFolder).then((pictures)=>{
-                                    console.log('the screenshots', pictures)
-                                    components.push({screenshots: pictures})
-                                })
-                            }
-                        })
-                    }
-                });
-            })
+                .then((files) => {
+                    const GlobOptions = {matchBase: true, cwd: destinationMotifUI + '/' + subdirectory + '/src'};
+                    glob("*.story.tsx", GlobOptions, function (err, storybookFile) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            const storybookFilePath = storybookFile[0]
+                            fs.promises.readFile(destinationMotifUI + '/' + subdirectory + '/src/' + storybookFilePath, 'utf-8').then(function (result) {
+                                if (result.includes('const stories = storiesOf(')) {
+                                    const startIndex = result.indexOf('storiesOf(')
+                                    const endIndex = result.indexOf(', module')
+                                    let screenshotFolder = result.substring(endIndex - 1, startIndex + 11)
+                                    readDirectory(localScreenshots + '/' + screenshotFolder).then((pictures) => {
+                                        fs.promises.readFile(destinationMotifUI + '/' + subdirectory + '/package.json', 'utf8').then(function (result) {
+                                            const compo = JSON.parse(result)
+                                            if (compo.keywords !== undefined) {
+                                                components.push({
+                                                    name: compo.name,
+                                                    keywords: compo.keywords,
+                                                    screenshots: pictures
+                                                })
+                                            }
+                                        })
+                                            .catch(function (err) {
+                                                console.log(err)
+                                            })
+                                    })
+                                }
+                            })
+                        }
+                    });
+                })
         }
     }
-    console.log('all components', components)
     return components
 }
 
@@ -107,7 +105,6 @@ async function handleImportProcess(sourceMotifUI, destinationMotifUI, sourceScre
         .catch(err => console.log(err))
 
 
-
     readDirectory(destinationMotifUI)
         .then((result) => extractComponents(result, destinationMotifUI)).then((result) => sendDataToHttpRequest(result))
 }
@@ -117,7 +114,7 @@ async function handleImportProcess(sourceMotifUI, destinationMotifUI, sourceScre
 if (dangerousUpdateModeArgument) {
     handleImportProcess(pathToMotifUiRepo, motifUiFolder, pathToMotifUIScreenshots, localScreenshots).then(() => console.log('process finished'))
 } else {
-    console.error('something went wrong')
+    console.error('importing process went wrong')
 }
 
 module.exports.modeArgument = dangerousUpdateModeArgument
