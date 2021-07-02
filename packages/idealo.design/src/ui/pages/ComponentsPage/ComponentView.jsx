@@ -127,9 +127,11 @@ class ComponentView extends React.Component {
                 <div className={s.container}>
                     {this.state.filteredComponents.map((component) => (
                         <div className={s.item} key={component.id}>
-                            <Checkbox className={s.logo}/>
-                            <h1 className={s.title}>{component.title}</h1>
-                            <h3 className={s.tags}>{component.tags}</h3>
+                            <a href={`/components/${component.title}`}>
+                                <Checkbox className={s.logo}/>
+                                <h1 className={s.title}>{component.title}</h1>
+                                <h3 className={s.tags}>{component.tags}</h3>
+                            </a>
                         </div>
                     ))}
                 </div>

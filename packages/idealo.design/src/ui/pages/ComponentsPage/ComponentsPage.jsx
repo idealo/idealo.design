@@ -7,7 +7,7 @@ import ComponentView from './ComponentView'
 import {fetchUserInfo} from "../BlogPage/data";
 import ReactStackView from "./ReactStackView";
 import ClassicStackView from "./ClassicStackView";
-import EditorView from "../BlogPage/EditorView";
+import {ComponentsDetailView} from "./ComponentsDetailView";
 
 export default function ComponentsPage({match}) {
 
@@ -32,6 +32,9 @@ export default function ComponentsPage({match}) {
                 </Route>
                 <Route exact path='/components/for-classic-stacks'>
                     <ClassicStackView />
+                </Route>
+                <Route path='/components/:slug'>
+                    <ComponentsDetailView/>
                 </Route>
             </Switch>
         </>
