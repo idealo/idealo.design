@@ -2,6 +2,7 @@ create table if not exists components
 (
     component_id
     serial,
+    slug varchar (255) not null,
     title varchar (255) not null,
     primary key(component_id)
 );

@@ -3,6 +3,7 @@ import React from 'react'
 import s from './ComponentsPage.module.scss'
 
 import {withRouter} from "react-router";
+import {fetchSingleComponent} from "./component_data";
 
 const mockDaten = {
     title: 'Button',
@@ -44,20 +45,26 @@ export class ComponentsDetailView extends React.Component {
         this.state = {
             history: history,
             component: {},
-            slug: null,
+            title: '',
         }
     }
     async componentDidMount() {
-        this.setState({
-            component: mockDaten
-        })
+        const slug = this.props.match.params.slug
+        if(slug){
+             this.setState({
+                 component: await fetchSingleComponent({slug})
+            })
+            this.setState({
+                title: this.state.component.component[0].title
+            })
+        }
     }
 
     render() {
         return (
             <div>
                 <div className={s.headerNav}>
-                    <h1>{this.state.component.title}</h1>
+                    <h1>{this.state.title}</h1>
                     <p>----------------------------</p>
                     <ul>
                         <li><a href='#Design'>Design</a></li>

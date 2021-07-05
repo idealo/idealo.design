@@ -200,9 +200,9 @@ app.put('/api/components/:component_id?', isAuthenticated,async (req, res) => {
   return res.json(updatedComponent)
 })
 
-app.get('/api/components/:component_id?', isAuthenticated, async (req, res) => {
-  const {component_id} = req.params
-  const singleComponent = await fetchSingleComponent({component_id});
+app.get('/api/components/:slug?', isAuthenticated, async (req, res) => {
+  const {slug} = req.params
+  const singleComponent = await fetchSingleComponent({slug});
   return res.json(singleComponent)
 })
 

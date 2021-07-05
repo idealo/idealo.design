@@ -42,6 +42,7 @@ class ComponentView extends React.Component {
             components.push({
                 id: this.state.list[c].component_id,
                 title: this.state.list[c].title,
+                slug: this.state.list[c].slug,
                 tags: JSON.parse(JSON.stringify(tags))
             })
             tags = []
@@ -127,7 +128,7 @@ class ComponentView extends React.Component {
                 <div className={s.container}>
                     {this.state.filteredComponents.map((component) => (
                         <div className={s.item} key={component.id}>
-                            <a href={`/components/${component.id}`}>
+                            <a href={`/components/${component.slug}`}>
                                 <Checkbox className={s.logo}/>
                                 <h1 className={s.title}>{component.title}</h1>
                                 <h3 className={s.tags}>{component.tags}</h3>
