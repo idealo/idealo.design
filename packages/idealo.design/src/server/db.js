@@ -1,5 +1,4 @@
 import postgres from 'postgres'
-import mockedCompo from './mockedScreenshots/mockedScreenshot1.json'
 
 const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://database-idealo-design.c9fyhsob8bxc.eu-central-1.rds.amazonaws.com'
 const sql = postgres(POSTGRES_URL)
@@ -244,8 +243,6 @@ export async function fetchSingleComponent({component_id}) {
 
 export async function processImportUpdateComponentsTables(importedComponents) { //[{name: compo.name, keywords: [compo.keywords], screenshots: [compo.screenshotsPath]}, {}]
     return sql.begin(async sql => {
-        importedComponents = [mockedCompo]
-
         await sql`delete from components_tags_map`
 
         await sql `delete from screenshots`
@@ -256,12 +253,13 @@ export async function processImportUpdateComponentsTables(importedComponents) { 
 
         for (let i = 0; i < importedComponents.length; i++) {
             await sql`insert into components (title) values (${importedComponents[i].name})`
+            const idComponent = await sql`select component_id from components where title=${importedComponents[i].name}` //{component_id: 1}
+
             for (let j = 0; j < importedComponents[i].keywords.length; j++) {
                 await sql`insert into tags (tag_name) values (${importedComponents[i].keywords[j]})`
             }
             for(let x=0; x<importedComponents[i].screenshots.length;x++){
-                const idComponent = await sql`select component_id from components where title=${importedComponents[i].name}` //{component_id: 1}
-                await sql `insert into screenshots(component_id, screenshot_path) values (${idComponent[i].component_id}, ${importedComponents[i].screenshots[x]})`
+                await sql `insert into screenshots(component_id, screenshot) values (${idComponent[0].component_id}, ${importedComponents[i].screenshots[x]})`
             }
         }
         await sql`delete from tags where tag_id not in (select max(tag_id) from tags group by tag_name)`

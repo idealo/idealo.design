@@ -5,6 +5,7 @@ import s from './ComponentsPage.module.scss';
 import Select from 'react-select';
 import {fetchComponents, fetchMap, fetchTags, updateComponentsTags, fetchComponentsScreenshots} from "./component_data";
 import slugify from "slugify";
+import {Carousel} from "react-responsive-carousel";
 
 class ComponentView extends React.Component {
 
@@ -34,6 +35,7 @@ class ComponentView extends React.Component {
         const components = []
         let tags = []
         let screenshots = []
+        console.log(this.state.screenshots)
 
         for (let c = 0; c < this.state.list.length; c++) {
             for (let i = 0; i < this.state.components.length; i++) {
@@ -95,7 +97,6 @@ class ComponentView extends React.Component {
         await updateComponentsTags().then(window.location.reload())
     }
 
-
     handleChange(select){
         const filterValue = [];
         select.map((select) => (filterValue.push('#' + select.value)))
@@ -138,8 +139,7 @@ class ComponentView extends React.Component {
                 <div className={s.container}>
                     {this.state.filteredComponents.map((component) => (
                         <div className={s.item} key={component.id}>
-                            {/*<Checkbox className={s.logo}/>*/}
-                            {/*<img src={require('../../../../public/Bildschirmfoto.png')} alt={'where is it?'}/>*/}
+                            <img className={s.screenshot} src={component.screenshots[0]} alt={component.title}/>
                             <h1 className={s.title}>{component.title}</h1>
                             <h3 className={s.tags}>{component.tags}</h3>
                         </div>
