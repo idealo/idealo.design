@@ -9,6 +9,7 @@ import connectRedis from 'connect-redis'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import slugify from 'slugify'
+import multer from 'multer'
 
 import passport from 'passport'
 import {OAuth2Strategy} from 'passport-oauth'
@@ -66,6 +67,8 @@ const PROFILE_ENDPOINT = 'https://graph.microsoft.com/v1.0/me'
 const PORT = process.env.HTTP_PORT || 8080
 const app = express()
 
+const upload = multer({ dest: 'uploads/'})
+
 const RedisStore = connectRedis(session)
 
 passport.serializeUser((user, done) => {
@@ -87,7 +90,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10000mb'}));
 
 if (CLIENT_ID) {
   passport.use('provider', new OAuth2Strategy({
@@ -188,11 +191,21 @@ app.get('/api/map', isAuthenticated, async (req, res) => {
   return res.json(map);
 })
 
-app.put('/api/components/update', isAuthenticated, async (req, res) => {
+/*app.put('/api/components/update', /!*isAuthenticated,*!/ async (req, res) => {
   const importedComponents = req.body
   const updated = await processImportUpdateComponentsTables(importedComponents);
   return res.json(updated);
+})*/
+
+app.put('/api/components/update', upload.array('screenshots', 12), function (req, res, next){
+  const receivedData = req.file
+  const receivedOthers = req.body
+  console.log('receivedData',receivedData)
+  console.log('receivedOthers',receivedOthers)
+  return res.json(receivedOthers)
 })
+
+
 
 app.put('/api/components/:component_id?', isAuthenticated,async (req, res) => {
   const component = req.body
