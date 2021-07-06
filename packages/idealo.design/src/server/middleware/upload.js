@@ -5,7 +5,7 @@ const maxSize = 2 * 1024 * 1024;
 
 const screenshotStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '../../../dist/resources/static/assets/uploads');
+        cb(null, '../../resources/static/assets/uploads');
     },
     filename: (req, file, cb) => {
         console.log(file.originalname);
@@ -19,4 +19,4 @@ const uploadFile = multer({
 }).single('file');
 
 const uploadFileMiddleware = util.promisify(uploadFile);
-module.exports = uploadFileMiddleware
+export default uploadFileMiddleware

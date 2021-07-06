@@ -10,6 +10,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import slugify from 'slugify'
 import multer from 'multer'
+import uploadFileMiddleware from '../server/middleware/upload'
 
 import passport from 'passport'
 import {OAuth2Strategy} from 'passport-oauth'
@@ -197,12 +198,30 @@ app.get('/api/map', isAuthenticated, async (req, res) => {
   return res.json(updated);
 })*/
 
-app.put('/api/components/update', upload.array('screenshots', 12), function (req, res, next){
-  const receivedData = req.file
+app.put('/api/components/update',async (req, res) => {
+  try {
+    await uploadFileMiddleware(req, res);
+
+    if(req.body === undefined){
+      return res.status(400).send({
+        message: "Please upload a screenshot!"
+      });
+    }
+
+    res.status(200).send({
+      message: "Uploaded the screenshots successfully: " + req.body,
+    })
+    console.log('body', req.body)
+  } catch (err) {
+    res.status(500).send({
+      message: `Could not upload the screenshot: ${req.body}. ${err}`,
+    });
+  }
+  /*const receivedData = req.file
   const receivedOthers = req.body
   console.log('receivedData',receivedData)
   console.log('receivedOthers',receivedOthers)
-  return res.json(receivedOthers)
+  return res.json(receivedOthers)*/
 })
 
 
