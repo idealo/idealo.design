@@ -202,29 +202,29 @@ app.put('/api/components/update',async (req, res) => {
   try {
     await uploadFileMiddleware(req, res);
 
-    if(req.body === undefined){
+    if(req.files === undefined){
       return res.status(400).send({
         message: "Please upload a screenshot!"
       });
     }
 
-    res.status(200).send({
-      message: "Uploaded the screenshots successfully: " + req.file.originalname,
+    const fileInfos = []
+
+    req.files.forEach((file) => {
+      fileInfos.push(file.originalname)
+      fileInfos.push(file.path)
     })
-    console.log('file', req.file)
+
+    res.status(200).send({
+      message: "Uploaded the following screenshots: " + fileInfos,
+    })
   } catch (err) {
     res.status(500).send({
-      message: `Could not upload the screenshot: ${req.file.originalname}. ${err}`,
+      message: "Could not upload the screenshots." + err,
     });
   }
-  /*const receivedData = req.file
-  const receivedOthers = req.body
-  console.log('receivedData',receivedData)
-  console.log('receivedOthers',receivedOthers)
-  return res.json(receivedOthers)*/
+  //save path of screenshots in Database
 })
-
-
 
 app.put('/api/components/:component_id?', isAuthenticated,async (req, res) => {
   const component = req.body
