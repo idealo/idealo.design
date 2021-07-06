@@ -209,12 +209,12 @@ app.put('/api/components/update',async (req, res) => {
     }
 
     res.status(200).send({
-      message: "Uploaded the screenshots successfully: " + req.body,
+      message: "Uploaded the screenshots successfully: " + req.file.originalname,
     })
-    console.log('body', req.body)
+    console.log('file', req.file)
   } catch (err) {
     res.status(500).send({
-      message: `Could not upload the screenshot: ${req.body}. ${err}`,
+      message: `Could not upload the screenshot: ${req.file.originalname}. ${err}`,
     });
   }
   /*const receivedData = req.file
