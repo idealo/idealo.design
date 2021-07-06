@@ -235,13 +235,16 @@ export async function fetchSingleComponent({slug}) {
     for (let i = 0; i < tagsComponent.length; i++) {
         tags.push(tagsComponent[i].tag_name)
     }
-    return {component: singleComponent, tags: tags}
+    singleComponent[0]['tags'] = tags
+    return singleComponent[0]
 }
 
 export async function processImportUpdateComponentsTables(importedComponents) {
     return sql.begin(async sql => {
 
         await sql`delete from components_tags_map`
+
+        await sql`delete from screenshots`
 
         await sql`delete from components`
 
