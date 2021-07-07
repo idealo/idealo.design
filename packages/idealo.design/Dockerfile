@@ -3,7 +3,7 @@ FROM node:14.16.1
 WORKDIR /home/node/app
 
 COPY . ./
-COPY ./package*.json ./
+COPY package.json ./
 RUN npm config set color false
 RUN npm ci
 RUN npm run build
