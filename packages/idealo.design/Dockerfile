@@ -2,7 +2,8 @@ FROM node:14.16.1
 
 WORKDIR /home/node/app
 
-COPY packages/idealo.design ./
+COPY . ./
+COPY packages/idealo.design/package.json ./
 RUN npm config set color false
 RUN npm ci
 RUN npm run build
