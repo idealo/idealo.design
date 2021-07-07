@@ -24,3 +24,4 @@ jobs:
           registry: docker.pkg.github.com
           repository: idealo/nwp/idealo-design
           tag_with_sha: true
+          push: true
