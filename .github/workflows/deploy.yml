@@ -37,6 +37,14 @@ jobs:
       packages: write
       contents: read
     steps:
+      - name: Wait for build to succeed
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-CI
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: build_and_push_to_registry
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          
       - name: Do something with a passing CI & Check out the repo
         if: steps.wait-for-CI.outputs.conclusion == 'success'
         uses: actions/checkout@v2
