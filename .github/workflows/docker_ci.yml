@@ -16,7 +16,7 @@ jobs:
       - name: Check out the repo #1
         uses: actions/checkout@v2 #1
       - name: Push to GitHub Packages
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v1
         with: #1 
           dockerfile: ./packages/idealo.design/Dockerfile #1
           username: ${{ github.actor }}
@@ -24,4 +24,3 @@ jobs:
           registry: docker.pkg.github.com
           repository: idealo/nwp/idealo-design
           tag_with_sha: true
-          push: true
