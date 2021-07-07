@@ -64,3 +64,4 @@ jobs:
           region: eu-central-1
           deployment_package: deploy.zip
           wait_for_deployment: true
+          use_existing_version_if_available: true
