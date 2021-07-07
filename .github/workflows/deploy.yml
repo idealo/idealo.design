@@ -9,6 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Wait for build to succeed
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-CI
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: CI
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          
+      - name: Do something with a passing CI
+        if: steps.wait-for-CI.outputs.conclusion == 'success'
+        
       - uses: actions/checkout@v2
       - name: Use Node.js 13
         uses: actions/setup-node@v1
