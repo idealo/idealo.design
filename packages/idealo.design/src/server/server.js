@@ -215,6 +215,8 @@ app.put('/api/components/update',async (req, res) => {
       fileInfos.push(file.path)
     })
 
+    console.log('body', req.body)
+
     res.status(200).send({
       message: "Uploaded the following screenshots: " + fileInfos,
     })

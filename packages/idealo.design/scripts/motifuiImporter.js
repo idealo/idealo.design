@@ -1,7 +1,9 @@
 const path = require('path')
 const http = require('http')
 const fse = require('fs-extra')
-const fs = require('fs');
+const fs = require('fs')
+const FormData = require('form-data')
+const axios = require('axios')
 
 const motifUiFolder = path.resolve(__dirname, './../src/server/motif-ui-components/')
 const pathToMotifUiRepo = path.resolve(__dirname, '../../../../motif-ui/src')
@@ -9,17 +11,6 @@ const localScreenshots = path.resolve(__dirname, '../src/server/screenshots')
 const pathToMotifUIScreenshots = path.resolve(__dirname, '../../../../motif-ui/__screenshots__')
 
 const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
-
-const options = {
-    hostname: '0.0.0.0',
-    port: 8080,
-    path: '/api/components/update',
-    method: 'PUT',
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-    },
-}
 
 async function readDirectory(directory) {
     return await fs.promises.readdir(directory, (err) => {
@@ -50,9 +41,9 @@ async function extractComponents(subdirectories, destinationMotifUI) {
                     console.log(err);
                 }
             }).then((result)=>{
-                result.forEach((storyFile) =>{
-                    if(storyFile.indexOf('.story.tsx')!== -1){
-                        eachComponent.pathToStoryFile = destinationMotifUI+'/'+subdirectory+'/src/'+storyFile
+                result.forEach((filename) =>{
+                    if(filename.indexOf('.story.tsx')!== -1){
+                        eachComponent.pathToStoryFile = destinationMotifUI+'/'+subdirectory+'/src/'+filename
                     }
                 })
             })
@@ -64,49 +55,51 @@ async function extractComponents(subdirectories, destinationMotifUI) {
 return components
 }
 
-async function storeScreenshotFolderName(storyFileArray) {
-    for(let i =0;i<storyFileArray.length;i++){
-        await fs.promises.readFile(storyFileArray[i].pathToStoryFile, 'utf8').then((contentOfStoryFile) => {
+async function storeScreenshotFolderName(components) {
+    for(let i =0;i<components.length;i++){
+        await fs.promises.readFile(components[i].pathToStoryFile, 'utf8').then((contentOfStoryFile) => {
             if (contentOfStoryFile.includes('const stories = storiesOf(')) {
                 const startIndex = contentOfStoryFile.indexOf('storiesOf(')
                 const endIndex = contentOfStoryFile.indexOf(', module')
-                const screenshotFolder = contentOfStoryFile.substring(endIndex - 1, startIndex + 11)
-                storyFileArray[i].screenshotFolderName = screenshotFolder
-                delete storyFileArray[i].pathToStoryFile
+                components[i].screenshotFolderName = contentOfStoryFile.substring(endIndex - 1, startIndex + 11)
+                delete components[i].pathToStoryFile
             }
         })
     }
-    return storyFileArray
+    return components
 }
 
-async function storePathToScreenshots(componentsArray){
-    for(let i = 0;i<componentsArray.length; i++){
-        await fs.promises.readdir(localScreenshots + '/' + componentsArray[i].screenshotFolderName).then((pictures) => {
-            for(let x =0;x<pictures.length;x++){
-                pictures[x]= pictures[x].replace(/ /g, "_");
-            }
-
-            componentsArray[i].screenshots = localScreenshots + '/' + componentsArray[i].screenshotFolderName+'/'+pictures
+async function storePathToScreenshots(components){
+    for(let i = 0;i<components.length; i++){
+        await fs.promises.readdir(localScreenshots + '/' + components[i].screenshotFolderName).then((screenshots) => {
+            components[i].screenshots = screenshots
         })
     }
-    return componentsArray
+    return components
 }
 
-function sendDataToHttpRequest(data) {
-    const req = http.request(options, res => {
-        console.log(`statusCode: ${res.statusCode}`)
+async function createFormDataForComponent(components) {
+    for (const component of components) {
+        const componentFormData = new FormData();
 
-        res.on('data', d => {
-            process.stdout.write(d)
-        })
-    })
+        componentFormData.append('name', component.name);
+        for (const keyword of component.keywords) {
+            componentFormData.append('keywords', keyword);
+        }
 
-    req.on('error', error => {
-        console.error(error)
-    })
+        for (const screenshot of component.screenshots) {
+            const screenshotBuffer = await fs.readFileSync(localScreenshots + '/' + component.screenshotFolderName + '/' + screenshot);
+            const screenshotName= screenshot.replace(/ /g, "_");
+            componentFormData.append('screenshots', screenshotBuffer, screenshotName);
+        }
+        await sendDataToHttpRequest(componentFormData)
+    }
+}
 
-    req.write(JSON.stringify(data))
-    req.end()
+async function sendDataToHttpRequest(componentFormData) {
+    return await axios.put('http://localhost:8080/api/components/update', componentFormData, {
+        headers: componentFormData.getHeaders()
+    });
 }
 
 async function handleImportProcess(sourceMotifUI, destinationMotifUI, sourceScreenshots, destinationScreenshots) {
@@ -128,7 +121,7 @@ async function handleImportProcess(sourceMotifUI, destinationMotifUI, sourceScre
         .then((result) => extractComponents(result, destinationMotifUI))
         .then((result) => storeScreenshotFolderName(result)
             .then((result) => storePathToScreenshots(result)
-                .then((result) => sendDataToHttpRequest(result))))
+                .then((result) => createFormDataForComponent(result))))
 }
 
 //final result: components array--> name:compo.name, keywords:[], screenshotFolderName: name, screenshots:[]
@@ -140,4 +133,3 @@ if (dangerousUpdateModeArgument) {
 }
 
 module.exports.modeArgument = dangerousUpdateModeArgument
-
