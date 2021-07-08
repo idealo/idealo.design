@@ -216,7 +216,6 @@ export async function updateSingleComponent(component) {
 }
 
 export async function deleteSingleComponent({component_id}){
-    console.log('db.js')
     return sql.begin(async sql => {
         const deletedComponentsTagsMap = await sql`delete from components_tags_map where component_id=${component_id};`
         const deletedComponent = await sql`delete

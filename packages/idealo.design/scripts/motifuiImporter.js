@@ -2,7 +2,6 @@ const path = require('path')
 const http = require('http')
 const fse = require('fs-extra')
 const fs = require('fs');
-const glob = require('glob')
 
 const motifUiFolder = path.resolve(__dirname, './../src/server/motif-ui-components/')
 const pathToMotifUiRepo = path.resolve(__dirname, '../../../../motif-ui/src')
@@ -32,45 +31,65 @@ async function readDirectory(directory) {
 }
 
 async function extractComponents(subdirectories, destinationMotifUI) {
-    const components = []
+    let components = []
     for (const subdirectory of subdirectories) {
+        const eachComponent = {}
+        if (!subdirectory.includes('.')){
+            await fs.promises.readFile(destinationMotifUI+'/'+subdirectory+'/package.json','utf-8').then((stringContentOfPackageJson)=>{
+                const packageJsonAsJson = JSON.parse(stringContentOfPackageJson)
+                if (packageJsonAsJson.keywords !== undefined) {
+                    eachComponent.name = packageJsonAsJson.name
+                    eachComponent.keywords = packageJsonAsJson.keywords
+                }
+            })
+        }
+
         if (!subdirectory.includes('.') && subdirectory !== 'scripts') {
-            await readDirectory(destinationMotifUI + '/' + subdirectory + '/src')
-                .then((files) => {
-                    const GlobOptions = {matchBase: true, cwd: destinationMotifUI + '/' + subdirectory + '/src'};
-                    glob("*.story.tsx", GlobOptions, function (err, storybookFile) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            const storybookFilePath = storybookFile[0]
-                            fs.promises.readFile(destinationMotifUI + '/' + subdirectory + '/src/' + storybookFilePath, 'utf-8').then(function (result) {
-                                if (result.includes('const stories = storiesOf(')) {
-                                    const startIndex = result.indexOf('storiesOf(')
-                                    const endIndex = result.indexOf(', module')
-                                    let screenshotFolder = result.substring(endIndex - 1, startIndex + 11)
-                                    readDirectory(localScreenshots + '/' + screenshotFolder).then((pictures) => {
-                                        fs.promises.readFile(destinationMotifUI + '/' + subdirectory + '/package.json', 'utf8').then(function (result) {
-                                            const compo = JSON.parse(result)
-                                            if (compo.keywords !== undefined) {
-                                                components.push({
-                                                    name: compo.name,
-                                                    keywords: compo.keywords,
-                                                    screenshots: pictures
-                                                })
-                                            }
-                                        })
-                                            .catch(function (err) {
-                                                console.log(err)
-                                            })
-                                    })
-                                }
-                            })
-                        }
-                    });
+            await fs.promises.readdir(destinationMotifUI+'/'+subdirectory+'/src', (err) =>{
+                if(err){
+                    console.log(err);
+                }
+            }).then((result)=>{
+                result.forEach((storyFile) =>{
+                    if(storyFile.indexOf('.story.tsx')!== -1){
+                        eachComponent.pathToStoryFile = destinationMotifUI+'/'+subdirectory+'/src/'+storyFile
+                    }
                 })
+            })
+        }
+        if(Object.entries(eachComponent).length!==0){
+            components.push(eachComponent)
         }
     }
-    return components
+return components
+}
+
+async function storeScreenshotFolderName(storyFileArray) {
+    for(let i =0;i<storyFileArray.length;i++){
+        await fs.promises.readFile(storyFileArray[i].pathToStoryFile, 'utf8').then((contentOfStoryFile) => {
+            if (contentOfStoryFile.includes('const stories = storiesOf(')) {
+                const startIndex = contentOfStoryFile.indexOf('storiesOf(')
+                const endIndex = contentOfStoryFile.indexOf(', module')
+                const screenshotFolder = contentOfStoryFile.substring(endIndex - 1, startIndex + 11)
+                storyFileArray[i].screenshotFolderName = screenshotFolder
+                delete storyFileArray[i].pathToStoryFile
+            }
+        })
+    }
+    return storyFileArray
+}
+
+async function storePathToScreenshots(componentsArray){
+    for(let i = 0;i<componentsArray.length; i++){
+        await fs.promises.readdir(localScreenshots + '/' + componentsArray[i].screenshotFolderName).then((pictures) => {
+            for(let x =0;x<pictures.length;x++){
+                pictures[x]= pictures[x].replace(/ /g, "_");
+            }
+
+            componentsArray[i].screenshots = localScreenshots + '/' + componentsArray[i].screenshotFolderName+'/'+pictures
+        })
+    }
+    return componentsArray
 }
 
 function sendDataToHttpRequest(data) {
@@ -106,10 +125,13 @@ async function handleImportProcess(sourceMotifUI, destinationMotifUI, sourceScre
 
 
     readDirectory(destinationMotifUI)
-        .then((result) => extractComponents(result, destinationMotifUI)).then((result) => sendDataToHttpRequest(result))
+        .then((result) => extractComponents(result, destinationMotifUI))
+        .then((result) => storeScreenshotFolderName(result)
+            .then((result) => storePathToScreenshots(result)
+                .then((result) => sendDataToHttpRequest(result))))
 }
 
-//final result: components array name:compo.name keywords:[] screenshots:[]
+//final result: components array--> name:compo.name, keywords:[], screenshotFolderName: name, screenshots:[]
 
 if (dangerousUpdateModeArgument) {
     handleImportProcess(pathToMotifUiRepo, motifUiFolder, pathToMotifUIScreenshots, localScreenshots).then(() => console.log('process finished'))
