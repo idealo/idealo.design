@@ -27,11 +27,13 @@ async function removeAllFilesFromDirectory(pathToDirectory){
         if (err) throw err;
 
         for (const subdirectory of subdirectories) {
-            fs.rmdir(pathToDirectory+'/'+subdirectory,  (err) => {
-                if (err) {
-                    throw err;
-                }
-            });
+            if(!subdirectory.includes('.')){
+                fs.rmdir(pathToDirectory+'/'+subdirectory, {recursive: true}, (err) => {
+                    if (err) {
+                        throw err;
+                    }
+                });
+            }
         }
     });
 }
@@ -40,13 +42,16 @@ async function extractComponents(subdirectories, destinationMotifUI) {
     let components = []
     for (const subdirectory of subdirectories) {
         const eachComponent = {}
-        if (!subdirectory.includes('.')){
+        if (!subdirectory.includes('.') && subdirectory !== 'scripts'){
             await fs.promises.readFile(destinationMotifUI+'/'+subdirectory+'/package.json','utf-8').then((stringContentOfPackageJson)=>{
                 const packageJsonAsJson = JSON.parse(stringContentOfPackageJson)
                 if (packageJsonAsJson.keywords !== undefined) {
                     eachComponent.name = packageJsonAsJson.name
                     eachComponent.keywords = packageJsonAsJson.keywords
                 }
+            })
+            await fs.promises.readFile(destinationMotifUI+'/'+subdirectory+'/README.md','utf-8').then((stringContentOfReadMe)=>{
+                eachComponent.readme = stringContentOfReadMe
             })
         }
 
@@ -67,7 +72,7 @@ async function extractComponents(subdirectories, destinationMotifUI) {
             components.push(eachComponent)
         }
     }
-return components
+    return components
 }
 
 async function storeScreenshotFolderName(components) {
@@ -94,7 +99,6 @@ async function storePathToScreenshots(components){
 }
 
 async function createFormDataForComponent(components) {
-    await removeAllFilesFromDirectory(localPathToMotifUIScreenshots).then((result)=>console.log(result))
     for (const component of components) {
 
         await fs.mkdirSync(localPathToMotifUIScreenshots+'/'+component.screenshotFolderName, (err) => {
@@ -108,6 +112,9 @@ async function createFormDataForComponent(components) {
         for (const keyword of component.keywords) {
             componentFormData.append('keywords', keyword);
         }
+
+        componentFormData.append('screenshotFolderName', component.screenshotFolderName);
+        componentFormData.append('readme', component.readme);
 
         for (const screenshot of component.screenshots) {
             const screenshotBuffer = await fs.readFileSync(localScreenshots + '/' + component.screenshotFolderName + '/' + screenshot);
@@ -137,7 +144,7 @@ async function handleImportProcess(sourceMotifUI, destinationMotifUI, sourceScre
     await fse.copy(sourceScreenshots, destinationScreenshots)
         .then(() => console.log('copy screenshots folder successfully'))
         .catch(err => console.log(err))
-    //await removeAllFilesFromDirectory(localPathToMotifUIScreenshots).then(()=> console.log('screenshots are removed from server'))
+    await removeAllFilesFromDirectory(localPathToMotifUIScreenshots).then(()=> console.log('screenshots are removed from server'))
 
 
     readDirectory(destinationMotifUI)
