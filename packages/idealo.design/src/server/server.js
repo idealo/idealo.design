@@ -31,10 +31,9 @@ import {
   fetchComponents,
   fetchTags,
   fetchMap,
-  processImportUpdateComponentsTables,
   updateSingleComponent,
   fetchSingleComponent,
-  deleteSingleComponent,
+  deleteSingleComponent, importSingleComponent,
 } from './db';
 
 import dangerousUpdateModeArgument from "../../scripts/motifuiImporter";
@@ -202,30 +201,36 @@ app.put('/api/components/update',async (req, res) => {
   try {
     await uploadFileMiddleware(req, res);
 
-    if(req.files === undefined){
+    if(req.files === undefined || req.body === undefined){
       return res.status(400).send({
         message: "Please upload a screenshot!"
       });
     }
 
-    const fileInfos = []
+    const screenshotPaths = []
+    const screenshotNames = []
 
     req.files.forEach((file) => {
-      fileInfos.push(file.originalname)
-      fileInfos.push(file.path)
+      screenshotPaths.push(file.path)
     })
 
-    console.log('body', req.body)
+    req.files.forEach((file) => {
+      screenshotNames.push(file.originalname)
+    })
+
+    // console.log('body', req.body)
+
+    const componentData = req.body
 
     res.status(200).send({
-      message: "Uploaded the following screenshots: " + fileInfos,
+      message: "Uploaded the following screenshots: " + screenshotNames,
+      component: await importSingleComponent(screenshotPaths, componentData)
     })
   } catch (err) {
     res.status(500).send({
       message: "Could not upload the screenshots." + err,
     });
   }
-  //save path of screenshots in Database
 })
 
 app.put('/api/components/:component_id?', isAuthenticated,async (req, res) => {

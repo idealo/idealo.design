@@ -236,36 +236,34 @@ export async function fetchSingleComponent({component_id}) {
     return {component: singleComponent, tags: tags}
 }
 
-export async function processImportUpdateComponentsTables(importedComponents) {
-    return sql.begin(async sql => {
+export async function importSingleComponent(screenshotPaths, componentData)
+{
+    return sql.begin(async sql =>
+    {
+        await sql`delete from components where title=${componentData.name}`
+        await sql`insert into components (title, readme) values (${componentData.name},${componentData.readme})`
+        const newComponentId = await sql`select component_id from components where title=${componentData.name}`
+        const currentComponentId = newComponentId[0].component_id
 
-        await sql`delete from components_tags_map`
+        for(const screenshotPath of screenshotPaths){
+            await sql`insert into screenshots(component_id, screenshot) values(${currentComponentId},${screenshotPath})`
+        }
+        await sql`delete from tags where tag_id not in (select distinct tag_id from components_tags_map);`
 
-        await sql`delete from components`
+        for(const keyword of componentData.keywords){
+            const existingTag = await sql`select tag_id from tags where tag_name=${keyword}`
+            const existingTagId = existingTag[0].tag_id
 
-        await sql`delete from tags`
-
-        for (let i = 0; i < importedComponents.length; i++) {
-            await sql`insert into components (title) values (${importedComponents[i].name})`
-            for (let j = 0; j < importedComponents[i].keywords.length; j++) {
-                await sql`insert into tags (tag_name) values (${importedComponents[i].keywords[j]})`
+            if(existingTagId !== undefined)
+            {
+                await sql`insert into components_tags_map (component_id, tag_id) values (${currentComponentId}, ${existingTagId})`
+            } else
+            {
+                await sql`insert into tags(tag_name) values(${keyword})`
+                const tagId = await sql`select tag_id from tags where tag_name=${keyword}`
+                const currentTagId = tagId[0].tag_id
+                await sql`insert into components_tags_map(component_id,tag_id) values (${currentComponentId}, ${currentTagId})`
             }
         }
-        await sql`delete from tags where tag_id not in (select max(tag_id) from tags group by tag_name)`
-
-        for (let i = 0; i < importedComponents.length; i++) {
-            const idComponent = await sql`select component_id from components where title=${importedComponents[i].name}` //{component_id: 1}
-            const idKeywords = [] //[{tag_id:1}, {tag_id: :2}]
-            for (let j = 0; j < importedComponents[i].keywords.length; j++) {
-                idKeywords.push(await sql`select tag_id from tags where tag_name = ${importedComponents[i].keywords[j]}`)
-            }
-
-            for (let z = 0; z < idComponent.length; z++) {
-                for (let x = 0; x < idKeywords.length; x++) {
-                    await sql`insert into components_tags_map(component_id, tag_id) values (${idComponent[z].component_id}, ${idKeywords[x][0].tag_id})`
-                }
-            }
-        }
-        return importedComponents
     })
 }

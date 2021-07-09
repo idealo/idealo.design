@@ -8,7 +8,6 @@ const screenshotStorage = multer.diskStorage({
         cb(null, '../resources/static/assets/uploads/'+req.body.screenshotFolderName);
     },
     filename: (req, file, cb) => {
-        console.log(file.originalname);
         cb(null, file.originalname);
     },
 });
