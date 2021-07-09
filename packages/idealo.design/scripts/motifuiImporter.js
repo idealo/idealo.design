@@ -9,6 +9,7 @@ const motifUiFolder = path.resolve(__dirname, './../src/server/motif-ui-componen
 const pathToMotifUiRepo = path.resolve(__dirname, '../../../../motif-ui/src')
 const localScreenshots = path.resolve(__dirname, '../src/server/screenshots')
 const pathToMotifUIScreenshots = path.resolve(__dirname, '../../../../motif-ui/__screenshots__')
+const localPathToMotifUIScreenshots = path.resolve(__dirname, './../resources/static/assets/uploads')
 
 const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
 
@@ -17,6 +18,20 @@ async function readDirectory(directory) {
         if (err) {
             console.log("Could not list the directory.", err);
             process.exit(1);
+        }
+    });
+}
+
+async function removeAllFilesFromDirectory(pathToDirectory){
+    await fs.readdir(pathToDirectory, (err, subdirectories) => {
+        if (err) throw err;
+
+        for (const subdirectory of subdirectories) {
+            fs.rmdir(pathToDirectory+'/'+subdirectory,  (err) => {
+                if (err) {
+                    throw err;
+                }
+            });
         }
     });
 }
@@ -79,7 +94,14 @@ async function storePathToScreenshots(components){
 }
 
 async function createFormDataForComponent(components) {
+    await removeAllFilesFromDirectory(localPathToMotifUIScreenshots).then((result)=>console.log(result))
     for (const component of components) {
+
+        await fs.mkdirSync(localPathToMotifUIScreenshots+'/'+component.screenshotFolderName, (err) => {
+            if (err) {
+                throw err;
+            }
+        });
         const componentFormData = new FormData();
 
         componentFormData.append('name', component.name);
@@ -115,6 +137,7 @@ async function handleImportProcess(sourceMotifUI, destinationMotifUI, sourceScre
     await fse.copy(sourceScreenshots, destinationScreenshots)
         .then(() => console.log('copy screenshots folder successfully'))
         .catch(err => console.log(err))
+    //await removeAllFilesFromDirectory(localPathToMotifUIScreenshots).then(()=> console.log('screenshots are removed from server'))
 
 
     readDirectory(destinationMotifUI)
