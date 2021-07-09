@@ -252,13 +252,12 @@ export async function importSingleComponent(screenshotPaths, componentData)
 
         for(const keyword of componentData.keywords){
             const existingTag = await sql`select tag_id from tags where tag_name=${keyword}`
-            const existingTagId = existingTag[0].tag_id
+            const existingTagId = existingTag[0]
 
             if(existingTagId !== undefined)
             {
-                await sql`insert into components_tags_map (component_id, tag_id) values (${currentComponentId}, ${existingTagId})`
-            } else
-            {
+                await sql`insert into components_tags_map (component_id, tag_id) values (${currentComponentId}, ${existingTagId.tag_id})`
+            } else {
                 await sql`insert into tags(tag_name) values(${keyword})`
                 const tagId = await sql`select tag_id from tags where tag_name=${keyword}`
                 const currentTagId = tagId[0].tag_id

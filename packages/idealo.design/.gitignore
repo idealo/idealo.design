@@ -4,3 +4,6 @@ node_modules
 dist
 src/__tests__/pact
 src/server/motif-ui-components
+src/server/screenshots
+resources
+
