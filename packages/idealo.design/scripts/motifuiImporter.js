@@ -116,10 +116,16 @@ async function createFormDataForComponents(components) {
 }
 
 async function sendDataToHttpRequest(components) {
+    const username = process.env.USER_NAME
+    const password = process.env.PASSWORD
     for (const component of components){
         const componentFormData = component.formData
         await axios.put(process.env.BASE_URL + '/api/components/update', componentFormData, {
-            headers: componentFormData.getHeaders()
+            headers: {
+                ...componentFormData.getHeaders(),
+                username: username,
+                password: password
+            }
         });
     }
 }
@@ -146,5 +152,3 @@ async function handleImportProcess() {
 }
 
 handleImportProcess().then(() => console.log('import process finished'))
-
-module.exports.modeArgument = dangerousUpdateModeArgument

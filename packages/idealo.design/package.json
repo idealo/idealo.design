@@ -8,7 +8,7 @@
     "test:unit": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./src/__tests__",
     "test:consumer": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./src/ui",
     "test:provider": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./src/server",
-    "import:motifui": "DANGEROUS_UPDATE_MODE_ARGUMENT=true node ./scripts/motifuiImporter",
+    "import:motifui": "node ./scripts/motifuiImporter",
     "build": "webpack"
   },
   "jest": {

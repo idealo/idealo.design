@@ -9,7 +9,6 @@ import connectRedis from 'connect-redis'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import slugify from 'slugify'
-import multer from 'multer'
 import uploadFileMiddleware from '../server/middleware/upload'
 
 import passport from 'passport'
@@ -33,10 +32,10 @@ import {
   fetchMap,
   updateSingleComponent,
   fetchSingleComponent,
-  deleteSingleComponent, importSingleComponent,
+  deleteSingleComponent,
+  importSingleComponent,
 } from './db';
 
-import dangerousUpdateModeArgument from "../../scripts/motifuiImporter";
 const dangerousTestModeArgument = !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false
 
 if (!dangerousTestModeArgument) {
@@ -123,13 +122,21 @@ if (CLIENT_ID) {
     done(null, user)
   }));
 }
+function isBasicAuthenticated(req, res, next){
+  const username =req.header('username')
+  const password =req.header('password')
+  if (username && password){
+    return next();
+  }
+  res.status(403).send('You do not have rights to import components.');
+}
 
 function isAuthenticated(req, res, next) {
   if (req.session.user) {
     return next();
   }
 
-  if (dangerousTestModeArgument || dangerousUpdateModeArgument) {
+  if (dangerousTestModeArgument) {
     return next();
   }
 
@@ -189,7 +196,7 @@ app.get('/api/map', isAuthenticated, async (req, res) => {
   return res.json(map);
 })
 
-app.put('/api/components/update', isAuthenticated, async (req, res) => {
+app.put('/api/components/update', isBasicAuthenticated, async (req, res) => {
   try {
     await uploadFileMiddleware(req, res);
 
