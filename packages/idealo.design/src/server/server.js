@@ -67,8 +67,6 @@ const PROFILE_ENDPOINT = 'https://graph.microsoft.com/v1.0/me'
 const PORT = process.env.HTTP_PORT || 8080
 const app = express()
 
-const upload = multer({ dest: 'uploads/'})
-
 const RedisStore = connectRedis(session)
 
 passport.serializeUser((user, done) => {
@@ -211,8 +209,6 @@ app.put('/api/components/update', isAuthenticated, async (req, res) => {
     req.files.forEach((file) => {
       screenshotNames.push(file.originalname)
     })
-
-    // console.log('body', req.body)
 
     const componentData = req.body
 
