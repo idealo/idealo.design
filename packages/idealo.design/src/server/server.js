@@ -191,13 +191,7 @@ app.get('/api/map', isAuthenticated, async (req, res) => {
   return res.json(map);
 })
 
-/*app.put('/api/components/update', /!*isAuthenticated,*!/ async (req, res) => {
-  const importedComponents = req.body
-  const updated = await processImportUpdateComponentsTables(importedComponents);
-  return res.json(updated);
-})*/
-
-app.put('/api/components/update',async (req, res) => {
+app.put('/api/components/update', isAuthenticated, async (req, res) => {
   try {
     await uploadFileMiddleware(req, res);
 
