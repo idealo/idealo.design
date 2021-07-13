@@ -37,7 +37,7 @@ export const mockupTags = [
 ]
 
 export const mockupMap = {
-    "component_id": 1,
+    "component_id": 4,
     "title": "@motif/button",
     "tag_name": "button"
 }
@@ -57,12 +57,12 @@ describe('all Tests', () => {
                 },
                 willRespondWith: {
                     status: 200,
-                    body: eachLike(mockupMap, {min: 3})
+                    body: eachLike(mockupMap, {min: 1})
                 }
             })
 
             const response = await fetchMap(provider.mockService.baseUrl);
-            expect(response[0].component_id).toBe(1);
+            expect(response[0].component_id).toBe(4);
             expect(response[0].title).toBe('@motif/button');
             expect(response[0].tag_name).toBe('button');
         });
