@@ -10,8 +10,6 @@ const pathToMotifUiRepo = path.resolve(__dirname, '../../../../motif-ui/src')
 const pathToMotifUIScreenshots = path.resolve(__dirname, '../../../../motif-ui/__screenshots__')
 const localPathToMotifUIScreenshots = path.resolve(__dirname, './../resources/static/assets/uploads')
 
-const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
-
 async function readDirectory(directory) {
     return await fs.promises.readdir(directory, (err) => {
         if (err) {
@@ -27,7 +25,7 @@ async function createPathToMotifUiScreenshots(){
     });
 }
 
-async function extractComponents(subdirectories) {
+/*export*/ async function extractComponents(subdirectories) {
     let components = []
     for (const subdirectory of subdirectories) {
         const eachComponent = {}
@@ -64,7 +62,7 @@ async function extractComponents(subdirectories) {
     return components
 }
 
-async function storeScreenshotFolderName(components) {
+/*export*/ async function storeScreenshotFolderName(components) {
     for(const component of components){
         await fs.promises.readFile(component.pathToStoryFile, 'utf8').then((contentOfStoryFile) => {
             if (contentOfStoryFile.includes('const stories = storiesOf(')) {
@@ -78,7 +76,7 @@ async function storeScreenshotFolderName(components) {
     return components
 }
 
-async function storePathToScreenshots(components){
+/*export*/ async function storePathToScreenshots(components){
     for(const component of components){
         await fs.promises.readdir(localScreenshots + '/' + component.screenshotFolderName).then((screenshots) => {
             component.screenshots = screenshots
@@ -87,7 +85,7 @@ async function storePathToScreenshots(components){
     return components
 }
 
-async function createFormDataForComponents(components) {
+/*export*/ async function createFormDataForComponents(components) {
     for (const component of components) {
 
         await fs.mkdirSync(localPathToMotifUIScreenshots+'/'+component.screenshotFolderName, (err) => {
@@ -116,13 +114,15 @@ async function createFormDataForComponents(components) {
 }
 
 async function sendDataToHttpRequest(components) {
-    const username = process.env.USER_NAME
-    const password = process.env.PASSWORD
+    const username = process.env.UPLOADER_USERNAME
+    const password = process.env.UPLOADER_PWD
     for (const component of components){
         const componentFormData = component.formData
         await axios.put(process.env.BASE_URL + '/api/components/update', componentFormData, {
             headers: {
                 ...componentFormData.getHeaders(),
+            },
+            auth: {
                 username: username,
                 password: password
             }

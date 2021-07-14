@@ -122,10 +122,12 @@ if (CLIENT_ID) {
     done(null, user)
   }));
 }
+
 function isBasicAuthenticated(req, res, next){
-  const username =req.header('username')
-  const password =req.header('password')
-  if (username && password){
+  const base64Credentials = req.headers.authorization.split(' ')[1];
+  const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+  const [username, password] = credentials.split(':');
+  if (username === process.env.UPLOADER_USERNAME && password === process.env.UPLOADER_PWD){
     return next();
   }
   res.status(403).send('You do not have rights to import components.');
