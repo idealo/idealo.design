@@ -1,9 +1,13 @@
-const path = require('path')
-const fse = require('fs-extra')
-const fs = require('fs')
-const FormData = require('form-data')
-const axios = require('axios')
+import path from 'path';
+import fse from 'fs-extra';
+import fs from 'fs';
+import FormData from 'form-data';
+import axios from 'axios';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 const localMotifUiComponents = path.resolve(__dirname, './motif-ui-components/')
 const localScreenshots = path.resolve(__dirname, './screenshots')
 const pathToMotifUiRepo = path.resolve(__dirname, '../../../../motif-ui/src')
@@ -25,7 +29,7 @@ async function createPathToMotifUiScreenshots(){
     });
 }
 
-/*export*/ async function extractComponents(subdirectories) {
+export async function extractComponents(subdirectories) {
     let components = []
     for (const subdirectory of subdirectories) {
         const eachComponent = {}
@@ -62,7 +66,7 @@ async function createPathToMotifUiScreenshots(){
     return components
 }
 
-/*export*/ async function storeScreenshotFolderName(components) {
+export async function storeScreenshotFolderName(components) {
     for(const component of components){
         await fs.promises.readFile(component.pathToStoryFile, 'utf8').then((contentOfStoryFile) => {
             if (contentOfStoryFile.includes('const stories = storiesOf(')) {
@@ -76,7 +80,7 @@ async function createPathToMotifUiScreenshots(){
     return components
 }
 
-/*export*/ async function storePathToScreenshots(components){
+export async function storePathToScreenshots(components){
     for(const component of components){
         await fs.promises.readdir(localScreenshots + '/' + component.screenshotFolderName).then((screenshots) => {
             component.screenshots = screenshots
@@ -85,7 +89,7 @@ async function createPathToMotifUiScreenshots(){
     return components
 }
 
-/*export*/ async function createFormDataForComponents(components) {
+export async function createFormDataForComponents(components) {
     for (const component of components) {
 
         await fs.mkdirSync(localPathToMotifUIScreenshots+'/'+component.screenshotFolderName, (err) => {
