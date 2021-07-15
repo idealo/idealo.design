@@ -1,6 +1,8 @@
 import {Pact, Matchers} from '@pact-foundation/pact'
 import {
     fetchMap,
+    fetchTags,
+    fetchComponents
 } from './component_data'
 import path from 'path'
 
@@ -18,23 +20,12 @@ const provider = new Pact({
     logLevel: 'INFO',
 });
 
-export const mockupComponent = [{
-    "component_id": 1,
-    "title": "@motif/button",
-}, {
-    "component_id": 2,
-    "title": "@motif/pl-button",
-}, {
+export const mockupComponent = {
     "component_id": 3,
-    "title": "@motif/checkbox",
-}]
+    "title": "@motif/checkbox"
+}
 
-export const mockupTags = [
-    {"tag_name": "motif"},
-    {"tag_name": "motif-ui"},
-    {"tag_name": "button"},
-    {"tag_name": "checkbox"}
-]
+export const mockupTags = {"tag_name": "button"}
 
 export const mockupMap = {
     "component_id": 4,
@@ -47,8 +38,8 @@ describe('all Tests', () => {
     beforeAll(() => provider.setup());
     afterEach(() => provider.removeInteractions())
 
-    describe('test Components list', () => {
-        test('should return a list of three components', async () => {
+    describe('test Components+Tags(Map) list', () => {
+        test('should return a list of one component', async () => {
             await provider.addInteraction({
                 uponReceiving: 'a request to list all components',
                 withRequest: {
@@ -65,6 +56,45 @@ describe('all Tests', () => {
             expect(response[0].component_id).toBe(4);
             expect(response[0].title).toBe('@motif/button');
             expect(response[0].tag_name).toBe('button');
+        });
+    })
+
+    describe('test Tags', () => {
+        test('should return a tag', async () => {
+            await provider.addInteraction({
+                uponReceiving: 'a request to list a tag',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/tags',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(mockupTags, {min: 1})
+                }
+            })
+
+            const response = await fetchTags(provider.mockService.baseUrl);
+            expect(response[0].tag_name).toBe('button');
+        });
+    })
+
+    describe('test Component', () => {
+        test('should return a component', async () => {
+            await provider.addInteraction({
+                uponReceiving: 'a request to list a component',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/components',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: eachLike(mockupComponent, {min: 1})
+                }
+            })
+
+            const response = await fetchComponents(provider.mockService.baseUrl);
+            expect(response[0].component_id).toBe(3);
+            expect(response[0].title).toBe('@motif/checkbox');
         });
     })
 });

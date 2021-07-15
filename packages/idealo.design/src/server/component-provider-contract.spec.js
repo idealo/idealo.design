@@ -2,7 +2,9 @@ import { Verifier } from '@pact-foundation/pact'
 import path from 'path'
 import { app } from './server'
 import {
-    fetchMap
+    fetchMap,
+    fetchTags,
+    fetchComponents
 } from './db'
 import '@testing-library/jest-dom/extend-expect';
 import {mockupComponent, mockupTags, mockupMap} from '../ui/pages/ComponentsPage/component-consumer-contract.spec'
@@ -10,6 +12,8 @@ import {mockupComponent, mockupTags, mockupMap} from '../ui/pages/ComponentsPage
 jest.mock('./db', () => {
     return {
         fetchMap: jest.fn(),
+        fetchTags: jest.fn(),
+        fetchComponents: jest.fn()
     }
 })
 
@@ -19,6 +23,8 @@ describe('Pact Verification', () => {
 
     test('should validate the expectations of our consumer', () => {
         fetchMap.mockReturnValue([mockupMap])
+        fetchTags.mockReturnValue([mockupTags])
+        fetchComponents.mockReturnValue([mockupComponent])
 
         const opts = {
             provider: 'ComponentProvider',
