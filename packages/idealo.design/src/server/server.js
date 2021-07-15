@@ -35,7 +35,6 @@ import {
     deleteSingleComponent,
 } from './db';
 
-//import dangerousUpdateModeArgument from "../../scripts/motifuiImporter";
 const dangerousTestModeArgument = !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false
 
 if (!dangerousTestModeArgument) {
@@ -128,7 +127,7 @@ function isAuthenticated(req, res, next) {
         return next();
     }
 
-    if (dangerousTestModeArgument /*|| dangerousUpdateModeArgument*/) {
+    if (dangerousTestModeArgument) {
         return next();
     }
 
