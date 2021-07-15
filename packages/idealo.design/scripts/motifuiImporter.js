@@ -3,11 +3,8 @@ import fse from 'fs-extra';
 import fs from 'fs';
 import FormData from 'form-data';
 import axios from 'axios';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+const __dirname = path.resolve();
 const localMotifUiComponents = path.resolve(__dirname, './motif-ui-components/')
 const localScreenshots = path.resolve(__dirname, './screenshots')
 const pathToMotifUiRepo = path.resolve(__dirname, '../../../../motif-ui/src')
@@ -80,7 +77,7 @@ export async function storeScreenshotFolderName(components) {
     return components
 }
 
-export async function storePathToScreenshots(components){
+export async function storeNameOfScreenshots(components){
     for(const component of components){
         await fs.promises.readdir(localScreenshots + '/' + component.screenshotFolderName).then((screenshots) => {
             component.screenshots = screenshots
@@ -150,7 +147,7 @@ async function handleImportProcess() {
     const subdirectories = await readDirectory(localMotifUiComponents)
     const components = await extractComponents(subdirectories)
     const componentsWithScreenshotFolderNames = await storeScreenshotFolderName(components)
-    const componentsWithScreenshotPath = await storePathToScreenshots(componentsWithScreenshotFolderNames)
+    const componentsWithScreenshotPath = await storeNameOfScreenshots(componentsWithScreenshotFolderNames)
     const componentsWithFormData = await createFormDataForComponents(componentsWithScreenshotPath)
     await sendDataToHttpRequest(componentsWithFormData)
 }
