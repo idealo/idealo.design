@@ -7,7 +7,7 @@ const fs = require('fs');
 const fse = require("fs-extra")
 const http = require('http')
 
-const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
+//const dangerousUpdateModeArgument = !!process.env.DANGEROUS_UPDATE_MODE_ARGUMENT || false
 
 const options = {
     hostname: '0.0.0.0',
@@ -74,13 +74,13 @@ async function handleImportProcess(source, destination){
         .then((result)=>readPackageJsons(result, destination)).then((result)=>sendDataToHttpRequest(result))
 }
 
-if(dangerousUpdateModeArgument){
+//if(dangerousUpdateModeArgument){
     handleImportProcess(pathToMotifUiRepo, motifUiFolder).then(()=>console.log('process finished'))
-}else{
+/*}else{
     console.error('something went wrong')
-}
+}*/
 
-module.exports.modeArgument = dangerousUpdateModeArgument
+//module.exports.modeArgument = dangerousUpdateModeArgument
 
 
 
