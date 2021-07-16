@@ -3,7 +3,7 @@ import React from 'react'
 import s from './ComponentsPage.module.scss'
 
 import {withRouter} from "react-router";
-import {fetchSingleComponent} from "./component_data";
+import {fetchSingleComponent, fetchReadMe} from "./component_data";
 
 export class ComponentsDetailView extends React.Component {
 
@@ -13,17 +13,29 @@ export class ComponentsDetailView extends React.Component {
         this.state = {
             history: history,
             component: {},
+            readme: []
         }
     }
     async componentDidMount() {
+        this.setState({readme: await fetchReadMe()})
         const slug = this.props.match.params.slug
         if(slug){
              this.setState({
                  component: await fetchSingleComponent({slug})
             })
         }
+        this.fillComponentsWithReadMe()
     }
 
+    fillComponentsWithReadMe(){
+        for (let c = 0; c < this.state.readme.length; c++) {
+            if (JSON.stringify(this.state.readme[c]).includes(this.state.component.title.replace('@motif/', ''))) {
+                if(this.state.component.title.replace('@motif/', '') === this.state.component.title.replace('@motif/', ''))
+                console.log('🥐', this.state.readme[c])
+            }else{
+                console.log('🧅', this.state.readme[c])
+            }}
+        }
     render() {
         return (
             <div>

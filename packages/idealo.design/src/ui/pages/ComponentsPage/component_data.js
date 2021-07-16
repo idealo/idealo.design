@@ -15,6 +15,11 @@ export async function fetchMap() {
     return await resp.json();
 }
 
+export async function fetchReadMe() {
+    const resp = await fetch(`${API_BASE}/api/read`);
+    return await resp.json();
+}
+
 export async function fetchSingleComponent({slug}) {
     const resp = await fetch(`${API_BASE}/api/components/${slug}`);
     return await resp.json();

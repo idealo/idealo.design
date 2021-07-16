@@ -176,6 +176,10 @@ export async function fetchMap() {
                        and c.component_id = ct.component_id;`;
 }
 
+export async function fetchReadMe() {
+    return sql`select readme from components;`;
+}
+
 export async function updateSingleComponent(component) {
     return sql.begin(async sql => {
         const updateNameSingleComponent = await sql`update components

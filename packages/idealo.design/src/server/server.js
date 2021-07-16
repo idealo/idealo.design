@@ -34,6 +34,7 @@ import {
   fetchSingleComponent,
   deleteSingleComponent,
   importSingleComponent,
+  fetchReadMe
 } from './db';
 
 const dangerousTestModeArgument = !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false
@@ -196,6 +197,11 @@ app.get('/api/tags', isAuthenticated, async (req, res) => {
 app.get('/api/map', isAuthenticated, async (req, res) => {
   const map = await fetchMap();
   return res.json(map);
+})
+
+app.get('/api/read', isAuthenticated, async (req, res) => {
+  const readme = await fetchReadMe();
+  return res.json(readme);
 })
 
 app.put('/api/components/update', isBasicAuthenticated, async (req, res) => {
