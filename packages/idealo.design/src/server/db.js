@@ -1,4 +1,5 @@
 import postgres from 'postgres'
+import slugify from 'slugify'
 
 const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://database-idealo-design.c9fyhsob8bxc.eu-central-1.rds.amazonaws.com'
 const sql = postgres(POSTGRES_URL)
@@ -226,9 +227,9 @@ export async function deleteSingleComponent({component_id}){
     })
 }
 
-export async function fetchSingleComponent({component_id}) {
-    const tagsComponent = await sql`select t.tag_name from components_tags_map as ct, components as c, tags as t where ct.tag_id = t.tag_id and c.component_id = ct.component_id and c.component_id=${component_id};`
-    const singleComponent = await sql`select * from components c where  c.component_id=${component_id};`
+export async function fetchSingleComponent({slug}) {
+    const tagsComponent = await sql`select tags.tag_name from components_tags_map natural join components natural join tags where components.slug=${slug};`
+    const singleComponent = await sql`select * from components c where  c.slug=${slug};`
     const tags = []
     for (let i = 0; i < tagsComponent.length; i++) {
         tags.push(tagsComponent[i].tag_name)
@@ -241,7 +242,8 @@ export async function importSingleComponent(screenshotPaths, componentData)
     return sql.begin(async sql =>
     {
         await sql`delete from components where title=${componentData.name}`
-        await sql`insert into components (title, readme) values (${componentData.name},${componentData.readme})`
+        const slug = slugify(componentData.name)
+        await sql`insert into components (title, readme, slug) values (${componentData.name},${componentData.readme},${slug});`
         const newComponentId = await sql`select component_id from components where title=${componentData.name}`
         const currentComponentId = newComponentId[0].component_id
 
