@@ -19,22 +19,21 @@ describe('tests for the motif-ui importer script', ()=>{
                 'mockedStoryFile1.story.tsx': mock.load(path.resolve(__dirname, './motif-ui-components/colors/src/colors.story.tsx')),
                 'mockedStoryFile2.story.tsx': mock.load(path.resolve(__dirname, './motif-ui-components/button-group/src/ButtonGroup.story.tsx'))
             },
-            './../resources/static/assets/uploads' : mock.directory()
-            /*'./../resources/static/assets/uploads': mock.directory({
+            './motif-ui-components/': mock.directory(/*{
                 items: {
-                    '/Colors/': {
-                        'blue.png': mock.load(path.resolve(__dirname, './../resources/static/assets/uploads/Colors/blue.png')),
-                        'grey.png': mock.load(path.resolve(__dirname, './../resources/static/assets/uploads/Colors/grey.png')),
-                        'primary.png': mock.load(path.resolve(__dirname, './../resources/static/assets/uploads/Colors/primary.png')),
-                        'secondary.png': mock.load(path.resolve(__dirname, './../resources/static/assets/uploads/Colors/secondary.png'))
-                    },
-                    '/ButtonGroup/': {
-                        'primary.png': mock.load(path.resolve(__dirname, './../resources/static/assets/uploads/ButtonGroup/primary.png'))
-                    }
-                }
-            })*/
+                    '/colors':mock.load(path.resolve(__dirname, './motif-ui-components/colors')),
+                    //'colors/src':mock.load(path.resolve(__dirname, './motif-ui-components/colors/src')),
+                    '/button-group':mock.load(path.resolve(__dirname, './motif-ui-components/button-group')),
+                    //'button-group/src':mock.load(path.resolve(__dirname, './motif-ui-components/button-group/src')),
+                },
+            }*/),
+            './../resources/static/assets/uploads' : mock.directory()
         },{createCwd: true, createTmp: true})
     });
+
+    const mockedSubdirectories = [
+        'colors', 'button-group'
+    ]
 
     const mockedComponentsArray1 = [
         {
@@ -106,11 +105,11 @@ describe('tests for the motif-ui importer script', ()=>{
         }
     ]
 
-    /*
-    test('initiates the components array for all components', () => {
-        expect(importer.extractComponents().toBe())
+    test('initiates the components array for all components', async() => {
+        let componentsArray = await importer.extractComponents(mockedSubdirectories)
+        console.log(componentsArray)
     })
-    */
+
     test('adds the screenshot folder name for each component', async () => {
         let resultAfterFunction = await importer.storeScreenshotFolderName(mockedComponentsArray1);
         expect(resultAfterFunction).toEqual(mockedComponentsArray2)
