@@ -2,7 +2,7 @@ create table if not exists components
 (
     component_id
     serial,
-    slug varchar (255) not null,
+    slug varchar(255) not null,
     title varchar (255) not null,
     readme text not null,
     updated_on timestamp with time zone default current_timestamp not null,

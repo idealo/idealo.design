@@ -1,5 +1,5 @@
 import postgres from 'postgres'
-import slugify from "slugify";
+import slugify from 'slugify'
 
 const  POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://database-idealo-design.c9fyhsob8bxc.eu-central-1.rds.amazonaws.com'
 const sql = postgres(POSTGRES_URL)
@@ -243,7 +243,8 @@ export async function importSingleComponent(screenshotPaths, componentData)
     return sql.begin(async sql =>
     {
         await sql`delete from components where title=${componentData.name}`
-        await sql`insert into components (title, readme) values (${componentData.name},${componentData.readme})`
+        const slug = slugify(componentData.name)
+        await sql`insert into components (title, readme, slug) values (${componentData.name},${componentData.readme},${slug});`
         const newComponentId = await sql`select component_id from components where title=${componentData.name}`
         const currentComponentId = newComponentId[0].component_id
 
