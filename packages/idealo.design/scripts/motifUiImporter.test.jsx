@@ -146,4 +146,4 @@ describe('tests for the motif-ui importer script', ()=>{
     afterEach(async ()=>{
         await mock.restore
     });
-}
+})
