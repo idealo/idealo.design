@@ -19,20 +19,44 @@ describe('tests for the motif-ui importer script', ()=>{
                 'mockedStoryFile1.story.tsx': mock.load(path.resolve(__dirname, './motif-ui-components/colors/src/colors.story.tsx')),
                 'mockedStoryFile2.story.tsx': mock.load(path.resolve(__dirname, './motif-ui-components/button-group/src/ButtonGroup.story.tsx'))
             },
-            './motif-ui-components/': mock.directory(/*{
+            './motif-ui-components': mock.directory({
                 items: {
-                    '/colors':mock.load(path.resolve(__dirname, './motif-ui-components/colors')),
-                    //'colors/src':mock.load(path.resolve(__dirname, './motif-ui-components/colors/src')),
-                    '/button-group':mock.load(path.resolve(__dirname, './motif-ui-components/button-group')),
-                    //'button-group/src':mock.load(path.resolve(__dirname, './motif-ui-components/button-group/src')),
+                    'colors':mock.load(path.resolve(__dirname, './motif-ui-components/colors')),
+                    'button-group':mock.load(path.resolve(__dirname, './motif-ui-components/button-group')),
                 },
-            }*/),
+            }),
             './../resources/static/assets/uploads' : mock.directory()
         },{createCwd: true, createTmp: true})
     });
 
     const mockedSubdirectories = [
         'colors', 'button-group'
+    ]
+    const mockedComponentsArray0 = [
+        {
+            name: '@motif/colors',
+            keywords: [ 'motif', 'motif-ui', 'colors' ],
+            readme: '# Motif UI Colors\n\n## Installation\n```bash\nyarn add @motif/colors\n```\n\n## Usage\n```js\nimport {\n  colorOrange,\n  colorOrangeHover,\n  colorBlue,\n' +
+                '  colorBlueHover,\n  colorGreen,\n  colorGreenHover,\n  colorRed,\n  colorRedLight,\n  colorYellow,\n  colorMarine,\n  colorMarineDark,\n  colorNavy,\n' +
+                '  colorMarineLight,\n  colorMarineLighter,\n  colorGrey900,\n  colorGrey700,\n  colorGrey600,\n  colorGrey500,\n  colorGrey300,\n  colorGrey100,\n' +
+                '  colorWhite,\n' +
+                "} from '@motif/colors';\n" +
+                '```\n',
+            pathToStoryFile: __dirname+'/motif-ui-components/colors/src/colors.story.tsx'
+        },
+        {
+            name: '@motif/button-group',
+            keywords: [ 'motif', 'motif-ui', 'button-group', 'react' ],
+            readme: '# Motif-UI `button-group`\n\n## Installation\n```bash\nyarn add @motif/button-group\n```\n\n## Usage\n```js\n' +
+                "import {ButtonGroup} from '@motif/button-group';\n" +
+                '\n' +
+                '<ButtonGroup>\n' +
+                '  <Button>Press</Button>\n' +
+                '  <Button>Start</Button>\n' +
+                '</ButtonGroup>\n' +
+                '```\n',
+            pathToStoryFile: __dirname+'/motif-ui-components/button-group/src/ButtonGroup.story.tsx'
+        }
     ]
 
     const mockedComponentsArray1 = [
@@ -107,7 +131,7 @@ describe('tests for the motif-ui importer script', ()=>{
 
     test('initiates the components array for all components', async() => {
         let componentsArray = await importer.extractComponents(mockedSubdirectories)
-        console.log(componentsArray)
+        expect(componentsArray).toEqual(mockedComponentsArray0)
     })
 
     test('adds the screenshot folder name for each component', async () => {
