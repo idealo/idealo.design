@@ -2,35 +2,6 @@ const mock = require('mock-fs')
 const path = require('path')
 const importer = require('./motifuiImporter')
 
-beforeEach(function (){
-    mock({
-        './screenshots': mock.directory({
-            items: {
-                'Colors': mock.load(path.resolve(__dirname, './screenshots/Colors/')),
-                'ButtonGroup': mock.load(path.resolve(__dirname, './screenshots/ButtonGroup/'))
-            }
-        }),
-        'path/':{
-            'mockedStoryFile1.story.tsx': mock.load(path.resolve(__dirname, './motif-ui-components/colors/src/colors.story.tsx')),
-            'mockedStoryFile2.story.tsx': mock.load(path.resolve(__dirname, './motif-ui-components/button-group/src/ButtonGroup.story.tsx'))
-        },
-        './../resources/static/assets/uploads' : mock.directory()
-        /*'./../resources/static/assets/uploads': mock.directory({
-            items: {
-                '/Colors/': {
-                    'blue.png': mock.load(path.resolve(__dirname, './../resources/static/assets/uploads/Colors/blue.png')),
-                    'grey.png': mock.load(path.resolve(__dirname, './../resources/static/assets/uploads/Colors/grey.png')),
-                    'primary.png': mock.load(path.resolve(__dirname, './../resources/static/assets/uploads/Colors/primary.png')),
-                    'secondary.png': mock.load(path.resolve(__dirname, './../resources/static/assets/uploads/Colors/secondary.png'))
-                },
-                '/ButtonGroup/': {
-                    'primary.png': mock.load(path.resolve(__dirname, './../resources/static/assets/uploads/ButtonGroup/primary.png'))
-                }
-            }
-        })*/
-    },{createCwd: true, createTmp: true})
-});
-
 const mockedComponentsArray1 = [
     {
         name: 'mockedComponentName1',
@@ -81,12 +52,12 @@ const mockedComponentsArray3 = [
 const mockedComponentsArray4 = [
     {
         name: 'mockedComponentName1',
-        keywords: ['keyword1', 'keyword2'],
+        keywords: [ 'keyword1', 'keyword2' ],
         readme: 'This is readme',
         screenshotFolderName: 'Colors',
-        screenshots: ['blue.png', 'grey.png', 'primary.png', 'secondary.png'],
+        screenshots: [ 'blue.png', 'grey.png', 'primary.png', 'secondary.png' ],
         formData: {
-            "readable": true,
+            readable: true,
         }
     },
     {
@@ -96,30 +67,49 @@ const mockedComponentsArray4 = [
         screenshotFolderName: 'ButtonGroup',
         screenshots: ['primary.png'],
         formData: {
-            "readable": true,
+            readable: true
         }
     }
 ]
 
-/*
+describe('tests for the motif-ui importer script', ()=>{
+    afterEach(async ()=>{
+        await mock.restore
+    });
+
+    beforeEach(function (){
+        mock({
+            './screenshots': mock.directory({
+                items: {
+                    'Colors': mock.load(path.resolve(__dirname, './screenshots/Colors/')),
+                    'ButtonGroup': mock.load(path.resolve(__dirname, './screenshots/ButtonGroup/'))
+                }
+            }),
+            'path/':{
+                'mockedStoryFile1.story.tsx': mock.load(path.resolve(__dirname, './motif-ui-components/colors/src/colors.story.tsx')),
+                'mockedStoryFile2.story.tsx': mock.load(path.resolve(__dirname, './motif-ui-components/button-group/src/ButtonGroup.story.tsx'))
+            },
+            './../resources/static/assets/uploads' : mock.directory()
+
+        },{createCwd: true, createTmp: true})
+    });
+    /*
 test('initiates the components array for all components', () => {
     expect(importer.extractComponents().toBe())
 })
 */
-test('adds the screenshot folder name for each component', async () => {
-    let resultAfterFunction = await importer.storeScreenshotFolderName(mockedComponentsArray1);
-    expect(resultAfterFunction).toEqual(mockedComponentsArray2)
-})
 
-test('adds names of the screenshots for each component', async () => {
-    let resultAfterFunction = await importer.storeNameOfScreenshots(mockedComponentsArray2);
-    expect(resultAfterFunction).toEqual(mockedComponentsArray3)
-})
+    test('adds the screenshot folder name for each component', async () => {
+        let resultAfterFunction = await importer.storeScreenshotFolderName(mockedComponentsArray1);
+        expect(resultAfterFunction).toEqual(mockedComponentsArray2)
+    })
 
-test('adds formData for each component', async () => {
-    let resultAfterFunction = await importer.createFormDataForComponents(mockedComponentsArray3);
-    expect(resultAfterFunction.formData).toMatchObject(mockedComponentsArray4)
-})
+    test('adds names of the screenshots for each component', async () => {
+        let resultAfterFunction = await importer.storeNameOfScreenshots(mockedComponentsArray2);
+        expect(resultAfterFunction).toEqual(mockedComponentsArray3)
+    })
 
-afterEach(mock.restore);
-afterAll(mock.restore);
+    test('adds formData for each component', async () => {
+        let resultAfterFunction = await importer.createFormDataForComponents(mockedComponentsArray3);
+    })
+})
