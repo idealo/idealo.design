@@ -96,7 +96,7 @@ const mockedComponentsArray4 = [
         screenshotFolderName: 'ButtonGroup',
         screenshots: ['primary.png'],
         formData: {
-            "readable": true,
+            readable: true,
         }
     }
 ]
@@ -118,8 +118,26 @@ test('adds names of the screenshots for each component', async () => {
 
 test('adds formData for each component', async () => {
     let resultAfterFunction = await importer.createFormDataForComponents(mockedComponentsArray3);
-    expect(resultAfterFunction.formData).toMatchObject(mockedComponentsArray4)
+    const mockedComponentsArray = {
+        mockedComponent1: [
+            expect.stringMatching(mockedComponentsArray4[0].name),
+            expect.stringMatching(mockedComponentsArray4[0].keywords[0]),
+            expect.stringMatching(mockedComponentsArray4[0].keywords[1]),
+            expect.stringMatching(mockedComponentsArray4[0].readme),
+            expect.stringMatching(mockedComponentsArray4[0].screenshots[0]),
+        ],
+        mockedComponent2: [
+            expect.stringMatching(mockedComponentsArray4[1].name),
+            expect.stringMatching(mockedComponentsArray4[1].keywords[0]),
+            expect.stringMatching(mockedComponentsArray4[1].keywords[1]),
+            expect.stringMatching(mockedComponentsArray4[1].readme),
+            expect.stringMatching(mockedComponentsArray4[1].screenshots[0]),
+        ]
+    }
+    expect(resultAfterFunction[0].formData._streams).toEqual(expect.arrayContaining(mockedComponentsArray.mockedComponent1))
+    expect(resultAfterFunction[1].formData._streams).toEqual(expect.arrayContaining(mockedComponentsArray.mockedComponent2))
 })
 
-afterEach(mock.restore);
-afterAll(mock.restore);
+afterEach(async ()=>{
+    await mock.restore
+});
