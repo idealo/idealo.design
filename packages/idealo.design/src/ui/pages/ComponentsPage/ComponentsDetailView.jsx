@@ -11,31 +11,35 @@ export class ComponentsDetailView extends React.Component {
         super(props);
         const {history} = props;
         this.state = {
+            slug: '',
             history: history,
             component: {},
             readme: []
         }
     }
+
     async componentDidMount() {
-        this.setState({readme: await fetchReadMe()})
         const slug = this.props.match.params.slug
-        if(slug){
-             this.setState({
-                 component: await fetchSingleComponent({slug})
+        if (slug) {
+            this.setState({
+                component: await fetchSingleComponent({slug}),
+                readme: await fetchReadMe({slug}),
+                slug: slug
             })
         }
         this.fillComponentsWithReadMe()
     }
 
-    fillComponentsWithReadMe(){
+    fillComponentsWithReadMe() {
         for (let c = 0; c < this.state.readme.length; c++) {
-            if (JSON.stringify(this.state.readme[c]).includes(this.state.component.title.replace('@motif/', ''))) {
-                if(this.state.component.title.replace('@motif/', '') === this.state.component.title.replace('@motif/', ''))
+            if (this.state.readme[c].slug === this.state.slug) {
                 console.log('🥐', this.state.readme[c])
-            }else{
+            } else {
                 console.log('🧅', this.state.readme[c])
-            }}
+            }
         }
+    }
+
     render() {
         return (
             <div>

@@ -199,8 +199,9 @@ app.get('/api/map', isAuthenticated, async (req, res) => {
   return res.json(map);
 })
 
-app.get('/api/read', isAuthenticated, async (req, res) => {
-  const readme = await fetchReadMe();
+app.get('/api/read/:slug?', isAuthenticated, async (req, res) => {
+  const {slug} = req.params
+  const readme = await fetchReadMe({slug});
   return res.json(readme);
 })
 

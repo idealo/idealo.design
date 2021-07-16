@@ -15,8 +15,8 @@ export async function fetchMap() {
     return await resp.json();
 }
 
-export async function fetchReadMe() {
-    const resp = await fetch(`${API_BASE}/api/read`);
+export async function fetchReadMe({slug}) {
+    const resp = await fetch(`${API_BASE}/api/read/${slug}`);
     return await resp.json();
 }
 

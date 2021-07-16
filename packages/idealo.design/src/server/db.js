@@ -177,7 +177,7 @@ export async function fetchMap() {
 }
 
 export async function fetchReadMe() {
-    return sql`select readme from components;`;
+    return sql`select readme, slug from components;`;
 }
 
 export async function updateSingleComponent(component) {
