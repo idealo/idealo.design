@@ -14,7 +14,7 @@ export async function updateSinglePost(
 ) {
   const body = JSON.stringify(post);
 
-  await fetch(`${base_url}/api/blogposts`, {
+  const resp = await fetch(`${base_url}/api/blogposts`, {
     method: "PUT",
     headers: { Accept: "application/json", "Content-Type": "application/json" },
     body,
@@ -22,6 +22,7 @@ export async function updateSinglePost(
     cb();
     return response.json();
   });
+  return resp
 }
 
 export async function fetchSinglePost({ slug }, base_url = API_BASE) {
@@ -66,22 +67,24 @@ export async function fetchUserInfo(base_url = API_BASE) {
 
 export async function deleteSinglePost(post, base_url = API_BASE) {
   const body = JSON.stringify(post);
-  await fetch(`${base_url}/api/blogposts/delete`, {
+  const resp = await fetch(`${base_url}/api/blogposts/delete`, {
     method: "PUT",
     headers: { Accept: "application/json", "Content-Type": "application/json" },
     body,
   }).then(function (response) {
     return "successfully deleted blogpost";
   });
+  return resp
 }
 
 export async function archiveSinglePost(post, base_url = API_BASE) {
   const body = JSON.stringify(post);
-  await fetch(`${base_url}/api/blogposts/archive`, {
+  const resp = await fetch(`${base_url}/api/blogposts/archive`, {
     method: "PUT",
     headers: { Accept: "application/json", "Content-Type": "application/json" },
     body,
   }).then(function (response) {
     return response.json();
   });
+  return resp
 }
