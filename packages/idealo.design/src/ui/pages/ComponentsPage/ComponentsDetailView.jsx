@@ -4,6 +4,7 @@ import s from './ComponentsPage.module.scss'
 
 import {withRouter} from "react-router";
 import {fetchSingleComponent, fetchReadMe} from "./component_data";
+import slugify from "slugify";
 
 export class ComponentsDetailView extends React.Component {
 
@@ -14,7 +15,16 @@ export class ComponentsDetailView extends React.Component {
             slug: '',
             history: history,
             component: {},
-            readme: []
+            readme: [],
+            links: [],
+
+
+            filterValue: [],
+            components: [],
+            list: [],
+            options: [],
+            filteredComponents: [],
+            URLOptions: []
         }
     }
 
@@ -24,21 +34,72 @@ export class ComponentsDetailView extends React.Component {
             this.setState({
                 component: await fetchSingleComponent({slug}),
                 readme: await fetchReadMe({slug}),
-                slug: slug
+                slug: slug,
+                links: ['Installation', 'Usage']
             })
         }
         this.fillComponentsWithReadMe()
+        this.checkURL()
     }
 
     fillComponentsWithReadMe() {
+        //console.log(this.state.readme)
+        const json = JSON.stringify(this.state.readme);
+        //console.log(json)
+        //const split = json.replace('},{"' + '},{\"', '##')
+        //console.log(split)
+        const hallo = json.split('##')
+        console.log(hallo)
+
+        const json2 = JSON.stringify(this.state.readme);
+        const wallo = json2.split('},{')
+        console.log(wallo)
+
+        const json3 = JSON.stringify(this.state.readme);
+        const kallo = json3.split('\\n",')
+        console.log(kallo)
+        //var myJsonString = JSON.stringify(split);
+        //console.log(myJsonString)
+        /*const e = eval(json)
+        console.log(e)*/
+
         for (let c = 0; c < this.state.readme.length; c++) {
             if (this.state.readme[c].slug === this.state.slug) {
-                console.log('🥐', this.state.readme[c])
-            } else {
-                console.log('🧅', this.state.readme[c])
+
             }
         }
     }
+
+    checkURL(){
+        const filterValue = [];
+        const URLOptions = [];
+        const url = slugify(window.location.href.toString());
+        //console.log(url)
+
+        for(let i=0; i<this.state.links.length; i++) {
+            //console.log(this.state.links)
+            if(url.includes(this.state.links[i])){
+                //console.log()
+                filterValue.push('#' + this.state.links[i])
+                URLOptions.push(this.state.links[i])
+                //console.log(filterValue)
+                //console.log(URLOptions)
+            }
+        }
+        this.setState({filterValue:filterValue, URLOptions: URLOptions})
+    }
+
+    handleChange(links){
+        const filterValue = [];
+        links.map((links) => (filterValue.push('#' + links.value)))
+        const searchParams = new URLSearchParams();
+        searchParams.set("query", filterValue.toString());
+        this.props.history.push(`?${searchParams.toString()}`);
+        this.setState( this.state.filterValue = filterValue);
+        this.checkURL();
+    };
+
+
 
     render() {
         return (
