@@ -69,10 +69,8 @@ Install docker by following instructions found on the official docker website ht
 
 Use `docker run -d -p 6379:6379 -t redis` to run redis key-value database.
 
-### 5. Installing webpack
+### 5. Compiling with webpack
 
-- change into the */packages/idealo.design* directory
-- run `npm install`
 - run `npx webpack`
 
 ### 6. Starting the server
