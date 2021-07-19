@@ -46,7 +46,9 @@ Check for your npm version with: `npm --version`
 
 `npm install`
 
-### 3. Installing node.js if not already installed
+### 3. Setting up node.js
+
+**Install node.js if not already installed:**
 
 - use the node installer found at https://nodejs.org/en/download/
 
