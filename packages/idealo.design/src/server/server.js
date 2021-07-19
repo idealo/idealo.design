@@ -277,7 +277,7 @@ app.put('/api/blogposts/archive', isAuthenticated, async (req, res) => {
 
 app.put('/api/blogposts/delete', isAuthenticated, async (req, res) => {
   const blogpost = req.body;
-  const deletedBlogpost = await deleteSinglePost(blogpost)
+  await deleteSinglePost(blogpost)
   return res.json('successfully deleted blogpost')
 })
 

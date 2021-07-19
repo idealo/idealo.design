@@ -25,32 +25,31 @@ class ClassicStackView extends React.Component {
         const components = []
         let tags = []
         const reactComponents = []
-        for (let c = 0; c < this.state.list.length; c++) {
-            for (let i = 0; i < this.state.components.length; i++) {
-                if (this.state.list[c].component_id === this.state.components[i].component_id) {
-                    tags.push('#' + this.state.components[i].tag_name)
+        for (let item of this.state.list) {
+            for (let component of this.state.components) {
+                if (item.component_id === component.component_id) {
+                    tags.push('#' + component.tag_name)
                 }
             }
             components.push({
-                id: this.state.list[c].component_id,
-                title: this.state.list[c].title,
+                id: item.component_id,
+                title: item.title,
                 tags: JSON.parse(JSON.stringify(tags))
             })
             tags = []
         }
-        for (let i = 0; i < components.length; i++) {
-            for (let j = 0; j < components[i].tags.length; j++) {
-                if(components[i].tags[j] === '#react'){
-                    reactComponents.push(components[i]);
+        for (let component of components) {
+            for (let tag of component.tags) {
+                if(tag === '#react'){
+                    reactComponents.push(component);
                 }
             }
         }
-        for (let c = 0; c < components.length; c++) {
-            for (let i = 0; i < reactComponents.length; i++) {
-                if(components[c] === reactComponents[i]){
-                    components.splice(c,1);
+        for (let component of components) {
+            for (let reactComponent of reactComponents) {
+                if(components.component === reactComponents.reactComponent){
+                    components.splice(component,1);
                 }
-
             }
         }
         this.setState({components : components})

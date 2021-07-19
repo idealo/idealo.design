@@ -16,7 +16,7 @@ export class RichTextEditor extends React.Component {
     constructor(props) {
         super(props);
 
-        const {match, location, history} = props;
+        const {match} = props;
         this.blog = null;
         this.slug = match.params.slug;
         this.mode = this.slug ? 'EDIT' : 'CREATE';
@@ -52,6 +52,7 @@ export class RichTextEditor extends React.Component {
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.handleSelectCreate = this.handleSelectCreate.bind(this);
         this.handleValidation = this.handleValidation.bind(this);
+        this.showSubmitPrompt = this.showSubmitPrompt.bind(this);
     }
 
     async componentDidMount() {
@@ -146,8 +147,8 @@ export class RichTextEditor extends React.Component {
                 return response.json();
             })
             .then(data => {
-                for (let i = 0; i < data.length; i++) {
-                    titles.push(data[i].title)
+                for (let date of data) {
+                    titles.push(date.title)
                 }
                 this.setState({existingTitle: titles});
             });
@@ -187,6 +188,15 @@ export class RichTextEditor extends React.Component {
         this.setState({error: errors});
 
         return formIsValid;
+    }
+
+    showSubmitPrompt(){
+        this.setState({isSubmitPromptOpen: true});
+        setTimeout(() => {
+            this.setState({isSubmitPromptOpen: false}, () => {
+                this.props.history.push('/blog');
+            });
+        }, 1500);
     }
 
     handleSubmit(e) {
@@ -231,12 +241,7 @@ export class RichTextEditor extends React.Component {
                 slug: this.slug,
                 post: this.blog
             }, () => {
-                this.setState({isSubmitPromptOpen: true});
-                setTimeout(() => {
-                    this.setState({isSubmitPromptOpen: false}, () => {
-                        this.props.history.push('/blog');
-                    });
-                }, 1500);
+                this.showSubmitPrompt();
             })
             return;
         }
@@ -258,13 +263,7 @@ export class RichTextEditor extends React.Component {
         this.props.history.block(() => {
             return true;
         })
-        this.setState({isSubmitPromptOpen: true});
-        setTimeout(() => {
-            this.setState({isSubmitPromptOpen: false}, () => {
-                this.props.history.push('/blog');
-            });
-        }, 1500);
-        //this.setState({editorState: EditorState.createEmpty()});
+       this.showSubmitPrompt();
     }
 
     onModalCancel() {
@@ -421,11 +420,11 @@ const styleMap = {
 };
 
 function getBlockStyle(block) {
-    switch (block.getType()) {
-        case 'blockquote':
-            return 'RichEditor-blockquote';
-        default:
-            return null;
+    if(block.getType()){
+        return 'RichEditor-blockquote';
+    }
+    else {
+        return null;
     }
 }
 

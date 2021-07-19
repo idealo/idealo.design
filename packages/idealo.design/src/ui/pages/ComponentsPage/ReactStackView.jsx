@@ -2,8 +2,7 @@ import React from "react";
 import {withRouter} from "react-router";
 import s from './ComponentsPage.module.scss';
 import { ReactComponent as Checkbox } from '../../../../public/Checkbox.svg';
-import Select from 'react-select';
-import {fetchTags, fetchMap, fetchComponents} from "./component_data";
+import {fetchMap, fetchComponents} from "./component_data";
 
 
 class ReactStackView extends React.Component {
@@ -26,21 +25,22 @@ class ReactStackView extends React.Component {
         const components = []
         let tags = []
 
-        for (let c = 0; c < this.state.list.length; c++) {
-            for (let i = 0; i < this.state.components.length; i++) {
-                if (this.state.list[c].component_id === this.state.components[i].component_id) {
-                    tags.push('#' + this.state.components[i].tag_name)
+        for (let item of this.state.list) {
+            for (let component of this.state.components) {
+                if (item.component_id === component.component_id) {
+                    tags.push('#' + component.tag_name)
                 }
             }
-            for (let l = 0; l < tags.length; l++){
-                if(tags[l] === '#react'){
+            for(let tag of tags) {
+                if(tag === '#react') {
                     components.push({
-                        id: this.state.list[c].component_id,
-                        title: this.state.list[c].title,
+                        id: item.component_id,
+                        title: item.title,
                         tags: JSON.parse(JSON.stringify(tags))
                     })
                 }
             }
+
             tags = []
         }
         this.setState({components : components})

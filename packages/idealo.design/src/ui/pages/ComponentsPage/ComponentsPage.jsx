@@ -7,7 +7,6 @@ import ComponentView from './ComponentView'
 import {fetchUserInfo} from "../BlogPage/data";
 import ReactStackView from "./ReactStackView";
 import ClassicStackView from "./ClassicStackView";
-import EditorView from "../BlogPage/EditorView";
 
 export default function ComponentsPage({match}) {
 

@@ -33,15 +33,15 @@ class ComponentView extends React.Component {
         const components = []
         let tags = []
 
-        for (let c = 0; c < this.state.list.length; c++) {
-            for (let i = 0; i < this.state.components.length; i++) {
-                if (this.state.list[c].component_id === this.state.components[i].component_id) {
-                    tags.push('#' + this.state.components[i].tag_name)
+        for (let item of this.state.list) {
+            for (let component of this.state.components) {
+                if (item.component_id === component.component_id) {
+                    tags.push('#' + component.tag_name)
                 }
             }
             components.push({
-                id: this.state.list[c].component_id,
-                title: this.state.list[c].title,
+                id: item.component_id,
+                title: item.title,
                 tags: JSON.parse(JSON.stringify(tags))
             })
             tags = []
@@ -51,8 +51,8 @@ class ComponentView extends React.Component {
 
     fillOptions(){
         const options = []
-        for(let i=0; i<this.state.options.length; i++){
-            options.push({label: this.state.options[i].tag_name, value: this.state.options[i].tag_name})
+        for(let option of this.state.options){
+            options.push({label: option.tag_name, value: option.tag_name})
         }
         this.setState({ options: options })
     }
@@ -64,16 +64,12 @@ class ComponentView extends React.Component {
             this.setState({filteredComponents: []})
             const filteredComponents = [];
 
-            for (let j = 0; j < this.state.filterValue.length; j++) {
-                for (let i = 0; i < this.state.components.length; i++) {
-                    for (let x = 0; x < this.state.components[i].tags.length; x++) {
-                        const check = this.state.filterValue.every((el) => {
-                            return this.state.components[i].tags.indexOf(el) !== -1
-                        });
-                        if (check) {
-                            filteredComponents.push(this.state.components[i])
-                        }
-                    }
+            for (let component of this.state.components) {
+                const check = this.state.filterValue.every((el) => {
+                    return component.tags.indexOf(el) !== -1
+                });
+                if (check) {
+                    filteredComponents.push(component)
                 }
             }
             this.setState({filteredComponents: [...new Set(filteredComponents)]})
@@ -87,23 +83,23 @@ class ComponentView extends React.Component {
 
     handleChange(select){
         const filterValue = [];
-        select.map((select) => (filterValue.push('#' + select.value)))
+        select.map((selectElement) => (filterValue.push('#' + selectElement.value)))
         const searchParams = new URLSearchParams();
         searchParams.set("query", filterValue.toString());
         this.props.history.push(`?${searchParams.toString()}`);
-        this.setState( this.state.filterValue = filterValue);
+        this.setState( {filterValue : filterValue});
         this.fillFilterComponents();
         this.checkURL();
-    };
+    }
 
     checkURL(){
         const filterValue = [];
         const URLOptions = [];
         const url = slugify(window.location.href.toString());
-        for(let i=0; i<this.state.options.length; i++) {
-            if(url.includes(this.state.options[i].value)){
-                filterValue.push('#' + this.state.options[i].value)
-                URLOptions.push(this.state.options[i])
+        for(let option of this.state.options) {
+            if(url.includes(option.value)){
+                filterValue.push('#' + option.value)
+                URLOptions.push(option)
             }
         }
         this.setState({filterValue:filterValue, URLOptions: URLOptions})

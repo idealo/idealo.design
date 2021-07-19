@@ -3,7 +3,7 @@ import React from 'react'
 import Editor from './Editor'
 import requiredAuthentication from "./requiredAuthentication";
 
-function EditorView({}) {
+function EditorView() {
     return <Editor/>
 }
 
