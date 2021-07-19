@@ -1,39 +1,36 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from "react";
 
-import {Route, Switch,} from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
-
-import ComponentView from './ComponentView'
-import {fetchUserInfo} from "../BlogPage/data";
+import ComponentView from "./ComponentView";
+import { fetchUserInfo } from "../BlogPage/data";
 import ReactStackView from "./ReactStackView";
 import ClassicStackView from "./ClassicStackView";
 
-export default function ComponentsPage({match}) {
+export default function ComponentsPage({ match }) {
+  const [userInfo, setUserInfo] = useState([]);
 
-    const [userInfo, setUserInfo] = useState([]);
+  useEffect(() => {
+    fetchUserInfo().then(setUser);
+  });
 
-    useEffect(() => {
-        fetchUserInfo().then(setUser);
-    });
+  const setUser = (user) => {
+    setUserInfo(user);
+  };
 
-    const setUser = (user) => {
-        setUserInfo(user);
-    }
-
-    return (
-        <>
-            <Switch>
-                <Route exact path='/components'>
-                    <ComponentView/>
-                </Route>
-                <Route exact path='/components/for-react-stacks'>
-                    <ReactStackView />
-                </Route>
-                <Route exact path='/components/for-classic-stacks'>
-                    <ClassicStackView />
-                </Route>
-            </Switch>
-        </>
-    )
+  return (
+    <>
+      <Switch>
+        <Route exact path="/components">
+          <ComponentView />
+        </Route>
+        <Route exact path="/components/for-react-stacks">
+          <ReactStackView />
+        </Route>
+        <Route exact path="/components/for-classic-stacks">
+          <ClassicStackView />
+        </Route>
+      </Switch>
+    </>
+  );
 }
-
