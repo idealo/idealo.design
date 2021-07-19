@@ -38,11 +38,13 @@ Here are the steps to run this project on your local machine:
 
 ### 2. Installing npm if not already installed
 
-`npm install`
-
 **Make sure you are using the latest version of npm!**
 
 Check for your npm version with: `npm --version`
+
+**Then run:**
+
+`npm install`
 
 ### 3. Installing node.js if not already installed
 
