@@ -126,7 +126,7 @@ describe('tests for the motif-ui importer script', ()=>{
             screenshotFolderName: 'Colors',
             screenshots: ['blue.png', 'grey.png', 'primary.png', 'secondary.png'],
             formData: {
-                "readable": true,
+                readable: true,
             }
         },
         {
@@ -158,15 +158,15 @@ describe('tests for the motif-ui importer script', ()=>{
 
     test('adds formData for each component', async () => {
         let resultAfterFunction = await importer.createFormDataForComponents(ArrayWithScreenshotsNames);
-        const mockedComponentsArray = {
-            mockedComponent1: [
+        const partOfWithFormDataArray = {
+            firstComponent: [
                 expect.stringMatching(arrayWithFormData[0].name),
                 expect.stringMatching(arrayWithFormData[0].keywords[0]),
                 expect.stringMatching(arrayWithFormData[0].keywords[1]),
                 expect.stringMatching(arrayWithFormData[0].readme),
                 expect.stringMatching(arrayWithFormData[0].screenshots[0]),
             ],
-            mockedComponent2: [
+            secondComponent: [
                 expect.stringMatching(arrayWithFormData[1].name),
                 expect.stringMatching(arrayWithFormData[1].keywords[0]),
                 expect.stringMatching(arrayWithFormData[1].keywords[1]),
@@ -174,11 +174,7 @@ describe('tests for the motif-ui importer script', ()=>{
                 expect.stringMatching(arrayWithFormData[1].screenshots[0]),
             ]
         }
-        expect(resultAfterFunction[0].formData._streams).toEqual(expect.arrayContaining(mockedComponentsArray.mockedComponent1))
-        expect(resultAfterFunction[1].formData._streams).toEqual(expect.arrayContaining(mockedComponentsArray.mockedComponent2))
+        expect(resultAfterFunction[0].formData._streams).toEqual(expect.arrayContaining(partOfWithFormDataArray.firstComponent))
+        expect(resultAfterFunction[1].formData._streams).toEqual(expect.arrayContaining(partOfWithFormDataArray.secondComponent))
     })
-
-    afterEach(async ()=>{
-        await mock.restore
-    });
 })
