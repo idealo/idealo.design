@@ -77,7 +77,7 @@ Use `docker run -d -p 6379:6379 -t redis` to run redis key-value database.
 
 - nagivate into the */dist* directory
 
-- run the node server: `node server.js`
+- run the node server: `POSTGRES_URL=postgres://postgres@localhost:5432/idealodesign node server.js`
 
 **Success!** - **You can now find idealo Design System under `localhost:8080`**
 
