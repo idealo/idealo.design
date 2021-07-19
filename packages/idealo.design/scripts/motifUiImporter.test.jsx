@@ -21,8 +21,20 @@ describe('tests for the motif-ui importer script', ()=>{
             },
             './motif-ui-components': mock.directory({
                 items: {
-                    'colors':mock.load(path.resolve(__dirname, './motif-ui-components/colors')),
-                    'button-group':mock.load(path.resolve(__dirname, './motif-ui-components/button-group')),
+                    'colors':mock.directory({
+                        items: {
+                            'README.md':mock.load(path.resolve(__dirname, './motif-ui-components/colors/README.md')),
+                            'package.json':mock.load(path.resolve(__dirname, './motif-ui-components/colors/package.json')),
+                            'src':mock.load(path.resolve(__dirname, './motif-ui-components/colors/src'))
+                        }
+                    }),
+                    'button-group':mock.directory({
+                        items: {
+                            'README.md':mock.load(path.resolve(__dirname, './motif-ui-components/button-group/README.md')),
+                            'package.json':mock.load(path.resolve(__dirname, './motif-ui-components/button-group/package.json')),
+                            'src':mock.load(path.resolve(__dirname, './motif-ui-components/button-group/src'))
+                        }
+                    }),
                 },
             }),
             './../resources/static/assets/uploads' : mock.directory()
@@ -32,7 +44,7 @@ describe('tests for the motif-ui importer script', ()=>{
     const mockedSubdirectories = [
         'colors', 'button-group'
     ]
-    const mockedComponentsArray0 = [
+    const arrayWithNameKeywordsReadme = [
         {
             name: '@motif/colors',
             keywords: [ 'motif', 'motif-ui', 'colors' ],
@@ -59,7 +71,7 @@ describe('tests for the motif-ui importer script', ()=>{
         }
     ]
 
-    const mockedComponentsArray1 = [
+    const ArrayWithPathToStoryfile = [
         {
             name: 'mockedComponentName1',
             keywords: ['keyword1', 'keyword2'],
@@ -74,7 +86,7 @@ describe('tests for the motif-ui importer script', ()=>{
         }
     ]
 
-    const mockedComponentsArray2 = [
+    const ArrayWithScreenshotFolderName = [
         {
             name: 'mockedComponentName1',
             keywords: ['keyword1', 'keyword2'],
@@ -89,7 +101,7 @@ describe('tests for the motif-ui importer script', ()=>{
         }
     ]
 
-    const mockedComponentsArray3 = [
+    const ArrayWithScreenshotsNames = [
         {
             name: 'mockedComponentName1',
             keywords: ['keyword1', 'keyword2'],
@@ -106,7 +118,7 @@ describe('tests for the motif-ui importer script', ()=>{
         }
     ]
 
-    const mockedComponentsArray4 = [
+    const arrayWithFormData = [
         {
             name: 'mockedComponentName1',
             keywords: ['keyword1', 'keyword2'],
@@ -130,36 +142,36 @@ describe('tests for the motif-ui importer script', ()=>{
     ]
 
     test('initiates the components array for all components', async() => {
-        let componentsArray = await importer.extractComponents(mockedSubdirectories)
-        expect(componentsArray).toEqual(mockedComponentsArray0)
+        let resultAfterFunction = await importer.extractComponents(mockedSubdirectories)
+        expect(resultAfterFunction).toEqual(arrayWithNameKeywordsReadme)
     })
 
     test('adds the screenshot folder name for each component', async () => {
-        let resultAfterFunction = await importer.storeScreenshotFolderName(mockedComponentsArray1);
-        expect(resultAfterFunction).toEqual(mockedComponentsArray2)
+        let resultAfterFunction = await importer.storeScreenshotFolderName(ArrayWithPathToStoryfile);
+        expect(resultAfterFunction).toEqual(ArrayWithScreenshotFolderName)
     })
 
     test('adds names of the screenshots for each component', async () => {
-        let resultAfterFunction = await importer.storeNameOfScreenshots(mockedComponentsArray2);
-        expect(resultAfterFunction).toEqual(mockedComponentsArray3)
+        let resultAfterFunction = await importer.storeNameOfScreenshots(ArrayWithScreenshotFolderName);
+        expect(resultAfterFunction).toEqual(ArrayWithScreenshotsNames)
     })
 
     test('adds formData for each component', async () => {
-        let resultAfterFunction = await importer.createFormDataForComponents(mockedComponentsArray3);
+        let resultAfterFunction = await importer.createFormDataForComponents(ArrayWithScreenshotsNames);
         const mockedComponentsArray = {
             mockedComponent1: [
-                expect.stringMatching(mockedComponentsArray4[0].name),
-                expect.stringMatching(mockedComponentsArray4[0].keywords[0]),
-                expect.stringMatching(mockedComponentsArray4[0].keywords[1]),
-                expect.stringMatching(mockedComponentsArray4[0].readme),
-                expect.stringMatching(mockedComponentsArray4[0].screenshots[0]),
+                expect.stringMatching(arrayWithFormData[0].name),
+                expect.stringMatching(arrayWithFormData[0].keywords[0]),
+                expect.stringMatching(arrayWithFormData[0].keywords[1]),
+                expect.stringMatching(arrayWithFormData[0].readme),
+                expect.stringMatching(arrayWithFormData[0].screenshots[0]),
             ],
             mockedComponent2: [
-                expect.stringMatching(mockedComponentsArray4[1].name),
-                expect.stringMatching(mockedComponentsArray4[1].keywords[0]),
-                expect.stringMatching(mockedComponentsArray4[1].keywords[1]),
-                expect.stringMatching(mockedComponentsArray4[1].readme),
-                expect.stringMatching(mockedComponentsArray4[1].screenshots[0]),
+                expect.stringMatching(arrayWithFormData[1].name),
+                expect.stringMatching(arrayWithFormData[1].keywords[0]),
+                expect.stringMatching(arrayWithFormData[1].keywords[1]),
+                expect.stringMatching(arrayWithFormData[1].readme),
+                expect.stringMatching(arrayWithFormData[1].screenshots[0]),
             ]
         }
         expect(resultAfterFunction[0].formData._streams).toEqual(expect.arrayContaining(mockedComponentsArray.mockedComponent1))
