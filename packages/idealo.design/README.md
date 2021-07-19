@@ -36,9 +36,9 @@ Here are the steps to run this project on your local machine:
 `git clone https://github.com/idealo/nwp`
 - change into the */nwp/packages/idealo.design* directory
 
-### 2. Installing npm if not already installed
+### 2. Installing dependencies
 
-**Make sure you are using the latest version of npm!**
+**Install npm if not already installed & make sure you are using the latest version of npm!**
 
 Check for your npm version with: `npm --version`
 
