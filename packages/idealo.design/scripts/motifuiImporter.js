@@ -3,6 +3,7 @@ import fse from 'fs-extra';
 import fs from 'fs';
 import FormData from 'form-data';
 import axios from 'axios';
+import jsonMark from 'jsonmark'
 
 const __dirname = path.resolve();
 const localMotifUiComponents = path.resolve(__dirname, './motif-ui-components/')
@@ -12,7 +13,7 @@ const pathToMotifUIScreenshots = path.resolve(__dirname, '../../../../motif-ui/_
 const localPathToMotifUIScreenshots = path.resolve(__dirname, './../resources/static/assets/uploads')
 
 async function readDirectory(directory) {
-    return await fs.promises.readdir(directory, (err) => {
+    return fs.promises.readdir(directory, (err) => {
         if (err) {
             console.log("Could not list the directory.", err);
             process.exit(1);
@@ -39,7 +40,9 @@ export async function extractComponents(subdirectories) {
                 }
             })
             await fs.promises.readFile(localMotifUiComponents+'/'+subdirectory+'/README.md','utf-8').then((stringContentOfReadMe)=>{
-                eachComponent.readme = stringContentOfReadMe
+                const readmeAsJson = jsonMark.parse(stringContentOfReadMe)
+                const stringifiedJSON = JSON.stringify(readmeAsJson)
+                eachComponent.readme = stringifiedJSON
             })
         }
 

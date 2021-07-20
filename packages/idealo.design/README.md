@@ -34,17 +34,21 @@ Here are the steps to run this project on your local machine:
 ### 1. Cloning the project
 
 `git clone https://github.com/idealo/nwp`
-- change into the */nwp* directory
+- change into the */nwp/packages/idealo.design* directory
 
-### 2. Installing npm if not already installed
+### 2. Installing dependencies
 
-`npm install`
-
-**Make sure you are using the latest version of npm!**
+**Install npm if not already installed & make sure you are using the latest version of npm!**
 
 Check for your npm version with: `npm --version`
 
-### 3. Installing node.js if not already installed
+**Then run:**
+
+`npm install`
+
+### 3. Setting up node.js
+
+**Install node.js if not already installed:**
 
 - use the node installer found at https://nodejs.org/en/download/
 
@@ -65,17 +69,15 @@ Install docker by following instructions found on the official docker website ht
 
 Use `docker run -d -p 6379:6379 -t redis` to run redis key-value database.
 
-### 5. Installing webpack
+### 5. Compiling with webpack
 
-- change into the */packages/idealo.design* directory
-- run `npm install`
 - run `npx webpack`
 
 ### 6. Starting the server
 
 - nagivate into the */dist* directory
 
-- run the node server: `node server.js`
+- run the node server: `POSTGRES_URL=postgres://postgres@localhost:5432/idealodesign node server.js`
 
 **Success!** - **You can now find idealo Design System under `localhost:8080`**
 
