@@ -15,8 +15,8 @@ export async function fetchMap() {
   return resp.json();
 }
 
-export async function fetchSingleComponent({ component_id }) {
-  const resp = await fetch(`${API_BASE}/api/components/${component_id}`);
+export async function fetchSingleComponent({ slug }) {
+  const resp = await fetch(`${API_BASE}/api/components/${slug}`);
   return resp.json();
 }
 
