@@ -1,4 +1,4 @@
-@import 'Styles/colors';
+@import "Styles/colors";
 
 .list {
   overflow: hidden;
@@ -6,7 +6,6 @@
   margin-right: 2.5rem;
   position: relative;
 }
-
 
 .multiselect {
   margin: 5px;
@@ -39,7 +38,7 @@
 
   .logo {
     width: 100%;
-    height: auto
+    height: auto;
   }
 
   .tags {
@@ -47,5 +46,3 @@
     font-size: 90%;
   }
 }
-
-

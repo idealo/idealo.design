@@ -1,1 +1,1 @@
-export {default} from './ComponentsPage'
+export { default } from "./ComponentsPage";
