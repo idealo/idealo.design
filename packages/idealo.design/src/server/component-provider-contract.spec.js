@@ -29,8 +29,6 @@ describe('Pact Verification', () => {
         const opts = {
             provider: 'ComponentProvider',
             providerBaseUrl: 'http://localhost:7777',
-            // pactBrokerUrl: process.env.PACT_BROKER_URL,
-            //  pactBrokerToken: process.env.PACT_BROKER_TOKEN,
             pactUrls: [path.resolve(process.cwd(), 'src/__tests__/pact/componentconsumer-componentprovider.json')],
             publishVerificationResult: true,
             providerVersion: '1.0.0',

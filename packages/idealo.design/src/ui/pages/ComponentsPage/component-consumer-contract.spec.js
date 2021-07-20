@@ -9,7 +9,6 @@ import path from 'path'
 const {eachLike, like} = Matchers
 
 const PORT = 4000;
-const URL = 'http://localhost:';
 
 const provider = new Pact({
     consumer: 'ComponentConsumer',
@@ -33,15 +32,15 @@ export const mockupMap = {
     "tag_name": "button"
 }
 
-describe('all Tests', () => {
+describe('All component consumer contract tests', () => {
     afterAll(() => provider.finalize());
     beforeAll(() => provider.setup());
     afterEach(() => provider.removeInteractions())
 
     describe('test Components+Tags(Map) list', () => {
-        test('should return a list of one component', async () => {
+        test('should return a component with tags', async () => {
             await provider.addInteraction({
-                uponReceiving: 'a request to list all components',
+                uponReceiving: 'Given a get call to the component-tags endpoint',
                 withRequest: {
                     method: 'GET',
                     path: '/api/map',
@@ -62,7 +61,7 @@ describe('all Tests', () => {
     describe('test Tags', () => {
         test('should return a tag', async () => {
             await provider.addInteraction({
-                uponReceiving: 'a request to list a tag',
+                uponReceiving: 'Given a get call to the tags endpoint',
                 withRequest: {
                     method: 'GET',
                     path: '/api/tags',
@@ -81,7 +80,7 @@ describe('all Tests', () => {
     describe('test Component', () => {
         test('should return a component', async () => {
             await provider.addInteraction({
-                uponReceiving: 'a request to list a component',
+                uponReceiving: 'Given a get call to the components endpoint',
                 withRequest: {
                     method: 'GET',
                     path: '/api/components',

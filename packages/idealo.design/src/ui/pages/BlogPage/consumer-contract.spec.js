@@ -15,7 +15,6 @@ import path from 'path'
 const {eachLike, like} = Matchers
 
 const PORT = 5000;
-const URL = 'http://localhost:';
 
 const provider = new Pact({
     consumer: 'BlogTestingConsumer',

@@ -51,8 +51,6 @@ describe('Pact Verification', () => {
         const opts = {
             provider: 'BlogTestingProvider',
             providerBaseUrl: 'http://localhost:6666',
-           // pactBrokerUrl: process.env.PACT_BROKER_URL,
-          //  pactBrokerToken: process.env.PACT_BROKER_TOKEN,
             pactUrls: [path.resolve(process.cwd(), 'src/__tests__/pact/blogtestingconsumer-blogtestingprovider.json')],
             publishVerificationResult: true,
             providerVersion: '1.0.0',
