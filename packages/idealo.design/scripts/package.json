@@ -19,5 +19,8 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.14.5",
     "mock-fs": "^5.0.0"
+  },
+  "dependencies": {
+    "jsonmark": "^0.0.1"
   }
 }

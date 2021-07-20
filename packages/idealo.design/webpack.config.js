@@ -131,7 +131,8 @@ const app = function(env, argv) {
       new webpack.ProgressPlugin(),
       new HtmlWebpackPlugin({
         template: './src/ui/public/index.html',
-        publicPath: '/public'
+        publicPath: '/public',
+        favicon: './src/favicon.ico'
       }),
       new MiniCssExtractPlugin({
         filename: isDevelopment
