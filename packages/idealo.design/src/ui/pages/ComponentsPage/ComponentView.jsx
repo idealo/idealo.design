@@ -60,7 +60,10 @@ class ComponentView extends React.Component {
   fillOptions() {
     const options = [];
     for (let option of this.state.options) {
-      options.push({ label: option.tag_name, value: option.tag_name });
+      options.push({
+        label: option.tag_name,
+        value: option.tag_name,
+      });
     }
     this.setState({ options: options });
   }
@@ -90,11 +93,11 @@ class ComponentView extends React.Component {
 
   handleChange(select) {
     const filterValue = [];
-    select.map((selectElement) => filterValue.push("#" + selectElement.value));
+    select.map((select) => filterValue.push("#" + select.value));
     const searchParams = new URLSearchParams();
     searchParams.set("query", filterValue.toString());
     this.props.history.push(`?${searchParams.toString()}`);
-    this.setState({ filterValue: filterValue });
+    this.setState((this.state.filterValue = filterValue));
     this.fillFilterComponents();
     this.checkURL();
   }
