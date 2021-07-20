@@ -12,5 +12,3 @@ WORKDIR /home/node/app/dist
 EXPOSE 8080
 
 CMD ["node", "server.js"]
-
-
