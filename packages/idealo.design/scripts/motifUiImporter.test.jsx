@@ -48,25 +48,13 @@ describe('tests for the motif-ui importer script', ()=>{
         {
             name: '@motif/colors',
             keywords: [ 'motif', 'motif-ui', 'colors' ],
-            readme: '# Motif UI Colors\n\n## Installation\n```bash\nyarn add @motif/colors\n```\n\n## Usage\n```js\nimport {\n  colorOrange,\n  colorOrangeHover,\n  colorBlue,\n' +
-                '  colorBlueHover,\n  colorGreen,\n  colorGreenHover,\n  colorRed,\n  colorRedLight,\n  colorYellow,\n  colorMarine,\n  colorMarineDark,\n  colorNavy,\n' +
-                '  colorMarineLight,\n  colorMarineLighter,\n  colorGrey900,\n  colorGrey700,\n  colorGrey600,\n  colorGrey500,\n  colorGrey300,\n  colorGrey100,\n' +
-                '  colorWhite,\n' +
-                "} from '@motif/colors';\n" +
-                '```\n',
+            readme: "{\"order\":[\"Motif UI Colors\",\"Installation\",\"Usage\"],\"content\":{\"Motif UI Colors\":{\"head\":\"# Motif UI Colors\",\"body\":\"\"},\"Installation\":{\"head\":\"## Installation\",\"body\":\"```bash\\nyarn add @motif/colors\\n```\"},\"Usage\":{\"head\":\"## Usage\",\"body\":\"```js\\nimport {\\n  colorOrange,\\n  colorOrangeHover,\\n  colorBlue,\\n  colorBlueHover,\\n  colorGreen,\\n  colorGreenHover,\\n  colorRed,\\n  colorRedLight,\\n  colorYellow,\\n  colorMarine,\\n  colorMarineDark,\\n  colorNavy,\\n  colorMarineLight,\\n  colorMarineLighter,\\n  colorGrey900,\\n  colorGrey700,\\n  colorGrey600,\\n  colorGrey500,\\n  colorGrey300,\\n  colorGrey100,\\n  colorWhite,\\n} from '@motif/colors';\\n```\"}}}",
             pathToStoryFile: __dirname+'/motif-ui-components/colors/src/colors.story.tsx'
         },
         {
             name: '@motif/button-group',
             keywords: [ 'motif', 'motif-ui', 'button-group', 'react' ],
-            readme: '# Motif-UI `button-group`\n\n## Installation\n```bash\nyarn add @motif/button-group\n```\n\n## Usage\n```js\n' +
-                "import {ButtonGroup} from '@motif/button-group';\n" +
-                '\n' +
-                '<ButtonGroup>\n' +
-                '  <Button>Press</Button>\n' +
-                '  <Button>Start</Button>\n' +
-                '</ButtonGroup>\n' +
-                '```\n',
+            readme: "{\"order\":[\"Motif-UI `button-group`\",\"Installation\",\"Usage\"],\"content\":{\"Motif-UI `button-group`\":{\"head\":\"# Motif-UI `button-group`\",\"body\":\"\"},\"Installation\":{\"head\":\"## Installation\",\"body\":\"```bash\\nyarn add @motif/button-group\\n```\"},\"Usage\":{\"head\":\"## Usage\",\"body\":\"```js\\nimport {ButtonGroup} from '@motif/button-group';\\n\\n<ButtonGroup>\\n  <Button>Press</Button>\\n  <Button>Start</Button>\\n</ButtonGroup>\\n```\"}}}",
             pathToStoryFile: __dirname+'/motif-ui-components/button-group/src/ButtonGroup.story.tsx'
         }
     ]
