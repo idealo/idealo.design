@@ -4,6 +4,7 @@ import s from './ComponentsPage.module.scss'
 
 import {withRouter} from "react-router";
 import {fetchSingleComponent, fetchReadMe} from "./component_data";
+import slugify from "slugify";
 
 export class ComponentsDetailView extends React.Component {
 
@@ -14,7 +15,9 @@ export class ComponentsDetailView extends React.Component {
             slug: '',
             history: history,
             component: {},
-            readme: []
+            readme: [],
+            links: [],
+            URLOptions: ''
         }
     }
 
@@ -24,30 +27,44 @@ export class ComponentsDetailView extends React.Component {
             this.setState({
                 component: await fetchSingleComponent({slug}),
                 readme: await fetchReadMe({slug}),
-                slug: slug
+                slug: slug,
+                links: ['Design','Installation', 'Usage', 'Story Source', 'Prop Types']
             })
         }
+        this.checkURL()
         this.fillComponentsWithReadMe()
     }
 
-    fillComponentsWithReadMe() {
+    checkURL() {
+        const URLOptions = [];
+        const url = slugify(window.location.href.toString());
 
-        let ASplit = []
+        for (let i = 0; i < this.state.links.length; i++) {
+            if (url.includes(this.state.links[i])) {
+                URLOptions.push(this.state.links[i])
+            }
+        }
+        this.setState({URLOptions: URLOptions})
+        this.fillComponentsWithReadMe()
+    }
 
-        for (let c = 0; c < this.state.readme.length; c++) {
-            //console.log(this.state.readme);
-            const a = this.state.readme[c].readme.content
-            console.log(a);
-                console.log(a.length);
-
-            /*let rm = this.state.readme[c].readme;
-            let cats = rm.split(/##/);
-            ASplit[c] = [cats[1], cats[2], this.state.readme[c].slug]
-            if (this.state.readme[c].slug === this.state.slug) {
-                if (ASplit[c].includes(this.state.readme[c].slug)) {
-
+    fillComponentsWithReadMe(){
+        for(let i=0; i<this.state.readme.length; i++) {
+            if (this.state.readme[i].slug === this.state.slug) {
+                const a = this.state.readme[i].readme.content
+                const use = a[Object.keys(a)[0]]
+                const inst = a[Object.keys(a)[1]]
+                const insta = inst[Object.keys(inst)[0]]
+                const usage = use[Object.keys(use)[0]]
+                const header1 = JSON.stringify(inst[Object.keys(inst)[1]])
+                const header2 = JSON.stringify(use[Object.keys(use)[1]])
+                if(header1.includes(this.state.URLOptions[0])){
+                    return insta
                 }
-            }*/
+                else if(header2.includes(this.state.URLOptions[0])){
+                    return usage
+                }
+            }
         }
     }
 
@@ -63,7 +80,11 @@ export class ComponentsDetailView extends React.Component {
                         <li><a href="#Usage">Usage</a></li>
                         <li><a href="#Story Source">Story Source</a></li>
                         <li><a href="#Prop Types">Prop Types</a></li>
+
                     </ul>
+                    <div>
+                    {this.fillComponentsWithReadMe()}
+                    </div>
                 </div>
             </div>
         );
