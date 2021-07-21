@@ -5,7 +5,6 @@ import { ReactComponent as Checkbox } from "../../../../public/Checkbox.svg";
 import Select from "react-select";
 import {
   fetchComponents,
-  fetchMap,
   fetchTags,
   updateComponentsTags,
 } from "./component_data";
@@ -17,8 +16,7 @@ class ComponentView extends React.Component {
     this.state = {
       filterValue: [],
       components: [],
-      list: [],
-      options: [],
+      availableTags: [],
       filteredComponents: [],
       URLOptions: [],
     };
@@ -27,45 +25,23 @@ class ComponentView extends React.Component {
 
   async componentDidMount() {
     this.setState({
-      components: await fetchMap(),
-      options: await fetchTags(),
-      list: await fetchComponents(),
+      components: await fetchComponents(),
+      availableTags: await fetchTags()
     });
-    this.fillComponents();
-    this.fillOptions();
+    this.fillFilterWithTags();
     this.fillFilterComponents();
     this.checkURL();
   }
 
-  fillComponents() {
-    const components = [];
-    let tags = [];
-
-    for (let item of this.state.list) {
-      for (let component of this.state.components) {
-        if (item.component_id === component.component_id) {
-          tags.push("#" + component.tag_name);
-        }
-      }
-      components.push({
-        id: item.component_id,
-        title: item.title,
-        tags: JSON.parse(JSON.stringify(tags)),
-      });
-      tags = [];
-    }
-    this.setState({ components: components });
-  }
-
-  fillOptions() {
+  fillFilterWithTags() {
     const options = [];
-    for (let option of this.state.options) {
+    for (let tag of this.state.availableTags) {
       options.push({
-        label: option.tag_name,
-        value: option.tag_name,
+        label: tag.tag_name,
+        value: tag.tag_name,
       });
     }
-    this.setState({ options: options });
+    this.setState({ availableTags: options });
   }
 
   fillFilterComponents() {
@@ -91,13 +67,13 @@ class ComponentView extends React.Component {
     await updateComponentsTags().then(window.location.reload());
   }
 
-  handleChange(select) {
+  handleChange(selectedTags) {
     const filterValue = [];
-    select.map((select) => filterValue.push("#" + select.value));
+    selectedTags.map((tag) => filterValue.push(tag.value));
     const searchParams = new URLSearchParams();
     searchParams.set("query", filterValue.toString());
     this.props.history.push(`?${searchParams.toString()}`);
-    this.setState((this.state.filterValue = filterValue));
+    this.state.filterValue = filterValue;
     this.fillFilterComponents();
     this.checkURL();
   }
@@ -106,9 +82,9 @@ class ComponentView extends React.Component {
     const filterValue = [];
     const URLOptions = [];
     const url = slugify(window.location.href.toString());
-    for (let option of this.state.options) {
+    for (let option of this.state.availableTags) {
       if (url.includes(option.value)) {
-        filterValue.push("#" + option.value);
+        filterValue.push(option.value);
         URLOptions.push(option);
       }
     }
@@ -125,14 +101,14 @@ class ComponentView extends React.Component {
               isMulti
               className="basic-multi-select"
               value={this.state.URLOptions}
-              onChange={(select) => this.handleChange(select)}
-              options={this.state.options}
+              onChange={(selectedTags) => this.handleChange(selectedTags)}
+              options={this.state.availableTags}
             />
           </div>
         </React.Fragment>
         <div className={s.container}>
           {this.state.filteredComponents.map((component) => (
-            <div className={s.item} key={component.id}>
+            <div className={s.item} key={component.component_id}>
               <Checkbox className={s.logo} />
               <h1 className={s.title}>{component.title}</h1>
               <h3 className={s.tags}>{component.tags}</h3>
