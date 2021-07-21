@@ -195,14 +195,25 @@ export async function fetchComponents() {
   const allComponentsIds = await sql`select component_id from components;`;
   let allComponents = [];
   for (let componentId of allComponentsIds) {
-    let component = {};
-    let tags =
+    let tagsObject =
       await sql`select tags.tag_name from components_tags_map natural join components natural join tags where components.component_id=${componentId.component_id};`;
-    let screenshots =
+    let screenshotsObject =
       await sql`select screenshot from screenshots natural join components where components.component_id=${componentId.component_id};`;
     let componentDetails =
       await sql`select * from components where components.component_id=${componentId.component_id};`;
-    component.componentDetails = componentDetails;
+
+    let component = componentDetails[0]
+
+    let tags = []
+    for(let tag of tagsObject){
+      tags.push(tag.tag_name)
+    }
+
+    let screenshots = []
+    for(let screenshot of screenshotsObject){
+      screenshots.push(screenshot.screenshot)
+    }
+
     component.tags = tags;
     component.screenshots = screenshots;
     allComponents.push(component);
