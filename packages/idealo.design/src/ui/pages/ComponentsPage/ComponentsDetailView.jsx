@@ -31,17 +31,23 @@ export class ComponentsDetailView extends React.Component {
     }
 
     fillComponentsWithReadMe() {
+
         let ASplit = []
 
         for (let c = 0; c < this.state.readme.length; c++) {
-            let rm = this.state.readme[c].readme;
+            //console.log(this.state.readme);
+            const a = this.state.readme[c].readme.content
+            console.log(a);
+                console.log(a.length);
+
+            /*let rm = this.state.readme[c].readme;
             let cats = rm.split(/##/);
             ASplit[c] = [cats[1], cats[2], this.state.readme[c].slug]
             if (this.state.readme[c].slug === this.state.slug) {
                 if (ASplit[c].includes(this.state.readme[c].slug)) {
 
                 }
-            }
+            }*/
         }
     }
 
