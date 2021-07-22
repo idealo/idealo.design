@@ -80,11 +80,12 @@ export class ComponentsDetailView extends React.Component {
                         <li><a href="#Usage">Usage</a></li>
                         <li><a href="#Story Source">Story Source</a></li>
                         <li><a href="#Prop Types">Prop Types</a></li>
-
                     </ul>
-                    <div>
+                </div>
+                <div>
+                <code className={s.code}>
                     {this.fillComponentsWithReadMe()}
-                    </div>
+                </code>
                 </div>
             </div>
         );
