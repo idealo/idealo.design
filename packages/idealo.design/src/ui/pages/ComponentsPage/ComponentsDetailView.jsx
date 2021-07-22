@@ -22,6 +22,7 @@ export class ComponentsDetailView extends React.Component {
     }
 
     async componentDidMount() {
+        this.handleClick()
         const slug = this.props.match.params.slug
         if (slug) {
             this.setState({
@@ -68,6 +69,10 @@ export class ComponentsDetailView extends React.Component {
         }
     }
 
+    handleClick() {
+        this.checkURL();
+    }
+
     render() {
         return (
             <div>
@@ -76,8 +81,8 @@ export class ComponentsDetailView extends React.Component {
                     <p>----------------------------</p>
                     <ul>
                         <li><a href='#Design'>Design</a></li>
-                        <li><a href="#Installation">Installation</a></li>
-                        <li><a href="#Usage">Usage</a></li>
+                        <li><a href="#Installation" onClick={this.handleClick.bind(this)}>Installation</a></li>
+                        <li><a href="#Usage" onClick={this.handleClick.bind(this)}>Usage</a></li>
                         <li><a href="#Story Source">Story Source</a></li>
                         <li><a href="#Prop Types">Prop Types</a></li>
                     </ul>
