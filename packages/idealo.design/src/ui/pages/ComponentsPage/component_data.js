@@ -20,18 +20,16 @@ export async function fetchSingleComponent({ slug }) {
   return resp.json();
 }
 
-export async function updateComponentsTags() {
-  await fetch(`${API_BASE}/api/components/update`, {
-    method: "PUT",
-    headers: { Accept: "application/json", "Content-Type": "application/json" },
-  });
-}
-
 export async function deleteSingleComponent({ component_id }) {
   await fetch(`${API_BASE}/api/components/${component_id}`, {
     method: "DELETE",
     headers: { Accept: "application/json", "Content-Type": "application/json" },
   });
+}
+
+export async function fetchScreenshotsOfOneComponent({component_id}){
+  const resp = await fetch(`${API_BASE}/api/screenshots/${component_id}`);
+  return resp.json();
 }
 
 export async function updateSingleComponent({ component, component_id }) {

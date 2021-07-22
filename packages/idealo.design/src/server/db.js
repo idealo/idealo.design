@@ -234,6 +234,10 @@ export async function fetchMap() {
                        and c.component_id = ct.component_id;`;
 }
 
+export async function fetchScreenshots(component_id){
+  return sql `select screenshot from screenshots where component_id = ${component_id.component_id}`
+}
+
 export async function updateSingleComponent(component) {
   return sql.begin(async (sql) => {
     const updateNameSingleComponent = await sql`update components
