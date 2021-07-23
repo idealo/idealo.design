@@ -5,6 +5,7 @@ import s from './ComponentsPage.module.scss'
 import {withRouter} from "react-router";
 import {fetchSingleComponent, fetchReadMe} from "./component_data";
 import slugify from "slugify";
+import {fetchSinglePost} from "../BlogPage/data";
 
 export class ComponentsDetailView extends React.Component {
 
@@ -18,7 +19,8 @@ export class ComponentsDetailView extends React.Component {
             component: {},
             readme: [],
             links: [],
-            URLOptions: ''
+            URLOptions: '',
+            result: ''
         }
     }
 
@@ -32,14 +34,24 @@ export class ComponentsDetailView extends React.Component {
                 links: ['Design','Installation', 'Usage', 'Story Source', 'Prop Types']
             })
         }
-        //this.checkURL()
-        //this.fillComponentsWithReadMe()
+    }
+
+    async componentDidUpdate(prevProps) {
+        /*if (prevProps.match.params.slug !== this.props.match.params.slug) {
+            this.setState({
+                component: await fetchSingleComponent({slug: this.props.match.params.slug}),
+                readme: await fetchReadMe({slug: this.props.match.params.slug}),
+                slug: this.props.match.params.slug,
+                links: ['Design','Installation', 'Usage', 'Story Source', 'Prop Types'],
+            })
+        }*/
+        this.checkURL()
     }
 
     handleClick() {
-        console.log('🥞')
+        //console.log('🥞')
         this.checkURL();
-        console.log('hsbjsadbksadbkjw')
+        //console.log('hsbjsadbksadbkjw')
     }
 
     checkURL() {
@@ -52,7 +64,7 @@ export class ComponentsDetailView extends React.Component {
             }
         }
         this.setState({URLOptions: URLOptions})
-        console.log('kommt er hier hin')
+        //console.log('kommt er hier hin')
         this.fillComponentsWithReadMe()
     }
 
@@ -66,12 +78,12 @@ export class ComponentsDetailView extends React.Component {
                 const usage = use[Object.keys(use)[0]]
                 const header1 = JSON.stringify(inst[Object.keys(inst)[1]])
                 const header2 = JSON.stringify(use[Object.keys(use)[1]])
-                console.log('kurz for if else in fillcomponentswithreadme')
+                //console.log('kurz for if else in fillcomponentswithreadme')
                 if(header1.includes(this.state.URLOptions[0])){
-                    return insta
+                    this.setState({result: insta})
                 }
                 else if(header2.includes(this.state.URLOptions[0])){
-                    return usage
+                    this.setState({result: usage})
                 }
             }
         }
@@ -85,15 +97,15 @@ export class ComponentsDetailView extends React.Component {
                     <p>----------------------------</p>
                     <ul>
                         <li><a href='#Design'>Design</a></li>
-                        <li><a href="#Installation" onClick={this.handleClick}>Installation</a></li>
-                        <li><a href="#Usage" onClick={this.handleClick}>Usage</a></li>
+                        <li><a href="#Installation" onClick={() => this.handleClick}>Installation</a></li>
+                        <li><a href="#Usage" onClick={() => this.handleClick}>Usage</a></li>
                         <li><a href="#Story Source">Story Source</a></li>
                         <li><a href="#Prop Types">Prop Types</a></li>
                     </ul>
                 </div>
                 <div>
                 <code className={s.code}>
-                    {this.fillComponentsWithReadMe()}
+                    {this.state.result}
                 </code>
                 </div>
             </div>
