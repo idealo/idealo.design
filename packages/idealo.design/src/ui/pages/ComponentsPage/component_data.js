@@ -27,11 +27,6 @@ export async function deleteSingleComponent({ component_id }) {
   });
 }
 
-export async function fetchScreenshotsOfOneComponent({component_id}){
-  const resp = await fetch(`${API_BASE}/api/screenshots/${component_id}`);
-  return resp.json();
-}
-
 export async function updateSingleComponent({ component, component_id }) {
   const body = JSON.stringify(component);
 

@@ -4,7 +4,7 @@ import s from "./ComponentsPage.module.scss";
 import Select from "react-select";
 import {
   fetchComponents,
-  fetchTags,
+  fetchTags
 } from "./component_data";
 import slugify from "slugify";
 
@@ -85,13 +85,6 @@ class ComponentView extends React.Component {
     this.fillFilterComponents();
   }
 
-  showFirstImageInListView(component){
-    //const image = 'Colors/blue.png'
-    const image = component.screenshots
-    const images = require.context('../../../../resources/static/assets/uploads', true)
-    return images(`./${image}`).default
-  }
-
   render() {
     return (
       <div>
@@ -109,8 +102,7 @@ class ComponentView extends React.Component {
         <div className={s.container}>
           {this.state.filteredComponents.map((component) => (
             <div className={s.item} key={component.component_id}>
-              {/*<img className={s.logo} src={require('../../../../resources/static/assets/uploads/Button (work in progress)/custom-styled.png').default} alt=""/>*/}
-              {/*<img className={s.logo} src={this.showFirstImageInListView(component)} alt="image"/>*/}
+              <img className={s.logo} src={`http://localhost:8080/api/screenshots/${component.component_id}`} alt="image"/>
               <h1 className={s.title}>{component.title}</h1>
               <h3 className={s.tags}>{component.tags}</h3>
             </div>

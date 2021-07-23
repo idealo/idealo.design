@@ -214,11 +214,10 @@ app.get("/api/components", isAuthenticated, async (req, res) => {
   return res.json(components);
 });
 
-app.get("/api/screenshots/:component_id?", /*isAuthenticated,*/ async (req, res) => {
+app.get("/api/screenshots/:component_id?", isAuthenticated, async (req, res) => {
   const component_id = req.params
-  console.log(component_id)
   const screenshots = await fetchScreenshots(component_id);
-  return res.json(screenshots)
+  return res.sendFile(screenshots[0].screenshot)
 })
 
 app.get("/api/tags", isAuthenticated, async (req, res) => {
