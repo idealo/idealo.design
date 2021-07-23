@@ -6,7 +6,7 @@ import {
 } from './component_data'
 import path from 'path'
 
-const {eachLike, like} = Matchers
+const {eachLike} = Matchers
 
 const PORT = 4000;
 
@@ -32,15 +32,15 @@ export const mockupMap = {
     "tag_name": "button"
 }
 
-describe('All component consumer contract tests', () => {
+describe('Component consumer contract', () => {
     afterAll(() => provider.finalize());
     beforeAll(() => provider.setup());
     afterEach(() => provider.removeInteractions())
 
-    describe('test Components+Tags(Map) list', () => {
+    describe('Given a get call to the component-tags endpoint', () => {
         test('should return a component with tags', async () => {
             await provider.addInteraction({
-                uponReceiving: 'Given a get call to the component-tags endpoint',
+                uponReceiving: 'a request to list all components with tags',
                 withRequest: {
                     method: 'GET',
                     path: '/api/map',
@@ -58,10 +58,10 @@ describe('All component consumer contract tests', () => {
         });
     })
 
-    describe('test Tags', () => {
+    describe('Given a get call to the tags endpoint', () => {
         test('should return a tag', async () => {
             await provider.addInteraction({
-                uponReceiving: 'Given a get call to the tags endpoint',
+                uponReceiving: 'a request to list all tags',
                 withRequest: {
                     method: 'GET',
                     path: '/api/tags',
@@ -77,10 +77,10 @@ describe('All component consumer contract tests', () => {
         });
     })
 
-    describe('test Component', () => {
+    describe('Given a get call to the components endpoint', () => {
         test('should return a component', async () => {
             await provider.addInteraction({
-                uponReceiving: 'Given a get call to the components endpoint',
+                uponReceiving: 'a request to list all components',
                 withRequest: {
                     method: 'GET',
                     path: '/api/components',
