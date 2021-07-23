@@ -10,6 +10,7 @@ export class ComponentsDetailView extends React.Component {
 
     constructor(props) {
         super(props);
+        this.handleClick = this.handleClick.bind(this);
         const {history} = props;
         this.state = {
             slug: '',
@@ -22,7 +23,6 @@ export class ComponentsDetailView extends React.Component {
     }
 
     async componentDidMount() {
-        this.handleClick()
         const slug = this.props.match.params.slug
         if (slug) {
             this.setState({
@@ -32,8 +32,14 @@ export class ComponentsDetailView extends React.Component {
                 links: ['Design','Installation', 'Usage', 'Story Source', 'Prop Types']
             })
         }
-        this.checkURL()
-        this.fillComponentsWithReadMe()
+        //this.checkURL()
+        //this.fillComponentsWithReadMe()
+    }
+
+    handleClick() {
+        console.log('🥞')
+        this.checkURL();
+        console.log('hsbjsadbksadbkjw')
     }
 
     checkURL() {
@@ -46,6 +52,7 @@ export class ComponentsDetailView extends React.Component {
             }
         }
         this.setState({URLOptions: URLOptions})
+        console.log('kommt er hier hin')
         this.fillComponentsWithReadMe()
     }
 
@@ -59,6 +66,7 @@ export class ComponentsDetailView extends React.Component {
                 const usage = use[Object.keys(use)[0]]
                 const header1 = JSON.stringify(inst[Object.keys(inst)[1]])
                 const header2 = JSON.stringify(use[Object.keys(use)[1]])
+                console.log('kurz for if else in fillcomponentswithreadme')
                 if(header1.includes(this.state.URLOptions[0])){
                     return insta
                 }
@@ -69,10 +77,6 @@ export class ComponentsDetailView extends React.Component {
         }
     }
 
-    handleClick() {
-        this.checkURL();
-    }
-
     render() {
         return (
             <div>
@@ -81,8 +85,8 @@ export class ComponentsDetailView extends React.Component {
                     <p>----------------------------</p>
                     <ul>
                         <li><a href='#Design'>Design</a></li>
-                        <li><a href="#Installation" onClick={this.handleClick.bind(this)}>Installation</a></li>
-                        <li><a href="#Usage" onClick={this.handleClick.bind(this)}>Usage</a></li>
+                        <li><a href="#Installation" onClick={this.handleClick}>Installation</a></li>
+                        <li><a href="#Usage" onClick={this.handleClick}>Usage</a></li>
                         <li><a href="#Story Source">Story Source</a></li>
                         <li><a href="#Prop Types">Prop Types</a></li>
                     </ul>
