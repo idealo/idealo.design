@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Route, Switch } from "react-router-dom";
 
-import ComponentView from "./ComponentView";
+import ComponentView from "./ComponentsListView";
 import { fetchUserInfo } from "../BlogPage/data";
 import ReactStackView from "./ReactStackView";
 import ClassicStackView from "./ClassicStackView";
@@ -29,11 +29,11 @@ export default function ComponentsPage({ match }) {
           <ReactStackView />
         </Route>
         <Route exact path="/components/for-classic-stacks">
-                    <ClassicStackView />
+          <ClassicStackView />
         </Route>
-          <Route path='/components/:slug'>
-                    <ComponentsDetailView/>
-          </Route>
+        <Route path="/components/:slug">
+          <ComponentsDetailView />
+        </Route>
       </Switch>
     </>
   );

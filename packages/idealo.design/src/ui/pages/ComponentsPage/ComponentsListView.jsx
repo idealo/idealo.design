@@ -5,7 +5,7 @@ import Select from "react-select";
 import { fetchComponents, fetchTags } from "./component_data";
 import slugify from "slugify";
 
-class ComponentView extends React.Component {
+class ComponentsListView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -102,7 +102,7 @@ class ComponentView extends React.Component {
               <a href={`/components/${component.slug}`}>
                 <img
                   className={s.logo}
-                  src={`http://localhost:8080/api/screenshots/${component.component_id}`}
+                  src={`http://localhost:8080/api/screenshots/${component.screenshots[0]}`}
                   alt="image"
                 />
                 <h1 className={s.title}>{component.title}</h1>
@@ -116,4 +116,4 @@ class ComponentView extends React.Component {
   }
 }
 
-export default withRouter(ComponentView);
+export default withRouter(ComponentsListView);

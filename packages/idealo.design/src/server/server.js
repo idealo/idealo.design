@@ -35,7 +35,7 @@ import {
   deleteSingleComponent,
   importSingleComponent,
   fetchScreenshots,
-  fetchReadMe
+  fetchReadMe,
 } from "./db";
 
 const dangerousTestModeArgument =
@@ -215,11 +215,15 @@ app.get("/api/components", isAuthenticated, async (req, res) => {
   return res.json(components);
 });
 
-app.get("/api/screenshots/:component_id?", isAuthenticated, async (req, res) => {
-  const component_id = req.params
-  const screenshots = await fetchScreenshots(component_id);
-  return res.sendFile(screenshots[0].screenshot)
-})
+app.get(
+  "/api/screenshots/:screenshot_id?",
+  isAuthenticated,
+  async (req, res) => {
+    const screenshot_id = req.params;
+    const screenshots = await fetchScreenshots(screenshot_id);
+    return res.sendFile(screenshots[0].screenshot);
+  }
+);
 
 app.get("/api/tags", isAuthenticated, async (req, res) => {
   const tags = await fetchTags();
@@ -231,11 +235,11 @@ app.get("/api/map", isAuthenticated, async (req, res) => {
   return res.json(map);
 });
 
-app.get('/api/read/:slug?', isAuthenticated, async (req, res) => {
-  const {slug} = req.params
-  const readme = await fetchReadMe({slug});
+app.get("/api/read/:slug?", isAuthenticated, async (req, res) => {
+  const { slug } = req.params;
+  const readme = await fetchReadMe({ slug });
   return res.json(readme);
-})
+});
 
 app.put("/api/components/update", isBasicAuthenticated, async (req, res) => {
   try {
@@ -277,26 +281,26 @@ app.put("/api/components/:component_id?", isAuthenticated, async (req, res) => {
   return res.json(updatedComponent);
 });
 
-app.get('/api/components/:slug?', isAuthenticated, async (req, res) => {
-  const {slug} = req.params
-  const singleComponent = await fetchSingleComponent({slug});
-  return res.json(singleComponent)
-})
+app.get("/api/components/:slug?", isAuthenticated, async (req, res) => {
+  const { slug } = req.params;
+  const singleComponent = await fetchSingleComponent({ slug });
+  return res.json(singleComponent);
+});
 
 app.delete(
-    "/api/components/:component_id?",
-    isAuthenticated,
-    async (req, res) => {
-      const { component_id } = req.params;
-      const deletedSingleComponent = await deleteSingleComponent({
-        component_id,
-      });
-      return res.json(deletedSingleComponent);
-    }
+  "/api/components/:component_id?",
+  isAuthenticated,
+  async (req, res) => {
+    const { component_id } = req.params;
+    const deletedSingleComponent = await deleteSingleComponent({
+      component_id,
+    });
+    return res.json(deletedSingleComponent);
+  }
 );
 
-app.get('/api/blogposts/:slug?', async (req, res) => {
-  const {slug} = req.params;
+app.get("/api/blogposts/:slug?", async (req, res) => {
+  const { slug } = req.params;
   if (!slug) {
     const { byCategorySlug: categorySlug } = req.query;
     let posts = [];
