@@ -1,4 +1,5 @@
 import React from "react";
+import Markdown from "markdown-to-jsx";
 
 import s from "./ComponentsPage.module.scss";
 
@@ -65,19 +66,21 @@ export class ComponentsDetailView extends React.Component {
     const allReadmeContent = this.state.component.readme.content;
     const inst = allReadmeContent[Object.keys(allReadmeContent)[1]];
     const insta = inst[Object.keys(inst)[0]];
-
-    this.setState({ result: insta });
+    const installation = <Markdown>{insta}</Markdown>;
+    this.setState({ result: installation });
   }
 
   showDesign() {
     const design = (
       <div className={s.container}>
         {this.state.component.screenshots.map((screenshot) => (
-          <img
-            className={s.logo}
-            src={`http://localhost:8080/api/screenshots/${screenshot}`}
-            alt="image"
-          />
+          <div className={s.screenshot} key={screenshot}>
+            <img
+              className={s.logo}
+              src={`http://localhost:8080/api/screenshots/${screenshot}`}
+              alt="image"
+            />
+          </div>
         ))}
       </div>
     );
@@ -88,8 +91,8 @@ export class ComponentsDetailView extends React.Component {
     const allReadmeContent = this.state.component.readme.content;
     const use = allReadmeContent[Object.keys(allReadmeContent)[0]];
     const usage = use[Object.keys(use)[0]];
-
-    this.setState({ result: usage });
+    const usageAsHtml = <Markdown>{usage}</Markdown>;
+    this.setState({ result: usageAsHtml });
   }
 
   render() {
