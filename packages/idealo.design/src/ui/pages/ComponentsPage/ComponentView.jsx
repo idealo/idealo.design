@@ -2,10 +2,7 @@ import React from "react";
 import { withRouter } from "react-router";
 import s from "./ComponentsPage.module.scss";
 import Select from "react-select";
-import {
-  fetchComponents,
-  fetchTags
-} from "./component_data";
+import { fetchComponents, fetchTags } from "./component_data";
 import slugify from "slugify";
 
 class ComponentView extends React.Component {
@@ -16,14 +13,14 @@ class ComponentView extends React.Component {
       components: [],
       availableTags: [],
       filteredComponents: [],
-      URLOptions: []
+      URLOptions: [],
     };
   }
 
   async componentDidMount() {
     this.setState({
       components: await fetchComponents(),
-      availableTags: await fetchTags()
+      availableTags: await fetchTags(),
     });
     this.fillFilterWithTags();
     this.fillFilterComponents();
@@ -102,9 +99,15 @@ class ComponentView extends React.Component {
         <div className={s.container}>
           {this.state.filteredComponents.map((component) => (
             <div className={s.item} key={component.component_id}>
-              <img className={s.logo} src={`http://localhost:8080/api/screenshots/${component.component_id}`} alt="image"/>
-              <h1 className={s.title}>{component.title}</h1>
-              <h3 className={s.tags}>{component.tags}</h3>
+              <a href={`/components/${component.slug}`}>
+                <img
+                  className={s.logo}
+                  src={`http://localhost:8080/api/screenshots/${component.component_id}`}
+                  alt="image"
+                />
+                <h1 className={s.title}>{component.title}</h1>
+                <h3 className={s.tags}>{component.tags}</h3>
+              </a>
             </div>
           ))}
         </div>
