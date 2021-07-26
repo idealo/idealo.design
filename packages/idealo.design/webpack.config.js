@@ -115,9 +115,9 @@ const app = function(env, argv) {
           ],
         },
         {
-          test: /.svg$/,
-          loader: 'babel-loader',
-        },
+          test: /\.(jpg|png|svg|gif)$/,
+          loader: 'file-loader'
+        }
       ]
     },
 
@@ -262,9 +262,9 @@ const server = function(env, argv) {
           ],
         },
         {
-          test: /.svg$/,
-          loader: 'babel-loader',
-        },
+          test: /\.(jpg|png|svg|gif)$/,
+          loader: 'file-loader'
+        }
 
 
 
