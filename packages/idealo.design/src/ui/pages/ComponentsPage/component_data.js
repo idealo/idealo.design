@@ -11,20 +11,18 @@ export async function fetchTags() {
 }
 
 export async function fetchMap() {
-  const resp = await fetch(`${API_BASE}/api/map`);
-  return resp.json();
+    const resp = await fetch(`${API_BASE}/api/map`);
+    return await resp.json();
 }
 
-export async function fetchSingleComponent({ component_id }) {
-  const resp = await fetch(`${API_BASE}/api/components/${component_id}`);
-  return resp.json();
+export async function fetchReadMe({slug}) {
+    const resp = await fetch(`${API_BASE}/api/read/${slug}`);
+    return await resp.json();
 }
 
-export async function updateComponentsTags() {
-  await fetch(`${API_BASE}/api/components/update`, {
-    method: "PUT",
-    headers: { Accept: "application/json", "Content-Type": "application/json" },
-  });
+export async function fetchSingleComponent({ slug }) {
+  const resp = await fetch(`${API_BASE}/api/components/${slug}`);
+  return resp.json();
 }
 
 export async function deleteSingleComponent({ component_id }) {

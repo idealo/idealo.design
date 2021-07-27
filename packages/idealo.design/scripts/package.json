@@ -21,6 +21,6 @@
     "mock-fs": "^5.0.0"
   },
   "dependencies": {
-    "jsonmark": "^0.0.1"
+    "jsonmark": "0.0.1"
   }
 }

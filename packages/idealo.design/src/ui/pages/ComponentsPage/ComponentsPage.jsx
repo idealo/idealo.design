@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import { Route, Switch } from "react-router-dom";
 
-import ComponentView from "./ComponentView";
+import ComponentView from "./ComponentsListView";
 import { fetchUserInfo } from "../BlogPage/data";
 import ReactStackView from "./ReactStackView";
 import ClassicStackView from "./ClassicStackView";
+import ComponentsDetailView from "./ComponentsDetailView";
 
 export default function ComponentsPage({ match }) {
   const [userInfo, setUserInfo] = useState([]);
@@ -29,6 +30,9 @@ export default function ComponentsPage({ match }) {
         </Route>
         <Route exact path="/components/for-classic-stacks">
           <ClassicStackView />
+        </Route>
+        <Route path="/components/:slug">
+          <ComponentsDetailView />
         </Route>
       </Switch>
     </>

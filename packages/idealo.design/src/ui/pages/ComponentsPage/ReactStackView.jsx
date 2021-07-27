@@ -1,8 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 import s from "./ComponentsPage.module.scss";
-import { ReactComponent as Checkbox } from "../../../../public/Checkbox.svg";
-import { fetchMap, fetchComponents } from "./component_data";
+import { fetchComponents } from "./component_data";
 
 class ReactStackView extends React.Component {
   constructor(props) {
@@ -10,52 +9,41 @@ class ReactStackView extends React.Component {
     this.state = {
       components: [],
       filteredComponents: [],
-      list: [],
     };
   }
 
   async componentDidMount() {
     this.setState({
-      components: await fetchMap(),
-      list: await fetchComponents(),
+      components: await fetchComponents(),
     });
-    this.fillComponents();
+    this.filterComponents();
   }
 
-  fillComponents() {
-    const components = [];
-    let tags = [];
-
-    for (let item of this.state.list) {
-      for (let component of this.state.components) {
-        if (item.component_id === component.component_id) {
-          tags.push("#" + component.tag_name);
-        }
+  filterComponents() {
+    const onlyReactComponents = [];
+    for (let component of this.state.components) {
+      if (component.tags.includes("react")) {
+        onlyReactComponents.push(component);
       }
-      for (let tag of tags) {
-        if (tag === "#react") {
-          components.push({
-            id: item.component_id,
-            title: item.title,
-            tags: JSON.parse(JSON.stringify(tags)),
-          });
-        }
-      }
-
-      tags = [];
     }
-    this.setState({ components: components });
+    this.setState({ filteredComponents: onlyReactComponents });
   }
 
   render() {
     return (
       <div>
         <div className={s.container}>
-          {this.state.components.map((component) => (
-            <div className={s.item} key={component.id}>
-              <Checkbox className={s.logo} />
-              <h1 className={s.title}>{component.title}</h1>
-              <h3 className={s.tags}>{component.tags}</h3>
+          {this.state.filteredComponents.map((component) => (
+            <div className={s.item} key={component.component_id}>
+              <a href={`/components/${component.slug}`}>
+                <img
+                  className={s.logo}
+                  src={`http://localhost:8080/api/screenshots/${component.screenshots[0]}`}
+                  alt="image"
+                />
+                <h1 className={s.title}>{component.title}</h1>
+                <h3 className={s.tags}>{component.tags}</h3>
+              </a>
             </div>
           ))}
         </div>

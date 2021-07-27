@@ -192,8 +192,33 @@ export async function archiveSinglePost(blog) {
 }
 
 export async function fetchComponents() {
-  return sql`select *
-                     from components;`;
+  const allComponentsIds = await sql`select component_id from components;`;
+  let allComponents = [];
+  for (let componentId of allComponentsIds) {
+    let tagsObject =
+      await sql`select tags.tag_name from components_tags_map natural join components natural join tags where components.component_id=${componentId.component_id};`;
+    let screenshotIds =
+      await sql`select screenshot_id from screenshots natural join components where components.component_id=${componentId.component_id};`;
+    let componentDetails =
+      await sql`select * from components where components.component_id=${componentId.component_id};`;
+
+    let component = componentDetails[0];
+
+    let tags = [];
+    for (let tag of tagsObject) {
+      tags.push(tag.tag_name);
+    }
+
+    let screenshots = [];
+    for (let screenshot_id of screenshotIds) {
+      screenshots.push(screenshot_id.screenshot_id);
+    }
+
+    component.tags = tags;
+    component.screenshots = screenshots;
+    allComponents.push(component);
+  }
+  return allComponents;
 }
 
 export async function fetchTags() {
@@ -207,6 +232,14 @@ export async function fetchMap() {
                           tags as t
                      where ct.tag_id = t.tag_id
                        and c.component_id = ct.component_id;`;
+}
+
+export async function fetchReadMe() {
+  return sql`select readme, slug from components;`;
+}
+
+export async function fetchScreenshots(screenshot_id) {
+  return sql`select screenshot from screenshots where screenshot_id = ${screenshot_id.screenshot_id}`;
 }
 
 export async function updateSingleComponent(component) {
@@ -270,41 +303,52 @@ export async function fetchSingleComponent({ slug }) {
     await sql`select tags.tag_name from components_tags_map natural join components natural join tags where components.slug=${slug};`;
   const singleComponent =
     await sql`select * from components c where  c.slug=${slug};`;
+  const screenshotIds =
+    await sql`select screenshot_id from screenshots natural join components where components.slug=${slug};`;
+
   const tags = [];
-  for (let i = 0; i < tagsComponent.length; i++) {
-    tags.push(tagsComponent[i].tag_name);
+  const screenshots = [];
+
+  for (let screenshot_id of screenshotIds) {
+    screenshots.push(screenshot_id.screenshot_id);
   }
-  return { component: singleComponent, tags: tags };
+
+  for (let tag of tagsComponent) {
+    tags.push(tag.tag_name);
+  }
+  singleComponent[0]["tags"] = tags;
+  singleComponent[0]["screenshots"] = screenshots;
+  return singleComponent[0];
 }
 
-export async function importSingleComponent(screenshotPaths, componentData)
-{
-    return sql.begin(async sql =>
-    {
-        await sql`delete from components where title=${componentData.name}`
-        const slug = slugify(componentData.name)
-        await sql`insert into components (title, readme, slug) values (${componentData.name},${componentData.readme},${slug});`
-        const newComponentId = await sql`select component_id from components where title=${componentData.name}`
-        const currentComponentId = newComponentId[0].component_id
+export async function importSingleComponent(screenshotPaths, componentData) {
+  return sql.begin(async (sql) => {
+    await sql`delete from components where title=${componentData.name}`;
+    const slug = slugify(componentData.name);
+    await sql`insert into components (title, readme, slug) values (${componentData.name},${componentData.readme},${slug});`;
+    const newComponentId =
+      await sql`select component_id from components where title=${componentData.name}`;
+    const currentComponentId = newComponentId[0].component_id;
 
-        for(const screenshotPath of screenshotPaths){
-            await sql`insert into screenshots(component_id, screenshot) values(${currentComponentId},${screenshotPath})`
-        }
-        await sql`delete from tags where tag_id not in (select distinct tag_id from components_tags_map);`
+    for (const screenshotPath of screenshotPaths) {
+      await sql`insert into screenshots(component_id, screenshot) values(${currentComponentId},${screenshotPath})`;
+    }
+    await sql`delete from tags where tag_id not in (select distinct tag_id from components_tags_map);`;
 
-        for(const keyword of componentData.keywords){
-            const existingTag = await sql`select tag_id from tags where tag_name=${keyword}`
-            const existingTagId = existingTag[0]
+    for (const keyword of componentData.keywords) {
+      const existingTag =
+        await sql`select tag_id from tags where tag_name=${keyword}`;
+      const existingTagId = existingTag[0];
 
-            if(existingTagId !== undefined)
-            {
-                await sql`insert into components_tags_map (component_id, tag_id) values (${currentComponentId}, ${existingTagId.tag_id})`
-            } else {
-                await sql`insert into tags(tag_name) values(${keyword})`
-                const tagId = await sql`select tag_id from tags where tag_name=${keyword}`
-                const currentTagId = tagId[0].tag_id
-                await sql`insert into components_tags_map(component_id,tag_id) values (${currentComponentId}, ${currentTagId})`
-            }
-        }
-    })
+      if (existingTagId !== undefined) {
+        await sql`insert into components_tags_map (component_id, tag_id) values (${currentComponentId}, ${existingTagId.tag_id})`;
+      } else {
+        await sql`insert into tags(tag_name) values(${keyword})`;
+        const tagId =
+          await sql`select tag_id from tags where tag_name=${keyword}`;
+        const currentTagId = tagId[0].tag_id;
+        await sql`insert into components_tags_map(component_id,tag_id) values (${currentComponentId}, ${currentTagId})`;
+      }
+    }
+  });
 }
