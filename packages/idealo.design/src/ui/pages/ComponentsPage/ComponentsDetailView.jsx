@@ -9,10 +9,7 @@ import { fetchSingleComponent } from "./component_data";
 export class ComponentsDetailView extends React.Component {
   constructor(props) {
     super(props);
-    this.showInstallation = this.showInstallation.bind(this);
-    this.showUsage = this.showUsage.bind(this);
-    this.showDesign = this.showDesign.bind(this);
-    this.updateComponentDetailView = this.updateComponentDetailView.bind(this);
+    this.copyTextToClipboard = this.copyTextToClipboard.bind(this)
 
     this.state = {
       slug: "",
@@ -58,25 +55,44 @@ export class ComponentsDetailView extends React.Component {
         this.showUsage();
       } else if (slug.includes("Design")) {
         this.showDesign();
+      }else {
+        this.setState({
+          result: ""
+        })
       }
     } catch (e) {}
+  }
+
+  copyTextToClipboard() {
+    const copiedText = document.getElementById('toBeCopiedCode').innerText
+    const el = document.createElement('textarea')
+    el.value = copiedText.toString()
+    document.body.appendChild(el)
+    el.select()
+    document.execCommand("copy");
+    alert('copied')
+    document.body.removeChild(el)
   }
 
   showInstallation() {
     const allReadmeContent = this.state.component.readme.content;
     const inst = allReadmeContent[Object.keys(allReadmeContent)[1]];
     const insta = inst[Object.keys(inst)[0]];
-    const installation = <Markdown>{insta}</Markdown>;
+    const installation =
+        <Markdown
+            className={s.code}
+            id="toBeCopiedCode"
+            onClick={this.copyTextToClipboard}>{insta}
+        </Markdown>;
     this.setState({ result: installation });
   }
 
   showDesign() {
     const design = (
-      <div className={s.container}>
+      <div>
         {this.state.component.screenshots.map((screenshot) => (
           <div className={s.screenshot} key={screenshot}>
             <img
-              className={s.logo}
               src={`http://localhost:8080/api/screenshots/${screenshot}`}
               alt="image"
             />
@@ -91,7 +107,12 @@ export class ComponentsDetailView extends React.Component {
     const allReadmeContent = this.state.component.readme.content;
     const use = allReadmeContent[Object.keys(allReadmeContent)[0]];
     const usage = use[Object.keys(use)[0]];
-    const usageAsHtml = <Markdown>{usage}</Markdown>;
+    const usageAsHtml =
+        <Markdown
+            className={s.code}
+            id="toBeCopiedCode"
+            onClick={this.copyTextToClipboard}>{usage}
+        </Markdown>
     this.setState({ result: usageAsHtml });
   }
 
@@ -102,25 +123,15 @@ export class ComponentsDetailView extends React.Component {
           <h1>{this.state.component.title}</h1>
           <p>----------------------------</p>
           <ul>
-            <li>
-              <a href="#Design">Design</a>
-            </li>
-            <li>
-              <a href="#Installation">Installation</a>
-            </li>
-            <li>
-              <a href="#Usage">Usage</a>
-            </li>
-            <li>
-              <a href="#Story Source">Story Source</a>
-            </li>
-            <li>
-              <a href="#Prop Types">Prop Types</a>
-            </li>
+            {this.state.links.map((link, key) => (
+                <li key={key}>
+                  <a href={`#${link}`}>{link}</a>
+                </li>
+            ))}
           </ul>
         </div>
         <div>
-          <code className={s.code}>{this.state.result}</code>
+          <code>{this.state.result}</code>
         </div>
       </div>
     );
