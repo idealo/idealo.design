@@ -41,7 +41,7 @@ const allCategories = {
 };
 
 describe("Pact Verification", () => {
-  const server = app.listen(7777, "0000", () =>
+  const server = app.listen(6666, "0000", () =>
     console.log("server running for api testing")
   );
 
@@ -67,7 +67,7 @@ describe("Pact Verification", () => {
 
     const opts = {
       provider: "BlogTestingProvider",
-      providerBaseUrl: "http://localhost:7777",
+      providerBaseUrl: "http://localhost:6666",
       // pactBrokerUrl: process.env.PACT_BROKER_URL,
       //  pactBrokerToken: process.env.PACT_BROKER_TOKEN,
       pactUrls: [

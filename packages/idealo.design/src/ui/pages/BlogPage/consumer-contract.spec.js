@@ -1,20 +1,20 @@
-import { Pact, Matchers } from "@pact-foundation/pact";
+import {Pact, Matchers} from '@pact-foundation/pact'
 import {
-  fetchList,
-  fetchUserInfo,
-  updateSinglePost,
-  deleteSinglePost,
-  archiveSinglePost,
-  fetchPostsByCategorySlug,
-  fetchDistinctCategories,
-  fetchAllCategories,
-  fetchSinglePost,
-} from "./data";
-import path from "path";
-const { eachLike, like } = Matchers;
+    fetchList,
+    fetchUserInfo,
+    updateSinglePost,
+    deleteSinglePost,
+    archiveSinglePost,
+    fetchPostsByCategorySlug,
+    fetchDistinctCategories,
+    fetchAllCategories,
+    fetchSinglePost
+} from './data'
+import path from 'path'
 
-const PORT = 4000;
-const URL = "http://localhost:";
+const {eachLike, like} = Matchers
+
+const PORT = 5000;
 
 const provider = new Pact({
   consumer: "BlogTestingConsumer",

@@ -156,9 +156,9 @@ function isBasicAuthenticated(req, res, next) {
 }
 
 function isAuthenticated(req, res, next) {
-  if (req.session.user) {
-    return next();
-  }
+    if (req.session.user) {
+        return next();
+    }
 
   if (dangerousTestModeArgument) {
     return next();
@@ -204,10 +204,10 @@ app.get("/api/me", (req, res) => {
 });
 
 app.get("/logout", function (req, res) {
-  req.session.destroy(() => {
-    req.logout();
-    res.redirect("/");
-  });
+    req.session.destroy(() => {
+        req.logout();
+        res.redirect("/");
+    });
 });
 
 app.get("/api/components", isAuthenticated, async (req, res) => {
@@ -302,11 +302,11 @@ app.delete(
 app.get("/api/blogposts/:slug?", async (req, res) => {
   const { slug } = req.params;
   if (!slug) {
-    const { byCategorySlug: categorySlug } = req.query;
+    const {byCategorySlug: categorySlug} = req.query;
     let posts = [];
 
     if (categorySlug) {
-      posts = await fetchPostsByCategorySlug({ categorySlug });
+      posts = await fetchPostsByCategorySlug({categorySlug});
     } else {
       posts = await fetchList();
     }
@@ -324,7 +324,7 @@ app.post("/api/blogposts", isAuthenticated, async (req, res) => {
   newBlogpost.blogpostcontent = req.body.blogpostcontent;
   const createdBlogpost = await storeSinglePost(newBlogpost);
 
-  return res.json(createdBlogpost);
+    return res.json(createdBlogpost);
 });
 
 app.get("/api/categories", isAuthenticated, async (req, res) => {
@@ -351,9 +351,9 @@ app.put("/api/blogposts", isAuthenticated, async (req, res) => {
   updatedBlogpost.slug = slugify(updatedBlogpost.title);
   updatedBlogpost.date = new Date().toISOString();
 
-  const createdBlogpost = await updateSinglePost(updatedBlogpost);
+    const createdBlogpost = await updateSinglePost(updatedBlogpost);
 
-  return res.json(createdBlogpost);
+    return res.json(createdBlogpost);
 });
 
 app.put("/api/blogposts/archive", isAuthenticated, async (req, res) => {
