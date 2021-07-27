@@ -75,14 +75,15 @@ export class ComponentsDetailView extends React.Component {
   }
 
   showInstallation() {
-    const allReadmeContent = this.state.component.readme.content;
+    const allReadmeContent = this.state.component.readme.content.Installation.body;
+    /*console.log('🏕🏕🏕', allReadmeContent);
     const inst = allReadmeContent[Object.keys(allReadmeContent)[1]];
-    const insta = inst[Object.keys(inst)[0]];
+    const insta = inst[Object.keys(inst)[0]];*/
     const installation =
         <Markdown
             className={s.code}
             id="toBeCopiedCode"
-            onClick={this.copyTextToClipboard}>{insta}
+            onClick={this.copyTextToClipboard}>{allReadmeContent}
         </Markdown>;
     this.setState({ result: installation });
   }
@@ -104,14 +105,15 @@ export class ComponentsDetailView extends React.Component {
   }
 
   showUsage() {
-    const allReadmeContent = this.state.component.readme.content;
+    const allReadmeContent = this.state.component.readme.content.Usage.body;
+    /*//console.log('🏕🏕🏕', allReadmeContent);
     const use = allReadmeContent[Object.keys(allReadmeContent)[0]];
-    const usage = use[Object.keys(use)[0]];
+    const usage = use[Object.keys(use)[0]];*/
     const usageAsHtml =
         <Markdown
             className={s.code}
             id="toBeCopiedCode"
-            onClick={this.copyTextToClipboard}>{usage}
+            onClick={this.copyTextToClipboard}>{allReadmeContent}
         </Markdown>
     this.setState({ result: usageAsHtml });
   }
