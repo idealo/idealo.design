@@ -31,10 +31,6 @@ export class ListView extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    //window.document.removeEventListener('keyup', this.handleOnKeyUp)
-  }
-
   async updateListView() {
     try {
       const slug = this.props.match.params.slug;

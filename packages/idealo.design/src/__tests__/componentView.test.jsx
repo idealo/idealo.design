@@ -10,13 +10,15 @@ jest.mock('../ui/pages/BlogPage/data', () => {
 });
 
 jest.mock('../ui/pages/ComponentsPage/component_data', () => {
-    return {fetchComponents: jest.fn(), fetchTags: jest.fn(), fetchMap: jest.fn(), fetchSingleComponent: jest.fn()};
+    return {fetchComponents: jest.fn(), fetchTags: jest.fn(), fetchSingleComponent: jest.fn()};
 });
 
 test('ComponentsListView gets rendered with user logged in', async () => {
     const mockupComponent = [{
         "component_id": 1,
         "title": "@motif/button",
+        "screenshots": [1,2,3],
+        "tags": ["motif","button"]
     }]
 
     const mockupTags = [
@@ -25,12 +27,6 @@ test('ComponentsListView gets rendered with user logged in', async () => {
         {"tag_name": "button"},
         {"tag_name": "react"}
     ]
-
-    const mockupMap = [{
-        "component_id": 1,
-        "title": "@motif/button",
-        "tag_name": "button"
-    }]
 
     const userInfo = {
         "status": "LOGGED_IN",
@@ -53,7 +49,6 @@ test('ComponentsListView gets rendered with user logged in', async () => {
     fetchUserInfo.mockReturnValue(userInfo)
     fetchComponents.mockReturnValue(mockupComponent)
     fetchTags.mockReturnValue(mockupTags)
-    fetchMap.mockReturnValue(mockupMap)
 
     render(<ComponentsListView/>)
 
@@ -64,19 +59,24 @@ test('ComponentsListView gets rendered with user logged in', async () => {
         const componentTags = screen.getByTitle('componentTags')
         expect(componentTags).toBeInTheDocument()
     })
-
 })
 
 test('ComponentsListView filter', async () => {
     const mockupComponent = [{
         "component_id": 1,
         "title": "@motif/button",
+        "screenshots": [1,2,3],
+        "tags": ["motif","button"]
     }, {
         "component_id": 2,
         "title": "@motif/pl-button",
+        "screenshots": [5,6,7],
+        "tags": ["motif","button", "motif-ui"]
     }, {
         "component_id": 3,
         "title": "@motif/checkbox",
+        "screenshots": [4],
+        "tags": ["motif","checkbox"]
     }]
 
     const mockupTags = [
@@ -85,20 +85,6 @@ test('ComponentsListView filter', async () => {
         {"tag_name": "button"},
         {"tag_name": "checkbox"}
     ]
-
-    const mockupMap = [{
-        "component_id": 1,
-        "title": "@motif/button",
-        "tag_name": "button"
-    }, {
-        "component_id": 2,
-        "title": "@motif/pl-button",
-        "tag_name": "button"
-    }, {
-        "component_id": 3,
-        "title": "@motif/checkbox",
-        "tag_name": "checkbox"
-    }]
 
     const userInfo = {
         "status": "LOGGED_IN",
@@ -121,7 +107,6 @@ test('ComponentsListView filter', async () => {
     fetchUserInfo.mockReturnValue(userInfo)
     fetchComponents.mockReturnValue(mockupComponent)
     fetchTags.mockReturnValue(mockupTags)
-    fetchMap.mockReturnValue(mockupMap)
 
 
     delete window.location
@@ -133,5 +118,7 @@ test('ComponentsListView filter', async () => {
     await waitFor(() => {
         const componentTag = screen.getAllByTitle('componentTitle')
         expect(componentTag).toHaveLength(2)
+        const componentScreenshot = screen.getAllByTitle('componentScreenshot')[0]
+        expect(componentScreenshot).toBeInTheDocument()
     })
 })

@@ -101,12 +101,13 @@ export class ComponentsListView extends React.Component {
             <div className={s.item} key={component.component_id}>
               <a href={`/components/${component.slug}`}>
                 <img
+                    title="componentScreenshot"
                   className={s.logo}
                   src={`http://localhost:8080/api/screenshots/${component.screenshots[0]}`}
                   alt="image"
                 />
-                <h1 className={s.title}>{component.title}</h1>
-                <h3 className={s.tags}>{component.tags}</h3>
+                <h1 className={s.title} title="componentTitle">{component.title}</h1>
+                <h3 className={s.tags} title="componentTags">{component.tags}</h3>
               </a>
             </div>
           ))}
