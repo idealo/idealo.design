@@ -1,25 +1,19 @@
-const path= require('path')
+import path from 'path';
+import fse from 'fs-extra';
+import fs from 'fs';
+import FormData from 'form-data';
+import axios from 'axios';
+import jsonMark from 'jsonmark'
 
-const motifUiFolder = path.resolve(__dirname,'./../src/server/motif-ui-components/')
-const pathToMotifUiRepo = path.resolve(__dirname,'../../../../motif-ui/src')
-
-const fs = require('fs');
-const fse = require("fs-extra")
-const http = require('http')
-
-const options = {
-    hostname: '0.0.0.0',
-    port: 8080,
-    path: '/api/components/update',
-    method: 'PUT',
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-    },
-}
+const __dirname = path.resolve();
+const localMotifUiComponents = path.resolve(__dirname, './motif-ui-components/')
+const localScreenshots = path.resolve(__dirname, './screenshots')
+const pathToMotifUiRepo = path.resolve(__dirname, '../../../../motif-ui/src')
+const pathToMotifUIScreenshots = path.resolve(__dirname, '../../../../motif-ui/__screenshots__')
+const localPathToMotifUIScreenshots = path.resolve(__dirname, './../resources/static/assets/uploads')
 
 async function readDirectory(directory) {
-    return await fs.promises.readdir(directory, (err) => {
+    return fs.promises.readdir(directory, (err) => {
         if (err) {
             console.log("Could not list the directory.", err);
             process.exit(1);
@@ -27,57 +21,138 @@ async function readDirectory(directory) {
     });
 }
 
-async function readPackageJsons (files, destination){
-    const components = []
-    for (const file of files) {
-        if(!file.includes('.')){
-            await fs.promises.readFile(destination +'/' + file + '/package.json', 'utf8').then(function (result) {
-                const compo = JSON.parse(result)
-                if (compo.keywords !== undefined) {
-                    components.push({name: compo.name, keywords: compo.keywords})
+async function createPathToMotifUiScreenshots(){
+    fs.mkdir(localPathToMotifUIScreenshots, {recursive: true}, (err) => {
+        if(err) throw err;
+    });
+}
+
+export async function extractComponents(subdirectories) {
+    let components = []
+    for (const subdirectory of subdirectories) {
+        const eachComponent = {}
+        if (!subdirectory.includes('.') && subdirectory !== 'scripts'){
+            await fs.promises.readFile(localMotifUiComponents+'/'+subdirectory+'/package.json','utf-8').then((stringContentOfPackageJson)=>{
+                const packageJsonAsJson = JSON.parse(stringContentOfPackageJson)
+                if (packageJsonAsJson.keywords !== undefined) {
+                    eachComponent.name = packageJsonAsJson.name
+                    eachComponent.keywords = packageJsonAsJson.keywords
                 }
             })
-                .catch(function (err) {
-                    console.log(err)
-                })
+            await fs.promises.readFile(localMotifUiComponents+'/'+subdirectory+'/README.md','utf-8').then((stringContentOfReadMe)=>{
+                const readmeAsJson = jsonMark.parse(stringContentOfReadMe)
+                const stringifiedJSON = JSON.stringify(readmeAsJson)
+                eachComponent.readme = stringifiedJSON
+            })
         }
-    }return components
+
+        if (!subdirectory.includes('.') && subdirectory !== 'scripts') {
+            await fs.promises.readdir(localMotifUiComponents+'/'+subdirectory+'/src', (err) =>{
+                if(err){
+                    console.log(err);
+                }
+            }).then((result)=>{
+                result.forEach((filename) =>{
+                    if(filename.indexOf('.story.tsx')!== -1){
+                        eachComponent.pathToStoryFile = localMotifUiComponents+'/'+subdirectory+'/src/'+filename
+                    }
+                })
+            })
+        }
+        if(Object.entries(eachComponent).length!==0){
+            components.push(eachComponent)
+        }
+    }
+    return components
 }
 
-function sendDataToHttpRequest(data){
-    const req = http.request(options, res => {
-        console.log(`statusCode: ${res.statusCode}`)
-
-        res.on('data', d => {
-            process.stdout.write(d)
+export async function storeScreenshotFolderName(components) {
+    for(const component of components){
+        await fs.promises.readFile(component.pathToStoryFile, 'utf8').then((contentOfStoryFile) => {
+            if (contentOfStoryFile.includes('const stories = storiesOf(')) {
+                const startIndex = contentOfStoryFile.indexOf('storiesOf(')
+                const endIndex = contentOfStoryFile.indexOf(', module')
+                component.screenshotFolderName = contentOfStoryFile.substring(endIndex - 1, startIndex + 11)
+                delete component.pathToStoryFile
+            }
         })
-    })
-
-    req.on('error', error => {
-        console.error(error)
-    })
-
-    req.write(JSON.stringify(data))
-    req.end()
+    }
+    return components
 }
 
-async function handleImportProcess(source, destination){
-    await fse.remove(destination)
-        .then(()=> console.log('delete folder successfully'))
-        .catch(err => console.log(err))
-    await fse.copy(source, destination)
-        .then(()=>console.log('copy folder successfully'))
-        .catch(err => console.log(err))
-    readDirectory(destination)
-        .then((result)=>readPackageJsons(result, destination)).then((result)=>sendDataToHttpRequest(result))
+export async function storeNameOfScreenshots(components){
+    for(const component of components){
+        await fs.promises.readdir(localScreenshots + '/' + component.screenshotFolderName).then((screenshots) => {
+            component.screenshots = screenshots
+        })
+    }
+    return components
 }
 
-handleImportProcess(pathToMotifUiRepo, motifUiFolder).then(()=>console.log('process finished'))
+export async function createFormDataForComponents(components) {
+    for (const component of components) {
 
+        await fs.mkdirSync(localPathToMotifUIScreenshots+'/'+component.screenshotFolderName, (err) => {
+            if (err) {
+                throw err;
+            }
+        });
+        const componentFormData = new FormData();
 
+        componentFormData.append('name', component.name);
+        for (const keyword of component.keywords) {
+            componentFormData.append('keywords', keyword);
+        }
 
+        componentFormData.append('screenshotFolderName', component.screenshotFolderName);
+        componentFormData.append('readme', component.readme);
 
+        for (const screenshot of component.screenshots) {
+            const screenshotBuffer = await fs.readFileSync(localScreenshots + '/' + component.screenshotFolderName + '/' + screenshot);
+            const screenshotName= screenshot.replace(/ /g, "_");
+            componentFormData.append('screenshots', screenshotBuffer, screenshotName);
+        }
+        component.formData = componentFormData
+    }
+    return components
+}
 
+async function sendDataToHttpRequest(components) {
+    const username = process.env.UPLOADER_USERNAME
+    const password = process.env.UPLOADER_PWD
+    for (const component of components){
+        const componentFormData = component.formData
+        await axios.put(process.env.BASE_URL + '/api/components/update', componentFormData, {
+            headers: {
+                ...componentFormData.getHeaders(),
+            },
+            auth: {
+                username: username,
+                password: password
+            }
+        });
+    }
+}
 
+async function handleImportProcess() {
+    await fse.remove(localMotifUiComponents)
+        .catch(err => console.log(err))
+    await fse.copy(pathToMotifUiRepo, localMotifUiComponents)
+        .catch(err => console.log(err))
+    await fse.remove(localScreenshots)
+        .catch(err => console.log(err))
+    await fse.copy(pathToMotifUIScreenshots, localScreenshots)
+        .catch(err => console.log(err))
+    await fse.remove(localPathToMotifUIScreenshots)
+        .catch(err => console.log(err))
 
+    await createPathToMotifUiScreenshots()
+    const subdirectories = await readDirectory(localMotifUiComponents)
+    const components = await extractComponents(subdirectories)
+    const componentsWithScreenshotFolderNames = await storeScreenshotFolderName(components)
+    const componentsWithScreenshotPath = await storeNameOfScreenshots(componentsWithScreenshotFolderNames)
+    const componentsWithFormData = await createFormDataForComponents(componentsWithScreenshotPath)
+    await sendDataToHttpRequest(componentsWithFormData)
+}
 
+handleImportProcess().then(() => console.log('import process finished'))

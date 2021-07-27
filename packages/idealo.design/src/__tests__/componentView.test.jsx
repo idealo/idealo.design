@@ -1,7 +1,7 @@
 import {fetchUserInfo} from "../ui/pages/BlogPage/data";
 import {fetchComponents, fetchTags, fetchMap} from "../ui/pages/ComponentsPage/component_data";
 import {render, screen, waitFor} from "@testing-library/react";
-import {ComponentView} from "../ui/pages/ComponentsPage/ComponentView";
+import {ComponentsListView} from "../ui/pages/ComponentsPage/ComponentsListView";
 import '@testing-library/jest-dom/extend-expect';
 import React from "react";
 
@@ -13,7 +13,7 @@ jest.mock('../ui/pages/ComponentsPage/component_data', () => {
     return {fetchComponents: jest.fn(), fetchTags: jest.fn(), fetchMap: jest.fn(), fetchSingleComponent: jest.fn()};
 });
 
-test('ComponentView gets rendered with user logged in', async () => {
+test('ComponentsListView gets rendered with user logged in', async () => {
     const mockupComponent = [{
         "component_id": 1,
         "title": "@motif/button",
@@ -55,7 +55,7 @@ test('ComponentView gets rendered with user logged in', async () => {
     fetchTags.mockReturnValue(mockupTags)
     fetchMap.mockReturnValue(mockupMap)
 
-    render(<ComponentView/>)
+    render(<ComponentsListView/>)
 
     await waitFor(() => {
         const componentTitle = screen.getByTitle('componentTitle')
@@ -67,7 +67,7 @@ test('ComponentView gets rendered with user logged in', async () => {
 
 })
 
-test('ComponentView filter', async () => {
+test('ComponentsListView filter', async () => {
     const mockupComponent = [{
         "component_id": 1,
         "title": "@motif/button",
@@ -128,7 +128,7 @@ test('ComponentView filter', async () => {
     window.location = new URL('http://localhost:8080/components?query=button')
 
 
-    render(<ComponentView/>)
+    render(<ComponentsListView/>)
 
     await waitFor(() => {
         const componentTag = screen.getAllByTitle('componentTitle')

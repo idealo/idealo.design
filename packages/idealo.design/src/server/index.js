@@ -1,6 +1,6 @@
-import {app} from "./server.js";
+import { app } from "./server.js";
 
-const PORT = process.env.HTTP_PORT || 8080
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(` -> 0.0.0.0:${PORT}`)
-})
+const PORT = process.env.HTTP_PORT || 8080;
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(` -> 0.0.0.0:${PORT}`);
+});

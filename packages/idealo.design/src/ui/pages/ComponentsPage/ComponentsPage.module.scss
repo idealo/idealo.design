@@ -1,4 +1,4 @@
-@import 'Styles/colors';
+@import "Styles/colors";
 
 .list {
   overflow: hidden;
@@ -7,6 +7,21 @@
   position: relative;
 }
 
+.screenshot {
+  display:block;
+  background-color: $color_gray_200;
+  padding: 30px;
+}
+
+.code {
+  font-family: monospace;
+  padding: 30px;
+  display:block;
+  background-color: $color_gray_200;
+  :hover{
+    cursor:pointer
+  }
+}
 
 .multiselect {
   margin: 5px;
@@ -39,7 +54,7 @@
 
   .logo {
     width: 100%;
-    height: auto
+    height: auto;
   }
 
   .tags {
@@ -48,4 +63,36 @@
   }
 }
 
+.headerNav{
+  background: $color_marine_600;
+  color: white;
+  padding: 50px;
+  margin: 0;
 
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  li {
+    float: left;
+  }
+
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  li a:hover:not(.active) {
+    color: $color_orange;
+  }
+
+  .active {
+    color: $color_orange;
+  }
+}

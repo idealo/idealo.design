@@ -1,22 +1,24 @@
-import fetch from "node-fetch"
+import fetch from "node-fetch";
 
-const API_BASE = '';
+const API_BASE = "";
 
 export async function fetchList(base_url = API_BASE) {
   const resp = await fetch(`${base_url}/api/blogposts`);
-  const data = await resp.json();
-  return data;
+  return resp.json();
 }
 
-export async function updateSinglePost({slug, post} , cb,base_url = API_BASE) {
+export async function updateSinglePost(
+  { slug, post },
+  cb,
+  base_url = API_BASE
+) {
   const body = JSON.stringify(post);
 
   const resp = await fetch(`${base_url}/api/blogposts`, {
-        method: 'PUT',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body
-      }
-  ).then(function(response) {
+    method: "PUT",
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+    body,
+  }).then(function (response) {
     cb();
     return response.json();
   });
@@ -31,58 +33,58 @@ export async function fetchSinglePost({ slug }, base_url = API_BASE) {
   return data.pop();
 }
 
-export async function fetchPostsByCategorySlug({ categorySlug }, base_url = API_BASE) {
+export async function fetchPostsByCategorySlug(
+  { categorySlug },
+  base_url = API_BASE
+) {
   if (!categorySlug) return [];
 
-  const resp = await fetch(`${base_url}/api/blogposts?byCategorySlug=${categorySlug}`);
-  const data = await resp.json();
-  return data;
+  const resp = await fetch(
+    `${base_url}/api/blogposts?byCategorySlug=${categorySlug}`
+  );
+  return resp.json();
 }
 
 export async function fetchAllCategories(base_url = API_BASE) {
   const resp = await fetch(`${base_url}/api/categories`);
-  const data = await resp.json();
-  return data;
+  return resp.json();
 }
 
 export async function fetchDistinctCategories(base_url = API_BASE) {
-    const resp = await fetch(`${base_url}/api/distinctCategories`);
-    const data = await resp.json();
-    return data;
+  const resp = await fetch(`${base_url}/api/distinctCategories`);
+  return resp.json();
 }
 
 export async function fetchAllTitles(base_url = API_BASE) {
-    const resp = await fetch(`${base_url}/api/title`);
-    const data = await resp.json();
-    return data;
+  const resp = await fetch(`${base_url}/api/title`);
+  return resp.json();
 }
 
 export async function fetchUserInfo(base_url = API_BASE) {
-  const resp = await fetch( `${base_url}/api/me` );
-  const data = await resp.json();
-  return data;
+  const resp = await fetch(`${base_url}/api/me`);
+  return resp.json();
 }
 
 export async function deleteSinglePost(post, base_url = API_BASE) {
-    const body = JSON.stringify(post);
-    const resp=await fetch(`${base_url}/api/blogposts/delete`, {
-        method: 'PUT',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body
-    }).then(function (response){
-        return 'successfully deleted blogpost'
-    })
-    return resp;
+  const body = JSON.stringify(post);
+  const resp = await fetch(`${base_url}/api/blogposts/delete`, {
+    method: "PUT",
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+    body,
+  }).then(function (response) {
+    return "successfully deleted blogpost";
+  });
+  return resp
 }
 
-export async function archiveSinglePost(post,base_url = API_BASE) {
-    const body = JSON.stringify(post);
-    const resp = await fetch(`${base_url}/api/blogposts/archive`,{
-        method: 'PUT',
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        body
-    }).then(function (response){
-        return response.json()
-    })
-    return resp;
+export async function archiveSinglePost(post, base_url = API_BASE) {
+  const body = JSON.stringify(post);
+  const resp = await fetch(`${base_url}/api/blogposts/archive`, {
+    method: "PUT",
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+    body,
+  }).then(function (response) {
+    return response.json();
+  });
+  return resp
 }
