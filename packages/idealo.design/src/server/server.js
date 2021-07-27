@@ -302,18 +302,20 @@ app.delete(
 app.get("/api/blogposts/:slug?", async (req, res) => {
   const { slug } = req.params;
   if (!slug) {
-    const { byCategorySlug: categorySlug } = req.query;
+    const {byCategorySlug: categorySlug} = req.query;
     let posts = [];
 
     if (categorySlug) {
-      posts = await fetchPostsByCategorySlug({ categorySlug });
+      posts = await fetchPostsByCategorySlug({categorySlug});
     } else {
       posts = await fetchList();
     }
+    return res.json(posts);
+  }
 
   const blogpost = await fetchSinglePost({ slug });
   return res.json(blogpost);
-}});
+});
 
 app.post("/api/blogposts", isAuthenticated, async (req, res) => {
   const newBlogpost = req.body;
