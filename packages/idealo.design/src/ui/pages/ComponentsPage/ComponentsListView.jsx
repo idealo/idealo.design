@@ -73,7 +73,6 @@ export class ComponentsListView extends React.Component {
     const params = new URLSearchParams(location.search);
     const allParametersAsString = params.get('query')
     if(allParametersAsString!==null){
-      console.log(allParametersAsString)
       const searchParams = allParametersAsString.split(',');
       for (let option of this.state.availableTags) {
         if (searchParams.includes(option.value)) {
