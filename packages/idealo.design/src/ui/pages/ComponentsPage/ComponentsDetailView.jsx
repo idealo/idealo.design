@@ -76,7 +76,7 @@ export class ComponentsDetailView extends React.Component {
     const installation = this.state.component.readme.content.Installation.body;
     const installationAsHtml =
         <div>
-          <button className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+          <button title='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
           <Markdown
               className={s.code}
               id="toBeCopiedCode"
@@ -92,6 +92,7 @@ export class ComponentsDetailView extends React.Component {
         {this.state.component.screenshots.map((screenshot) => (
           <div className={s.screenshot} key={screenshot}>
             <img
+              title={screenshot}
               src={`http://localhost:8080/api/screenshots/${screenshot}`}
               alt="image"
             />
@@ -106,7 +107,7 @@ export class ComponentsDetailView extends React.Component {
     const usage = this.state.component.readme.content.Usage.body;
     const usageAsHtml =
         <div>
-          <button className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+          <button title='copyUsage' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
           <Markdown
               className={s.code}
               id="toBeCopiedCode">{usage}
