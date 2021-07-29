@@ -22,7 +22,6 @@ test('ComponentDetailView gets rendered with user logged in',async () => {
         "title": "@motif/button",
         "screenshots": [1,2,3],
         "tags": ["motif","button"],
-        "usage": "import { Button } from '@motif/button';",
         "readme": {"order":["Motif UI `button`","Installation","Usage"],"content":{"Usage":{"body":"import { Button } from '@motif/button';","head":"## Usage"},"Installation":{"body":"```bash\nyarn add @motif/button\n```","head":"## Installation"},"Motif UI `button`":{"body":"","head":"# Motif UI `button`"}}}
     }
 
@@ -61,21 +60,10 @@ test('ComponentDetailView gets rendered with user logged in',async () => {
 
     await waitFor(() => {
         const componentTitle = screen.getByTitle('componentDetailViewTitle')
-        expect(componentTitle).toBeInTheDocument()
+        expect(componentTitle).toHaveTextContent("@motif/button")
 
         for(const link of links){
-            const nameOfTheLink =  screen.getByTitle(link)
-            expect(nameOfTheLink).toBeInTheDocument()
+            expect(screen.getByTitle(link).closest('a')).toHaveAttribute('href', '#'+link )
         }
     })
-
-    /*await waitFor(() =>{
-        fireEvent.click(screen.getByTitle('Usage'));
-        expect(screen.getByText("import { Button } from '@motif/button';"));
-
-    })*/
-
-
-
-
 })
