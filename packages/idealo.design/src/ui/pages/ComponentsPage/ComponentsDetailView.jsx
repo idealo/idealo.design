@@ -75,11 +75,14 @@ export class ComponentsDetailView extends React.Component {
   showInstallation() {
     const installation = this.state.component.readme.content.Installation.body;
     const installationAsHtml =
-        <Markdown
-            className={s.code}
-            id="toBeCopiedCode"
-            onClick={this.copyTextToClipboard}>{installation}
-        </Markdown>;
+        <div>
+          <button className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+          <Markdown
+              className={s.code}
+              id="toBeCopiedCode"
+              onClick={this.copyTextToClipboard}>{installation}
+          </Markdown>
+        </div>
     this.setState({ result: installationAsHtml });
   }
 
@@ -102,11 +105,13 @@ export class ComponentsDetailView extends React.Component {
   showUsage() {
     const usage = this.state.component.readme.content.Usage.body;
     const usageAsHtml =
-        <Markdown
-            className={s.code}
-            id="toBeCopiedCode"
-            onClick={this.copyTextToClipboard}>{usage}
-        </Markdown>
+        <div>
+          <button className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+          <Markdown
+              className={s.code}
+              id="toBeCopiedCode">{usage}
+          </Markdown>
+        </div>
     this.setState({ result: usageAsHtml });
   }
 
