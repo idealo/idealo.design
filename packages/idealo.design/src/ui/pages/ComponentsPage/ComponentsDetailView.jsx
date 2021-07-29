@@ -68,7 +68,10 @@ export class ComponentsDetailView extends React.Component {
     document.body.appendChild(el)
     el.select()
     document.execCommand("copy");
-    alert('copied')
+    document.getElementById('copyInstallation').innerText='copied';
+    setTimeout(function(){
+      document.getElementById('copyInstallation').innerText='copy';
+    },1000);
     document.body.removeChild(el)
   }
 
@@ -76,11 +79,10 @@ export class ComponentsDetailView extends React.Component {
     const installation = this.state.component.readme.content.Installation.body;
     const installationAsHtml =
         <div>
-          <button title='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+          <button title='copyInstallation' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
           <Markdown
               className={s.code}
-              id="toBeCopiedCode"
-              onClick={this.copyTextToClipboard}>{installation}
+              id="toBeCopiedCode">{installation}
           </Markdown>
         </div>
     this.setState({ result: installationAsHtml });
@@ -107,7 +109,7 @@ export class ComponentsDetailView extends React.Component {
     const usage = this.state.component.readme.content.Usage.body;
     const usageAsHtml =
         <div>
-          <button title='copyUsage' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+          <button title='copyUsage' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
           <Markdown
               className={s.code}
               id="toBeCopiedCode">{usage}
