@@ -110,3 +110,18 @@
   text-decoration: none;
   color: inherit;
 }
+
+.LinkToBitbucket{
+  text-decoration: none;
+  color: white;
+}
+
+.buttonToBitbucket{
+  float:right;
+  margin: 0px;
+  background: $color_orange;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+}
