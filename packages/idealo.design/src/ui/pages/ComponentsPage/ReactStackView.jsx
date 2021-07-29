@@ -42,8 +42,8 @@ class ReactStackView extends React.Component {
                   alt="image"
                 />
                 <h1 className={s.title}>{component.title}</h1>
-                {component.tags.map((tag) => (
-                    <p className={s.tags} title="componentTags">{`#${tag}`}</p>
+                {component.tags.map((tag,key) => (
+                    <p className={s.tags} key={key} title="componentTags">{`#${tag}`}</p>
                 ))}
               </a>
             </div>

@@ -56,7 +56,7 @@ test('ComponentsListView gets rendered with user logged in', async () => {
         const componentTitle = screen.getByTitle('componentTitle')
         expect(componentTitle).toBeInTheDocument()
 
-        const componentTags = screen.getByTitle('componentTags')
+        const componentTags = screen.getAllByTitle('componentTags')
         expect(componentTags).toBeInTheDocument()
     })
 })
