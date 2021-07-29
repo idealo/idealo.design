@@ -29,9 +29,7 @@ export class ComponentsDetailView extends React.Component {
         links: [
           "Design",
           "Installation",
-          "Usage",
-          "Story Source",
-          "Prop Types",
+          "Usage"
         ],
       });
       if (window.location.href.includes("#")) {
@@ -116,12 +114,12 @@ export class ComponentsDetailView extends React.Component {
     return (
       <div>
         <div className={s.headerNav}>
-          <h1>{this.state.component.title}</h1>
+          <h1 title='componentDetailViewTitle'>{this.state.component.title}</h1>
           <p>----------------------------</p>
           <ul>
             {this.state.links.map((link, key) => (
                 <li key={key}>
-                  <a href={`#${link}`}>{link}</a>
+                  <a title={link} href={`#${link}`}>{link}</a>
                 </li>
             ))}
           </ul>
