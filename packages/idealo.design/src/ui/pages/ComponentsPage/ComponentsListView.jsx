@@ -3,7 +3,6 @@ import { withRouter } from "react-router";
 import s from "./ComponentsPage.module.scss";
 import Select from "react-select";
 import { fetchComponents, fetchTags } from "./component_data";
-import slugify from "slugify";
 
 export class ComponentsListView extends React.Component {
   constructor(props) {
@@ -71,11 +70,15 @@ export class ComponentsListView extends React.Component {
   checkURL() {
     const filterValue = [];
     const URLOptions = [];
-    const url = slugify(window.location.href.toString());
-    for (let option of this.state.availableTags) {
-      if (url.includes(option.value)) {
-        filterValue.push(option.value);
-        URLOptions.push(option);
+    const params = new URLSearchParams(location.search);
+    const allParametersAsString = params.get('query')
+    if(allParametersAsString!==null){
+      const searchParams = allParametersAsString.split(',');
+      for (let option of this.state.availableTags) {
+        if (searchParams.includes(option.value)) {
+          filterValue.push(option.value);
+          URLOptions.push(option);
+        }
       }
     }
     this.setState({ filterValue: filterValue, URLOptions: URLOptions });
