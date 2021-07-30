@@ -1,7 +1,6 @@
 @import 'Styles/colors';
 
 .Footer {
-  display: flex;
   .Links{
     margin-top: 1rem;
     a{
@@ -18,11 +17,12 @@
       padding: 0.5rem;
     }
   }
+  display: flex;
   color: #D7E3EF;
   background-color: $color_marine_400;
   height: 60px;
   width: 100%;
-  position: absolute;
+  position: relative;
   bottom: 0;
 }
 
