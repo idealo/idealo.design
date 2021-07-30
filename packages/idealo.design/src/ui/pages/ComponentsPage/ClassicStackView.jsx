@@ -35,14 +35,16 @@ class ClassicStackView extends React.Component {
         <div className={s.container}>
           {this.state.filteredComponents.map((component) => (
             <div className={s.item} key={component.component_id}>
-              <a href={`/components/${component.slug}`}>
+              <a className={s.linkToDetailView} href={`/components/${component.slug}`}>
                 <img
                   className={s.logo}
                   src={`http://localhost:8080/api/screenshots/${component.screenshots[0]}`}
                   alt="image"
                 />
                 <h1 className={s.title}>{component.title}</h1>
-                <h3 className={s.tags}>{component.tags}</h3>
+                {component.tags.map((tag,key) => (
+                    <p className={s.tags} key={key} title="componentTags">{`#${tag}`}</p>
+                ))}
               </a>
             </div>
           ))}

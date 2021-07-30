@@ -29,9 +29,7 @@ export class ComponentsDetailView extends React.Component {
         links: [
           "Design",
           "Installation",
-          "Usage",
-          "Story Source",
-          "Prop Types",
+          "Usage"
         ],
       });
       if (window.location.href.includes("#")) {
@@ -70,18 +68,23 @@ export class ComponentsDetailView extends React.Component {
     document.body.appendChild(el)
     el.select()
     document.execCommand("copy");
-    alert('copied')
+    document.getElementById('copyInstallation').innerText='copied';
+    setTimeout(function(){
+      document.getElementById('copyInstallation').innerText='copy';
+    },1000);
     document.body.removeChild(el)
   }
 
   showInstallation() {
     const installation = this.state.component.readme.content.Installation.body;
     const installationAsHtml =
-        <Markdown
-            className={s.code}
-            id="toBeCopiedCode"
-            onClick={this.copyTextToClipboard}>{installation}
-        </Markdown>;
+        <div>
+          <button title='copyInstallation' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+          <Markdown
+              className={s.code}
+              id="toBeCopiedCode">{installation}
+          </Markdown>
+        </div>
     this.setState({ result: installationAsHtml });
   }
 
@@ -91,6 +94,7 @@ export class ComponentsDetailView extends React.Component {
         {this.state.component.screenshots.map((screenshot) => (
           <div className={s.screenshot} key={screenshot}>
             <img
+              title={screenshot}
               src={`http://localhost:8080/api/screenshots/${screenshot}`}
               alt="image"
             />
@@ -104,11 +108,13 @@ export class ComponentsDetailView extends React.Component {
   showUsage() {
     const usage = this.state.component.readme.content.Usage.body;
     const usageAsHtml =
-        <Markdown
-            className={s.code}
-            id="toBeCopiedCode"
-            onClick={this.copyTextToClipboard}>{usage}
-        </Markdown>
+        <div>
+          <button title='copyUsage' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+          <Markdown
+              className={s.code}
+              id="toBeCopiedCode">{usage}
+          </Markdown>
+        </div>
     this.setState({ result: usageAsHtml });
   }
 
@@ -116,12 +122,12 @@ export class ComponentsDetailView extends React.Component {
     return (
       <div>
         <div className={s.headerNav}>
-          <h1>{this.state.component.title}</h1>
+          <h1 title='componentDetailViewTitle'>{this.state.component.title}</h1>
           <p>----------------------------</p>
           <ul>
             {this.state.links.map((link, key) => (
                 <li key={key}>
-                  <a href={`#${link}`}>{link}</a>
+                  <a title={link} href={`#${link}`}>{link}</a>
                 </li>
             ))}
           </ul>

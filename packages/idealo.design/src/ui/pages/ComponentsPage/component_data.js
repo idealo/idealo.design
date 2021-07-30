@@ -22,8 +22,8 @@ export async function fetchReadMe({slug}) {
     return await resp.json();
 }
 
-export async function fetchSingleComponent({ slug }) {
-  const resp = await fetch(`${API_BASE}/api/components/${slug}`);
+export async function fetchSingleComponent({ slug },base_url = API_BASE) {
+  const resp = await fetch(`${base_url}/api/components/${slug}`);
   return resp.json();
 }
 

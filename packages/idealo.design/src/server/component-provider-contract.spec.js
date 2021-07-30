@@ -4,16 +4,18 @@ import { app } from './server'
 import {
     fetchMap,
     fetchTags,
-    fetchComponents
+    fetchComponents,
+    fetchSingleComponent
 } from './db'
 import '@testing-library/jest-dom/extend-expect';
-import {mockupComponent, mockupTags, mockupMap} from '../ui/pages/ComponentsPage/component-consumer-contract.spec'
+import {mockupComponent, mockupTags, mockupMap, mockupSingleComponent} from '../ui/pages/ComponentsPage/component-consumer-contract.spec'
 
 jest.mock('./db', () => {
     return {
         fetchMap: jest.fn(),
         fetchTags: jest.fn(),
-        fetchComponents: jest.fn()
+        fetchComponents: jest.fn(),
+        fetchSingleComponent: jest.fn()
     }
 })
 
@@ -25,6 +27,7 @@ describe('Pact Verification', () => {
         fetchMap.mockReturnValue([mockupMap])
         fetchTags.mockReturnValue([mockupTags])
         fetchComponents.mockReturnValue([mockupComponent])
+        fetchSingleComponent.mockReturnValue(mockupSingleComponent)
 
         const opts = {
             provider: 'ComponentProvider',
