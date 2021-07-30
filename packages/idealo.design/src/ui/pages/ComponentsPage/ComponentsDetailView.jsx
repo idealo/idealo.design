@@ -128,7 +128,7 @@ export class ComponentsDetailView extends React.Component {
       <div>
         <div className={s.headerNav}>
           <h1 title={this.state.component.title}>{this.state.titleAfterBackslash}</h1>
-          <p>----------------------------</p>
+          <hr></hr>
           <ul>
             {this.state.links.map((link, key) => (
                 <li key={key}>
