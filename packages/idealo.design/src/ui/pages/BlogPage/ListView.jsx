@@ -83,7 +83,7 @@ export class ListView extends React.Component {
 
         <div style={{ clear: "both" }} />
 
-        <div className={s.List}>
+        {/*<div className={s.List}>
           {this.state.list.map((blogpost) => (
             <div key={blogpost.id} className={s.Content}>
               <h2 title="blogpostTitle" className={s.blogpostTitle}>
@@ -94,6 +94,28 @@ export class ListView extends React.Component {
                 {this.getReactElement(blogpost.blogpostcontent)}
               </div>
             </div>
+          ))}
+        </div>*/}
+        <div className={s.container}>
+          {this.state.list.map((blogpost) => (
+              <div className={s.item} key={blogpost.id}>
+                <img className={s.imageListView} title="blogpostPreview" alt="" src={blogpost.image} />
+                <div className={s.contentListView}>
+                  <h5 className={s.categoryListView}>{blogpost.categorydisplayvalue}</h5>
+                  <h2 className={s.titleListView} title="blogpostTitle" >
+                    <a className={s.LinkToDetailView} href={`/blog/${blogpost.slug}`}>{blogpost.title}</a>
+                  </h2>
+                  <p className={s.textListView}>{this.getReactElement(blogpost.blogpostcontent)}</p>
+                  <hr></hr>
+                  <h5 className={s.authorListView}>by {blogpost.autor}</h5>
+                </div>
+
+                {/*<div  className={s.Content}>
+                  <h2 title="blogpostTitle" className={s.blogpostTitle}>
+                    <a href={`/blog/${blogpost.slug}`}>{blogpost.title}</a>
+                  </h2>
+                </div>*/}
+              </div>
           ))}
         </div>
       </div>
