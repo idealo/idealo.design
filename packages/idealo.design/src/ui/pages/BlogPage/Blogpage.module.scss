@@ -1,3 +1,5 @@
+@import "Styles/colors";
+
 .List {
   display: flex;
   flex-wrap: wrap;
@@ -151,4 +153,71 @@
 .Autor {
   text-align: center;
   font-size: larger;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.item {
+  background: $color_gray_200;
+  width: 40%;
+  margin: 7px 2px;
+  padding: 10px;
+  height: 100%;
+  box-shadow: 5px 5px 5px silver;
+}
+
+
+.imageListView {
+  max-width: 100%;
+  max-height: 200px;
+}
+
+.categoryListView{
+  color: grey;
+  margin-bottom: 3px;
+}
+
+.titleListView{
+  margin-top: 3px;
+  line-height: 25px;
+}
+
+.LinkToDetailView{
+  text-decoration: none;
+  color: inherit;
+}
+
+.textListView{
+  color: grey;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  width: 100%;
+  margin: 2rem 0;
+  overflow: hidden;
+
+  -ms-box-orient: vertical;
+  -ms-line-clamp: 4;
+
+  -moz-box-orient: vertical;
+  -moz-line-clamp: 4;
+}
+
+.authorListView{
+  color: grey;
+  display: inline-block;
+}
+
+.contentListView{
+  padding: 0px 20px 5px;
+  font-family: Didot, serif;
+}
+
+.dateListView{
+  color: grey;
+  float:right;
 }
