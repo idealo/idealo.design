@@ -58,12 +58,16 @@ describe('test detailview', ()=>{
         render(<ComponentsDetailView {...mockedParams} />)
 
         await waitFor(() => {
-            const componentTitle = screen.getByTitle('componentDetailViewTitle')
-            expect(componentTitle).toHaveTextContent("@motif/button")
+            const componentTitle = screen.getByTitle(mockupComponent.title)
+            expect(componentTitle).toBeInTheDocument()
 
             for(const link of links){
                 expect(screen.getByTitle(link).closest('a')).toHaveAttribute('href', '#'+link )
             }
+
+            const buttonToBitbucket = screen.getByTitle('buttonToBitbucket')
+            expect(buttonToBitbucket).toBeInTheDocument()
+            expect(screen.getByTitle('linkToBitbucket').closest('a')).toHaveAttribute('href', 'https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/button/src/' )
         })
     })
 

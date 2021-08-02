@@ -17,6 +17,7 @@ export class ComponentsDetailView extends React.Component {
       links: [],
       URLOptions: "",
       result: "",
+      titleAfterBackslash: ''
     };
   }
 
@@ -35,6 +36,10 @@ export class ComponentsDetailView extends React.Component {
       if (window.location.href.includes("#")) {
         await this.updateComponentDetailView();
       }
+      const titleAfterBackslash = this.state.component.title.substr(this.state.component.title.indexOf('/')+1,this.state.component.title.length-1)
+      this.setState({
+        titleAfterBackslash: titleAfterBackslash
+      })
     }
   }
 
@@ -122,14 +127,17 @@ export class ComponentsDetailView extends React.Component {
     return (
       <div>
         <div className={s.headerNav}>
-          <h1 title='componentDetailViewTitle'>{this.state.component.title}</h1>
-          <p>----------------------------</p>
+          <h1 title={this.state.component.title}>{this.state.titleAfterBackslash}</h1>
+          <hr></hr>
           <ul>
             {this.state.links.map((link, key) => (
                 <li key={key}>
                   <a title={link} href={`#${link}`}>{link}</a>
                 </li>
             ))}
+            <button title='buttonToBitbucket' className={s.buttonToBitbucket}>
+              <a title='linkToBitbucket' className={s.LinkToBitbucket} target="_blank" href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}>Link to Bitbucket</a>
+            </button>
           </ul>
         </div>
         <div>
