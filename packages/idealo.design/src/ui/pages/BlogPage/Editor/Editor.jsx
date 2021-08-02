@@ -255,6 +255,7 @@ export class RichTextEditor extends React.Component {
       this.blog.blogpostcontent = this.renderContentAsRawJs();
       this.blog.categoryDisplayValue = this.state.categoryDisplayValue;
       this.blog.categorySlug = this.state.categorySlug;
+      this.blog.slug = slugify(this.state.title)
       updateSinglePost(
         {
           slug: this.slug,

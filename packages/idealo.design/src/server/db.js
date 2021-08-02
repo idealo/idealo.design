@@ -80,6 +80,7 @@ export async function updateSinglePost(blog) {
         update blogposts set ${sql(
           blog,
           "title",
+          "slug",
           "categoryDisplayValue",
           "categorySlug",
           "blogpostcontent"
