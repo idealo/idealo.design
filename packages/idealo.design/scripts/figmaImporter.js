@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 let importFromApiFigma = fetch('https://api.figma.com/v1/files/ybZtLgPiNd2hUWlS2W80DS/', {
     headers: {
-        "X-Figma-Token": "218206-02837e42-f682-4cb5-aab6-731b7548b06e"
+        "X-Figma-Token": " --- "
     }
 })
     .then(response => response.json())
