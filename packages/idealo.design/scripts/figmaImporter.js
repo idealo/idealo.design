@@ -1,9 +1,11 @@
 import React from 'react';
 import fetch from 'node-fetch';
 
+const SECRET_KEY_FIGMA = process.env.SECRET_KEY_FIGMA || false;
+
 let importFromApiFigma = fetch('https://api.figma.com/v1/files/ybZtLgPiNd2hUWlS2W80DS/', {
     headers: {
-        "X-Figma-Token": " --- "
+        "X-Figma-Token": SECRET_KEY_FIGMA
     }
 })
     .then(response => response.json())
