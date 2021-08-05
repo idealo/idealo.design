@@ -103,12 +103,14 @@ export class ComponentsListView extends React.Component {
           {this.state.filteredComponents.map((component) => (
             <div className={s.item} key={component.component_id}>
               <a className={s.linkToDetailView} href={`/components/${component.slug}`}>
-                <img
-                    title="componentScreenshot"
-                  className={s.logo}
-                  src={`http://localhost:8080/api/screenshots/${component.screenshots[0]}`}
-                  alt="image"
-                />
+                {component.screenshots.length>0 ? (
+                  <img
+                      title="componentScreenshot"
+                    className={s.logo}
+                    src={`http://localhost:8080/api/screenshots/${component.screenshots[0]}`}
+                    alt="image"
+                  />
+                ):(<div/>)}
                 <h1 className={s.title} title="componentTitle">{component.title}</h1>
                 {component.tags.map((tag,key) => (
                     <p className={s.tags} key={key} title="componentTags">{`#${tag}`}</p>
