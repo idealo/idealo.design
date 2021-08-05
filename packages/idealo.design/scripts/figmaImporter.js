@@ -23,7 +23,7 @@ function getComponentsFromFigmaApi(data){
                 let contents = []
                 for(const childContent of childFrames.children){
                     if(childContent.characters !== undefined){
-                        if(childContent.style.textAutoResize === 'WIDTH_AND_HEIGHT'){
+                        if(childContent.style.textAutoResize === 'WIDTH_AND_HEIGHT' && childContent.style.fontSize >20){
                             titlesContent.push({'content': childContent.characters , "x": childContent.absoluteBoundingBox.x, "y": childContent.absoluteBoundingBox.y})
                         }
                         else{
@@ -34,7 +34,7 @@ function getComponentsFromFigmaApi(data){
 
                for(const titleContent of titlesContent){
                     for(const content of contents){
-                        if(titleContent.x === content.x && titleContent.y <= content.y && titleContent.y >= content.y-180){
+                        if((Math.abs(titleContent.x - content.x)<2) && titleContent.y <= content.y && ((content.y - titleContent.y) <100)){
                             for(const component of components){
                                 if(component.title === childComponent.name){
                                     component.content.push({'titleContent': titleContent.content, 'content': content.content})
