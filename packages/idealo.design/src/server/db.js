@@ -323,7 +323,6 @@ export async function fetchSingleComponent({ slug }) {
 }
 
 export async function importSingleComponentFromFigma(componentData){
-  if(componentData.content.length > 0){
     return sql.begin(async (sql) => {
       await sql`delete
               from components
@@ -344,7 +343,6 @@ export async function importSingleComponentFromFigma(componentData){
       }
       await sql`insert into components_tags_map (component_id, tag_id) values (${component_id[0].component_id}, ${existingTagId.tag_id})`;
     });
-  }
 }
 
 export async function importSingleComponent(screenshotPaths, componentData) {
