@@ -1,5 +1,6 @@
 import React from 'react';
 import fetch from 'node-fetch';
+import axios from "axios";
 
 const SECRET_KEY_FIGMA = process.env.SECRET_KEY_FIGMA || false;
 
@@ -11,9 +12,10 @@ let importFromApiFigma = fetch('https://api.figma.com/v1/files/ybZtLgPiNd2hUWlS2
     .then(response => response.json())
     .then((data) => {
         getComponentsFromFigmaApi(data)
+            .then((components) => sendDataToHttpRequest(components))
     });
 
-function getComponentsFromFigmaApi(data){
+async function getComponentsFromFigmaApi(data){
     let components = [];
     for(const childComponent of data.document.children){
         components.push({'title': childComponent.name , content: []})
@@ -46,6 +48,21 @@ function getComponentsFromFigmaApi(data){
             }
         }
     }
-    console.log(components)
+    return components
 }
 
+async function sendDataToHttpRequest(components) {
+    const username = process.env.UPLOADER_USERNAME
+    const password = process.env.UPLOADER_PWD
+    for (const component of components){
+        await axios.put(process.env.BASE_URL + '/api/components/import/figma', component, {
+            headers: {
+                ...component,
+            },
+            auth: {
+                username: username,
+                password: password
+            }
+        })
+    }
+}
