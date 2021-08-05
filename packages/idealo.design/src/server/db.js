@@ -323,26 +323,28 @@ export async function fetchSingleComponent({ slug }) {
 }
 
 export async function importSingleComponentFromFigma(componentData){
-    return sql.begin(async (sql) => {
-      await sql`delete
+
+  return sql.begin(async (sql) => {
+    await sql`delete
               from components
               where title = ${componentData.title}`;
-      const slug = slugify(componentData.title);
-      await sql`insert into components (title, slug)
-              values (${componentData.title}, ${slug});`;
+    const slug = slugify(componentData.title);
 
-      const component_id = await sql`select component_id from components where title=${componentData.title}`;
-      const figmaTag =
-          await sql`select tag_id from tags where tag_name='figma'`;
-      let existingTagId = figmaTag[0];
+    await sql`insert into components (title, slug, figma_usage)
+              values (${componentData.title}, ${slug}, ${JSON.stringify(componentData.content)});`;
+    const component_id = await sql`select component_id from components where title=${componentData.title}`;
 
-      if (existingTagId === undefined) {
-        await sql`insert into tags (tag_name) values('figma')`;
-        const tag = await sql`select tag_id from tags where tag_name='figma'`;
-        existingTagId = tag[0]
-      }
-      await sql`insert into components_tags_map (component_id, tag_id) values (${component_id[0].component_id}, ${existingTagId.tag_id})`;
-    });
+    const figmaTag =
+        await sql`select tag_id from tags where tag_name='figma'`;
+    let existingTagId = figmaTag[0];
+
+    if (existingTagId === undefined) {
+      await sql`insert into tags (tag_name) values('figma')`;
+      const tag = await sql`select tag_id from tags where tag_name='figma'`;
+      existingTagId = tag[0]
+    }
+    await sql`insert into components_tags_map (component_id, tag_id) values (${component_id[0].component_id}, ${existingTagId.tag_id})`;
+  });
 }
 
 export async function importSingleComponent(screenshotPaths, componentData) {
