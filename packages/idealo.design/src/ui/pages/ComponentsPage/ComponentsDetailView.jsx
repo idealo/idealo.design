@@ -81,14 +81,23 @@ export class ComponentsDetailView extends React.Component {
   }
 
   showInstallation() {
-    const installation = this.state.component.readme.content.Installation.body;
+    let installation;
+    if(this.state.component.readme){
+      installation = this.state.component.readme.content.Installation.body
+    }
     const installationAsHtml =
         <div>
-          <button title='copyInstallation' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
-          <Markdown
-              className={s.code}
-              id="toBeCopiedCode">{installation}
-          </Markdown>
+          {this.state.component.readme ? (
+              <div>
+                <button title='copyInstallation' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+                <Markdown
+                    className={s.code}
+                    id="toBeCopiedCode">{installation}
+                </Markdown>
+              </div>
+          ): (
+              <div/>
+          )}
         </div>
     this.setState({ result: installationAsHtml });
   }
@@ -111,14 +120,34 @@ export class ComponentsDetailView extends React.Component {
   }
 
   showUsage() {
-    const usage = this.state.component.readme.content.Usage.body;
+    let usage
+      if(this.state.component.readme){
+        usage = this.state.component.readme.content.Usage.body;
+      }else{
+        usage = this.state.component.figma_usage
+      }
     const usageAsHtml =
         <div>
-          <button title='copyUsage' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
-          <Markdown
-              className={s.code}
-              id="toBeCopiedCode">{usage}
-          </Markdown>
+          {this.state.component.readme ? (
+              <div>
+                <button title='copyUsage' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+                <Markdown
+                    className={s.code}
+                    id="toBeCopiedCode">{usage}
+                </Markdown>
+              </div>
+          ):(
+              <div>
+                {this.state.component.figma_usage.map((headline, key) => (
+                    <div key={key}>
+                      <div className={s.code}>
+                        <h2 >{headline.titleContent}</h2>
+                        <p> {headline.content} </p>
+                      </div>
+                    </div>
+                ))}
+              </div>
+          )}
         </div>
     this.setState({ result: usageAsHtml });
   }
@@ -128,20 +157,28 @@ export class ComponentsDetailView extends React.Component {
       <div>
         <div className={s.headerNav}>
           <h1 title={this.state.component.title}>{this.state.titleAfterBackslash}</h1>
-          <hr></hr>
+          <hr/>
           <ul>
             {this.state.links.map((link, key) => (
                 <li key={key}>
                   <a title={link} href={`#${link}`}>{link}</a>
                 </li>
             ))}
-            <button title='buttonToBitbucket' className={s.buttonToBitbucket}>
-              <a title='linkToBitbucket' className={s.LinkToBitbucket} target="_blank" href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}>Link to Bitbucket</a>
-            </button>
+            {this.state.component.readme ? (
+                <button title='buttonToBitbucket' className={s.buttonToBitbucket}>
+                  <a title='linkToBitbucket' className={s.LinkToBitbucket} target="_blank" href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}>Link to Bitbucket</a>
+                </button>
+            ): (
+                <div/>
+            )}
           </ul>
         </div>
         <div>
-          <code>{this.state.result}</code>
+          {this.state.component.readme ? (
+              <code>{this.state.result}</code>
+          ):(
+              <div>{this.state.result}</div>
+          )}
         </div>
       </div>
     );
