@@ -337,7 +337,7 @@ export async function importSingleComponentFromFigma(componentData){
 
     let componentTags = []
     for(const tag of tags){
-      if(tag.tag_name.includes(componentData.title.toLowerCase())){
+      if(tag.tag_name.includes(componentData.title.toLowerCase()) || componentData.title.toLowerCase().includes(tag.tag_name)){
         const componentTag = await sql`select tag_id from tags where tag_name= ${tag.tag_name}`;
         componentTags.push(componentTag)
       }
