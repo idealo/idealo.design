@@ -9,6 +9,7 @@
     "test:consumer": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./src/ui",
     "test:provider": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./src/server",
     "import:motifui": "node ./scripts/motifuiImporter",
+    "import:figma": "node ./scripts/figmaImporter",
     "build": "webpack"
   },
   "jest": {
