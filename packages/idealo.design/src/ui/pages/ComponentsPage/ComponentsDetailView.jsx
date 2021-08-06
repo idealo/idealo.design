@@ -138,12 +138,12 @@ export class ComponentsDetailView extends React.Component {
               </div>
           ):(
               <div>
-                {this.state.component.figma_usage.map((headline, key) => (
+                {usage.map((headline, key) => (
                     <div key={key}>
-                      <div className={s.code}>
+                      <p className={s.code}>
                         <h2 >{headline.titleContent}</h2>
                         <p> {headline.content} </p>
-                      </div>
+                      </p>
                     </div>
                 ))}
               </div>
