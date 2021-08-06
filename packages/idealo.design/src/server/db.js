@@ -323,8 +323,7 @@ export async function fetchSingleComponent({ slug }) {
 }
 
 export async function importSingleComponentFromFigma(componentData){
-
-  return sql.begin(async (sql) => {
+  return sql.begin(async () => {
     await sql`delete
               from components
               where title = ${componentData.title}`;
@@ -334,16 +333,25 @@ export async function importSingleComponentFromFigma(componentData){
               values (${componentData.title}, ${slug}, ${JSON.stringify(componentData.content)});`;
     const component_id = await sql`select component_id from components where title=${componentData.title}`;
 
-    const figmaTag =
-        await sql`select tag_id from tags where tag_name='figma'`;
-    let existingTagId = figmaTag[0];
+    const tags = await sql `select tag_name from tags;`;
 
-    if (existingTagId === undefined) {
-      await sql`insert into tags (tag_name) values('figma')`;
-      const tag = await sql`select tag_id from tags where tag_name='figma'`;
-      existingTagId = tag[0]
+    let componentTags = []
+    for(const tag of tags){
+      if(tag.tag_name.includes(componentData.title.toLowerCase())){
+        const componentTag = await sql`select tag_id from tags where tag_name= ${tag.tag_name}`;
+        componentTags.push(componentTag)
+      }
     }
-    await sql`insert into components_tags_map (component_id, tag_id) values (${component_id[0].component_id}, ${existingTagId.tag_id})`;
+    let existingTagId = await sql`select tag_id from tags where tag_name='figma'`;
+    if (existingTagId[0] === undefined) {
+      await sql`insert into tags (tag_name) values('figma')`;
+      existingTagId = await sql`select tag_id from tags where tag_name='figma'`;
+    }
+    componentTags.push(existingTagId)
+
+    for(const tag of componentTags){
+      await sql`insert into components_tags_map (component_id, tag_id) values (${component_id[0].component_id}, ${tag[0].tag_id})`;
+    }
   });
 }
 
