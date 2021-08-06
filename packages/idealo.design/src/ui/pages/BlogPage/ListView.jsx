@@ -65,7 +65,7 @@ export class ListView extends React.Component {
               float: "right",
               marginBottom: "1rem",
               marginRight: "1rem",
-              backgroundColor: "#395F86",
+              backgroundColor: "#0A3761",
               border: "none",
               color: "white",
               padding: "10px 30px",
