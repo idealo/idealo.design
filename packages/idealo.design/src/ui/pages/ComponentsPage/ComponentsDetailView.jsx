@@ -173,13 +173,7 @@ export class ComponentsDetailView extends React.Component {
             )}
           </ul>
         </div>
-        <div>
-          {this.state.component.readme ? (
-              <code>{this.state.result}</code>
-          ):(
-              <div>{this.state.result}</div>
-          )}
-        </div>
+        <div>{this.state.result}</div>
       </div>
     );
   }
