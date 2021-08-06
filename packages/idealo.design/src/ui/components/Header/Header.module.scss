@@ -1,7 +1,8 @@
 @import 'Styles/colors';
 
 .Header {
-  background-color: $color_marine_400;
+  background-color: #0A3761;
+  background-blend-mode: normal;
   position: fixed;
   top: 0;
   left: 0;
@@ -40,91 +41,37 @@
   color: $color_marine_600;
 }
 
-.loginButton {
-  display: inline-block;
-  border-radius: 4px;
-  background-color: $color_orange;
-  border: none;
-  color: $color_white;
-  text-align: center;
-  font-size: 18px;
-  padding: 10px;
-  width: 100px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 10px;
+.loginLogout{
+  margin-right: 30px;
 }
 
-.loginButton span {
+.button {
+  background-color: #0771D0;
+  background-blend-mode: normal;
+  height: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: white;
+  font-family: Roboto, sans-serif;
+  front-weight: 500;
+  front-style: normal;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  border: 1px;
+  border-radius: 4px;
+  margin: 15px 5px;
+}
+
+.button span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
-.loginButton span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.loginButton:hover span {
-  padding-right: 9px;
-}
-
-.loginButton:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-.logoutButton {
-  display: inline-block;
-  border-radius: 4px;
-  background-color: $color_orange;
-  border: none;
-  color: $color_white;
-  text-align: center;
-  font-size: 15px;
-  padding: 10px;
-  width: 100px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 10px;
-}
-
-.logoutButton span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.logoutButton span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.logoutButton:hover span {
-  padding-right: 9px;
-}
-
-.logoutButton:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
 
 .Logo {
   height: 30px;
   width: 120px;
-
 }
 
 .SideNavToggle {
@@ -182,8 +129,4 @@
     color: $color_white;
     text-decoration: none;
   }
-}
-
-.githubLogo {
-  height: 25px;
 }

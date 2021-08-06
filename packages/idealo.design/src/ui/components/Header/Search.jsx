@@ -72,17 +72,18 @@ class Search extends React.Component {
                     <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
 
                 {this.state.isLoggedIn ?
-                    <div>
-                        <button className={s.initialsStyle}>{this.state.initialString}</button>
+                    <div className={s.loginLogout} style={{display:'flex'}}>
+                        <button style={{margin:'10px'}} className={s.initialsStyle}>{this.state.initialString}</button>
                         <a href="/logout">
-                            <button className={s.logoutButton} title="logoutButton"><span>Logout</span></button>
+                            <button className={s.button} title="logoutButton"><span>Logout</span></button>
                         </a>
                     </div> :
-                    <a href="/auth/provider">
-                        <button className={s.loginButton} title="loginButton"><span>Login</span></button>
-                    </a>
+                    <div className={s.loginLogout}>
+                        <a href="/auth/provider">
+                            <button className={s.button} title="loginButton"><span>Login</span></button>
+                        </a>
+                    </div>
                 }
-
             </>
         )
     }

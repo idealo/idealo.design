@@ -4,9 +4,10 @@
   .Links{
     margin-top: 1rem;
     a{
-      color: #D7E3EF;
+      color: white;
       text-decoration: none;
-      font-size: .75rem;
+      font-family: Roboto, sans-serif;
+      font-size: 14px;
       margin-left: 2rem;
     }
   }
@@ -20,7 +21,7 @@
   }
   display: flex;
   color: #D7E3EF;
-  background-color: $color_marine_400;
+  background-color: #0A3761;
   height: 4em;
   width: 100%;
   position: absolute;
