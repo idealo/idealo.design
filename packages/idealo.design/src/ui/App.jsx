@@ -53,9 +53,9 @@ function App() {
             <CookieConsent
               debug={false}
               location="bottom"
-              style={{ background: '#395F86'}}
-              buttonStyle={{ color: '#D7E3EF', background: '#ff6600', fontSize: '16px'}}
-              > This site uses cookies. See our <a href="https://www.idealo.co.uk/privacypolicy.html">privacy policy</a> for more.</CookieConsent>
+              style={{ background: '#0A3761',fontFamily: 'Roboto, sans-serif'}}
+              buttonStyle={{ color: 'white', background: '#0771D0', fontSize: '16px', fontFamily: 'Roboto, sans-serif', borderRadius: '4px', padding:'10px', margin: '15px 30px'}}
+              > This site uses cookies. See our <a style={{color:'white'}} href="https://www.idealo.co.uk/privacypolicy.html">privacy policy</a> for more.</CookieConsent>
         </PageLayout>
     )
 }
