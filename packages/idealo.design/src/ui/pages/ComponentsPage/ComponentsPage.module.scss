@@ -11,6 +11,10 @@
   display:block;
   background-color: $color_gray_200;
   padding: 30px;
+
+  img{
+    width: 100%;
+  }
 }
 
 .code {
@@ -18,9 +22,6 @@
   padding: 30px;
   display:block;
   background-color: $color_gray_200;
-  :hover{
-    cursor:pointer
-  }
 }
 
 .multiselect {
@@ -60,6 +61,8 @@
   .tags {
     color: blue;
     font-size: 90%;
+    display: inline-flex;
+    margin: 0px;
   }
 }
 
@@ -95,4 +98,34 @@
   .active {
     color: $color_orange;
   }
+}
+
+.copyButton {
+  float:right;
+  margin: 10px;
+  background: $color_marine_600;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.linkToDetailView{
+  text-decoration: none;
+  color: inherit;
+}
+
+.LinkToBitbucket{
+  text-decoration: none;
+  color: white;
+}
+
+.buttonToBitbucket{
+  float:right;
+  margin: 0px;
+  background: $color_orange;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
 }

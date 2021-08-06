@@ -43,6 +43,7 @@ export class RichTextEditor extends React.Component {
       cats: [],
       error: [],
       existingTitle: [],
+      titleInDatabase: ''
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -87,6 +88,7 @@ export class RichTextEditor extends React.Component {
         categorySlug: this.blog.categoryslug,
         categoryDisplayValue: this.blog.categorydisplayvalue,
         editorState: EditorState.createWithContent(contentState),
+        titleInDatabase: this.blog.title,
       });
     }
     ReactModal.setAppElement("body");
@@ -176,17 +178,19 @@ export class RichTextEditor extends React.Component {
     });
 
     this.state.existingTitle.map((word) => {
-      if (
-        slugify(word)
-          .replace(/^\s+|\s+$/g, "")
-          .toLowerCase() ===
-        slugify(this.state.title)
-          .replace(/^\s+|\s+$/g, "")
-          .toLowerCase()
-      ) {
-        formIsValid = false;
-        errors["existing-title-value"] =
-          "Title can not be that, because we already have a blogpost with that title";
+      if(word !== this.state.titleInDatabase){
+        if (
+            slugify(word)
+                .replace(/^\s+|\s+$/g, "")
+                .toLowerCase() ===
+            slugify(this.state.title)
+                .replace(/^\s+|\s+$/g, "")
+                .toLowerCase()
+        ) {
+          formIsValid = false;
+          errors["existing-title-value"] =
+              "Title can not be that, because we already have a blogpost with that title";
+        }
       }
     });
 
@@ -251,6 +255,7 @@ export class RichTextEditor extends React.Component {
       this.blog.blogpostcontent = this.renderContentAsRawJs();
       this.blog.categoryDisplayValue = this.state.categoryDisplayValue;
       this.blog.categorySlug = this.state.categorySlug;
+      this.blog.slug = slugify(this.state.title)
       updateSinglePost(
         {
           slug: this.slug,

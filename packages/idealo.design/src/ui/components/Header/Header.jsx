@@ -123,14 +123,12 @@ class Header extends React.Component {
 
         return (
             <header style={this.state.isStickyMode ? stickyStyle : null} className={s.Header}>
-                <BtnIco className={s.SideNavToggle} onClick={this.toggleNavbarState}/>
-
+                <BtnIco className={s.SideNavToggle} style={{paddingRight: '3px'}} onClick={this.toggleNavbarState}/>
                 <h1 style={this.state.isStickyMode ? {display: 'none'} : null}>
                     <Link style={this.state.isStickyMode ? logoStickyStyle : null} to="/">
-                        <span style={{borderBottom: '1px solid orange'}}>idealo</span> <b>Design System</b>
+                        <span style={{borderBottom: '2px solid #FF6600', fontFamily: 'Roboto , sans-serif',fontWeight: 'bold'}}>idealo</span> <b>Design System</b>
                     </Link>
                 </h1>
-
                 <StickyMenu isSidebarOpen={this.state.isSidebarOpen} active={this.state.isStickyMode}/>
 
                 <Search

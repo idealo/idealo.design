@@ -2,7 +2,8 @@ import {Pact, Matchers} from '@pact-foundation/pact'
 import {
     fetchMap,
     fetchTags,
-    fetchComponents
+    fetchComponents,
+    fetchSingleComponent
 } from './component_data'
 import path from 'path'
 
@@ -22,6 +23,15 @@ const provider = new Pact({
 export const mockupComponent = {
     "component_id": 3,
     "title": "@motif/checkbox"
+}
+
+export const mockupSingleComponent = {
+    "component_id": 1,
+    "title": "@motif/button",
+    "slug": '@motifbutton',
+    "screenshots": [1,2,3],
+    "tags": ["motif","button"],
+    "readme": {"order":["Motif UI `button`","Installation","Usage"],"content":{"Usage":{"body":"```js\nimport { Button } from '@motif/button';\n```","head":"## Usage"},"Installation":{"body":"```bash\nyarn add @motif/button\n```","head":"## Installation"},"Motif UI `button`":{"body":"","head":"# Motif UI `button`"}}}
 }
 
 export const mockupTags = {"tag_name": "button"}
@@ -94,6 +104,31 @@ describe('Component consumer contract', () => {
             const response = await fetchComponents(provider.mockService.baseUrl);
             expect(response[0].component_id).toBe(3);
             expect(response[0].title).toBe('@motif/checkbox');
+        });
+    })
+
+    describe('Given a get call to the SingleComponent endpoint', () => {
+        test('should return a single component', async () => {
+            await provider.addInteraction({
+                uponReceiving: 'a request to list a single component',
+                withRequest: {
+                    method: 'GET',
+                    path: '/api/components/@motifbutton',
+                },
+                willRespondWith: {
+                    status: 200,
+                    body: mockupSingleComponent
+                }
+            })
+
+            const response = await fetchSingleComponent({slug: '@motifbutton'},provider.mockService.baseUrl);
+            expect(response.component_id).toBe(1);
+            expect(response.title).toBe('@motif/button');
+            expect(response.slug).toBe('@motifbutton');
+            expect(response.tags).toStrictEqual(["motif","button"]);
+            expect(response.screenshots).toStrictEqual([1,2,3]);
+            expect(response.readme).toStrictEqual({"order":["Motif UI `button`","Installation","Usage"],"content":{"Usage":{"body":"```js\nimport { Button } from '@motif/button';\n```","head":"## Usage"},"Installation":{"body":"```bash\nyarn add @motif/button\n```","head":"## Installation"},"Motif UI `button`":{"body":"","head":"# Motif UI `button`"}}}
+        )
         });
     })
 });

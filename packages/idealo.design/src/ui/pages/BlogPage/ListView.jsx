@@ -68,30 +68,30 @@ export class ListView extends React.Component {
         return htmlToText(plainText);
     }
 
-    render() {
-        return (
-            <div>
-                {this.state.userInfo.status === "LOGGED_IN" ? (
-                    <button
-                        style={{
-                            float: "right",
-                            marginBottom: "1rem",
-                            marginRight: "1rem",
-                            backgroundColor: "#395F86",
-                            border: "none",
-                            color: "white",
-                            padding: "10px 30px",
-                            textAlign: "center",
-                            fontSize: "14px",
-                        }}
-                        onClick={this.handleNewPost}
-                        title="newPostButton"
-                    >
-                        New Post
-                    </button>
-                ) : (
-                    <div></div>
-                )}
+  render() {
+    return (
+      <div>
+        {this.state.userInfo.status === "LOGGED_IN" ? (
+          <button
+            style={{
+              float: "right",
+              marginBottom: "1rem",
+              marginRight: "1rem",
+              backgroundColor: "#0A3761",
+              border: "none",
+              color: "white",
+              padding: "10px 30px",
+              textAlign: "center",
+              fontSize: "14px",
+            }}
+            onClick={this.handleNewPost}
+            title="newPostButton"
+          >
+            New Post
+          </button>
+        ) : (
+          <div></div>
+        )}
 
                 <div style={{clear: "both"}}/>
 

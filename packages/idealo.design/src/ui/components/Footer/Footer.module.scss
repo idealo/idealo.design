@@ -1,26 +1,28 @@
 @import 'Styles/colors';
 
 .Footer {
-  display: flex;
   .Links{
     margin-top: 1rem;
     a{
-      color: #D7E3EF;
+      color: white;
       text-decoration: none;
-      font-size: .75rem;
+      font-family: Roboto, sans-serif;
+      font-size: 14px;
       margin-left: 2rem;
     }
   }
   .SocialMedia {
     margin-top: 0.7rem;
-    margin-left: 70%;
+    position:absolute;
+    right:0;
     a{
       padding: 0.5rem;
     }
   }
+  display: flex;
   color: #D7E3EF;
-  background-color: $color_marine_400;
-  height: 60px;
+  background-color: #0A3761;
+  height: 4em;
   width: 100%;
   position: absolute;
   bottom: 0;
