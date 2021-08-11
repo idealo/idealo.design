@@ -1,0 +1,28 @@
+{
+  "title": "Select",
+  "slug": "select",
+  "sections": [
+    {
+      "type": "h1",
+      "content": "`motif-select"
+    },
+    {
+      "type": "h2",
+      "content": "Installation"
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "content": "yarn add @motif/select\n"
+    },
+    {
+      "type": "h2",
+      "content": "Usage"
+    },
+    {
+      "type": "code",
+      "lang": "js",
+      "content": "import {NativeSelect} from '@motif/select';\n\n<NativeSelect>\n    <option>Foo</option>\n\t<option>Foo</option>\n</NativeSelect>\n"
+    }
+  ]
+}

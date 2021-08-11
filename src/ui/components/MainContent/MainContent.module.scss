@@ -1,0 +1,25 @@
+@import 'Styles/colors';
+
+.MainContent {
+  // padding: 6rem 2rem;
+  margin-top: 5rem;
+  padding: 2rem;
+  transition: all .2s;
+  width: 50%;
+  background-color: $color_white;
+
+  h1:first-child {
+    margin-top: 0;
+  }
+
+  p {
+    line-height: 1.5;
+    text-align: justify;
+  }
+}
+
+
+.Tile {
+  // padding: 2rem;
+  background-color: $color_white;
+}

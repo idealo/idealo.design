@@ -1,0 +1,30 @@
+@import 'Styles/colors';
+
+.Footer {
+  .Links{
+    margin-top: 1rem;
+    a{
+      color: white;
+      text-decoration: none;
+      font-family: Roboto, sans-serif;
+      font-size: 14px;
+      margin-left: 2rem;
+    }
+  }
+  .SocialMedia {
+    margin-top: 0.7rem;
+    position:absolute;
+    right:0;
+    a{
+      padding: 0.5rem;
+    }
+  }
+  display: flex;
+  color: #D7E3EF;
+  background-color: #0A3761;
+  height: 4em;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+

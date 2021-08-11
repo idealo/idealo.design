@@ -1,0 +1,28 @@
+{
+  "title": "Link",
+  "slug": "link",
+  "sections": [
+    {
+      "type": "h1",
+      "content": "`motif-link`"
+    },
+    {
+      "type": "h2",
+      "content": "Installation"
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "content": "yarn add @motif/link\n"
+    },
+    {
+      "type": "h2",
+      "content": "Usage"
+    },
+    {
+      "type": "code",
+      "lang": "js",
+      "content": "import {Link} from '@motif/link';\n\n<Link href={'/'}>Click me</Link>\n"
+    }
+  ]
+}

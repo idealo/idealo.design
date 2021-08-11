@@ -1,0 +1,28 @@
+{
+  "title": "Radio button",
+  "slug": "radio-button",
+  "sections": [
+    {
+      "type": "h1",
+      "content": "`radio-button`"
+    },
+    {
+      "type": "h2",
+      "content": "Installation"
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "content": "yarn add @motif/radio-button\n"
+    },
+    {
+      "type": "h2",
+      "content": "Usage"
+    },
+    {
+      "type": "code",
+      "lang": "js",
+      "content": "import {RadioButton} from '@motif/radio-button';\n"
+    }
+  ]
+}

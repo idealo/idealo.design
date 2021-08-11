@@ -1,0 +1,28 @@
+{
+  "title": "Checkbox",
+  "slug": "checkbox",
+  "sections": [
+    {
+      "type": "h1",
+      "content": "`@motif/checkbox`"
+    },
+    {
+      "type": "h2",
+      "content": "Installation"
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "content": "yarn add @motif/checkbox\n"
+    },
+    {
+      "type": "h2",
+      "content": "Usage"
+    },
+    {
+      "type": "code",
+      "lang": "js",
+      "content": "import {Checkbox} from '@motif/checkbox';\n\n"
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+#!/usr/bin/env node
+
+const path = require('path')
+const fs = require('fs')
+
+const MarkdownIt = require('markdown-it')
+const slugify = require('slugify')
+
+
+const renderer = require('../lib/mdutils/renderer')
+
+const md = new MarkdownIt({
+    html: true,
+    breaks: true,
+    typographer: true,
+})
+
+
+const srcDir = path.join(__dirname, '../vendor/motif-ui/src')
+const outDir = path.join(__dirname, '../data/__generated__elements__')
+
+const filterFun = (item) => {
+    const blacklist = [
+        'react-app-env.d.ts',
+        'setupTests.ts',
+        'scripts',
+    ]
+
+    return blacklist.indexOf(item) < 0 ? item : null
+}
+
+const resolveReadmeFile = (pkg) => {
+    const file = path.join(srcDir, pkg, 'README.md')
+    let fileContent = null
+
+    try {
+        if (fs.existsSync(file)) {
+            fileContent = fs.readFileSync(file, 'utf8')
+        }
+    } catch(err) {
+        return null
+    }
+
+    return fileContent
+}
+
+const renderTokenStream = (ast) => {
+    if (!ast) return ''
+
+    console.log('renderTokenStream', ast)
+
+    return String(renderer.render(ast, {
+        langPrefix: 'language-',
+        breaks: true,
+        // html: true,
+        // breaks: true,
+        // typographer: true,
+
+    }))
+        .replace(/\r?\n|\r/g, '')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+}
+
+
+let idxFile = 'module.exports = {};\n'
+
+const packages = []
+
+console.log('srcDir ', srcDir)
+console.log('outDir ', outDir)
+
+fs.readdirSync(srcDir)
+    .filter(filterFun)
+    .forEach(pkg => packages.push(pkg))
+
+console.log(' ---- all ---- ')
+// console.log(packages)
+
+packages.map((pkg, i, pkgs) => {
+    let sections = []
+
+    const readmeFile = resolveReadmeFile(pkg)
+
+    let ast = md.parse(readmeFile)
+
+    const title = (pkg.charAt(0).toUpperCase() + pkg.slice(1)).replace(/-/g, ' ')
+
+    let pkgData = {
+        title,
+        slug: pkg,
+        body: {
+            sections,
+        }
+    }
+
+    const outFileName = path.join(outDir, `${pkg}.json`)
+
+    console.log(' -> ', path.join(srcDir, pkg, 'README.md'))
+    // console.log('Tokens', ast)
+
+    ast.map((token, j, tokens) => {
+        const section = {}
+
+        if (token.type === 'fence') {
+            section.type = 'code'
+            section.lang = String(token.info).trim()
+        }
+
+        if (token.type === 'inline') {
+            const prev = tokens[j-1]
+            section.type = prev.tag
+        }
+
+        section.content = token.content
+
+        if (section.content) {
+            sections.push(section)
+        }
+    })
+
+    // sections.push({
+    //     title,
+    //     content,
+    //     slug: slugify(title, { lower: true }),
+    // })
+
+    const out = {
+        title,
+        slug: slugify(title, { lower: true }),
+        sections,
+    }
+
+    console.log(sections)
+    // pkgData.body.sections = sections
+
+    // pkgData = renderTokenStream(ast)
+
+    const pkgImportPath = `./${pkg}.json`
+    idxFile += `module.exports[\'${pkg}\'] = require(\'${pkgImportPath}\');\n`
+
+    // write Json to outDir
+    fs.writeFileSync(outFileName, JSON.stringify(out, null, 2))
+})
+
+const elementIndexFile = path.join(outDir, `index.js`)
+fs.writeFileSync(elementIndexFile, idxFile)
+

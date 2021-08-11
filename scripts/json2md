@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+const path = require('path')
+const fs = require('fs')
+
+const { jsonToMd } = require('../lib/mdutils')
+
+const inFile = process.argv[2]
+const outFile = process.argv[3]
+
+console.log('infile: ', inFile)
+console.log('outfile: ', outFile)
+
+if (!inFile || !outFile) {
+  console.log(' Usage: json2md INFILE OUTFILE')
+  process.exit(1)
+}
+
+const inputData = fs.readFileSync(path.resolve(inFile), 'utf8')
+
+const md = jsonToMd(inputData)
+
+
+fs.writeFileSync(path.resolve(outFile), md)
+
+console.log('fin.')
+

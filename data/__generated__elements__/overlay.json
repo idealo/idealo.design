@@ -1,0 +1,41 @@
+{
+  "title": "Overlay",
+  "slug": "overlay",
+  "sections": [
+    {
+      "type": "h1",
+      "content": "`motif-overlay`"
+    },
+    {
+      "type": "h2",
+      "content": "Installation"
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "content": "yarn add @motif/overlay\n"
+    },
+    {
+      "type": "p",
+      "content": "You need to add"
+    },
+    {
+      "type": "code",
+      "lang": "html",
+      "content": "<div id=\"overlay-root\"/>\n"
+    },
+    {
+      "type": "p",
+      "content": "somewhere in your page."
+    },
+    {
+      "type": "h2",
+      "content": "Usage"
+    },
+    {
+      "type": "code",
+      "lang": "js",
+      "content": "import { Overlay } from '@motif/overlay';\n\n<Overlay overlayIsOpen={this.state.openOverlay} \ndelayTime={300} \nonClose={this.toggleOverlay} \nrootId={'overlay-root'}\ntitle={'Here is a beautiful overlay!'}>\n<div>Overlay content goes here</div>\n</Overlay>\n"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "title": "Text field",
+  "slug": "text-field",
+  "sections": [
+    {
+      "type": "h1",
+      "content": "`@motif/text-field`"
+    },
+    {
+      "type": "h2",
+      "content": "Installation"
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "content": "yarn add @motif/text-field\n"
+    },
+    {
+      "type": "h2",
+      "content": "Usage"
+    },
+    {
+      "type": "code",
+      "lang": "js",
+      "content": "import {TextField} from '@motif/text-field';\n\n<TextField id={'1'} label={'Label'} helperText={'Helper text'} disabled={false} value={''}/>,\n"
+    }
+  ]
+}

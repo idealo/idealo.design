@@ -1,0 +1,28 @@
+{
+  "title": "Button",
+  "slug": "button",
+  "sections": [
+    {
+      "type": "h1",
+      "content": "Motif UI `button`"
+    },
+    {
+      "type": "h2",
+      "content": "Installation"
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "content": "yarn add @motif/button\n"
+    },
+    {
+      "type": "h2",
+      "content": "Usage"
+    },
+    {
+      "type": "code",
+      "lang": "js",
+      "content": "import { Button } from '@motif/button';\n"
+    }
+  ]
+}

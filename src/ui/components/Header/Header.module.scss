@@ -1,0 +1,132 @@
+@import 'Styles/colors';
+
+.Header {
+  background-color: #0A3761;
+  background-blend-mode: normal;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2rem;
+  width: 100%;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  transition: padding .2s;
+
+  h1 {
+    margin: 1rem;
+    cursor: default;
+    user-select: none;
+    font-weight: lighter;
+    font-size: 1.4rem;
+    width: 20rem;
+
+    a {
+      color: $color_white;
+      text-decoration: none;
+    }
+  }
+}
+
+.initialsStyle {
+  width: 50px;
+  height: 50px;
+  margin: 0 5px 0 0;
+  font-size: 18px;
+  border-radius: 25px;
+  border-style: none;
+  background-color: $color_white;
+  color: $color_marine_600;
+}
+
+.loginLogout{
+  margin-right: 30px;
+}
+
+.button {
+  background-color: #0771D0;
+  background-blend-mode: normal;
+  height: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: white;
+  font-family: Roboto, sans-serif;
+  front-weight: 500;
+  front-style: normal;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  border: 1px;
+  border-radius: 4px;
+  margin: 15px 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.Logo {
+  height: 30px;
+  width: 120px;
+}
+
+.SideNavToggle {
+  margin: 1rem 1rem 1rem 1.5rem;
+  cursor: pointer;
+  color: $color_white;
+  padding: .5rem;
+  border-radius: 2rem;
+  transition: background-color .4s;
+
+  &:hover {
+    background-color: $color_marine_600;
+  }
+}
+
+.SearchToggle {
+  width: 1.5rem;
+  cursor: pointer;
+  margin: 1rem 1rem 1rem auto;
+  padding: .5rem;
+  transition: background-color .4s;
+  border-radius: 2rem;
+
+  &:hover {
+    background-color: $color_marine_600;
+  }
+}
+
+.SearchInput {
+  visibility: hidden;
+  transition: width .4s;
+  margin: 0 auto;
+  padding: .5rem;
+  border: 0;
+  font-size: 1rem;
+  width: 60vw;
+  border-radius: 2px;
+  outline: none;
+}
+
+.Logo {
+  transition: color .2s;
+}
+
+.StickyMenu {
+  color: $color_white;
+  transition: all .2s;
+
+  a {
+    &:first-child {
+      margin-left: 0;
+    }
+
+    margin: 1.5rem;
+    color: $color_white;
+    text-decoration: none;
+  }
+}

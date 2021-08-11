@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+const path = require('path')
+const fs = require('fs')
+
+const { mdToJson } = require('../lib/mdutils')
+
+const inFile = process.argv[2]
+const outFile = process.argv[3]
+
+console.log('infile: ', inFile)
+console.log('outfile: ', outFile)
+
+if (!inFile || !outFile) {
+  console.log(' Usage: md2json INFILE OUTFILE')
+  process.exit(1)
+}
+
+const inputData = fs.readFileSync(path.resolve(inFile), 'utf8')
+
+const json = mdToJson(inputData)
+
+
+fs.writeFileSync(path.resolve(outFile), JSON.stringify(json, null, 2))
+
+console.log('fin.')
+
