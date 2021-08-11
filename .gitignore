@@ -6,3 +6,4 @@ src/__tests__/pact
 resources
 scripts/motif-ui-components/
 scripts/screenshots/
+.elasticbeanstalk/app_versions/
