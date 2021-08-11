@@ -7,9 +7,10 @@ import {Route, Switch,} from "react-router-dom";
 import {
     AssetsPage,
     BlogPage,
-    ComponentsPage,
-    CompoundsPage,
-    ElementsPage,
+    LibraryPage,
+    MoleculesPage,
+    AtomsPage,
+    OrganismsPage,
     FoundationsPage,
     OtherPage,
     WelcomePage
@@ -28,14 +29,17 @@ function App() {
                 <Route path="/foundations/:slug?">
                     <FoundationsPage/>
                 </Route>
-                <Route path="/elements/:slug?">
-                    <ElementsPage/>
+                <Route path="/atoms/:slug?">
+                    <AtomsPage/>
                 </Route>
-                <Route path="/compounds/:slug?">
-                    <CompoundsPage/>
+                <Route path="/molecules/:slug?">
+                    <MoleculesPage/>
                 </Route>
-                <Route path="/components/:slug?">
-                    <ComponentsPage/>
+                <Route path="/organisms/:slug?">
+                    <OrganismsPage/>
+                </Route>     
+                <Route path="/library/:slug?">
+                    <LibraryPage/>
                 </Route>
                 <Route path="/blog">
                     <BlogPage/>

@@ -11,27 +11,23 @@ import ComponentsDetailView from "./ComponentsDetailView";
 export default function ComponentsPage({ match }) {
   const [userInfo, setUserInfo] = useState([]);
 
-  useEffect(() => {
-    fetchUserInfo().then(setUser);
-  });
-
-  const setUser = (user) => {
-    setUserInfo(user);
-  };
+  // useEffect(() => {
+  //   fetchUserInfo().then(setUserInfo);
+  // }, [userInfo]);
 
   return (
     <>
       <Switch>
-        <Route exact path="/components">
+        <Route exact path="/library">
           <ComponentView />
         </Route>
-        <Route exact path="/components/for-react-stacks">
+        <Route exact path="/library/for-react-stacks">
           <ReactStackView />
         </Route>
-        <Route exact path="/components/for-classic-stacks">
+        <Route exact path="/library/for-classic-stacks">
           <ClassicStackView />
         </Route>
-        <Route path="/components/:slug">
+        <Route path="/library/:slug">
           <ComponentsDetailView />
         </Route>
       </Switch>
