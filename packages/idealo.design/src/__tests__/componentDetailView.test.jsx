@@ -1,15 +1,15 @@
 import {fetchUserInfo} from "../ui/pages/BlogPage/data";
-import {fetchSingleComponent} from "../ui/pages/ComponentsPage/component_data";
+import {fetchSingleComponent} from "../ui/pages/LibraryPage/component_data";
 import {render, screen, waitFor} from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import React from "react";
-import {ComponentsDetailView} from "../ui/pages/ComponentsPage/ComponentsDetailView";
+import {ComponentsDetailView} from "../ui/pages/LibraryPage/ComponentsDetailView";
 
 jest.mock('../ui/pages/BlogPage/data', () => {
     return {fetchUserInfo: jest.fn()};
 });
 
-jest.mock('../ui/pages/ComponentsPage/component_data', () => {
+jest.mock('../ui/pages/LibraryPage/component_data', () => {
     return {fetchSingleComponent: jest.fn()};
 });
 

@@ -8,7 +8,7 @@ import {
     fetchSingleComponent
 } from './db'
 import '@testing-library/jest-dom/extend-expect';
-import {mockupComponent, mockupTags, mockupMap, mockupSingleComponent} from '../ui/pages/ComponentsPage/component-consumer-contract.spec'
+import {mockupComponent, mockupTags, mockupMap, mockupSingleComponent} from '../ui/pages/LibraryPage/component-consumer-contract.spec'
 
 jest.mock('./db', () => {
     return {
