@@ -2,7 +2,7 @@
   "elements": [
     {
       "type": "p",
-      "content": "<i>Fux</i> is idealo's Design System for products and experiences. With our Design Language as its foundation, the system consists of working code, design tools and resources, human interface guidelines, and a community of contributors."
+      "content": "<i>iDS</i> is idealo's Design System (iDS) for products and experiences. With our Design Language as its foundation, the system consists of working code, design tools and resources, human interface guidelines, and a community of contributors."
     },
     {
       "type": "h2",
@@ -38,7 +38,7 @@
     },
     {
       "type": "p",
-      "content": "We will try to incrementally onboard more and more teams and codebases into the <i>Fux</i> process to learn from it, one kink at a time. Altogether, we will figure out how the Frontend Development works best for all of us, balancing out abstraction versus flexibility."
+      "content": "We will try to incrementally onboard more and more teams and codebases into the <i>iDS</i> process to learn from it, one kink at a time. Altogether, we will figure out how the Frontend Development works best for all of us, balancing out abstraction versus flexibility."
     },
     {
       "type": "h3",
@@ -50,7 +50,7 @@
     },
     {
       "type": "p",
-      "content": "The Library of UI Components aims to make performance and accessibility first class citizens whilst staying agnostic to certain vendors and providing multiple adapters and interfaces for current systems. To increase adoption further, using the <i>Fux</i> UI Components does not mean that there's no way to opt-out for certain variations; in contrast it is anticipated that adopters will implement their UI Components locally and, when they've proven their business value and general reusability."
+      "content": "The Library of UI Components aims to make performance and accessibility first class citizens whilst staying agnostic to certain vendors and providing multiple adapters and interfaces for current systems. To increase adoption further, using the <i>iDS</i> UI Components does not mean that there's no way to opt-out for certain variations; in contrast it is anticipated that adopters will implement their UI Components locally and, when they've proven their business value and general reusability."
     },
     {
       "type": "h3",
@@ -70,7 +70,7 @@
     },
     {
       "type": "p",
-      "content": "extract out component and add to <i>Fux</i> Repo"
+      "content": "extract out component and add to <i>iDS</i> Repo"
     },
     {
       "type": "h4",
@@ -90,7 +90,7 @@
     },
     {
       "type": "p",
-      "content": "If it's a breaking change: Discuss with the <i>Fux</i> team (clone or organize a refactoring with consumers)"
+      "content": "If it's a breaking change: Discuss with the <i>iDS</i> team (clone or organize a refactoring with consumers)"
     },
     {
       "type": "h4",
