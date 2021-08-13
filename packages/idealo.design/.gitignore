@@ -1,8 +1,0 @@
-node_modules
-.DS_Store
-.next
-dist
-src/__tests__/pact
-resources
-/scripts/motif-ui-components/
-/scripts/screenshots/
