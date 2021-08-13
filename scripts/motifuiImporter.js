@@ -8,8 +8,8 @@ import jsonMark from 'jsonmark'
 const __dirname = path.resolve();
 const localMotifUiComponents = path.resolve(__dirname, './motif-ui-components/')
 const localScreenshots = path.resolve(__dirname, './screenshots')
-const pathToMotifUiRepo = path.resolve(__dirname, '../../../../motif-ui/src')
-const pathToMotifUIScreenshots = path.resolve(__dirname, '../../../../motif-ui/__screenshots__')
+const pathToMotifUiRepo = path.resolve(__dirname, '../../motif-ui/src')
+const pathToMotifUIScreenshots = path.resolve(__dirname, '../../motif-ui/__screenshots__')
 const localPathToMotifUIScreenshots = path.resolve(__dirname, './../resources/static/assets/uploads')
 
 async function readDirectory(directory) {
