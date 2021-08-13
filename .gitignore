@@ -1,6 +1,9 @@
-.DS_Store
 node_modules
-.idea
-*.iml
-
-.elasticbeanstalk
+.DS_Store
+.next
+dist
+src/__tests__/pact
+resources
+scripts/motif-ui-components/
+scripts/screenshots/
+.elasticbeanstalk/app_versions/
