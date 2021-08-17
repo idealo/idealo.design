@@ -71,9 +71,9 @@ export class ComponentsListView extends React.Component {
     const filterValue = [];
     const URLOptions = [];
     const params = new URLSearchParams(location.search);
-    const allParametersAsString = params.get('query')
-    if(allParametersAsString!==null){
-      const searchParams = allParametersAsString.split(',');
+    const allParametersAsString = params.get("query");
+    if (allParametersAsString !== null) {
+      const searchParams = allParametersAsString.split(",");
       for (let option of this.state.availableTags) {
         if (searchParams.includes(option.value)) {
           filterValue.push(option.value);
@@ -102,16 +102,25 @@ export class ComponentsListView extends React.Component {
         <div className={s.container}>
           {this.state.filteredComponents.map((component) => (
             <div className={s.item} key={component.component_id}>
-              <a className={s.linkToDetailView} href={`/components/${component.slug}`}>
+              <a
+                className={s.linkToDetailView}
+                href={`/library/${component.slug}`}
+              >
                 <img
-                    title="componentScreenshot"
+                  title="componentScreenshot"
                   className={s.logo}
                   src={`http://localhost:8080/api/screenshots/${component.screenshots[0]}`}
                   alt="image"
                 />
-                <h1 className={s.title} title="componentTitle">{component.title}</h1>
-                {component.tags.map((tag,key) => (
-                    <p className={s.tags} key={key} title="componentTags">{`#${tag}`}</p>
+                <h1 className={s.title} title="componentTitle">
+                  {component.title}
+                </h1>
+                {component.tags.map((tag, key) => (
+                  <p
+                    className={s.tags}
+                    key={key}
+                    title="componentTags"
+                  >{`#${tag}`}</p>
                 ))}
               </a>
             </div>
