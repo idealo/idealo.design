@@ -221,7 +221,7 @@ app.get(
   async (req, res) => {
     const screenshot_id = req.params;
     const screenshots = await fetchScreenshots(screenshot_id);
-    return res.sendFile(screenshots[0].screenshot);
+    return res.json(screenshots[0].screenshot);
   }
 );
 

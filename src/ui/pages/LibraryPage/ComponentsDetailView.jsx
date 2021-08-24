@@ -9,7 +9,7 @@ import { fetchSingleComponent } from "./component_data";
 export class ComponentsDetailView extends React.Component {
   constructor(props) {
     super(props);
-    this.copyTextToClipboard = this.copyTextToClipboard.bind(this)
+    this.copyTextToClipboard = this.copyTextToClipboard.bind(this);
 
     this.state = {
       slug: "",
@@ -17,7 +17,7 @@ export class ComponentsDetailView extends React.Component {
       links: [],
       URLOptions: "",
       result: "",
-      titleAfterBackslash: ''
+      titleAfterBackslash: "",
     };
   }
 
@@ -27,19 +27,18 @@ export class ComponentsDetailView extends React.Component {
       this.setState({
         component: await fetchSingleComponent({ slug }),
         slug: slug,
-        links: [
-          "Design",
-          "Installation",
-          "Usage"
-        ],
+        links: ["Design", "Installation", "Usage"],
       });
       if (window.location.href.includes("#")) {
         await this.updateComponentDetailView();
       }
-      const titleAfterBackslash = this.state.component.title.substr(this.state.component.title.indexOf('/')+1,this.state.component.title.length-1)
+      const titleAfterBackslash = this.state.component.title.substr(
+        this.state.component.title.indexOf("/") + 1,
+        this.state.component.title.length - 1
+      );
       this.setState({
-        titleAfterBackslash: titleAfterBackslash
-      })
+        titleAfterBackslash: titleAfterBackslash,
+      });
     }
   }
 
@@ -58,38 +57,45 @@ export class ComponentsDetailView extends React.Component {
         this.showUsage();
       } else if (slug.includes("Design")) {
         this.showDesign();
-      }else {
+      } else {
         this.setState({
-          result: ""
-        })
+          result: "",
+        });
       }
     } catch (e) {}
   }
 
   copyTextToClipboard() {
-    const copiedText = document.getElementById('toBeCopiedCode').innerText
-    const el = document.createElement('textarea')
-    el.value = copiedText.toString()
-    document.body.appendChild(el)
-    el.select()
+    const copiedText = document.getElementById("toBeCopiedCode").innerText;
+    const el = document.createElement("textarea");
+    el.value = copiedText.toString();
+    document.body.appendChild(el);
+    el.select();
     document.execCommand("copy");
-    document.getElementById('copyInstallation').innerText='copied';
-    setTimeout(function(){
-      document.getElementById('copyInstallation').innerText='copy';
-    },1000);
-    document.body.removeChild(el)
+    document.getElementById("copyInstallation").innerText = "copied";
+    setTimeout(function () {
+      document.getElementById("copyInstallation").innerText = "copy";
+    }, 1000);
+    document.body.removeChild(el);
   }
 
   showInstallation() {
     const installation = this.state.component.readme.content.Installation.body;
-    const installationAsHtml =
-        <div>
-          <button title='copyInstallation' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
-          <Markdown
-              className={s.code}
-              id="toBeCopiedCode">{installation}
-          </Markdown>
-        </div>
+    const installationAsHtml = (
+      <div>
+        <button
+          title="copyInstallation"
+          id="copyInstallation"
+          className={s.copyButton}
+          onClick={this.copyTextToClipboard}
+        >
+          copy
+        </button>
+        <Markdown className={s.code} id="toBeCopiedCode">
+          {installation}
+        </Markdown>
+      </div>
+    );
     this.setState({ result: installationAsHtml });
   }
 
@@ -100,7 +106,7 @@ export class ComponentsDetailView extends React.Component {
           <div className={s.screenshot} key={screenshot}>
             <img
               title={screenshot}
-              src={`http://localhost:8080/api/screenshots/${screenshot}`}
+              src={`https://917999261651-idealo-design-assets.s3.eu-central-1.amazonaws.com/${screenshot}`}
               alt="image"
             />
           </div>
@@ -112,14 +118,21 @@ export class ComponentsDetailView extends React.Component {
 
   showUsage() {
     const usage = this.state.component.readme.content.Usage.body;
-    const usageAsHtml =
-        <div>
-          <button title='copyUsage' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
-          <Markdown
-              className={s.code}
-              id="toBeCopiedCode">{usage}
-          </Markdown>
-        </div>
+    const usageAsHtml = (
+      <div>
+        <button
+          title="copyUsage"
+          id="copyInstallation"
+          className={s.copyButton}
+          onClick={this.copyTextToClipboard}
+        >
+          copy
+        </button>
+        <Markdown className={s.code} id="toBeCopiedCode">
+          {usage}
+        </Markdown>
+      </div>
+    );
     this.setState({ result: usageAsHtml });
   }
 
@@ -127,16 +140,27 @@ export class ComponentsDetailView extends React.Component {
     return (
       <div>
         <div className={s.headerNav}>
-          <h1 title={this.state.component.title}>{this.state.titleAfterBackslash}</h1>
+          <h1 title={this.state.component.title}>
+            {this.state.titleAfterBackslash}
+          </h1>
           <hr></hr>
           <ul>
             {this.state.links.map((link, key) => (
-                <li key={key}>
-                  <a title={link} href={`#${link}`}>{link}</a>
-                </li>
+              <li key={key}>
+                <a title={link} href={`#${link}`}>
+                  {link}
+                </a>
+              </li>
             ))}
-            <button title='buttonToBitbucket' className={s.buttonToBitbucket}>
-              <a title='linkToBitbucket' className={s.LinkToBitbucket} target="_blank" href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}>Link to Bitbucket</a>
+            <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
+              <a
+                title="linkToBitbucket"
+                className={s.LinkToBitbucket}
+                target="_blank"
+                href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}
+              >
+                Link to Bitbucket
+              </a>
             </button>
           </ul>
         </div>
