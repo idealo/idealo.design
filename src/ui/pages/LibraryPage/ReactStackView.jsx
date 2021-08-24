@@ -2,6 +2,7 @@ import React from "react";
 import { withRouter } from "react-router";
 import s from "./ComponentsPage.module.scss";
 import { fetchComponents } from "./component_data";
+import {fetchUserInfo} from "../BlogPage/data";
 
 class ReactStackView extends React.Component {
   constructor(props) {
@@ -9,12 +10,14 @@ class ReactStackView extends React.Component {
     this.state = {
       components: [],
       filteredComponents: [],
+      // userInfo: {},
     };
   }
 
   async componentDidMount() {
     this.setState({
       components: await fetchComponents(),
+      // userInfo: await fetchUserInfo()
     });
     this.filterComponents();
   }
@@ -32,6 +35,8 @@ class ReactStackView extends React.Component {
   render() {
     return (
       <div>
+        <h1>React Stacks Library</h1>
+        {/*{this.state.userInfo.status === "LOGGED_IN" ? (*/}
         <div className={s.container}>
           {this.state.filteredComponents.map((component) => (
             <div className={s.item} key={component.component_id}>
@@ -56,6 +61,7 @@ class ReactStackView extends React.Component {
             </div>
           ))}
         </div>
+        {/*) : (<div>Please log in, in order to see the Classic Stacks Library Page</div>)}*/}
       </div>
     );
   }
