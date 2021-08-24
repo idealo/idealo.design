@@ -1,6 +1,7 @@
 import util from "util";
 import multer from "multer";
 import aws from "aws-sdk";
+import path from "path";
 import multerS3 from "multer-s3";
 
 const maxSize = 5 * 1024 * 1024;
@@ -28,6 +29,16 @@ const s3Storage = multerS3({
     cb(null, fullPath);
   },
 });
+
+
+/*const screenshotStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.resolve(__dirname,'../resources/static/assets/uploads/'+req.body.screenshotFolderName));
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    },
+});*/
 
 const uploadFile = multer({
   storage: s3Storage,
