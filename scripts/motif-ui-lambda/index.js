@@ -5,14 +5,24 @@ const axios = require("axios");
 const jsonMark = require("jsonmark");
 const AWS = require("aws-sdk");
 
+const S3_BUCKET = process.env.S3_BUCKET;
+const S3_ACCESS_KEY = process.env.S3_ACCESS_KEY;
+const S3_ACCESS_SECRET = process.env.S3_ACCESS_SECRET;
+
 AWS.config.update({ region: "REGION" });
+
+const s3 = new AWS.S3({
+  accessKeyId: S3_ACCESS_KEY,
+  secretAccessKey: S3_ACCESS_SECRET,
+  region: "eu-central-1",
+  Bucket: S3_BUCKET,
+});
 
 const localMotifUiComponents = path.resolve(
   __dirname,
   "./motif-ui-components/"
 );
 const localScreenshots = path.resolve(__dirname, "./screenshots");
-//const localPathToMotifUIScreenshots = path.resolve(__dirname,"./../resources/static/assets/uploads");
 
 async function readDirectory(directory) {
   return fs.promises.readdir(directory, (err) => {
@@ -166,6 +176,30 @@ async function sendDataToHttpRequest(components) {
   }
 }
 
+/*async function emptyS3Directory(bucket, dir) {
+  const listParams = {
+    Bucket: bucket,
+    Prefix: dir,
+  };
+
+  const listedObjects = await s3.listObjectsV2(listParams).promise();
+
+  if (listedObjects.Contents.length === 0) return;
+
+  const deleteParams = {
+    Bucket: bucket,
+    Delete: { Objects: [] },
+  };
+
+  listedObjects.Contents.forEach(({ Key }) => {
+    deleteParams.Delete.Objects.push({ Key });
+  });
+
+  await s3.deleteObjects(deleteParams).promise();
+
+  if (listedObjects.IsTruncated) await emptyS3Directory(bucket, dir);
+}*/
+
 exports.handler = async (event) => {
   const subdirectories = await readDirectory(localMotifUiComponents);
   const components = await extractComponents(subdirectories);
@@ -178,6 +212,11 @@ exports.handler = async (event) => {
   const componentsWithFormData = await createFormDataForComponents(
     componentsWithScreenshotPath
   );
+  /*const deletedScreenshotFolder = await emptyS3Directory(
+    process.env.S3_BUCKET,
+    "screenshots/"
+  );*/
+
   await sendDataToHttpRequest(componentsWithFormData);
   const response = {
     statusCode: 200,
