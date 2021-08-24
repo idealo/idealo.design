@@ -10,7 +10,7 @@ class ClassicStackView extends React.Component {
     this.state = {
       components: [],
       filteredComponents: [],
-      // userInfo: {},
+      userInfo: {},
 
     };
   }
@@ -18,7 +18,7 @@ class ClassicStackView extends React.Component {
   async componentDidMount() {
     this.setState({
       components: await fetchComponents(),
-      // userInfo: await fetchUserInfo(),
+      userInfo: await fetchUserInfo(),
     });
     this.filterComponents();
   }
@@ -37,7 +37,7 @@ class ClassicStackView extends React.Component {
     return (
       <div>
         <h1>Classic Stacks Library</h1>
-        {/*{this.state.userInfo.status === "LOGGED_IN" ? (*/}
+        {this.state.userInfo.status === "LOGGED_IN" ? (
        <div className={s.container}>
           {this.state.filteredComponents.map((component) => (
             <div className={s.item} key={component.component_id}>
@@ -62,7 +62,7 @@ class ClassicStackView extends React.Component {
             </div>
           ))}
         </div>
-        // ) : (<div>Please log in, in order to see the Classic Stacks Library Page</div>)}
+        ) : (<div>Please log in, in order to see the Classic Stacks Library Page</div>)}
       </div>
     );
   }
