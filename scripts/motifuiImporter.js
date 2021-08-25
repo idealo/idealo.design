@@ -8,20 +8,20 @@ import jsonMark from "jsonmark";
 const __dirname = path.resolve();
 const localMotifUiComponents = path.resolve(
   __dirname,
-  "./motif-ui-lambda/motif-ui-components"
+  "./scripts/motif-ui-lambda/motif-ui-components"
 );
 const localScreenshots = path.resolve(
   __dirname,
-  "./motif-ui-lambda/screenshots"
+  "./scripts/motif-ui-lambda/screenshots"
 );
-const pathToMotifUiRepo = path.resolve(__dirname, "../../motif-ui/src");
+const pathToMotifUiRepo = path.resolve(__dirname, "../motif-ui/src");
 const pathToMotifUIScreenshots = path.resolve(
   __dirname,
-  "../../motif-ui/__screenshots__"
+  "../motif-ui/__screenshots__"
 );
 const localPathToMotifUIScreenshots = path.resolve(
   __dirname,
-  "./../resources/static/assets/uploads"
+  "./resources/static/assets/uploads"
 );
 
 async function readDirectory(directory) {
