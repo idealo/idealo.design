@@ -1,5 +1,4 @@
 import React from "react";
-import withStyles from "isomorphic-style-loader/withStyles";
 import s from "./LoginMessage.module.scss";
 
 class LoginMessage extends React.Component {
@@ -15,4 +14,4 @@ class LoginMessage extends React.Component {
   }
 }
 
-export default withStyles(s)(LoginMessage);
+export default LoginMessage;
