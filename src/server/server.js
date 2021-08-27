@@ -157,9 +157,9 @@ function isBasicAuthenticated(req, res, next) {
 }
 
 function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-        return next();
-    }
+  if (req.session.user) {
+    return next();
+  }
 
   if (dangerousTestModeArgument) {
     return next();
@@ -205,10 +205,10 @@ app.get("/api/me", (req, res) => {
 });
 
 app.get("/logout", function (req, res) {
-    req.session.destroy(() => {
-        req.logout();
-        res.redirect("/");
-    });
+  req.session.destroy(() => {
+    req.logout();
+    res.redirect("/");
+  });
 });
 
 app.get("/api/components", isAuthenticated, async (req, res) => {
@@ -222,7 +222,7 @@ app.get(
   async (req, res) => {
     const screenshot_id = req.params;
     const screenshots = await fetchScreenshots(screenshot_id);
-    return res.sendFile(screenshots[0].screenshot);
+    return res.json(screenshots[0].screenshot);
   }
 );
 
@@ -269,20 +269,17 @@ app.put("/api/components/update", isBasicAuthenticated, async (req, res) => {
     }
 
     const screenshotPaths = [];
-    const screenshotNames = [];
 
     req.files.forEach((file) => {
-      screenshotPaths.push(file.path);
-    });
-
-    req.files.forEach((file) => {
-      screenshotNames.push(file.originalname);
+      screenshotPaths.push(
+        "screenshots/" + req.body.screenshotFolderName + "/" + file.originalname
+      );
     });
 
     const componentData = req.body;
 
     res.status(200).send({
-      message: "Uploaded the following screenshots: " + screenshotNames,
+      message: "Uploaded component successfully!",
       component: await importSingleComponent(screenshotPaths, componentData),
     });
   } catch (err) {
@@ -319,11 +316,11 @@ app.delete(
 app.get("/api/blogposts/:slug?", async (req, res) => {
   const { slug } = req.params;
   if (!slug) {
-    const {byCategorySlug: categorySlug} = req.query;
+    const { byCategorySlug: categorySlug } = req.query;
     let posts = [];
 
     if (categorySlug) {
-      posts = await fetchPostsByCategorySlug({categorySlug});
+      posts = await fetchPostsByCategorySlug({ categorySlug });
     } else {
       posts = await fetchList();
     }
@@ -341,7 +338,7 @@ app.post("/api/blogposts", isAuthenticated, async (req, res) => {
   newBlogpost.blogpostcontent = req.body.blogpostcontent;
   const createdBlogpost = await storeSinglePost(newBlogpost);
 
-    return res.json(createdBlogpost);
+  return res.json(createdBlogpost);
 });
 
 app.get("/api/categories", isAuthenticated, async (req, res) => {
@@ -368,9 +365,9 @@ app.put("/api/blogposts", isAuthenticated, async (req, res) => {
   updatedBlogpost.slug = slugify(updatedBlogpost.title);
   updatedBlogpost.date = new Date().toISOString();
 
-    const createdBlogpost = await updateSinglePost(updatedBlogpost);
+  const createdBlogpost = await updateSinglePost(updatedBlogpost);
 
-    return res.json(createdBlogpost);
+  return res.json(createdBlogpost);
 });
 
 app.put("/api/blogposts/archive", isAuthenticated, async (req, res) => {

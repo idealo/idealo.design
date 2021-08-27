@@ -1,28 +1,28 @@
-import path from "path";
-import fse from "fs-extra";
-import fs from "fs";
-import FormData from "form-data";
-import axios from "axios";
-import jsonMark from "jsonmark";
+const path = require("path");
+const fs = require("fs");
+const FormData = require("form-data");
+const axios = require("axios");
+const jsonMark = require("jsonmark");
+const AWS = require("aws-sdk");
 
-const __dirname = path.resolve();
+const S3_BUCKET = process.env.S3_BUCKET;
+const S3_ACCESS_KEY = process.env.S3_ACCESS_KEY;
+const S3_ACCESS_SECRET = process.env.S3_ACCESS_SECRET;
+
+AWS.config.update({ region: "REGION" });
+
+const s3 = new AWS.S3({
+  accessKeyId: S3_ACCESS_KEY,
+  secretAccessKey: S3_ACCESS_SECRET,
+  region: "eu-central-1",
+  Bucket: S3_BUCKET,
+});
+
 const localMotifUiComponents = path.resolve(
   __dirname,
-  "./scripts/motif-ui-lambda/motif-ui-components"
+  "./motif-ui-components/"
 );
-const localScreenshots = path.resolve(
-  __dirname,
-  "./scripts/motif-ui-lambda/screenshots"
-);
-const pathToMotifUiRepo = path.resolve(__dirname, "../motif-ui/src");
-const pathToMotifUIScreenshots = path.resolve(
-  __dirname,
-  "../motif-ui/__screenshots__"
-);
-const localPathToMotifUIScreenshots = path.resolve(
-  __dirname,
-  "./resources/static/assets/uploads"
-);
+const localScreenshots = path.resolve(__dirname, "./screenshots");
 
 async function readDirectory(directory) {
   return fs.promises.readdir(directory, (err) => {
@@ -33,13 +33,7 @@ async function readDirectory(directory) {
   });
 }
 
-async function createPathToMotifUiScreenshots() {
-  fs.mkdir(localPathToMotifUIScreenshots, { recursive: true }, (err) => {
-    if (err) throw err;
-  });
-}
-
-export async function extractComponents(subdirectories) {
+async function extractComponents(subdirectories) {
   let components = [];
   for (const subdirectory of subdirectories) {
     const eachComponent = {};
@@ -98,7 +92,7 @@ export async function extractComponents(subdirectories) {
   return components;
 }
 
-export async function storeScreenshotFolderName(components) {
+async function storeScreenshotFolderName(components) {
   for (const component of components) {
     await fs.promises
       .readFile(component.pathToStoryFile, "utf8")
@@ -117,7 +111,7 @@ export async function storeScreenshotFolderName(components) {
   return components;
 }
 
-export async function storeNameOfScreenshots(components) {
+async function storeNameOfScreenshots(components) {
   for (const component of components) {
     await fs.promises
       .readdir(localScreenshots + "/" + component.screenshotFolderName)
@@ -128,16 +122,10 @@ export async function storeNameOfScreenshots(components) {
   return components;
 }
 
-export async function createFormDataForComponents(components) {
+async function createFormDataForComponents(components) {
   for (const component of components) {
-    await fs.mkdirSync(
-      localPathToMotifUIScreenshots + "/" + component.screenshotFolderName,
-      (err) => {
-        if (err) {
-          throw err;
-        }
-      }
-    );
+    //screenshotFolderName should be created in S3 here
+
     const componentFormData = new FormData();
 
     componentFormData.append("name", component.name);
@@ -188,20 +176,31 @@ async function sendDataToHttpRequest(components) {
   }
 }
 
-async function handleImportProcess() {
-  await fse.remove(localMotifUiComponents).catch((err) => console.log(err));
-  await fse
-    .copy(pathToMotifUiRepo, localMotifUiComponents)
-    .catch((err) => console.log(err));
-  await fse.remove(localScreenshots).catch((err) => console.log(err));
-  await fse
-    .copy(pathToMotifUIScreenshots, localScreenshots)
-    .catch((err) => console.log(err));
-  await fse
-    .remove(localPathToMotifUIScreenshots)
-    .catch((err) => console.log(err));
+/*async function emptyS3Directory(bucket, dir) {
+  const listParams = {
+    Bucket: bucket,
+    Prefix: dir,
+  };
 
-  await createPathToMotifUiScreenshots();
+  const listedObjects = await s3.listObjectsV2(listParams).promise();
+
+  if (listedObjects.Contents.length === 0) return;
+
+  const deleteParams = {
+    Bucket: bucket,
+    Delete: { Objects: [] },
+  };
+
+  listedObjects.Contents.forEach(({ Key }) => {
+    deleteParams.Delete.Objects.push({ Key });
+  });
+
+  await s3.deleteObjects(deleteParams).promise();
+
+  if (listedObjects.IsTruncated) await emptyS3Directory(bucket, dir);
+}*/
+
+exports.handler = async (event) => {
   const subdirectories = await readDirectory(localMotifUiComponents);
   const components = await extractComponents(subdirectories);
   const componentsWithScreenshotFolderNames = await storeScreenshotFolderName(
@@ -213,7 +212,15 @@ async function handleImportProcess() {
   const componentsWithFormData = await createFormDataForComponents(
     componentsWithScreenshotPath
   );
-  await sendDataToHttpRequest(componentsWithFormData);
-}
+  /*const deletedScreenshotFolder = await emptyS3Directory(
+    process.env.S3_BUCKET,
+    "screenshots/"
+  );*/
 
-handleImportProcess().then(() => console.log("import process finished"));
+  await sendDataToHttpRequest(componentsWithFormData);
+  const response = {
+    statusCode: 200,
+    body: JSON.stringify("import process finished"),
+  };
+  return response;
+};

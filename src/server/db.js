@@ -198,8 +198,8 @@ export async function fetchComponents() {
   for (let componentId of allComponentsIds) {
     let tagsObject =
       await sql`select tags.tag_name from components_tags_map natural join components natural join tags where components.component_id=${componentId.component_id};`;
-    let screenshotIds =
-      await sql`select screenshot_id from screenshots natural join components where components.component_id=${componentId.component_id};`;
+    let screenshotPathsObject =
+      await sql`select screenshot from screenshots natural join components where components.component_id=${componentId.component_id};`;
     let componentDetails =
       await sql`select * from components where components.component_id=${componentId.component_id};`;
 
@@ -211,8 +211,8 @@ export async function fetchComponents() {
     }
 
     let screenshots = [];
-    for (let screenshot_id of screenshotIds) {
-      screenshots.push(screenshot_id.screenshot_id);
+    for (let screenshotPath of screenshotPathsObject) {
+      screenshots.push(screenshotPath.screenshot);
     }
 
     component.tags = tags;
@@ -305,13 +305,13 @@ export async function fetchSingleComponent({ slug }) {
   const singleComponent =
     await sql`select * from components c where  c.slug=${slug};`;
   const screenshotIds =
-    await sql`select screenshot_id from screenshots natural join components where components.slug=${slug};`;
+    await sql`select screenshot from screenshots natural join components where components.slug=${slug};`;
 
   const tags = [];
   const screenshots = [];
 
-  for (let screenshot_id of screenshotIds) {
-    screenshots.push(screenshot_id.screenshot_id);
+  for (let screenshot of screenshotIds) {
+    screenshots.push(screenshot.screenshot);
   }
 
   for (let tag of tagsComponent) {

@@ -4,6 +4,8 @@ node_modules
 dist
 src/__tests__/pact
 resources
-scripts/motif-ui-components/
+scripts/motif-ui-lambda/motif-ui-components/
 scripts/screenshots/
 .elasticbeanstalk/app_versions/
+/scripts/motif-ui-lambda/motif-ui-components/
+/scripts/motif-ui-lambda/screenshots/
