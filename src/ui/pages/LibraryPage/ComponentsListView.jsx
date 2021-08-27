@@ -117,7 +117,7 @@ export class ComponentsListView extends React.Component {
                     <img
                       title="componentScreenshot"
                       className={s.logo}
-                      src={`http://localhost:8080/api/screenshots/${component.screenshots[0]}`}
+                      src={`https://917999261651-idealo-design-assets.s3.eu-central-1.amazonaws.com/${component.screenshots[0]}`}
                       alt="image"
                     />
                     <h1 className={s.title} title="componentTitle">
