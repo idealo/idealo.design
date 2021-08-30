@@ -18,11 +18,11 @@ let importFromApiFigma = fetch('https://api.figma.com/v1/files/ybZtLgPiNd2hUWlS2
 async function getComponentsFromFigmaApi(data){
     let components = [];
     for(const childComponent of data.document.children){
-        let component = {}
-        component.title = childComponent.name
-        component.content = []
         for(const childFrames of childComponent.children ){
             if(childFrames.name.includes('USAGE')){
+                let component = {}
+                component.title = childComponent.name
+                component.content = []
                 let content = []
                 for(const childContent of childFrames.children.reverse()){
                     if(childContent.type === "GROUP"){
@@ -33,15 +33,14 @@ async function getComponentsFromFigmaApi(data){
                                 }else{
                                     content.push({content: child.characters})
                                 }
-                                console.log(content)
                             }
                         }
                     }
                 }
                 component.content = content
+                components.push(component)
             }
         }
-        components.push(component)
     }
     console.log(components)
     return components
@@ -51,7 +50,6 @@ async function sendDataToHttpRequest(components) {
     const username = process.env.UPLOADER_USERNAME
     const password = process.env.UPLOADER_PWD
     for (const component of components){
-        //console.log('c',component)
         await axios.put(process.env.BASE_URL + '/api/components/import/figma', component, {
             headers: {
                 ...component,
