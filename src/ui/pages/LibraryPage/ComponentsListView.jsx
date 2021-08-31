@@ -112,7 +112,7 @@ export class ComponentsListView extends React.Component {
                       <div className={s.item} key={component.component_id}>
                         <a
                             className={s.linkToDetailView}
-                            href={`/library/${component.slug}`}
+                            href={`/library/${component.slug}#Design`}
                         >
                           {component.screenshots.length>0 ? (
                               <img
