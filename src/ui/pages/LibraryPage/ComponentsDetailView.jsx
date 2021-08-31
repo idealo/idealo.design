@@ -118,6 +118,18 @@ export class ComponentsDetailView extends React.Component {
         this.setState({ result: design });
     }
 
+    makeTable(data){
+        return (
+            <table>
+                <tr>
+                    {data.map((value, key) => (
+                        <td key={key}>{value.rowValues}</td>
+                    ))}
+                </tr>
+            </table>
+        )
+    }
+
     showUsage() {
         let usage
         if(this.state.component.readme){
@@ -137,12 +149,23 @@ export class ComponentsDetailView extends React.Component {
                     </div>
                 ):(
                     <div>
-                        {usage.map((headline, key) => (
-                            <div key={key}>
-                                <div className={s.code}>
-                                    <h2 >{headline.titleContent}</h2>
-                                    <p> {headline.content} </p>
-                                </div>
+                        {usage.map((group,index) => (
+                            <div key={index} className={s.code}>
+                                <h2>{group.headline}</h2>
+                                <p>{group.content}</p>
+                                {group.table ? (
+                                    <div>
+                                        <table>
+                                            {group.table.map((row, key) => (
+                                                <tr key={key}>
+                                                    {row.rowValues.map((value, i) => (
+                                                        <td key={i}> {value}</td>
+                                                    ))}
+                                                </tr>
+                                            ))}
+                                        </table>
+                                    </div>
+                                ):(<div/>)}
                             </div>
                         ))}
                     </div>

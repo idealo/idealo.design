@@ -22,27 +22,46 @@ async function getComponentsFromFigmaApi(data){
             if(childFrames.name.includes('USAGE')){
                 let component = {}
                 component.title = childComponent.name
-                component.content = []
-                let content = []
+                const groups = []
                 for(const childContent of childFrames.children.reverse()){
                     if(childContent.type === "GROUP"){
-                        for(const child of childContent.children){
-                            if(child.characters !== undefined){
+                        for(const child of childContent.children.reverse()){
+                            if(child.type === 'TEXT'){
                                 if(child.style.fontSize>18){
-                                    content.push({titleContent: child.characters})
+                                    groups.push({headline: child.characters})
                                 }else{
-                                    content.push({content: child.characters})
+                                    groups.push({content: child.characters})
                                 }
+                            }else if(child.type === 'GROUP'){
+                                let table = []
+                                let counter = 0
+                                for(const tableGroup of child.children.reverse()){
+                                    if(tableGroup.type === 'GROUP'){
+                                        const row = {}
+                                        const rowValues = []
+                                        for(const value of tableGroup.children.reverse()){
+                                            if(value.type === 'TEXT'){
+                                                rowValues.push(value.characters)
+                                            }
+                                        }
+                                        row.rowNr = counter
+                                        row.rowValues = rowValues
+                                        if(row.rowValues.length>0){
+                                            table.push(row)
+                                        }
+                                        counter += 1
+                                    }
+                                }
+                                groups.push({table: table})
                             }
                         }
+                        component.content = groups
                     }
                 }
-                component.content = content
                 components.push(component)
             }
         }
     }
-    console.log(components)
     return components
 }
 
