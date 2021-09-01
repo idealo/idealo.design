@@ -17,7 +17,6 @@ export class ComponentsDetailView extends React.Component {
             links: [],
             URLOptions: "",
             result: "",
-            titleAfterBackslash: "",
         };
     }
 
@@ -32,13 +31,16 @@ export class ComponentsDetailView extends React.Component {
             if (window.location.href.includes("#")) {
                 await this.updateComponentDetailView();
             }
-            const titleAfterBackslash = this.state.component.title.substr(
-                this.state.component.title.indexOf("/") + 1,
-                this.state.component.title.length
-            );
-            this.setState({
-                titleAfterBackslash: titleAfterBackslash,
-            });
+
+            if(this.state.component.readme && this.state.component.figma_usage){
+                this.setState({
+                    links: ["Design", "Installation", "Usage", "Figma"]
+                })
+            }else if(!this.state.component.readme){
+                this.setState({
+                    links: ["Figma"]
+                })
+            }
         }
     }
 
@@ -55,6 +57,8 @@ export class ComponentsDetailView extends React.Component {
                 this.showInstallation();
             } else if (slug.includes("Usage")) {
                 this.showUsage();
+            } else if (slug.includes("Figma")) {
+                this.showFigma();
             } else if (slug.includes("Design")) {
                 this.showDesign();
             } else {
@@ -118,24 +122,41 @@ export class ComponentsDetailView extends React.Component {
         this.setState({ result: design });
     }
 
-    makeTable(data){
-        return (
-            <table>
-                <tr>
-                    {data.map((value, key) => (
-                        <td key={key}>{value.rowValues}</td>
-                    ))}
-                </tr>
-            </table>
-        )
+    showFigma() {
+        let figma
+        if(this.state.component.figma_usage){
+            figma = this.state.component.figma_usage
+        }
+
+        const figmaUsageAsHtml =
+            <div>
+                {figma.map((group,index) => (
+                    <div key={index} className={s.code}>
+                        <h2>{group.headline}</h2>
+                        <p>{group.content}</p>
+                        {group.table ? (
+                            <div>
+                                <table>
+                                    {group.table.map((row, key) => (
+                                        <tr key={key}>
+                                            {row.rowValues.map((value, i) => (
+                                                <td key={i}> {value}</td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </table>
+                            </div>
+                        ):(<div/>)}
+                    </div>
+                ))}
+            </div>
+        this.setState({ result: figmaUsageAsHtml });
     }
 
     showUsage() {
         let usage
         if(this.state.component.readme){
             usage = this.state.component.readme.content.Usage.body;
-        }else{
-            usage = this.state.component.figma_usage
         }
         const usageAsHtml =
             <div>
@@ -147,28 +168,8 @@ export class ComponentsDetailView extends React.Component {
                             id="toBeCopiedCode">{usage}
                         </Markdown>
                     </div>
-                ):(
-                    <div>
-                        {usage.map((group,index) => (
-                            <div key={index} className={s.code}>
-                                <h2>{group.headline}</h2>
-                                <p>{group.content}</p>
-                                {group.table ? (
-                                    <div>
-                                        <table>
-                                            {group.table.map((row, key) => (
-                                                <tr key={key}>
-                                                    {row.rowValues.map((value, i) => (
-                                                        <td key={i}> {value}</td>
-                                                    ))}
-                                                </tr>
-                                            ))}
-                                        </table>
-                                    </div>
-                                ):(<div/>)}
-                            </div>
-                        ))}
-                    </div>
+                ): (
+                    <div/>
                 )}
             </div>
         this.setState({ result: usageAsHtml });
@@ -179,7 +180,7 @@ export class ComponentsDetailView extends React.Component {
             <div>
                 <div className={s.headerNav}>
                     <h1 title={this.state.component.title}>
-                        {this.state.titleAfterBackslash}
+                        {this.state.component.title}
                     </h1>
                     <hr/>
                     <ul>
@@ -190,16 +191,18 @@ export class ComponentsDetailView extends React.Component {
                                 </a>
                             </li>
                         ))}
-                        <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
-                            <a
-                                title="linkToBitbucket"
-                                className={s.LinkToBitbucket}
-                                target="_blank"
-                                href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}
-                            >
-                                Link to Bitbucket
-                            </a>
-                        </button>
+                        {this.state.component.readme? (
+                            <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
+                                <a
+                                    title="linkToBitbucket"
+                                    className={s.LinkToBitbucket}
+                                    target="_blank"
+                                    href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.component.title}/src/`}
+                                >
+                                    Link to Bitbucket
+                                </a>
+                            </button>
+                        ):(<div/>)}
                     </ul>
                 </div>
                 <div>
