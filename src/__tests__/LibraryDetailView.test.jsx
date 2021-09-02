@@ -14,11 +14,11 @@ jest.mock("../ui/pages/LibraryPage/component_data", () => {
 });
 
 describe("test detailview", () => {
-  const mockupComponent = {
+  const mockupComponentWithMotifUiAndFigma = {
     component_id: 1,
-    title: "@motif/button",
+    title: "button",
     screenshots: [1, 2, 3],
-    tags: ["motif", "button"],
+    tags: ["motif", "button", "figma"],
     readme: {
       order: ["Motif UI `button`", "Installation", "Usage"],
       content: {
@@ -33,7 +33,58 @@ describe("test detailview", () => {
         "Motif UI `button`": { body: "", head: "# Motif UI `button`" },
       },
     },
+    figma_usage: {
+      headline: "Definition",
+      content: "Buttons express what action will occur when the user clicks or touches it. Buttons are used to initialize an action.",
+      table: [{"rowNr": 0, "rowValues": ["Sizing", "Our buttons come in 3 sizes: S (hight 30px), M (hight 40px), L (hight 50px). The buttons width changes according to the text lenght. The text has margins, left and right, of 15px, 20px, 30px according to the button size. In mobile viewports, from 599px and below, the button width equals the viewport width minus the margins. Max width of the buttons, in general, is, therefore, 569px. The min buttons width is 120px, 130px, 150px according to the button size. This is also valid for modals."]}]
+    }
   };
+
+  const mockupComponentWithMotifUi = {
+    component_id: 2,
+    title: "feedback",
+    screenshots: [1, 2, 3],
+    tags: ["motif", "feedback",],
+    readme: {
+      order: ["Motif UI `feedback`", "Installation", "Usage"],
+      content: {
+        Usage: {
+          body: "import {InlineBanner} from '@motif/feedback';",
+          head: "## Usage",
+        },
+        Installation: {
+          body: "yarn add @motif/feedback",
+          head: "## Installation",
+        },
+        "Motif UI `feedback`": { body: "", head: "# Motif UI `feedback`" },
+      },
+    },
+  }
+
+  const mockupComponentWithFigma = {
+    component_id: 3,
+    title: "Badges",
+    tags: ["badges", "figma"],
+    readme: {
+      order: ["Motif UI `button`", "Installation", "Usage"],
+      content: {
+        Usage: {
+          body: "import { Button } from '@motif/button';",
+          head: "## Usage",
+        },
+        Installation: {
+          body: "yarn add @motif/button",
+          head: "## Installation",
+        },
+        "Motif UI `button`": { body: "", head: "# Motif UI `button`" },
+      },
+    },
+    figma_usage: {
+      headline: "Definition",
+      content: "Buttons express what action will occur when the user clicks or touches it. Buttons are used to initialize an action.",
+      table: [{"rowNr": 0, "rowValues": ["Sizing", "Our buttons come in 3 sizes: S (hight 30px), M (hight 40px), L (hight 50px). The buttons width changes according to the text lenght. The text has margins, left and right, of 15px, 20px, 30px according to the button size. In mobile viewports, from 599px and below, the button width equals the viewport width minus the margins. Max width of the buttons, in general, is, therefore, 569px. The min buttons width is 120px, 130px, 150px according to the button size. This is also valid for modals."]}]
+    }
+  }
 
   const userInfo = {
     status: "LOGGED_IN",
@@ -61,12 +112,12 @@ describe("test detailview", () => {
 
   test("ComponentDetailView gets rendered with user logged in", async () => {
     fetchUserInfo.mockReturnValue(userInfo);
-    fetchSingleComponent.mockReturnValue(mockupComponent);
+    fetchSingleComponent.mockReturnValue(mockupComponentWithMotifUiAndFigma);
 
     render(<ComponentsDetailView {...mockedParams} />);
 
     await waitFor(() => {
-      const componentTitle = screen.getByTitle(mockupComponent.title);
+      const componentTitle = screen.getByTitle(mockupComponentWithMotifUiAndFigma.title);
       expect(componentTitle).toBeInTheDocument();
 
       for (const link of links) {
@@ -94,7 +145,7 @@ describe("test detailview", () => {
     render(<ComponentsDetailView {...mockedParams} />);
 
     await waitFor(() => {
-      expect(screen.getByText(mockupComponent.readme.content.Usage.body));
+      expect(screen.getByText(mockupComponentWithMotifUiAndFigma.readme.content.Usage.body));
       expect(screen.getByTitle("copyUsage")).toBeInTheDocument();
     });
   });
@@ -109,7 +160,7 @@ describe("test detailview", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(mockupComponent.readme.content.Installation.body)
+        screen.getByText(mockupComponentWithMotifUiAndFigma.readme.content.Installation.body)
       );
       expect(screen.getByTitle("copyInstallation")).toBeInTheDocument();
     });
@@ -124,7 +175,7 @@ describe("test detailview", () => {
     render(<ComponentsDetailView {...mockedParams} />);
 
     await waitFor(() => {
-      for (const screenshot of mockupComponent.screenshots) {
+      for (const screenshot of mockupComponentWithMotifUiAndFigma.screenshots) {
         expect(screen.getByTitle(screenshot).closest("img")).toHaveAttribute(
           "src",
           "https://917999261651-idealo-design-assets.s3.eu-central-1.amazonaws.com/" +

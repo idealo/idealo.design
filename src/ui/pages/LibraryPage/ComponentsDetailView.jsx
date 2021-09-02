@@ -137,6 +137,7 @@ export class ComponentsDetailView extends React.Component {
                         {group.table ? (
                             <div>
                                 <table>
+                                    <tbody>
                                     {group.table.map((row, key) => (
                                         <tr key={key}>
                                             {row.rowValues.map((value, i) => (
@@ -144,7 +145,9 @@ export class ComponentsDetailView extends React.Component {
                                             ))}
                                         </tr>
                                     ))}
+                                    </tbody>
                                 </table>
+
                             </div>
                         ):(<div/>)}
                     </div>
