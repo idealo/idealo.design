@@ -15,7 +15,7 @@ let importFromApiFigma = fetch('https://api.figma.com/v1/files/ybZtLgPiNd2hUWlS2
             .then((components) => sendDataToHttpRequest(components))
     });
 
-async function getComponentsFromFigmaApi(data){
+export async function getComponentsFromFigmaApi(data){
     let components = [];
     for(const childComponent of data.document.children){
         for(const childFrames of childComponent.children ){
