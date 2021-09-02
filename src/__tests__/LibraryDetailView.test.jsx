@@ -13,7 +13,7 @@ jest.mock("../ui/pages/LibraryPage/component_data", () => {
   return { fetchSingleComponent: jest.fn() };
 });
 
-describe("test detailview", () => {
+describe("test detailView", () => {
   const mockupComponentWithMotifUiAndFigma = {
     component_id: 1,
     title: "button",
@@ -33,11 +33,11 @@ describe("test detailview", () => {
         "Motif UI `button`": { body: "", head: "# Motif UI `button`" },
       },
     },
-    figma_usage: {
+    figma_usage: [{
       headline: "Definition",
       content: "Buttons express what action will occur when the user clicks or touches it. Buttons are used to initialize an action.",
       table: [{"rowNr": 0, "rowValues": ["Sizing", "Our buttons come in 3 sizes: S (hight 30px), M (hight 40px), L (hight 50px). The buttons width changes according to the text lenght. The text has margins, left and right, of 15px, 20px, 30px according to the button size. In mobile viewports, from 599px and below, the button width equals the viewport width minus the margins. Max width of the buttons, in general, is, therefore, 569px. The min buttons width is 120px, 130px, 150px according to the button size. This is also valid for modals."]}]
-    }
+    }]
   };
 
   const mockupComponentWithMotifUi = {
@@ -65,25 +65,11 @@ describe("test detailview", () => {
     component_id: 3,
     title: "Badges",
     tags: ["badges", "figma"],
-    readme: {
-      order: ["Motif UI `button`", "Installation", "Usage"],
-      content: {
-        Usage: {
-          body: "import { Button } from '@motif/button';",
-          head: "## Usage",
-        },
-        Installation: {
-          body: "yarn add @motif/button",
-          head: "## Installation",
-        },
-        "Motif UI `button`": { body: "", head: "# Motif UI `button`" },
-      },
-    },
-    figma_usage: {
+    figma_usage: [{
       headline: "Definition",
       content: "Buttons express what action will occur when the user clicks or touches it. Buttons are used to initialize an action.",
       table: [{"rowNr": 0, "rowValues": ["Sizing", "Our buttons come in 3 sizes: S (hight 30px), M (hight 40px), L (hight 50px). The buttons width changes according to the text lenght. The text has margins, left and right, of 15px, 20px, 30px according to the button size. In mobile viewports, from 599px and below, the button width equals the viewport width minus the margins. Max width of the buttons, in general, is, therefore, 569px. The min buttons width is 120px, 130px, 150px according to the button size. This is also valid for modals."]}]
-    }
+    }]
   }
 
   const userInfo = {
@@ -104,27 +90,40 @@ describe("test detailview", () => {
     },
   };
 
-  const links = ["Design", "Installation", "Usage"];
+  const linksMotifUiAndFigma = ["Design", "Installation", "Usage", "Figma"];
+  const linksMotifUi = ["Design", "Installation", "Usage"];
+  const linksFigma = ["Figma"];
 
-  const mockedParams = {
-    match: { params: { slug: "@motifbutton" } },
+  const mockedParamsMotifUiAndFigma = {
+    match: { params: { slug: "button" } },
+  };
+  const mockedParamsMotifUi = {
+    match: { params: { slug: "feedback" } },
+  };
+  const mockedParamsFigma = {
+    match: { params: { slug: "Badges" } },
   };
 
-  test("ComponentDetailView gets rendered with user logged in", async () => {
+  test("ComponentDetailView gets rendered for a MotifUi and Figma with user logged in", async () => {
     fetchUserInfo.mockReturnValue(userInfo);
     fetchSingleComponent.mockReturnValue(mockupComponentWithMotifUiAndFigma);
 
-    render(<ComponentsDetailView {...mockedParams} />);
+    render(<ComponentsDetailView {...mockedParamsMotifUiAndFigma} />);
 
     await waitFor(() => {
       const componentTitle = screen.getByTitle(mockupComponentWithMotifUiAndFigma.title);
       expect(componentTitle).toBeInTheDocument();
 
-      for (const link of links) {
+      let counter = 0;
+      for (const link of linksMotifUiAndFigma) {
+        counter++;
         expect(screen.getByTitle(link).closest("a")).toHaveAttribute(
           "href",
           "#" + link
         );
+      }
+      if(counter !== linksMotifUiAndFigma.length){
+        expect(fail("The linksArray has a length of " + counter + ' instead of ' + linksMotifUiAndFigma.length));
       }
 
       const buttonToBitbucket = screen.getByTitle("buttonToBitbucket");
@@ -136,13 +135,60 @@ describe("test detailview", () => {
     });
   });
 
+  test("ComponentDetailView gets rendered for a MotifUi with user logged in", async () => {
+    fetchUserInfo.mockReturnValue(userInfo);
+    fetchSingleComponent.mockReturnValue(mockupComponentWithMotifUi);
+
+    render(<ComponentsDetailView {...mockedParamsMotifUi} />);
+
+    await waitFor(() => {
+      const componentTitle = screen.getByTitle(mockupComponentWithMotifUi.title);
+      expect(componentTitle).toBeInTheDocument();
+
+      for (const link of linksMotifUi) {
+        expect(screen.getByTitle(link).closest("a")).toHaveAttribute(
+            "href",
+            "#" + link
+        );
+      }
+
+      const buttonToBitbucket = screen.getByTitle("buttonToBitbucket");
+      expect(buttonToBitbucket).toBeInTheDocument();
+      expect(screen.getByTitle("linkToBitbucket").closest("a")).toHaveAttribute(
+          "href",
+          "https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/feedback/src/"
+      );
+    });
+  });
+
+  test("ComponentDetailView gets rendered for a Figma with user logged in", async () => {
+    fetchUserInfo.mockReturnValue(userInfo);
+    fetchSingleComponent.mockReturnValue(mockupComponentWithFigma);
+
+    render(<ComponentsDetailView {...mockedParamsFigma} />);
+
+    await waitFor(() => {
+      const componentTitle = screen.getByTitle(mockupComponentWithFigma.title);
+      expect(componentTitle).toBeInTheDocument();
+
+      for (const link of linksFigma) {
+        expect(screen.getByTitle(link).closest("a")).toHaveAttribute(
+            "href",
+            "#" + link
+        );
+      }
+    });
+  });
+
   test("ComponentDetailView for Usage gets rendered with user logged in", async () => {
+    fetchUserInfo.mockReturnValue(userInfo);
+    fetchSingleComponent.mockReturnValue(mockupComponentWithMotifUiAndFigma);
     Object.defineProperty(window, "location", {
       get() {
         return { href: "#Usage" };
       },
     });
-    render(<ComponentsDetailView {...mockedParams} />);
+    render(<ComponentsDetailView {...mockedParamsMotifUiAndFigma} />);
 
     await waitFor(() => {
       expect(screen.getByText(mockupComponentWithMotifUiAndFigma.readme.content.Usage.body));
@@ -151,12 +197,14 @@ describe("test detailview", () => {
   });
 
   test("ComponentDetailView for Installation gets rendered with user logged in", async () => {
+    fetchUserInfo.mockReturnValue(userInfo);
+    fetchSingleComponent.mockReturnValue(mockupComponentWithMotifUiAndFigma);
     Object.defineProperty(window, "location", {
       get() {
         return { href: "#Installation" };
       },
     });
-    render(<ComponentsDetailView {...mockedParams} />);
+    render(<ComponentsDetailView {...mockedParamsMotifUiAndFigma} />);
 
     await waitFor(() => {
       expect(
@@ -167,12 +215,14 @@ describe("test detailview", () => {
   });
 
   test("ComponentDetailView for Design gets rendered with user logged in", async () => {
+    fetchUserInfo.mockReturnValue(userInfo);
+    fetchSingleComponent.mockReturnValue(mockupComponentWithMotifUiAndFigma);
     Object.defineProperty(window, "location", {
       get() {
         return { href: "#Design" };
       },
     });
-    render(<ComponentsDetailView {...mockedParams} />);
+    render(<ComponentsDetailView {...mockedParamsMotifUiAndFigma} />);
 
     await waitFor(() => {
       for (const screenshot of mockupComponentWithMotifUiAndFigma.screenshots) {
@@ -182,6 +232,32 @@ describe("test detailview", () => {
             screenshot
         );
       }
+    });
+  });
+
+  test("ComponentDetailView for Figma gets rendered with user logged in", async () => {
+    fetchUserInfo.mockReturnValue(userInfo);
+    fetchSingleComponent.mockReturnValue(mockupComponentWithMotifUiAndFigma);
+    Object.defineProperty(window, "location", {
+      get() {
+        return { href: "#Figma" };
+      },
+    });
+    render(<ComponentsDetailView {...mockedParamsMotifUiAndFigma} />);
+
+    await waitFor(() => {
+      expect(
+          screen.getByText(mockupComponentWithMotifUiAndFigma.figma_usage[0].headline),
+      );
+      expect(
+          screen.getByText(mockupComponentWithMotifUiAndFigma.figma_usage[0].content)
+      );
+      expect(
+          screen.getByText(mockupComponentWithMotifUiAndFigma.figma_usage[0].table[0].rowValues[0])
+      );
+      expect(
+          screen.getByText(mockupComponentWithMotifUiAndFigma.figma_usage[0].table[0].rowValues[1])
+      );
     });
   });
 });
