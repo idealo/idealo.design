@@ -1,6 +1,6 @@
 const mock = require("mock-fs");
 const path = require("path");
-const importer = require("./motifuiImporter");
+const importer = require("../motifuiImporter");
 
 describe("tests for the motif-ui importer script", () => {
   afterEach(async () => {
@@ -10,15 +10,15 @@ describe("tests for the motif-ui importer script", () => {
   beforeEach(function () {
     mock(
       {
-        "./motif-ui-lambda/screenshots": mock.directory({
+        "../motif-ui-lambda/screenshots": mock.directory({
           items: {
             Colors: mock.load(
-              path.resolve(__dirname, "./motif-ui-lambda/screenshots/Colors/")
+              path.resolve(__dirname, "../motif-ui-lambda/screenshots/Colors/")
             ),
             ButtonGroup: mock.load(
               path.resolve(
                 __dirname,
-                "./motif-ui-lambda/screenshots/ButtonGroup/"
+                "../motif-ui-lambda/screenshots/ButtonGroup/"
               )
             ),
           },
@@ -27,13 +27,13 @@ describe("tests for the motif-ui importer script", () => {
           "mockedStoryFile1.story.tsx": mock.load(
             path.resolve(
               __dirname,
-              "./motif-ui-lambda/motif-ui-components/colors/src/colors.story.tsx"
+              "../motif-ui-lambda/motif-ui-components/colors/src/colors.story.tsx"
             )
           ),
           "mockedStoryFile2.story.tsx": mock.load(
             path.resolve(
               __dirname,
-              "./motif-ui-lambda/motif-ui-components/button-group/src/ButtonGroup.story.tsx"
+              "../motif-ui-lambda/motif-ui-components/button-group/src/ButtonGroup.story.tsx"
             )
           ),
         },
@@ -44,19 +44,19 @@ describe("tests for the motif-ui importer script", () => {
                 "README.md": mock.load(
                   path.resolve(
                     __dirname,
-                    "./motif-ui-lambda/motif-ui-components/colors/README.md"
+                    "../motif-ui-lambda/motif-ui-components/colors/README.md"
                   )
                 ),
                 "package.json": mock.load(
                   path.resolve(
                     __dirname,
-                    "./motif-ui-lambda/motif-ui-components/colors/package.json"
+                    "../motif-ui-lambda/motif-ui-components/colors/package.json"
                   )
                 ),
                 src: mock.load(
                   path.resolve(
                     __dirname,
-                    "./motif-ui-lambda/motif-ui-components/colors/src"
+                    "../motif-ui-lambda/motif-ui-components/colors/src"
                   )
                 ),
               },
@@ -66,19 +66,19 @@ describe("tests for the motif-ui importer script", () => {
                 "README.md": mock.load(
                   path.resolve(
                     __dirname,
-                    "./motif-ui-lambda/motif-ui-components/button-group/README.md"
+                    "../motif-ui-lambda/motif-ui-components/button-group/README.md"
                   )
                 ),
                 "package.json": mock.load(
                   path.resolve(
                     __dirname,
-                    "./motif-ui-lambda/motif-ui-components/button-group/package.json"
+                    "../motif-ui-lambda/motif-ui-components/button-group/package.json"
                   )
                 ),
                 src: mock.load(
                   path.resolve(
                     __dirname,
-                    "./motif-ui-lambda/motif-ui-components/button-group/src"
+                    "../motif-ui-lambda/motif-ui-components/button-group/src"
                   )
                 ),
               },
@@ -184,6 +184,8 @@ describe("tests for the motif-ui importer script", () => {
   ];
 
   test("initiates the components array for all components", async () => {
+    console.log('hey',path.resolve(__dirname,'../motif-ui-lambda'))
+
     let resultAfterFunction = await importer.extractComponents(
       mockedSubdirectories
     );
