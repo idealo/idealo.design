@@ -1,9 +1,23 @@
 @import "Styles/colors";
 
+.listView{
+  font-family: Roboto, sans-serif;
+  front-weight: 500;
+  front-style: normal;
+  letter-spacing: 0.2px;
+}
+
+.pageTitle{
+  margin-left: 3.5%;
+}
+
+.titleDetailView{
+  margin-left: 15px;
+}
+
 .list {
   overflow: hidden;
-  margin: 1rem;
-  margin-right: 2.5rem;
+  margin: 1rem 2.5rem 1rem 1rem;
   position: relative;
 }
 
@@ -25,7 +39,8 @@
 }
 
 .multiselect {
-  margin: 5px;
+  margin-left: 3.5%;
+  margin-bottom: 8px;
   width: 40%;
   background: $color_gray_200;
 }
@@ -41,12 +56,13 @@
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  margin: 5px;
 }
 
 .item {
   background: $color_gray_200;
   width: 25%;
-  margin: 7px 2px;
+  margin: 7px 0;
   padding: 10px;
 
   .title {
@@ -59,7 +75,7 @@
   }
 
   .tags {
-    color: blue;
+    color: #0771D0;
     font-size: 90%;
     display: inline-flex;
     margin: 0px;
@@ -71,6 +87,11 @@
   color: white;
   padding: 50px;
   margin: 0;
+  font-family: Roboto, sans-serif;
+  front-weight: 500;
+  front-style: normal;
+  font-size: 16px;
+  letter-spacing: 0.2px;
 
   ul {
     list-style-type: none;
@@ -92,11 +113,11 @@
   }
 
   li a:hover:not(.active) {
-    color: $color_orange;
+    color: #0771D0;
   }
 
   .active {
-    color: $color_orange;
+    color: #0771D0;
   }
 }
 
@@ -118,14 +139,21 @@
 .LinkToBitbucket{
   text-decoration: none;
   color: white;
+  font-family: Roboto, sans-serif;
+  front-weight: 500;
+  front-style: normal;
+  font-size: 16px;
+  letter-spacing: 0.2px;
 }
 
 .buttonToBitbucket{
   float:right;
-  margin: 0px;
-  background: $color_orange;
-  color: white;
-  border: none;
+  margin: 5px;
+  background-color: #0771D0;
+  background-blend-mode: normal;
   border-radius: 4px;
-  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  height: 40px;
+  border: 1px;
 }
