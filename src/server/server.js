@@ -24,6 +24,7 @@ import {
   storeSinglePost,
   updateSinglePost,
   fetchDistinctCategories,
+  fetchBlogpostSlugById,
   deleteSinglePost,
   archiveSinglePost,
   fetchAllTitles,
@@ -326,6 +327,12 @@ app.post("/api/blogposts", isAuthenticated, async (req, res) => {
 
 app.get("/api/categories", isAuthenticated, async (req, res) => {
   const categories = await fetchAllCategories();
+  return res.json(categories);
+});
+
+app.get("/api/blogpostSlug/:id?", async (req, res) => {
+  const { id } = req.params;
+  const categories = await fetchBlogpostSlugById({id});
   return res.json(categories);
 });
 

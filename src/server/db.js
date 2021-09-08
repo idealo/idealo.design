@@ -18,6 +18,11 @@ export async function fetchDistinctCategories() {
   return sql`select distinct categoryDisplayValue, LOWER(categorySlug) as categoryslug from blogposts where isArchived = 0`;
 }
 
+export async function fetchBlogpostSlugById({id}) {
+  const slug = await sql`select slug from blogposts where id=${id}`
+  return slug[0];
+}
+
 export async function fetchPostsByCategorySlug({ categorySlug }) {
   return sql`select * from blogposts where categoryslug = ${categorySlug} AND isArchived = 0 ORDER BY blogposts.date DESC`;
 }
@@ -60,13 +65,14 @@ export async function storeSinglePost({
           ${date},
           ${image},
           ${blogpostcontent},
-          (select slug from blogposts where isArchived = 0 and date=(select max(date) from blogposts where isArchived= 0)),
+          (select id from blogposts where isArchived = 0 and date=(select max(date) from blogposts where isArchived= 0)),
           ${isArchived}
         );`;
 
+    const id = await sql`select id from blogposts where slug=${slug};`;
     const updatePost = await sql`
         update blogposts
-        set previouspost=${slug}
+        set previouspost=${id[0].id}
         where isArchived = 0 and date= (select max(date) from blogposts where isArchived= 0 and date<(select max(date) from blogposts))
         and slug not in (${slug});`;
 
