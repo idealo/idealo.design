@@ -22,9 +22,8 @@ jobs:
           node-version: 13
       - run: |
           npm ci
-          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:unit
+          npm run test:unit
           npm run test:scripts
-          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:consumer
+          npm run test:consumer
           DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:provider
-          npm run import:figma
           npm run build
