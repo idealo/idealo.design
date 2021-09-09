@@ -18,9 +18,10 @@ export async function fetchDistinctCategories() {
   return sql`select distinct categoryDisplayValue, LOWER(categorySlug) as categoryslug from blogposts where isArchived = 0`;
 }
 
-export async function fetchBlogpostSlugById({id}) {
-  const slug = await sql`select slug from blogposts where id=${id}`
-  return slug[0];
+export async function fetchPrevSlugAndNextSlugById({id}) {
+  const slugPrevPost = await sql`select slug from blogposts where nextpost=${id}`
+  const slugNextPost = await sql`select slug from blogposts where previouspost=${id}`
+  return [slugPrevPost[0], slugNextPost[0]];
 }
 
 export async function fetchPostsByCategorySlug({ categorySlug }) {

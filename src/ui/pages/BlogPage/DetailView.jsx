@@ -49,16 +49,16 @@ export class DetailView extends React.Component {
       userInfo: await fetchUserInfo(),
     });
     ReactModal.setAppElement("body");
-    if(this.state.blogpost.previouspost){
-      const idPreviouspost = await fetchBlogpostSlugById({id: this.state.blogpost.previouspost })
+
+    const slugsPreviousAndNextPost = await fetchBlogpostSlugById({id: this.state.blogpost.id })
+    if(slugsPreviousAndNextPost[0]!==null){
       this.setState({
-        slugPreviouspost: idPreviouspost.slug
+        slugPreviouspost: slugsPreviousAndNextPost[0].slug,
       })
     }
-    if(this.state.blogpost.nextpost){
-      const idNextpost = await fetchBlogpostSlugById({id: this.state.blogpost.nextpost })
+    if(slugsPreviousAndNextPost[1]!==null){
       this.setState({
-        slugNextpost: idNextpost.slug
+        slugNextpost: slugsPreviousAndNextPost[1].slug,
       })
     }
   }
@@ -229,6 +229,7 @@ export class DetailView extends React.Component {
         <div className={s.ButtonNavigation}>
           {this.state.blogpost.previouspost && (
             <a
+              title="prevPost"
               href={`/blog/${this.state.slugPreviouspost}`}
               onClick={this.scrollToTop}
               className={s.ButtonPrevious}
@@ -238,6 +239,7 @@ export class DetailView extends React.Component {
           )}
           {this.state.blogpost.nextpost && (
             <a
+              title="nextPost"
               href={`/blog/${this.state.slugNextpost}`}
               onClick={this.scrollToTop}
               className={s.ButtonNext}

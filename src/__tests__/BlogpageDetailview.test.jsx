@@ -8,15 +8,14 @@ jest.mock("../ui/pages/BlogPage/data", () => {
   return { fetchUserInfo: jest.fn(), fetchSinglePost: jest.fn(), fetchBlogpostSlugById: jest.fn() };
 });
 
-const mockupNextBlogpost = {
-  id: 1,
-  slug: 'mockupNextBlogpost'
-}
-
-const mockupPrevBlogpost = {
-  id: 3,
-  slug: 'mockupPrevBlogpost'
-}
+const mockupPrevNextBlogpost = [
+  {
+    slug: 'mockupPrevBlogpost'
+  },
+  {
+    slug: 'mockupNextBlogpost'
+  }
+]
 
 const mockupBlogpost = {
   id: 2,
@@ -27,7 +26,7 @@ const mockupBlogpost = {
   categoryslug: "docker",
   slug: "Einstieg-in-die-Welt-der-Datenbanken",
   date: "2021-01-20T13:46:44.351Z",
-  image: "https://s12.directupload.net/images/210212/bd5j6kn8.jpg",
+  image: "https://myimage.jpg",
   autor: "Mock-up Author",
   email: "mock-up-posts@gmail.com",
   instagram: null,
@@ -51,29 +50,29 @@ const mockupBlogpost = {
   isarchived: 0,
 };
 
-test("detailView gets rendered with content and buttons", async () => {
-  const userInfo = {
-    status: "LOGGED_IN",
-    user: {
-      "@odata.context": null,
-      businessPhones: [],
-      displayName: null,
-      givenName: null,
-      jobTitle: null,
-      mail: null,
-      mobilePhone: null,
-      officeLocation: null,
-      preferredLanguage: null,
-      surname: null,
-      userPrincipalName: null,
-      id: null,
-    },
-  };
+const userInfo = {
+  status: "LOGGED_IN",
+  user: {
+    "@odata.context": null,
+    businessPhones: [],
+    displayName: null,
+    givenName: null,
+    jobTitle: null,
+    mail: null,
+    mobilePhone: null,
+    officeLocation: null,
+    preferredLanguage: null,
+    surname: null,
+    userPrincipalName: null,
+    id: null,
+  },
+};
 
+
+test("detailView gets rendered with content and buttons", async () => {
   fetchUserInfo.mockReturnValue(userInfo);
   fetchSinglePost.mockReturnValue(mockupBlogpost);
-  fetchBlogpostSlugById.mockReturnValue(mockupNextBlogpost);
-  fetchBlogpostSlugById.mockReturnValue(mockupPrevBlogpost)
+  fetchBlogpostSlugById.mockReturnValue(mockupPrevNextBlogpost)
 
   const mockedParams = {
     match: { params: { slug: "Einstieg-in-die-Welt-der-Datenbanken" } },
@@ -90,11 +89,13 @@ test("detailView gets rendered with content and buttons", async () => {
     const blogpostImage = screen.getByRole("img", { name: "blogpostImage" });
     expect(blogpostImage).toBeInTheDocument();
     expect(blogpostImage.src).toContain(
-      "https://s12.directupload.net/images/210212/bd5j6kn8.jpg"
+      "https://myimage.jpg"
     );
 
     expect(screen.getByTitle("editButton")).toBeInTheDocument();
     expect(screen.getByTitle("deleteButton")).toBeInTheDocument();
+    expect(screen.getByTitle("prevPost").getAttribute("href")).toBe("/blog/mockupPrevBlogpost");
+    expect(screen.getByTitle("nextPost").getAttribute("href")).toBe("/blog/mockupNextBlogpost");
   });
 
   fireEvent.click(screen.getByTitle("deleteButton"));
@@ -108,24 +109,6 @@ test("detailView gets rendered with content and buttons", async () => {
 });
 
 test("detailView gets rendered with content but without edit and delete button", async () => {
-  const userInfo = {
-    status: "NOT_LOGGED_IN",
-    user: {
-      "@odata.context": null,
-      businessPhones: [],
-      displayName: null,
-      givenName: null,
-      jobTitle: null,
-      mail: null,
-      mobilePhone: null,
-      officeLocation: null,
-      preferredLanguage: null,
-      surname: null,
-      userPrincipalName: null,
-      id: null,
-    },
-  };
-
   fetchUserInfo.mockReturnValue(userInfo);
   fetchSinglePost.mockReturnValue(mockupBlogpost);
 
