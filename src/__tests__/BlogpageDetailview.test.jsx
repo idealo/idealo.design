@@ -1,18 +1,28 @@
-import { fetchSinglePost, fetchUserInfo } from "../ui/pages/BlogPage/data";
+import { fetchSinglePost, fetchUserInfo, fetchBlogpostSlugById } from "../ui/pages/BlogPage/data";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { DetailView } from "../ui/pages/BlogPage/DetailView";
 import React from "react";
 
 jest.mock("../ui/pages/BlogPage/data", () => {
-  return { fetchUserInfo: jest.fn(), fetchSinglePost: jest.fn() };
+  return { fetchUserInfo: jest.fn(), fetchSinglePost: jest.fn(), fetchBlogpostSlugById: jest.fn() };
 });
 
+const mockupNextBlogpost = {
+  id: 1,
+  slug: 'mockupNextBlogpost'
+}
+
+const mockupPrevBlogpost = {
+  id: 3,
+  slug: 'mockupPrevBlogpost'
+}
+
 const mockupBlogpost = {
-  id: 1111,
+  id: 2,
   title: "A mockup blogpost",
-  nextpost: "docker",
-  previouspost: "mein-erstes-mal-mit-react",
+  nextpost: 1,
+  previouspost: 3,
   categorydisplayvalue: "Docker",
   categoryslug: "docker",
   slug: "Einstieg-in-die-Welt-der-Datenbanken",
@@ -62,6 +72,8 @@ test("detailView gets rendered with content and buttons", async () => {
 
   fetchUserInfo.mockReturnValue(userInfo);
   fetchSinglePost.mockReturnValue(mockupBlogpost);
+  fetchBlogpostSlugById.mockReturnValue(mockupNextBlogpost);
+  fetchBlogpostSlugById.mockReturnValue(mockupPrevBlogpost)
 
   const mockedParams = {
     match: { params: { slug: "Einstieg-in-die-Welt-der-Datenbanken" } },
