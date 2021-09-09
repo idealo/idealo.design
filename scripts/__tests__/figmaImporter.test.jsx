@@ -1,5 +1,3 @@
-const mock = require("mock-fs");
-const path = require("path");
 const importer = require("../figmaImporter");
 
 describe("tests for the figma importer script", () => {

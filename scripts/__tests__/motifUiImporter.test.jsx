@@ -1,6 +1,9 @@
 const mock = require("mock-fs");
 const path = require("path");
 const importer = require("../motifuiImporter");
+'use strict'
+
+const __dirname = path.resolve("./")
 
 describe("tests for the motif-ui importer script", () => {
   afterEach(async () => {
@@ -9,85 +12,49 @@ describe("tests for the motif-ui importer script", () => {
 
   beforeEach(function () {
     mock(
-      {
-        "../motif-ui-lambda/screenshots": mock.directory({
-          items: {
-            Colors: mock.load(
-              path.resolve(__dirname, "../motif-ui-lambda/screenshots/Colors/")
-            ),
-            ButtonGroup: mock.load(
-              path.resolve(
-                __dirname,
-                "../motif-ui-lambda/screenshots/ButtonGroup/"
-              )
-            ),
+        {
+          scripts: {
+            "motif-ui-lambda": {
+              screenshots: {
+                Colors: {
+                  "blue.png": Buffer.from([1, 2, 3, 4]),
+                  "grey.png": Buffer.from([2, 3, 4, 5]),
+                  "primary.png": Buffer.from([3, 4, 5, 6]),
+                  "secondary.png": Buffer.from([4, 5, 6, 7])
+                },
+                ButtonGroup: {
+                  "primary.png": Buffer.from([2, 5, 6])
+                }
+              },
+              "motif-ui-components": {
+                colors: {
+                  "package.json": "{\"name\": \"@motif/colors\",\n \"keywords\": [\n\"motif\",\n\"motif-ui\",\n\"colors\"\n]}",
+                  "README.md": '#Readme\n\nThis ist Readme of Colors',
+                  src: {
+                    "colors.story.tsx": "const stories = storiesOf('Colors', module)"
+                  }
+                },
+                "button-group": {
+                  "package.json": "{\"name\": \"@motif/button-group\",\n\"keywords\": [\n\"motif\",\n\"motif-ui\",\n\"button-group\",\n\"react\"\n]}",
+                  "README.md": '#Readme\n\nThis ist Readme of ButtonGroup',
+                  src: {
+                    "ButtonGroup.story.tsx": "const stories = storiesOf('ButtonGroup', module)"
+                  }
+                }
+              }
+            }
           },
-        }),
-        "path/": {
-          "mockedStoryFile1.story.tsx": mock.load(
-            path.resolve(
-              __dirname,
-              "../motif-ui-lambda/motif-ui-components/colors/src/colors.story.tsx"
-            )
-          ),
-          "mockedStoryFile2.story.tsx": mock.load(
-            path.resolve(
-              __dirname,
-              "../motif-ui-lambda/motif-ui-components/button-group/src/ButtonGroup.story.tsx"
-            )
-          ),
+          resources: {
+            static: {
+              assets: {
+                uploads: {
+
+                }
+              }
+            }
+          }
         },
-        "./motif-ui-lambda/motif-ui-components": mock.directory({
-          items: {
-            colors: mock.directory({
-              items: {
-                "README.md": mock.load(
-                  path.resolve(
-                    __dirname,
-                    "../motif-ui-lambda/motif-ui-components/colors/README.md"
-                  )
-                ),
-                "package.json": mock.load(
-                  path.resolve(
-                    __dirname,
-                    "../motif-ui-lambda/motif-ui-components/colors/package.json"
-                  )
-                ),
-                src: mock.load(
-                  path.resolve(
-                    __dirname,
-                    "../motif-ui-lambda/motif-ui-components/colors/src"
-                  )
-                ),
-              },
-            }),
-            "button-group": mock.directory({
-              items: {
-                "README.md": mock.load(
-                  path.resolve(
-                    __dirname,
-                    "../motif-ui-lambda/motif-ui-components/button-group/README.md"
-                  )
-                ),
-                "package.json": mock.load(
-                  path.resolve(
-                    __dirname,
-                    "../motif-ui-lambda/motif-ui-components/button-group/package.json"
-                  )
-                ),
-                src: mock.load(
-                  path.resolve(
-                    __dirname,
-                    "../motif-ui-lambda/motif-ui-components/button-group/src"
-                  )
-                ),
-              },
-            }),
-          },
-        }),
-        "./../resources/static/assets/uploads": mock.directory(),
-      },
-      { createCwd: true, createTmp: true }
+        { createCwd: true, createTmp: true }
     );
   });
 
@@ -96,20 +63,16 @@ describe("tests for the motif-ui importer script", () => {
     {
       name: "@motif/colors",
       keywords: ["motif", "motif-ui", "colors"],
-      readme:
-        '{"order":["Motif UI Colors","Installation","Usage"],"content":{"Motif UI Colors":{"head":"# Motif UI Colors","body":""},"Installation":{"head":"## Installation","body":"```bash\\nyarn add @motif/colors\\n```"},"Usage":{"head":"## Usage","body":"```js\\nimport {\\n  colorOrange,\\n  colorOrangeHover,\\n  colorBlue,\\n  colorBlueHover,\\n  colorGreen,\\n  colorGreenHover,\\n  colorRed,\\n  colorRedLight,\\n  colorYellow,\\n  colorMarine,\\n  colorMarineDark,\\n  colorNavy,\\n  colorMarineLight,\\n  colorMarineLighter,\\n  colorGrey900,\\n  colorGrey700,\\n  colorGrey600,\\n  colorGrey500,\\n  colorGrey300,\\n  colorGrey100,\\n  colorWhite,\\n} from \'@motif/colors\';\\n```"}}}',
+      readme: "{\"order\":[\"Readme\"],\"content\":{\"Readme\":{\"head\":\"#Readme\",\"body\":\"This ist Readme of Colors\"}}}",
       pathToStoryFile:
-        __dirname +
-        "/motif-ui-lambda/motif-ui-components/colors/src/colors.story.tsx",
+        path.resolve(__dirname, "./scripts/motif-ui-lambda/motif-ui-components/colors/src/colors.story.tsx"),
     },
     {
       name: "@motif/button-group",
       keywords: ["motif", "motif-ui", "button-group", "react"],
-      readme:
-        '{"order":["Motif-UI `button-group`","Installation","Usage"],"content":{"Motif-UI `button-group`":{"head":"# Motif-UI `button-group`","body":""},"Installation":{"head":"## Installation","body":"```bash\\nyarn add @motif/button-group\\n```"},"Usage":{"head":"## Usage","body":"```js\\nimport {ButtonGroup} from \'@motif/button-group\';\\n\\n<ButtonGroup>\\n  <Button>Press</Button>\\n  <Button>Start</Button>\\n</ButtonGroup>\\n```"}}}',
+      readme: "{\"order\":[\"Readme\"],\"content\":{\"Readme\":{\"head\":\"#Readme\",\"body\":\"This ist Readme of ButtonGroup\"}}}",
       pathToStoryFile:
-        __dirname +
-        "/motif-ui-lambda/motif-ui-components/button-group/src/ButtonGroup.story.tsx",
+        path.resolve(__dirname, "./scripts/motif-ui-lambda/motif-ui-components/button-group/src/ButtonGroup.story.tsx")
     },
   ];
 
@@ -118,13 +81,13 @@ describe("tests for the motif-ui importer script", () => {
       name: "mockedComponentName1",
       keywords: ["keyword1", "keyword2"],
       readme: "This is readme",
-      pathToStoryFile: "path/mockedStoryFile1.story.tsx",
+      pathToStoryFile: "scripts/motif-ui-lambda/motif-ui-components/colors/src/colors.story.tsx",
     },
     {
       name: "mockedComponentName2",
       keywords: ["keyword1", "keyword2"],
       readme: "This is readme",
-      pathToStoryFile: "path/mockedStoryFile2.story.tsx",
+      pathToStoryFile: "scripts/motif-ui-lambda/motif-ui-components/button-group/src/ButtonGroup.story.tsx",
     },
   ];
 
@@ -184,8 +147,6 @@ describe("tests for the motif-ui importer script", () => {
   ];
 
   test("initiates the components array for all components", async () => {
-    console.log('hey',path.resolve(__dirname,'../motif-ui-lambda'))
-
     let resultAfterFunction = await importer.extractComponents(
       mockedSubdirectories
     );
