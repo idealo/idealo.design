@@ -50,8 +50,8 @@ export async function fetchAllCategories(base_url = API_BASE) {
   return resp.json();
 }
 
-export async function fetchBlogpostSlugById({id},base_url = API_BASE) {
-  const resp = await fetch(`${base_url}/api/blogpostSlug/${id}`);
+export async function fetchPrevSlugAndNextSlugById({id},base_url = API_BASE) {
+  const resp = await fetch(`${base_url}/api/blogpostPrevSlugAndNextSlug/${id}`);
   return resp.json();
 }
 

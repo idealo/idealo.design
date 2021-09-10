@@ -10,7 +10,7 @@ import {
   deleteSinglePost,
   fetchSinglePost,
   fetchUserInfo,
-  fetchBlogpostSlugById
+  fetchPrevSlugAndNextSlugById
 } from "./data";
 
 import { withRouter } from "react-router";
@@ -50,7 +50,7 @@ export class DetailView extends React.Component {
     });
     ReactModal.setAppElement("body");
 
-    const slugsPreviousAndNextPost = await fetchBlogpostSlugById({id: this.state.blogpost.id })
+    const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
     if(slugsPreviousAndNextPost[0]!==null){
       this.setState({
         slugPreviouspost: slugsPreviousAndNextPost[0].slug,

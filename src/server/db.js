@@ -19,9 +19,16 @@ export async function fetchDistinctCategories() {
 }
 
 export async function fetchPrevSlugAndNextSlugById({id}) {
-  const slugPrevPost = await sql`select slug from blogposts where nextpost=${id}`
-  const slugNextPost = await sql`select slug from blogposts where previouspost=${id}`
-  return [slugPrevPost[0], slugNextPost[0]];
+  const storeSinglePostTransaction = await sql.begin(async (sql) => {
+    const slugPrevPost = await sql`select slug
+                                   from blogposts
+                                   where nextpost = ${id}`
+    const slugNextPost = await sql`select slug
+                                   from blogposts
+                                   where previouspost = ${id}`
+    return [slugPrevPost[0], slugNextPost[0]];
+  });
+  return storeSinglePostTransaction;
 }
 
 export async function fetchPostsByCategorySlug({ categorySlug }) {
