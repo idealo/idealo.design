@@ -17,25 +17,7 @@ import { OAuth2Strategy } from "passport-oauth";
 import Renderer from "./renderer";
 
 import {
-  fetchAllCategories,
-  fetchList,
-  fetchPostsByCategorySlug,
-  fetchSinglePost,
-  storeSinglePost,
-  updateSinglePost,
-  fetchDistinctCategories,
-  deleteSinglePost,
-  archiveSinglePost,
-  fetchAllTitles,
-  fetchComponents,
-  fetchTags,
-  fetchMap,
-  updateSingleComponent,
-  fetchSingleComponent,
-  deleteSingleComponent,
-  importSingleComponent,
-  fetchScreenshots,
-  fetchReadMe,
+  Blog
 } from "./db";
 
 const dangerousTestModeArgument =
@@ -303,14 +285,14 @@ app.get("/api/blogposts/:slug?", async (req, res) => {
     let posts = [];
 
     if (categorySlug) {
-      posts = await fetchPostsByCategorySlug({ categorySlug });
+      posts = await Blog.fetchAllBlogpostsByCategorySlug({ categorySlug });
     } else {
-      posts = await fetchList();
+      posts = await Blog.fetchAllBlogposts();
     }
     return res.json(posts);
   }
 
-  const blogpost = await fetchSinglePost({ slug });
+  const blogpost = await Blog.fetchSingleBlogpost({ slug });
   return res.json(blogpost);
 });
 
@@ -319,23 +301,30 @@ app.post("/api/blogposts", isAuthenticated, async (req, res) => {
   newBlogpost.slug = slugify(newBlogpost.title);
   newBlogpost.date = new Date().toISOString();
   newBlogpost.blogpostcontent = req.body.blogpostcontent;
-  const createdBlogpost = await storeSinglePost(newBlogpost);
+  const createdBlogpost = await Blog.insertSingleBlogpost(newBlogpost);
 
   return res.json(createdBlogpost);
 });
 
 app.get("/api/categories", isAuthenticated, async (req, res) => {
-  const categories = await fetchAllCategories();
+  const categories = await Blog.fetchAllCategories();
   return res.json(categories);
 });
 
 app.get("/api/title", isAuthenticated, async (req, res) => {
-  const titles = await fetchAllTitles();
-  return res.json(titles);
+  /*const titles = await fetchAllTitles();
+  return res.json(titles);*/
+});
+
+app.get("/api/blogpostPrevSlugAndNextSlug/:id?", async (req, res) => {
+  const { id } = req.params;
+
+  const categories = await Blog.fetchPrevAndNextSlugByBlogpostId({id: id});
+  return res.json(categories);
 });
 
 app.get("/api/distinctCategories", async (req, res) => {
-  const categories = await fetchDistinctCategories();
+  const categories = await Blog.fetchAllCategories();
   return res.json(categories);
 });
 

@@ -10,6 +10,7 @@ import {
   deleteSinglePost,
   fetchSinglePost,
   fetchUserInfo,
+    fetchPrevSlugAndNextSlugById
 } from "./data";
 
 import { withRouter } from "react-router";
@@ -24,8 +25,11 @@ export class DetailView extends React.Component {
       userInfo: [],
       blogpost: {},
       slug: null,
+      slugPreviouspost: null,
+      slugNextpost: null,
       isPromptOpen: false,
     };
+
     this.handlePostEdit = this.handlePostEdit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.handlePopup = this.handlePopup.bind(this);
@@ -38,7 +42,7 @@ export class DetailView extends React.Component {
     const slug = this.props.match.params.slug;
     if (slug) {
       this.setState({
-        blogpost: await fetchSinglePost({ slug }),
+        blogpost: await fetchSinglePost({ slug: slug }),
         slug: slug,
       });
     }
@@ -46,6 +50,22 @@ export class DetailView extends React.Component {
       userInfo: await fetchUserInfo(),
     });
     ReactModal.setAppElement("body");
+
+    const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
+    console.log('is',slugsPreviousAndNextPost[0])
+    console.log('is',slugsPreviousAndNextPost[1])
+    if(slugsPreviousAndNextPost[0]!==null){
+      this.setState({
+        slugPreviouspost: slugsPreviousAndNextPost[0].slug,
+      })
+    }
+    if(slugsPreviousAndNextPost[1]!==null){
+      this.setState({
+        slugNextpost: slugsPreviousAndNextPost[1].slug,
+      })
+    }
+    console.log(this.state.slugNextpost)
+    console.log(this.state.slugPreviouspost)
   }
 
   async componentDidUpdate(prevProps) {
@@ -214,7 +234,8 @@ export class DetailView extends React.Component {
         <div className={s.ButtonNavigation}>
           {this.state.blogpost.previouspost && (
             <a
-              href={`/blog/${this.state.blogpost.previouspost}`}
+                title="prevPost"
+                href={`/blog/${this.state.slugPreviouspost}`}
               onClick={this.scrollToTop}
               className={s.ButtonPrevious}
             >
@@ -223,7 +244,8 @@ export class DetailView extends React.Component {
           )}
           {this.state.blogpost.nextpost && (
             <a
-              href={`/blog/${this.state.blogpost.nextpost}`}
+                title="nextPost"
+                href={`/blog/${this.state.slugNextpost}`}
               onClick={this.scrollToTop}
               className={s.ButtonNext}
             >
