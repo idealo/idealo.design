@@ -92,8 +92,8 @@ export class ComponentsListView extends React.Component {
   render() {
     const library = " Library";
     return (
-      <div className={s.listView}>
-        <h1 className={s.pageTitle} >{library}</h1>
+      <div>
+        <h1>{library}</h1>
         {this.state.userInfo.status === "LOGGED_IN" ? (
           <div>
             <React.Fragment>
