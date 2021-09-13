@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const nodeExternals = require('webpack-node-externals');
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 
@@ -296,6 +297,11 @@ const server = function(env, argv) {
       }),
     ],
 
+    externals: [
+      'pg',
+      'pg-hstore',
+      nodeExternals()
+    ],
 
   }
 
