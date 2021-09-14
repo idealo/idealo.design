@@ -344,7 +344,7 @@ app.put("/api/blogposts", isAuthenticated, async (req, res) => {
 
 app.put("/api/blogposts/archive", isAuthenticated, async (req, res) => {
   const blogpost = req.body;
-  const archiveBlogpost = await archiveSinglePost(blogpost);
+  const archiveBlogpost = Blog.archiveSingleBlogpost(blogpost);
   return res.json(archiveBlogpost);
 });
 

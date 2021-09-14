@@ -1,4 +1,4 @@
-import {Sequelize, Model, DataTypes, Op} from 'sequelize'
+import {Sequelize, Model, DataTypes, Op } from 'sequelize'
 
 const sequelize = new Sequelize (
     process.env.POSTGRES_URL ||
@@ -18,10 +18,6 @@ const sequelize = new Sequelize (
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
-
-  //await Blog.fetchPrevAndNextSlugByBlogpostId({id:6})
-  //await sequelize.sync()
-  //await sequelize.close()
 })();
 
 export class Blog extends Model {
@@ -134,7 +130,7 @@ export class Blog extends Model {
                               }){
     const ta = await sequelize.transaction()
     try {
-      const newBlogpost = await Blog.create({
+      await Blog.create({
         title: title,
         date: date,
         categorydisplayvalue: categoryDisplayValue,
@@ -151,8 +147,7 @@ export class Blog extends Model {
               attributes: [[sequelize.fn('max', sequelize.col('date')), 'date']],
               where: {
                 isarchived: 0
-              },
-              transaction: ta
+              }
             }).then(date => {
               return date.dataValues.date
             })
@@ -163,13 +158,12 @@ export class Blog extends Model {
         })
       })
 
-      const updateNextPost = await Blog.update({
+      await Blog.update({
             previouspost: await Blog.findOne({
               attributes: ['id'],
               where: {
                 slug: slug
-              },
-              transaction: ta
+              }
             }).then(id => {
               return id.dataValues.id
             }),
@@ -185,8 +179,7 @@ export class Blog extends Model {
                     {
                       date: {
                         [Op.lt]: await Blog.findOne({
-                          attributes: [[sequelize.fn('max', sequelize.col('date')), 'date']],
-                          transaction: ta
+                          attributes: [[sequelize.fn('max', sequelize.col('date')), 'date']]
                         }).then(date => {
                           return date.dataValues.date
                         })
@@ -198,7 +191,7 @@ export class Blog extends Model {
               }).then(date => {
                 return date.dataValues.date
               })
-            }, transaction: ta
+            }
           })
       await ta.commit()
     }catch (e) {
@@ -288,6 +281,76 @@ export class Blog extends Model {
         transaction: ta
       })
 
+      await ta.commit()
+    }catch (e) {
+      console.error(e)
+      await ta.rollback()
+    }
+  }
+
+  static async archiveSingleBlogpost(blog) {
+    const ta = await sequelize.transaction()
+    try{
+      if(blog.previouspost === null){
+        await Blog.update({
+          previouspost: null
+        }, {
+          where: {
+            previouspost: blog.id
+          },
+          transaction: ta
+        })
+
+        await Blog.update({
+          isarchived: 1,
+          previouspost: null,
+          nextpost: null
+        }, {
+          where: {
+            id: blog.id
+          },
+          transaction: ta
+        })
+      }else if(blog.nextpost && blog.previouspost){
+        await Blog.update({
+          previouspost: blog.previouspost
+        }, {
+          where: {
+            previouspost: blog.id
+          },
+          transaction: ta
+        })
+
+        await Blog.update({
+          nextpost: blog.nextpost
+        },{
+          where: {
+            nextpost: blog.id
+          }
+        })
+
+        await Blog.update({
+          isarchived: 1,
+          previouspost: null,
+          nextpost: null
+        }, {
+          where: {
+            id: blog.id
+          },
+          transaction: ta
+        })
+      }else {
+        await Blog.update({
+          isarchived: 1,
+          previouspost: null,
+          nextpost: null
+        }, {
+          where: {
+            id: blog.id
+          },
+          transaction: ta
+        })
+      }
       await ta.commit()
     }catch (e) {
       console.error(e)
