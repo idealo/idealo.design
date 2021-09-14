@@ -300,7 +300,7 @@ app.post("/api/blogposts", isAuthenticated, async (req, res) => {
   const newBlogpost = req.body;
   newBlogpost.slug = slugify(newBlogpost.title);
   newBlogpost.date = new Date().toISOString();
-  newBlogpost.blogpostcontent = req.body.blogpostcontent;
+  newBlogpost.blogpostcontent = JSON.parse(req.body.blogpostcontent);
   const createdBlogpost = await Blog.insertSingleBlogpost(newBlogpost);
 
   return res.json(createdBlogpost);
@@ -337,7 +337,7 @@ app.put("/api/blogposts", isAuthenticated, async (req, res) => {
   updatedBlogpost.slug = slugify(updatedBlogpost.title);
   updatedBlogpost.date = new Date().toISOString();
 
-  const createdBlogpost = await updateSinglePost(updatedBlogpost);
+  const createdBlogpost = await Blog.updateBlogpost(updatedBlogpost);
 
   return res.json(createdBlogpost);
 });
@@ -350,7 +350,7 @@ app.put("/api/blogposts/archive", isAuthenticated, async (req, res) => {
 
 app.put("/api/blogposts/delete", isAuthenticated, async (req, res) => {
   const blogpost = req.body;
-  await deleteSinglePost(blogpost);
+  await Blog.deleteSingleBlogpost(blogpost);
   return res.json("successfully deleted blogpost");
 });
 

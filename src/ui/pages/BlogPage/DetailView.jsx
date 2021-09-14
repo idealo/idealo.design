@@ -52,8 +52,6 @@ export class DetailView extends React.Component {
     ReactModal.setAppElement("body");
 
     const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
-    console.log('is',slugsPreviousAndNextPost[0])
-    console.log('is',slugsPreviousAndNextPost[1])
     if(slugsPreviousAndNextPost[0]!==null){
       this.setState({
         slugPreviouspost: slugsPreviousAndNextPost[0].slug,
@@ -64,8 +62,6 @@ export class DetailView extends React.Component {
         slugNextpost: slugsPreviousAndNextPost[1].slug,
       })
     }
-    console.log(this.state.slugNextpost)
-    console.log(this.state.slugPreviouspost)
   }
 
   async componentDidUpdate(prevProps) {
