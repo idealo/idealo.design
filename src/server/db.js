@@ -405,7 +405,6 @@ export class Screenshots extends Model {}
 export class Library extends Model {
     static async fetchAllComponents(){
         try {
-            const components = []
             return Library.findAll({
                 include: [{
                     model: Tags,
