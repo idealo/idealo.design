@@ -23,6 +23,12 @@ import './styles/colors.scss'
 import CookieConsent from "react-cookie-consent";
 
 function App() {
+    function consentGranted() {
+        gtag('consent', 'update', {
+            'ad_storage': 'granted'
+        });
+    }
+
     return (
         <PageLayout>
             <Switch>
