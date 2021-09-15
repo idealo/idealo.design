@@ -60,11 +60,6 @@ export async function fetchDistinctCategories(base_url = API_BASE) {
   return resp.json();
 }
 
-export async function fetchAllTitles(base_url = API_BASE) {
-  const resp = await fetch(`${base_url}/api/title`);
-  return resp.json();
-}
-
 export async function fetchUserInfo(base_url = API_BASE) {
   const resp = await fetch(`${base_url}/api/me`);
   return resp.json();

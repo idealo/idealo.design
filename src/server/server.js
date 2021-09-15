@@ -16,9 +16,7 @@ import { OAuth2Strategy } from "passport-oauth";
 
 import Renderer from "./renderer";
 
-import {
-  Blog
-} from "./db";
+import {Blog, Library, Tags} from "./db"
 
 const dangerousTestModeArgument =
   !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false;
@@ -193,34 +191,13 @@ app.get("/logout", function (req, res) {
 });
 
 app.get("/api/components", isAuthenticated, async (req, res) => {
-  const components = await fetchComponents();
+  const components = await Library.fetchAllComponents();
   return res.json(components);
 });
 
-app.get(
-  "/api/screenshots/:screenshot_id?",
-  isAuthenticated,
-  async (req, res) => {
-    const screenshot_id = req.params;
-    const screenshots = await fetchScreenshots(screenshot_id);
-    return res.json(screenshots[0].screenshot);
-  }
-);
-
 app.get("/api/tags", isAuthenticated, async (req, res) => {
-  const tags = await fetchTags();
+  const tags = await Tags.fetchTags();
   return res.json(tags);
-});
-
-app.get("/api/map", isAuthenticated, async (req, res) => {
-  const map = await fetchMap();
-  return res.json(map);
-});
-
-app.get("/api/read/:slug?", isAuthenticated, async (req, res) => {
-  const { slug } = req.params;
-  const readme = await fetchReadMe({ slug });
-  return res.json(readme);
 });
 
 app.put("/api/components/update", isBasicAuthenticated, async (req, res) => {
@@ -243,10 +220,10 @@ app.put("/api/components/update", isBasicAuthenticated, async (req, res) => {
 
     const componentData = req.body;
 
-    res.status(200).send({
+    /*res.status(200).send({
       message: "Uploaded component successfully!",
       component: await importSingleComponent(screenshotPaths, componentData),
-    });
+    });*/
   } catch (err) {
     res.status(500).send({
       message: "Could not upload the screenshots." + err,
@@ -255,14 +232,14 @@ app.put("/api/components/update", isBasicAuthenticated, async (req, res) => {
 });
 
 app.put("/api/components/:component_id?", isAuthenticated, async (req, res) => {
-  const component = req.body;
+  /*const component = req.body;
   const updatedComponent = await updateSingleComponent(component);
-  return res.json(updatedComponent);
+  return res.json(updatedComponent);*/
 });
 
 app.get("/api/components/:slug?", isAuthenticated, async (req, res) => {
   const { slug } = req.params;
-  const singleComponent = await fetchSingleComponent({ slug });
+  const singleComponent = await Library.fetchSingleComponent({ slug });
   return res.json(singleComponent);
 });
 
@@ -270,11 +247,11 @@ app.delete(
   "/api/components/:component_id?",
   isAuthenticated,
   async (req, res) => {
-    const { component_id } = req.params;
+    /*const { component_id } = req.params;
     const deletedSingleComponent = await deleteSingleComponent({
       component_id,
     });
-    return res.json(deletedSingleComponent);
+    return res.json(deletedSingleComponent);*/
   }
 );
 
@@ -309,11 +286,6 @@ app.post("/api/blogposts", isAuthenticated, async (req, res) => {
 app.get("/api/categories", isAuthenticated, async (req, res) => {
   const categories = await Blog.fetchAllCategories();
   return res.json(categories);
-});
-
-app.get("/api/title", isAuthenticated, async (req, res) => {
-  /*const titles = await fetchAllTitles();
-  return res.json(titles);*/
 });
 
 app.get("/api/blogpostPrevSlugAndNextSlug/:id?", async (req, res) => {
