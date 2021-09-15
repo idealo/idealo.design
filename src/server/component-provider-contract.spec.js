@@ -1,21 +1,21 @@
 import { Verifier } from '@pact-foundation/pact'
 import path from 'path'
 import { app } from './server'
-import {
-    fetchMap,
-    fetchTags,
-    fetchComponents,
-    fetchSingleComponent
-} from './db'
+import {Library} from './models/Library'
+import {Tags} from './models/Tags'
 import '@testing-library/jest-dom/extend-expect';
-import {mockupComponent, mockupTags, mockupMap, mockupSingleComponent} from '../ui/pages/LibraryPage/component-consumer-contract.spec'
+import {mockupComponent, mockupTags, mockupSingleComponent} from '../ui/pages/LibraryPage/component-consumer-contract.spec'
 
-jest.mock('./db', () => {
+jest.mock('./models/Library', () => {
     return {
-        fetchMap: jest.fn(),
-        fetchTags: jest.fn(),
-        fetchComponents: jest.fn(),
+        fetchAllComponents: jest.fn(),
         fetchSingleComponent: jest.fn()
+    }
+})
+
+jest.mock('./models/Tags', () => {
+    return {
+        fetchTags: jest.fn()
     }
 })
 
@@ -24,10 +24,9 @@ describe('Pact Verification', () => {
     const server = app.listen(7777, '0000',() => console.log('server running for api testing') )
 
     test('should validate the expectations of our consumer', () => {
-        fetchMap.mockReturnValue([mockupMap])
-        fetchTags.mockReturnValue([mockupTags])
-        fetchComponents.mockReturnValue([mockupComponent])
-        fetchSingleComponent.mockReturnValue(mockupSingleComponent)
+        Tags.fetchTags.mockReturnValue([mockupTags])
+        Library.fetchAllComponents.mockReturnValue([mockupComponent])
+        Library.fetchSingleComponent.mockReturnValue(mockupSingleComponent)
 
         const opts = {
             provider: 'ComponentProvider',
