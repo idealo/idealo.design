@@ -16,7 +16,9 @@ import { OAuth2Strategy } from "passport-oauth";
 
 import Renderer from "./renderer";
 
-import {Blog, Library, Tags} from "./db"
+import {Library} from "./models/Library"
+import {Blog} from "./models/Blog"
+import {Tags} from "./models/Tags"
 
 const dangerousTestModeArgument =
   !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false;
