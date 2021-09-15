@@ -59,7 +59,8 @@ function App() {
               location="bottom"
               style={{ background: '#0A3761',fontFamily: 'Roboto, sans-serif'}}
               buttonStyle={{ color: 'white', background: '#0771D0', fontSize: '16px', fontFamily: 'Roboto, sans-serif', borderRadius: '4px', padding:'10px', margin: '15px 30px'}}
-              > This site uses cookies. See our <a style={{color:'white'}} href="https://www.idealo.co.uk/privacypolicy.html">privacy policy</a> for more.</CookieConsent>
+              onAccept={consentGranted}
+            > This site uses cookies. See our <a style={{color:'white'}} href="https://www.idealo.co.uk/privacypolicy.html">privacy policy</a> for more.</CookieConsent>
         </PageLayout>
     )
 }
