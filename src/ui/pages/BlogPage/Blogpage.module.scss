@@ -1,11 +1,5 @@
 @import "Styles/colors";
 
-.List {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 auto;
-}
-
 .Content {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -45,9 +39,7 @@
 }
 
 .ContentBox {
-  // padding: 1rem;
-  margin: 1rem;
-  margin-right: 2.5rem;
+  padding: 1rem;
   overflow: hidden;
 
   button {
@@ -157,14 +149,15 @@
 
 .container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 
 .item {
   background: $color_gray_200;
   width: 40%;
-  margin: 7px 2px;
+  margin-right: 15px;
+  margin-bottom: 30px;
   padding: 10px;
   height: 100%;
   box-shadow: 5px 5px 5px silver;
