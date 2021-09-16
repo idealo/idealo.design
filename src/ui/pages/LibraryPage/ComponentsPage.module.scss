@@ -28,14 +28,12 @@
 }
 
 .multiselect {
-  margin-left: 3.5%;
   margin-bottom: 8px;
   width: 40%;
   background: $color_gray_200;
 }
 
 .basic-multi-select {
-  margin: 5px;
   padding: 50px;
   width: 40%;
   background: $color_gray_200;
@@ -43,15 +41,14 @@
 
 .container {
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
-  margin: 5px;
 }
 
 .item {
   background: $color_gray_200;
   width: 25%;
-  margin: 7px 0;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
   padding: 10px;
 
   .title {
@@ -67,7 +64,7 @@
     color: #0771D0;
     font-size: 90%;
     display: inline-flex;
-    margin: 0px;
+    margin: 2px;
   }
 }
 
