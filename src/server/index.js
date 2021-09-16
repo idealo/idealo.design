@@ -1,8 +1,7 @@
 import { app } from "./server.js";
 import {DataTypes, Sequelize} from "sequelize";
-import {ComponentTagsMap, Library, Screenshots} from "./models/Library";
+import {ComponentTagsMap, Library, Screenshots, Tags} from "./models/Library";
 import {Blog} from "./models/Blog";
-import {Tags} from "./models/Tags"
 
 const PORT = process.env.HTTP_PORT || 8080;
 app.listen(PORT, "0.0.0.0", () => {
@@ -36,7 +35,9 @@ export const sequelize = new Sequelize (
       foreignKey: 'tag_id',
       through: ComponentTagsMap
     })
-    Screenshots.belongsTo(Library)
+    Screenshots.belongsTo(Library, {
+      foreignKey: 'component_id'
+    })
     Library.belongsToMany(Tags, {
       foreignKey: 'component_id',
       through: ComponentTagsMap

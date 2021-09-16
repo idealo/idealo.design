@@ -54,7 +54,7 @@ export class Blog extends Model {
                         }
                     }).then(resp => {
                         if (resp !== null) {
-                            return resp.dataValues.slug
+                            return resp.getDataValue('slug')
                         } else {
                             return null
                         }
@@ -73,7 +73,7 @@ export class Blog extends Model {
                         }
                     }).then(resp => {
                         if (resp !== null) {
-                            return resp.dataValues.slug
+                            return resp.getDataValue('slug')
                         } else {
                             return null
                         }
@@ -130,12 +130,12 @@ export class Blog extends Model {
                                 isarchived: 0
                             }
                         }).then(date => {
-                            return date.dataValues.date
+                            return date.getDataValue('date')
                         })
                     },
                     transaction: ta
                 }).then(id => {
-                    return id.dataValues.id
+                    return id.getDataValue('id')
                 })
             })
 
@@ -146,7 +146,7 @@ export class Blog extends Model {
                             slug: slug
                         }
                     }).then(id => {
-                        return id.dataValues.id
+                        return id.getDataValue('id')
                     }),
                 },
                 {
@@ -162,7 +162,7 @@ export class Blog extends Model {
                                             [Op.lt]: await Blog.findOne({
                                                 attributes: [[sequelize.fn('max', sequelize.col('date')), 'date']]
                                             }).then(date => {
-                                                return date.dataValues.date
+                                                return date.getDataValue('date')
                                             })
                                         }
                                     }
@@ -170,7 +170,7 @@ export class Blog extends Model {
                             },
                             transaction: ta
                         }).then(date => {
-                            return date.dataValues.date
+                            return date.getDataValue('date')
                         })
                     }
                 })

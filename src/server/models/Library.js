@@ -1,5 +1,4 @@
-import {Model} from "sequelize";
-import {Tags} from "./Tags";
+import {Model, Sequelize} from "sequelize";
 
 export class Library extends Model {
     static fetchAllComponents(){
@@ -20,14 +19,13 @@ export class Library extends Model {
                 libraries.map(library => {
                     const tags = []
                     const screenshots = []
-                    library.dataValues.tags.map(tag => {
-                        tags.push(tag.dataValues.tag_name)
+                    const component = library.toJSON()
+                    component.tags.map(tag => {
+                        tags.push(tag.tag_name)
                     })
-
-                    library.dataValues.screenshots.map(screenshot => {
-                        screenshots.push(screenshot.dataValues.screenshot)
+                    component.screenshots.map(screenshot => {
+                        screenshots.push(screenshot.screenshot)
                     })
-                    const component = library.dataValues
                     component.tags = tags
                     component.screenshots = screenshots
                     components.push(component)
@@ -40,26 +38,44 @@ export class Library extends Model {
     }
     static fetchSingleComponent({slug}){
         return Library.findOne({
-            include: [{
-                model: Screenshots,
-                required: true,
-                attributes: ['screenshot']
-
-            }],
             where: {
                 slug: slug
             }
-        }).then(component => {
-            const screenshots = []
-            component.dataValues.screenshots.map(screenshot => {
-                screenshots.push(screenshot.dataValues.screenshot)
-            })
-            const singleComponent = component.dataValues
-            singleComponent.screenshots = screenshots
+        }).then(async component => {
+            const singleComponent = component.toJSON()
+            singleComponent.screenshots = await Screenshots.fetchAllScreenshotPaths(singleComponent.component_id)
             return singleComponent
         })
     }
 }
 
+export class Tags extends Model {
+    static fetchTags(){
+        return Tags.findAll({
+            attributes: [
+                [Sequelize.fn('DISTINCT', Sequelize.col('tag_id')) ,'tag_name'], 'tag_name'
+            ]
+        }).then(tags => tags.map(tag => {
+            return tag.toJSON()
+        }))
+    }
+}
+
 export class ComponentTagsMap extends Model {}
-export class Screenshots extends Model {}
+
+export class Screenshots extends Model {
+    static fetchAllScreenshotPaths(componentId){
+        return Screenshots.findAll({
+            attributes: ['screenshot'],
+            where: {
+                component_id: componentId
+            }
+        }).then(screenshotPaths => {
+            const paths = []
+            screenshotPaths.map(screenshotPath => {
+                paths.push(screenshotPath.getDataValue('screenshot'))
+            })
+            return paths
+        })
+    }
+}
