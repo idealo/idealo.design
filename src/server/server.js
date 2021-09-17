@@ -290,10 +290,15 @@ app.get("/api/categories", isAuthenticated, async (req, res) => {
 });
 
 app.get("/api/blogpostPrevSlugAndNextSlug/:id?", async (req, res) => {
-  const { id } = req.params;
-
+  const {id} = req.params;
   const categories = await Blog.fetchPrevAndNextSlugByBlogpostId({id: id});
   return res.json(categories);
+})
+
+app.get("/api/title", isAuthenticated, async (req, res) => {
+  const titles = await Blog.fetchAllBlogpostTitles();
+  console.log(titles)
+  return res.json(titles);
 });
 
 app.get("/api/distinctCategories", async (req, res) => {

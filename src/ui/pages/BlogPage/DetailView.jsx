@@ -10,7 +10,7 @@ import {
   deleteSinglePost,
   fetchSinglePost,
   fetchUserInfo,
-    fetchPrevSlugAndNextSlugById
+  fetchPrevSlugAndNextSlugById
 } from "./data";
 
 import { withRouter } from "react-router";
@@ -197,14 +197,14 @@ export class DetailView extends React.Component {
               Delete
             </button>
           ) : (
-            <div></div>
+            <div/>
           )}
           {this.state.userInfo.status === "LOGGED_IN" ? (
             <button onClick={this.handlePostEdit} title="editButton">
               Edit
             </button>
           ) : (
-            <div></div>
+            <div/>
           )}
         </div>
 
@@ -230,8 +230,8 @@ export class DetailView extends React.Component {
         <div className={s.ButtonNavigation}>
           {this.state.blogpost.previouspost && (
             <a
-                title="prevPost"
-                href={`/blog/${this.state.slugPreviouspost}`}
+              title="prevPost"
+              href={`/blog/${this.state.slugPreviouspost}`}
               onClick={this.scrollToTop}
               className={s.ButtonPrevious}
             >
@@ -240,8 +240,8 @@ export class DetailView extends React.Component {
           )}
           {this.state.blogpost.nextpost && (
             <a
-                title="nextPost"
-                href={`/blog/${this.state.slugNextpost}`}
+              title="nextPost"
+              href={`/blog/${this.state.slugNextpost}`}
               onClick={this.scrollToTop}
               className={s.ButtonNext}
             >

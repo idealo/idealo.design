@@ -22,7 +22,7 @@ import { fetchDistinctCategories } from "../../pages/BlogPage/data"
 function createSections(addedData) {
     const {cats} = addedData;
     return [
-        {
+      /*  {
             icon: 'foundationsIcon',
             title: 'Foundations',
             children: [
@@ -30,7 +30,7 @@ function createSections(addedData) {
                 {title: 'Colors', href: '/foundations/colors'},
                 {title: 'Typography', href: '/foundations/typography'},
             ]
-        },
+        },*/
         {
             icon: 'AtomsIcon',
             title: 'Atoms',
@@ -84,14 +84,14 @@ function createSections(addedData) {
                     }
                 })),
         },
-        {
+    /*    {
             icon: 'assetsIcon',
             title: 'Assets',
             children: [
                 {title: 'Overview', href: '/assets'},
                 {title: 'Sketch', href: '/assets/sketch'},
             ]
-        },
+        },*/
         {
             icon: 'otherIcon',
             title: 'Other',
