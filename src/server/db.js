@@ -322,49 +322,6 @@ export async function fetchSingleComponent({ slug }) {
   return singleComponent[0];
 }
 
-export async function importSingleComponentFromFigma(componentData){
-  return sql.begin(async () => {
-    const slug = slugify(componentData.title);
-    await sql`delete
-                from components
-                where title = ${componentData.title} and figma_usage = ${JSON.stringify(componentData.content)}` ;
-
-    const allComponents = await sql `select component_id, title from components;`
-    let figmaTagId = await sql`select tag_id from tags where tag_name='figma'`;
-    if (figmaTagId[0] === undefined) {
-      await sql`insert into tags (tag_name) values ('figma')`;
-      figmaTagId = await sql`select tag_id from tags where tag_name = 'figma'`;
-    }
-
-    let isMotifUi = false
-    for(const component of allComponents){
-      if(slugify(component.title).toLowerCase().includes(slugify(componentData.title).toLowerCase()) || slugify(componentData.title).toLowerCase().includes(slugify(component.title).toLowerCase())){
-        isMotifUi = true
-        await sql `update components set figma_usage = ${JSON.stringify(componentData.content)} where component_id = ${component.component_id}`
-        const tagExistsInMap = await sql `select * from components_tags_map where component_id = ${component.component_id} and tag_id = ${figmaTagId[0].tag_id}`
-        if(tagExistsInMap[0] === undefined){
-          await sql`insert into components_tags_map (component_id, tag_id) values (${component.component_id}, ${figmaTagId[0].tag_id})`;
-        }
-      }
-    }
-
-    if(!isMotifUi){
-      await sql`insert into components (title, slug, figma_usage)
-              values (${componentData.title}, ${slug}, ${JSON.stringify(componentData.content)});`;
-      const componentId = await sql `select component_id from components where title = ${componentData.title};`
-      await sql`insert into components_tags_map (component_id, tag_id) values (${componentId[0].component_id}, ${figmaTagId[0].tag_id})`;
-
-      const titleTag = slug.toLowerCase().replace(' ','-');
-      let titleTagId = await sql`select tag_id from tags where tag_name=${titleTag}`;
-      if (titleTagId[0] === undefined) {
-        await sql`insert into tags (tag_name) values (${titleTag})`;
-        titleTagId = await sql`select tag_id from tags where tag_name = ${titleTag}`;
-      }
-      await sql`insert into components_tags_map (component_id, tag_id) values (${componentId[0].component_id}, ${titleTagId[0].tag_id})`;
-    }
-  });
-}
-
 export async function importSingleComponent(screenshotPaths, componentData) {
   return sql.begin(async (sql) => {
     componentData.name = componentData.name.substr(

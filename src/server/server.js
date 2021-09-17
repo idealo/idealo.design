@@ -36,7 +36,6 @@ import {
   importSingleComponent,
   fetchScreenshots,
   fetchReadMe,
-  importSingleComponentFromFigma,
 } from "./db";
 
 const dangerousTestModeArgument =
@@ -241,22 +240,6 @@ app.get("/api/read/:slug?", isAuthenticated, async (req, res) => {
   const readme = await fetchReadMe({ slug });
   return res.json(readme);
 });
-
-app.put("/api/components/import/figma", isBasicAuthenticated, async (req, res) => {
-  try{
-    const componentData = req.body;
-    res.status(200).send({
-      message: "Uploaded figma components",
-      component: await importSingleComponentFromFigma(componentData)
-    });
-
-  }catch(err){
-    res.status(500).send({
-      message: "Could not upload figma components." + err,
-    });
-  }
-
-})
 
 app.put("/api/components/update", isBasicAuthenticated, async (req, res) => {
   try {

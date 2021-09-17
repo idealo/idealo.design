@@ -31,16 +31,6 @@ export class ComponentsDetailView extends React.Component {
             if (window.location.href.includes("#")) {
                 await this.updateComponentDetailView();
             }
-
-            if(this.state.component.readme && this.state.component.figma_usage){
-                this.setState({
-                    links: ["Design", "Installation", "Usage", "Figma"]
-                })
-            }else if(!this.state.component.readme){
-                this.setState({
-                    links: ["Figma"]
-                })
-            }
         }
     }
 
@@ -57,8 +47,6 @@ export class ComponentsDetailView extends React.Component {
                 this.showInstallation();
             } else if (slug.includes("Usage")) {
                 this.showUsage();
-            } else if (slug.includes("Figma")) {
-                this.showFigma();
             } else if (slug.includes("Design")) {
                 this.showDesign();
             } else {
@@ -120,40 +108,6 @@ export class ComponentsDetailView extends React.Component {
             </div>
         );
         this.setState({ result: design });
-    }
-
-    showFigma() {
-        let figma
-        if(this.state.component.figma_usage){
-            figma = this.state.component.figma_usage
-        }
-
-        const figmaUsageAsHtml =
-            <div>
-                {figma.map((group,index) => (
-                    <div key={index} className={s.code}>
-                        <h2>{group.headline}</h2>
-                        <p>{group.content}</p>
-                        {group.table ? (
-                            <div>
-                                <table>
-                                    <tbody>
-                                    {group.table.map((row, key) => (
-                                        <tr key={key}>
-                                            {row.rowValues.map((value, i) => (
-                                                <td key={i}> {value}</td>
-                                            ))}
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        ):(<div/>)}
-                    </div>
-                ))}
-            </div>
-        this.setState({ result: figmaUsageAsHtml });
     }
 
     showUsage() {

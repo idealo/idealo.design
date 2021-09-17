@@ -42,12 +42,6 @@ describe("test ListView", () => {
       title: "checkbox",
       screenshots: [4],
       tags: ["motif", "checkbox"],
-    },
-    {
-      component_id: 4,
-      title: "Badges",
-      screenshots: [],
-      tags: ["figma","badges"]
     }
   ];
 
@@ -109,17 +103,4 @@ describe("test ListView", () => {
       expect(componentScreenshot).toBeInTheDocument();
     });
   });
-
-  test("Figma Component without Screenshot with user logged in", async() => {
-    fetchUserInfo.mockReturnValue(userInfo);
-    fetchComponents.mockReturnValue([mockupComponent[3]]);
-    fetchTags.mockReturnValue(mockupTags);
-
-    render(<ComponentsListView/>);
-
-    await waitFor( () => {
-      const componentScreenshot = screen.queryByTitle("componentScreenshot");
-      expect(componentScreenshot).not.toBeInTheDocument();
-    });
-  })
 });
