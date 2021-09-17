@@ -1,11 +1,11 @@
-import { fetchSinglePost, fetchUserInfo, fetchBlogpostSlugById } from "../ui/pages/BlogPage/data";
+import { fetchSinglePost, fetchUserInfo, fetchPrevSlugAndNextSlugById } from "../ui/pages/BlogPage/data";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { DetailView } from "../ui/pages/BlogPage/DetailView";
 import React from "react";
 
 jest.mock("../ui/pages/BlogPage/data", () => {
-  return { fetchUserInfo: jest.fn(), fetchSinglePost: jest.fn(), fetchBlogpostSlugById: jest.fn() };
+  return { fetchUserInfo: jest.fn(), fetchSinglePost: jest.fn(), fetchPrevSlugAndNextSlugById: jest.fn() };
 });
 
 const mockupPrevNextBlogpost = [
@@ -72,7 +72,7 @@ const userInfo = {
 test("detailView gets rendered with content and buttons", async () => {
   fetchUserInfo.mockReturnValue(userInfo);
   fetchSinglePost.mockReturnValue(mockupBlogpost);
-  fetchBlogpostSlugById.mockReturnValue(mockupPrevNextBlogpost)
+  fetchPrevSlugAndNextSlugById.mockReturnValue(mockupPrevNextBlogpost)
 
   const mockedParams = {
     match: { params: { slug: "Einstieg-in-die-Welt-der-Datenbanken" } },
