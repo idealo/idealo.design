@@ -8,7 +8,6 @@
     "test:unit": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./src/__tests__",
     "test:consumer": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./src/ui",
     "test:provider": "cross-env NODE_OPTIONS=--experimental-vm-modules S3_BUCKET=mybucket jest ./src/server",
-    "test:scripts": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./scripts/__tests__",
     "import:motifui": "node ./scripts/motifuiImporter",
     "build": "webpack"
   },

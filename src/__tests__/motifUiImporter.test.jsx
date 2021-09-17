@@ -1,6 +1,6 @@
 const mock = require("mock-fs");
 const path = require("path");
-const importer = require("../motifuiImporter");
+const importer = require("../../scripts");
 'use strict'
 
 const __dirname = path.resolve("./")
