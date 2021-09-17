@@ -44,7 +44,7 @@ export class Blog extends Model {
     static async fetchPrevAndNextSlugByBlogpostId({id}) {
         const ta = await sequelize.transaction()
         try {
-            let prevSlug = await Blog.findAll({
+            let prevSlug = await Blog.findOne({
                 attributes: ['slug'],
                 where: {
                     slug: await Blog.findOne({
@@ -52,18 +52,24 @@ export class Blog extends Model {
                         where: {
                             nextpost: id
                         }
-                    }).then(resp => {
-                        if (resp !== null) {
-                            return resp.getDataValue('slug')
+                    }).then(slug => {
+                        if (slug) {
+                            return slug.getDataValue('slug')
                         } else {
                             return null
                         }
                     })
                 },
                 transaction: ta
+            }).then(slug => {
+                if(slug){
+                    return slug.toJSON()
+                }else{
+                    return {slug: null}
+                }
             })
 
-            let nextSlug = await Blog.findAll({
+            let nextSlug = await Blog.findOne({
                 attributes: ['slug'],
                 where: {
                     slug: await Blog.findOne({
@@ -71,27 +77,22 @@ export class Blog extends Model {
                         where: {
                             previouspost: id
                         }
-                    }).then(resp => {
-                        if (resp !== null) {
-                            return resp.getDataValue('slug')
+                    }).then(slug => {
+                        if (slug) {
+                            return slug.getDataValue('slug')
                         } else {
                             return null
                         }
                     })
                 },
                 transaction: ta
+            }).then(slug => {
+                if(slug){
+                    return slug.toJSON()
+                }else{
+                    return {slug: null}
+                }
             })
-
-            if (nextSlug.length === 0) {
-                nextSlug = {slug: null}
-            }else if(nextSlug.length===1){
-                nextSlug = nextSlug[0]
-            }
-            if (prevSlug.length === 0) {
-                prevSlug = {slug: null}
-            }else if(prevSlug.length === 1){
-                prevSlug = prevSlug[0]
-            }
             await ta.commit()
             return [prevSlug, nextSlug]
         }catch (e){
@@ -198,7 +199,7 @@ export class Blog extends Model {
     static async deleteSingleBlogpost(blog) {
         const ta = await sequelize.transaction()
         try {
-            if (blog.previouspost === null && blog.nextpost) {
+            if (!blog.previouspost && blog.nextpost) {
                 await Blog.update({
                     previouspost: null
                 }, {
@@ -207,7 +208,7 @@ export class Blog extends Model {
                     },
                     transaction: ta
                 })
-            } else if (blog.nextpost === null && blog.previouspost) {
+            } else if (!blog.nextpost && blog.previouspost) {
                 await Blog.update({
                     nextpost: null
                 }, {
@@ -218,25 +219,7 @@ export class Blog extends Model {
                 })
             }
 
-            if (blog.previouspost === null) {
-                await Blog.update({
-                    previouspost: null
-                }, {
-                    where: {
-                        previouspost: blog.id
-                    },
-                    transaction: ta
-                })
-            } else if (blog.nextpost === null) {
-                await Blog.update({
-                    nextpost: null
-                }, {
-                    where: {
-                        nextpost: blog.id
-                    },
-                    transaction: ta
-                })
-            } else if (blog.nextpost && blog.previouspost) {
+            if (blog.nextpost && blog.previouspost) {
                 await Blog.update({
                     previouspost: blog.previouspost
                 }, {
@@ -255,6 +238,7 @@ export class Blog extends Model {
                     transaction: ta
                 })
             }
+
             await Blog.destroy({
                 where: {
                     id: blog.id
