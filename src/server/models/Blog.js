@@ -12,6 +12,13 @@ export class Blog extends Model {
             ],
         })
     }
+
+    static fetchAllBlogpostTitles(){
+        return Blog.findAll({
+            attributes: ['title'],
+        })
+    }
+
     static fetchSingleBlogpost({slug}){
         return Blog.findAll({
             where: {
