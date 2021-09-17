@@ -18,6 +18,19 @@ export async function fetchDistinctCategories() {
   return sql`select distinct categoryDisplayValue, LOWER(categorySlug) as categoryslug from blogposts where isArchived = 0`;
 }
 
+export async function fetchPrevSlugAndNextSlugById({id}) {
+  const storeSinglePostTransaction = await sql.begin(async (sql) => {
+    const slugPrevPost = await sql`select slug
+                                   from blogposts
+                                   where nextpost = ${id}`
+    const slugNextPost = await sql`select slug
+                                   from blogposts
+                                   where previouspost = ${id}`
+    return [slugPrevPost[0], slugNextPost[0]];
+  });
+  return storeSinglePostTransaction;
+}
+
 export async function fetchPostsByCategorySlug({ categorySlug }) {
   return sql`select * from blogposts where categoryslug = ${categorySlug} AND isArchived = 0 ORDER BY blogposts.date DESC`;
 }
@@ -60,13 +73,14 @@ export async function storeSinglePost({
           ${date},
           ${image},
           ${blogpostcontent},
-          (select slug from blogposts where isArchived = 0 and date=(select max(date) from blogposts where isArchived= 0)),
+          (select id from blogposts where isArchived = 0 and date=(select max(date) from blogposts where isArchived= 0)),
           ${isArchived}
         );`;
 
+    const id = await sql`select id from blogposts where slug=${slug};`;
     const updatePost = await sql`
         update blogposts
-        set previouspost=${slug}
+        set previouspost=${id[0].id}
         where isArchived = 0 and date= (select max(date) from blogposts where isArchived= 0 and date<(select max(date) from blogposts))
         and slug not in (${slug});`;
 
@@ -102,7 +116,7 @@ export async function deleteSinglePost(blog) {
       toBeDeletedBlogpost.nextpost
     ) {
       updatePreviousDatabase =
-        await sql`update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.slug}`;
+        await sql`update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.id}`;
       deletedBlogpost =
         await sql`delete from blogposts where id = ${toBeDeletedBlogpost.id}`;
     } else if (
@@ -110,19 +124,19 @@ export async function deleteSinglePost(blog) {
       toBeDeletedBlogpost.previouspost
     ) {
       updateNextDatabase =
-        await sql`update blogposts set nextpost = null where nextpost = ${toBeDeletedBlogpost.slug}`;
+        await sql`update blogposts set nextpost = null where nextpost = ${toBeDeletedBlogpost.id}`;
       deletedBlogpost =
         await sql`delete from blogposts where id = ${toBeDeletedBlogpost.id}`;
     }
 
     if (toBeDeletedBlogpost.previouspost == null) {
       updatePreviousDatabase =
-        await sql`update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.slug}`;
+        await sql`update blogposts set previouspost = null where previouspost = ${toBeDeletedBlogpost.id}`;
       deletedBlogpost =
         await sql`delete from blogposts where id = ${toBeDeletedBlogpost.id}`;
     } else if (toBeDeletedBlogpost.nextpost == null) {
       updateNextDatabase =
-        await sql`update blogposts set nextpost = null where nextpost = ${toBeDeletedBlogpost.slug}`;
+        await sql`update blogposts set nextpost = null where nextpost = ${toBeDeletedBlogpost.id}`;
       deletedBlogpost =
         await sql`delete from blogposts where id = ${toBeDeletedBlogpost.id}`;
     } else if (
@@ -132,11 +146,11 @@ export async function deleteSinglePost(blog) {
       updatePreviousDatabase = await sql`
                     update blogposts 
                     set previouspost = ${toBeDeletedBlogpost.previouspost} 
-                    where previouspost = ${toBeDeletedBlogpost.slug}`;
+                    where previouspost = ${toBeDeletedBlogpost.id}`;
       updateNextDatabase = await sql`
                     update blogposts 
                     set nextpost = ${toBeDeletedBlogpost.nextpost} 
-                    where nextpost = ${toBeDeletedBlogpost.slug}`;
+                    where nextpost = ${toBeDeletedBlogpost.id}`;
       deletedBlogpost =
         await sql`delete from blogposts where id = ${toBeDeletedBlogpost.id}`;
     } else {
@@ -160,12 +174,12 @@ export async function archiveSinglePost(blog) {
 
     if (toBeArchivedBlogpost.previouspost == null) {
       updatePreviousDatabase =
-        await sql`update blogposts set previouspost = null where previouspost = ${toBeArchivedBlogpost.slug}`;
+        await sql`update blogposts set previouspost = null where previouspost = ${toBeArchivedBlogpost.id}`;
       archivedBlogpost =
         await sql`update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`;
     } else if (toBeArchivedBlogpost.nextpost == null) {
       updateNextDatabase =
-        await sql`update blogposts set nextpost = null where nextpost = ${toBeArchivedBlogpost.slug}`;
+        await sql`update blogposts set nextpost = null where nextpost = ${toBeArchivedBlogpost.id}`;
       archivedBlogpost =
         await sql`update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`;
     } else if (
@@ -175,11 +189,11 @@ export async function archiveSinglePost(blog) {
       updatePreviousDatabase = await sql`
                     update blogposts 
                     set previouspost = ${toBeArchivedBlogpost.previouspost} 
-                    where previouspost = ${toBeArchivedBlogpost.slug}`;
+                    where previouspost = ${toBeArchivedBlogpost.id}`;
       updateNextDatabase = await sql`
                     update blogposts 
                     set nextpost = ${toBeArchivedBlogpost.nextpost} 
-                    where nextpost = ${toBeArchivedBlogpost.slug}`;
+                    where nextpost = ${toBeArchivedBlogpost.id}`;
       archivedBlogpost =
         await sql`update blogposts set isArchived = 1,previouspost=null,nextpost=null where slug = ${blog.slug}`;
     } else {

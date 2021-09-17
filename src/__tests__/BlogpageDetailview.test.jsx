@@ -1,23 +1,32 @@
-import { fetchSinglePost, fetchUserInfo } from "../ui/pages/BlogPage/data";
+import { fetchSinglePost, fetchUserInfo, fetchPrevSlugAndNextSlugById } from "../ui/pages/BlogPage/data";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { DetailView } from "../ui/pages/BlogPage/DetailView";
 import React from "react";
 
 jest.mock("../ui/pages/BlogPage/data", () => {
-  return { fetchUserInfo: jest.fn(), fetchSinglePost: jest.fn() };
+  return { fetchUserInfo: jest.fn(), fetchSinglePost: jest.fn(), fetchPrevSlugAndNextSlugById: jest.fn() };
 });
 
+const mockupPrevNextBlogpost = [
+  {
+    slug: 'mockupPrevBlogpost'
+  },
+  {
+    slug: 'mockupNextBlogpost'
+  }
+]
+
 const mockupBlogpost = {
-  id: 1111,
+  id: 2,
   title: "A mockup blogpost",
-  nextpost: "docker",
-  previouspost: "mein-erstes-mal-mit-react",
+  nextpost: 1,
+  previouspost: 3,
   categorydisplayvalue: "Docker",
   categoryslug: "docker",
   slug: "Einstieg-in-die-Welt-der-Datenbanken",
   date: "2021-01-20T13:46:44.351Z",
-  image: "https://s12.directupload.net/images/210212/bd5j6kn8.jpg",
+  image: "https://myimage.jpg",
   autor: "Mock-up Author",
   email: "mock-up-posts@gmail.com",
   instagram: null,
@@ -41,27 +50,29 @@ const mockupBlogpost = {
   isarchived: 0,
 };
 
-test("detailView gets rendered with content and buttons", async () => {
-  const userInfo = {
-    status: "LOGGED_IN",
-    user: {
-      "@odata.context": null,
-      businessPhones: [],
-      displayName: null,
-      givenName: null,
-      jobTitle: null,
-      mail: null,
-      mobilePhone: null,
-      officeLocation: null,
-      preferredLanguage: null,
-      surname: null,
-      userPrincipalName: null,
-      id: null,
-    },
-  };
+const userInfo = {
+  status: "LOGGED_IN",
+  user: {
+    "@odata.context": null,
+    businessPhones: [],
+    displayName: null,
+    givenName: null,
+    jobTitle: null,
+    mail: null,
+    mobilePhone: null,
+    officeLocation: null,
+    preferredLanguage: null,
+    surname: null,
+    userPrincipalName: null,
+    id: null,
+  },
+};
 
+
+test("detailView gets rendered with content and buttons", async () => {
   fetchUserInfo.mockReturnValue(userInfo);
   fetchSinglePost.mockReturnValue(mockupBlogpost);
+  fetchPrevSlugAndNextSlugById.mockReturnValue(mockupPrevNextBlogpost)
 
   const mockedParams = {
     match: { params: { slug: "Einstieg-in-die-Welt-der-Datenbanken" } },
@@ -78,11 +89,13 @@ test("detailView gets rendered with content and buttons", async () => {
     const blogpostImage = screen.getByRole("img", { name: "blogpostImage" });
     expect(blogpostImage).toBeInTheDocument();
     expect(blogpostImage.src).toContain(
-      "https://s12.directupload.net/images/210212/bd5j6kn8.jpg"
+      "https://myimage.jpg"
     );
 
     expect(screen.getByTitle("editButton")).toBeInTheDocument();
     expect(screen.getByTitle("deleteButton")).toBeInTheDocument();
+    expect(screen.getByTitle("prevPost").getAttribute("href")).toBe("/blog/mockupPrevBlogpost");
+    expect(screen.getByTitle("nextPost").getAttribute("href")).toBe("/blog/mockupNextBlogpost");
   });
 
   fireEvent.click(screen.getByTitle("deleteButton"));
@@ -96,24 +109,6 @@ test("detailView gets rendered with content and buttons", async () => {
 });
 
 test("detailView gets rendered with content but without edit and delete button", async () => {
-  const userInfo = {
-    status: "NOT_LOGGED_IN",
-    user: {
-      "@odata.context": null,
-      businessPhones: [],
-      displayName: null,
-      givenName: null,
-      jobTitle: null,
-      mail: null,
-      mobilePhone: null,
-      officeLocation: null,
-      preferredLanguage: null,
-      surname: null,
-      userPrincipalName: null,
-      id: null,
-    },
-  };
-
   fetchUserInfo.mockReturnValue(userInfo);
   fetchSinglePost.mockReturnValue(mockupBlogpost);
 
