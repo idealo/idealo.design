@@ -24,12 +24,6 @@ import CookieConsent from "react-cookie-consent";
 
 function App() {
 
-    function consentGranted() {
-        gtag('consent', 'update', {
-            'ad_storage': 'granted'
-        });
-    }
-
     return (
         <PageLayout>
             <Switch>
@@ -69,7 +63,7 @@ function App() {
               onAccept={(acceptedByOnClick) => {
                   if (acceptedByOnClick) {
                       gtag('consent', 'update', {
-                          'ad_storage': 'granted'
+                          'analytics_storage': 'granted'
                       })
                   }
               }}
