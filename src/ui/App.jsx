@@ -23,7 +23,6 @@ import './styles/colors.scss'
 import CookieConsent from "react-cookie-consent";
 
 function App() {
-
     return (
         <PageLayout>
             <Switch>
@@ -63,7 +62,8 @@ function App() {
               onAccept={(acceptedByOnClick) => {
                   if (acceptedByOnClick) {
                       gtag('consent', 'update', {
-                          'analytics_storage': 'granted'
+                          'ad_storage':'granted',
+                          'analytics_storage':'granted'
                       })
                   }
               }}
