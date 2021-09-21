@@ -1,5 +1,5 @@
-import {Model, Op, Sequelize} from "sequelize";
-import {sequelize} from "../index"
+import {DataTypes, Model, Op, Sequelize} from "sequelize";
+import {sequelize} from "../sequelizer"
 
 export class Blog extends Model {
     static fetchAllBlogposts(){
@@ -330,3 +330,51 @@ export class Blog extends Model {
         }
     }
 }
+
+Blog.init({
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    slug: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    nextpost: DataTypes.INTEGER,
+    previouspost: DataTypes.INTEGER,
+    categoryslug: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    categorydisplayvalue: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    date: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    blogpostcontent: DataTypes.JSONB,
+    isarchived: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultvalue: 0
+    },
+    image: DataTypes.STRING,
+    autor: DataTypes.STRING,
+    email: DataTypes.STRING,
+    instagram: DataTypes.STRING,
+    twitter:  DataTypes.STRING,
+    github: DataTypes.STRING,
+    facebook: DataTypes.STRING,
+}, {
+    tableName: "blogposts",
+    timestamps: false,
+    sequelize
+});
