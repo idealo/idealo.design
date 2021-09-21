@@ -74,7 +74,7 @@ export class ListView extends React.Component {
           <h1>BlogPage</h1>
         {this.state.userInfo.status === "LOGGED_IN" ? (
           <button
-            style={{
+           /* style={{
               float: "right",
               marginBottom: "1rem",
               marginRight: "1rem",
@@ -85,7 +85,8 @@ export class ListView extends React.Component {
               padding: "10px 30px",
               textAlign: "center",
               fontSize: "14px",
-            }}
+            }}*/
+            className={s.NewPostButton}
             onClick={this.handleNewPost}
             title="newPostButton"
           >

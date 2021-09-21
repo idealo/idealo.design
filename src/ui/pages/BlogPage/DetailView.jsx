@@ -232,9 +232,8 @@ export class DetailView extends React.Component {
               title="prevPost"
               href={`/blog/${this.state.slugPreviouspost}`}
               onClick={this.scrollToTop}
-              className={s.ButtonPrevious}
             >
-              <span>Previous</span>
+              <button className={s.ButtonPrevious}>Previous</button>
             </a>
           )}
           {this.state.blogpost.nextpost && (
@@ -242,9 +241,8 @@ export class DetailView extends React.Component {
               title="nextPost"
               href={`/blog/${this.state.slugNextpost}`}
               onClick={this.scrollToTop}
-              className={s.ButtonNext}
             >
-              <span>Next</span>
+              <button className={s.ButtonNext}>Next</button>
             </a>
           )}
         </div>

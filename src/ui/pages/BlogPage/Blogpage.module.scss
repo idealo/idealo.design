@@ -43,14 +43,22 @@
   overflow: hidden;
 
   button {
-    background-color: #0A3761;
+    background-color: #0771D0;
     border: none;
     color: white;
-    padding: 10px 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    background-blend-mode: normal;
+    height: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
+    letter-spacing: 0.2px;
+    border: 1px;
+    border-radius: 4px;
   }
 
   .blogpostTitle {
@@ -85,14 +93,20 @@
   display: flex;
 
   button {
-    background-color:  #0A3761;
-    border: none;
-    color: white;
-    padding: 10px 30px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    background-color: #0771D0;
+    background-blend-mode: normal;
+    height: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
+    color: white;
     font-size: 16px;
+    letter-spacing: 0.2px;
+    border: 1px;
+    border-radius: 4px;
 
     &:last-child {
       margin-left: auto;
@@ -107,33 +121,64 @@
 .ContentDetailView {
 }
 
+.NewPostButton {
+  float: right;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  background-color: #0771D0;
+  background-blend-mode: normal;
+  height: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: white;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  border: 1px;
+  border-radius: 4px;
+}
+
 .ButtonNavigation {
   display: flex;
   margin-top: 2rem;
 
-  .ButtonPrevious {
-    background-color:  #0A3761;
-    border: none;
-    color: white;
-    padding: 10px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-  }
+    .ButtonPrevious {
+      text-align: center;
+      text-decoration: none;
+      margin-bottom: 1rem;
+      margin-right: 1rem;
+      background-color: #0771D0;
+      background-blend-mode: normal;
+      height: 40px;
+      padding-left: 30px;
+      padding-right: 30px;
+      color: white;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      border: 1px;
+      border-radius: 4px;
+    }
 
-  .ButtonNext {
-    background-color:  #0A3761;
-    margin-left: auto;
-    border: none;
-    color: white;
-    padding: 10px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    .ButtonNext {
+      text-align: center;
+      text-decoration: none;
+      margin-bottom: 1rem;
+      margin-right: 1rem;
+      background-color: #0771D0;
+      background-blend-mode: normal;
+      height: 40px;
+      padding-left: 30px;
+      padding-right: 30px;
+      color: white;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      border: 1px;
+      border-radius: 4px;
+      position: absolute;
+      right:    0;
+      bottom:   0;
+
+    }
   }
-}
 
 .HighlightedTeaser {
   @extend .ContentBox;
