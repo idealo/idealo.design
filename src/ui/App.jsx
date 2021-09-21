@@ -1,9 +1,6 @@
 import React from 'react'
-
 import withStyles from 'isomorphic-style-loader/withStyles'
-
 import {Route, Switch,} from "react-router-dom";
-
 import {
     AssetsPage,
     BlogPage,
@@ -15,13 +12,10 @@ import {
     OtherPage,
     WelcomePage
 } from './pages'
-
 import PageLayout from './components/PageLayout'
-
 import s from './styles/main.scss'
 import './styles/colors.scss'
 import CookieConsent from "react-cookie-consent";
-
 function App() {
     return (
         <PageLayout>
@@ -37,7 +31,7 @@ function App() {
                 </Route>
                 <Route path="/organisms/:slug?">
                     <OrganismsPage/>
-                </Route>     
+                </Route>
                 <Route path="/library/:slug?">
                     <LibraryPage/>
                 </Route>
@@ -54,18 +48,20 @@ function App() {
                     <WelcomePage/>
                 </Route>
             </Switch>
-            <CookieConsent
-              debug={false}
-              location="bottom"
-              style={{ background: '#0A3761',fontFamily: 'Roboto, sans-serif'}}
-              buttonStyle={{ color: 'white', background: '#0771D0', fontSize: '16px', fontFamily: 'Roboto, sans-serif', borderRadius: '4px', padding:'10px', margin: '15px 30px'}}
-              onAccept={() => {
-                  gtag('consent', 'update', {
-                      'ad_storage':'granted',
-                      'analytics_storage':'granted'
-                  })
-              }}
-            > This site uses cookies. See our <a style={{color:'white'}} href="https://www.idealo.co.uk/privacypolicy.html">privacy policy</a> for more.</CookieConsent>
+            <CookieConsent enableDeclineButton flipButtons
+                           debug={false}
+                           buttonText={"I Agree"}
+                           location="bottom"
+                           style={{ background: '#0A3761',fontFamily: 'Roboto, sans-serif'}}buttonStyle={{ color: 'white', background: '#0771D0', fontSize: '16px', fontFamily: 'Roboto, sans-serif', borderRadius: '4px', padding:'10px'}}
+                           onAccept={() => {
+                      gtag('consent', 'update', {
+                          'ad_storage':'granted',
+                          'analytics_storage':'granted'
+                      })
+                           }}
+                           declineButtonText={"I Disagree"}
+                           declineButtonStyle={{ color: 'white', fontSize: '16px', fontFamily: 'Roboto, sans-serif', borderRadius: '4px', padding:'10px'}}> This site uses cookies. See our <a style={{color:'white'}} href="https://www.idealo.co.uk/privacypolicy.html">privacy policy</a> for more.
+            </CookieConsent>
         </PageLayout>
     )
 }
