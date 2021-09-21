@@ -8,12 +8,7 @@ import {mockupComponent, mockupTags, mockupSingleComponent} from '../ui/pages/Li
 jest.mock('./models/Library', () => {
     return {
         fetchAllComponents: jest.fn(),
-        fetchSingleComponent: jest.fn()
-    }
-})
-
-jest.mock('./models/Tags', () => {
-    return {
+        fetchSingleComponent: jest.fn(),
         fetchTags: jest.fn()
     }
 })
