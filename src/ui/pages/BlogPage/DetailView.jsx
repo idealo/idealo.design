@@ -228,24 +228,23 @@ export class DetailView extends React.Component {
 
         <div className={s.ButtonNavigation}>
           {this.state.blogpost.previouspost && (
-            <a
-              title="prevPost"
-              href={`/blog/${this.state.slugPreviouspost}`}
-              onClick={this.scrollToTop}
-              className={s.ButtonPrevious}
-            >
-              <span>Previous</span>
-            </a>
+              <a
+                  title="prevPost"
+                  href={`/blog/${this.state.slugPreviouspost}`}
+                  onClick={this.scrollToTop}
+              >
+                <button className={s.ButtonPrevious}>Previous</button>
+              </a>
           )}
           {this.state.blogpost.nextpost && (
-            <a
-              title="nextPost"
-              href={`/blog/${this.state.slugNextpost}`}
-              onClick={this.scrollToTop}
-              className={s.ButtonNext}
-            >
-              <span>Next</span>
-            </a>
+              <a
+                  title="nextPost"
+                  href={`/blog/${this.state.slugNextpost}`}
+                  onClick={this.scrollToTop}
+                  className={s.ButtonNext}
+              >
+                <button className={s.ButtonNextOnHover}>Next</button>
+              </a>
           )}
         </div>
 
