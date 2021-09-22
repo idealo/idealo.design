@@ -77,9 +77,7 @@ export class ListView extends React.Component {
             className={s.NewPostButton}
             onClick={this.handleNewPost}
             title="newPostButton"
-          >
-            New Post
-          </button>
+          >New Post</button>
         ) : (
           <div></div>
         )}
