@@ -1,7 +1,6 @@
 import { Verifier } from '@pact-foundation/pact'
 import path from 'path'
 import { app } from './server'
-import { Blog } from "./models/Blog";
 import { Library, Tags } from './models/Library'
 import '@testing-library/jest-dom/extend-expect';
 import { mockupComponent, mockupTags, mockupSingleComponent } from '../ui/pages/LibraryPage/component-consumer-contract.spec'
