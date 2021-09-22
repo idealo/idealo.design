@@ -71,7 +71,7 @@ export class ListView extends React.Component {
   render() {
     return (
       <div>
-          <h1>BlogPage</h1>
+          <h1 className={s.headline}>BlogPage</h1>
         {this.state.userInfo.status === "LOGGED_IN" ? (
           <button
             className={s.NewPostButton}
