@@ -1,15 +1,19 @@
 import { Verifier } from '@pact-foundation/pact'
 import path from 'path'
 import { app } from './server'
-import {Library, Tags} from './models/Library'
+import { Library, Tags } from './models/Library'
 import '@testing-library/jest-dom/extend-expect';
-import {mockupComponent, mockupTags, mockupSingleComponent} from '../ui/pages/LibraryPage/component-consumer-contract.spec'
+import { mockupComponent, mockupTags, mockupSingleComponent } from '../ui/pages/LibraryPage/component-consumer-contract.spec'
 
 jest.mock('./models/Library', () => {
     return {
-        fetchAllComponents: jest.fn(),
-        fetchSingleComponent: jest.fn(),
-        fetchTags: jest.fn()
+        Library: {
+            fetchAllComponents: jest.fn(),
+            fetchSingleComponent: jest.fn(),
+        },
+        Tags: {
+            fetchTags: jest.fn()
+        }
     }
 })
 

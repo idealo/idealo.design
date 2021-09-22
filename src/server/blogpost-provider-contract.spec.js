@@ -1,7 +1,7 @@
 import { Verifier } from "@pact-foundation/pact";
 import path from "path";
 import { app } from "./server";
-import {Blog} from "./models/Blog";
+import { Blog } from "./models/Blog";
 import "@testing-library/jest-dom/extend-expect";
 import {
   mockedArchivedBlogpost,
@@ -11,13 +11,15 @@ import {
 
 jest.mock("./models/Blog", () => {
   return {
-    fetchAllBlogposts: jest.fn(),
-    updateBlogpost: jest.fn(),
-    archiveSingleBlogpost: jest.fn(),
-    fetchAllBlogpostsByCategorySlug: jest.fn(),
-    fetchAllCategories: jest.fn(),
-    fetchSingleBlogpost: jest.fn(),
-    deleteSingleBlogpost: jest.fn(),
+    Blog: {
+      fetchAllBlogposts: jest.fn(),
+      updateBlogpost: jest.fn(),
+      archiveSingleBlogpost: jest.fn(),
+      fetchAllBlogpostsByCategorySlug: jest.fn(),
+      fetchAllCategories: jest.fn(),
+      fetchSingleBlogpost: jest.fn(),
+      deleteSingleBlogpost: jest.fn(),
+    }
   };
 });
 
