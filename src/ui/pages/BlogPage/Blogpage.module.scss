@@ -43,22 +43,18 @@
   overflow: hidden;
 
   button {
-    background-color: #0771D0;
-    border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    border-color: #0771D0;
+    letter-spacing: 0.2px;
     margin-bottom: 1rem;
     margin-right: 1rem;
-    background-blend-mode: normal;
+    font-size: 16px;
     height: 40px;
     padding-left: 30px;
     padding-right: 30px;
-    letter-spacing: 0.2px;
-    border: 1px;
     border-radius: 4px;
+    background-color: white;
+    color: #0771D0;
+    background-blend-mode: normal;
   }
 
   .blogpostTitle {
@@ -93,20 +89,18 @@
   display: flex;
 
   button {
-    text-align: center;
-    text-decoration: none;
+    border-color: #0771D0;
+    letter-spacing: 0.2px;
     margin-bottom: 1rem;
     margin-right: 1rem;
-    background-color: #0771D0;
-    background-blend-mode: normal;
+    font-size: 16px;
     height: 40px;
     padding-left: 30px;
     padding-right: 30px;
-    color: white;
-    font-size: 16px;
-    letter-spacing: 0.2px;
-    border: 1px;
     border-radius: 4px;
+    background-color: white;
+    color: #0771D0;
+    background-blend-mode: normal;
 
     &:last-child {
       margin-left: auto;
@@ -116,6 +110,11 @@
       margin-left: auto;
     }
   }
+
+  button:hover{
+    background: #2196F3;
+    color: white;
+  }
 }
 
 .ContentDetailView {
@@ -123,62 +122,43 @@
 
 .NewPostButton {
   float: right;
+  border-color: #0771D0;
+  letter-spacing: 0.2px;
   margin-bottom: 1rem;
   margin-right: 1rem;
-  background-color: #0771D0;
-  background-blend-mode: normal;
+  font-size: 16px;
   height: 40px;
   padding-left: 30px;
   padding-right: 30px;
-  color: white;
-  font-size: 16px;
-  letter-spacing: 0.2px;
-  border: 1px;
   border-radius: 4px;
+  background-color: white;
+  color: #0771D0;
+  background-blend-mode: normal;
+}
+
+.NewPostButton:hover {
+  background: #2196F3;
+  color: white;
 }
 
 .ButtonNavigation {
   display: flex;
   margin-top: 2rem;
 
-    .ButtonPrevious {
-      text-align: center;
-      text-decoration: none;
-      margin-bottom: 1rem;
-      margin-right: 1rem;
-      background-color: #0771D0;
-      background-blend-mode: normal;
-      height: 40px;
-      padding-left: 30px;
-      padding-right: 30px;
-      color: white;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      border: 1px;
-      border-radius: 4px;
-    }
-
-    .ButtonNext {
-      text-align: center;
-      text-decoration: none;
-      margin-bottom: 1rem;
-      margin-right: 1rem;
-      background-color: #0771D0;
-      background-blend-mode: normal;
-      height: 40px;
-      padding-left: 30px;
-      padding-right: 30px;
-      color: white;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      border: 1px;
-      border-radius: 4px;
-      position: absolute;
-      right:    0;
-      bottom:   0;
-
-    }
+  .ButtonPrevious:hover {
+    background: #2196F3;
+    color: white;
   }
+
+  .ButtonNext {
+    margin-left: auto;
+  }
+
+  .ButtonNextOnHover:hover {
+    background: #2196F3;
+    color: white;
+  }
+}
 
 .HighlightedTeaser {
   @extend .ContentBox;
