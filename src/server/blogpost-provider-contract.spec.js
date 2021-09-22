@@ -2,6 +2,8 @@ import { Verifier } from "@pact-foundation/pact";
 import path from "path";
 import { app } from "./server";
 import { Blog } from "./models/Blog";
+import { Library, Tags } from "./models/Library";
+
 import "@testing-library/jest-dom/extend-expect";
 import {
   mockedArchivedBlogpost,
@@ -22,6 +24,18 @@ jest.mock("./models/Blog", () => {
     }
   };
 });
+
+jest.mock('./models/Library', () => {
+  return {
+    Library: {
+      fetchAllComponents: jest.fn(),
+      fetchSingleComponent: jest.fn(),
+    },
+    Tags: {
+      fetchTags: jest.fn()
+    }
+  }
+})
 
 const distinctCategories = {
   categorydisplayvalue: "Testing Category",
