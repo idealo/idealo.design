@@ -21,11 +21,6 @@ jobs:
         with:
           node-version: 13
       - run: |
-#          npm ci
-#          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:unit
-#          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:consumer
-#          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:provider
-#          npm run build
           cd ./scripts
           npm ci
           npm run test
