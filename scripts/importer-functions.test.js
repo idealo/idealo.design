@@ -1,13 +1,10 @@
 import mock from "mock-fs";
-import path from "path";
 import {
+  createFormDataForComponents,
   extractComponents,
   storeNameOfScreenshots,
-  storeScreenshotFolderName,
-  createFormDataForComponents
-} from "./motif-ui-importer-local";
-
-const __dirname = path.resolve("./")
+  storeScreenshotFolderName
+} from "./importer-functions";
 
 describe("tests for the motif-ui importer script", () => {
   afterEach( () => {
@@ -62,21 +59,23 @@ describe("tests for the motif-ui importer script", () => {
     );
   });
 
+  const localMotifUiComponents = "./scripts/motif-ui-lambda/motif-ui-components";
+  const localScreenshots = "./scripts/motif-ui-lambda/screenshots";
+  const localPathToMotifUIScreenshots = "./resources/static/assets/uploads";
+
   const mockedSubdirectories = ["colors", "button-group"];
   const arrayWithNameKeywordsReadme = [
     {
       name: "@motif/colors",
       keywords: ["motif", "motif-ui", "colors"],
       readme: "{\"order\":[\"Readme\"],\"content\":{\"Readme\":{\"head\":\"#Readme\",\"body\":\"This ist Readme of Colors\"}}}",
-      pathToStoryFile:
-        path.resolve(__dirname, "./scripts/motif-ui-lambda/motif-ui-components/colors/src/colors.story.tsx"),
+      pathToStoryFile: "./scripts/motif-ui-lambda/motif-ui-components/colors/src/colors.story.tsx",
     },
     {
       name: "@motif/button-group",
       keywords: ["motif", "motif-ui", "button-group", "react"],
       readme: "{\"order\":[\"Readme\"],\"content\":{\"Readme\":{\"head\":\"#Readme\",\"body\":\"This ist Readme of ButtonGroup\"}}}",
-      pathToStoryFile:
-        path.resolve(__dirname, "./scripts/motif-ui-lambda/motif-ui-components/button-group/src/ButtonGroup.story.tsx")
+      pathToStoryFile: "./scripts/motif-ui-lambda/motif-ui-components/button-group/src/ButtonGroup.story.tsx"
     },
   ];
 
@@ -152,7 +151,7 @@ describe("tests for the motif-ui importer script", () => {
 
   test("initiates the components array for all components", async () => {
     let resultAfterFunction = await extractComponents(
-      mockedSubdirectories
+      mockedSubdirectories, localMotifUiComponents
     );
     expect(resultAfterFunction).toEqual(arrayWithNameKeywordsReadme);
   });
@@ -166,14 +165,14 @@ describe("tests for the motif-ui importer script", () => {
 
   test("adds names of the screenshots for each component", async () => {
     let resultAfterFunction = await storeNameOfScreenshots(
-      ArrayWithScreenshotFolderName
+      ArrayWithScreenshotFolderName, localScreenshots
     );
     expect(resultAfterFunction).toEqual(ArrayWithScreenshotsNames);
   });
 
   test("adds formData for each component", async () => {
     let resultAfterFunction = await createFormDataForComponents(
-      ArrayWithScreenshotsNames
+      ArrayWithScreenshotsNames, localPathToMotifUIScreenshots, localScreenshots
     );
     const partOfWithFormDataArray = {
       firstComponent: [
