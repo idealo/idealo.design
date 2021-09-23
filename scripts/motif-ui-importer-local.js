@@ -12,11 +12,11 @@ import {
 const __dirname = path.resolve();
 const localMotifUiComponents = path.resolve(
   __dirname,
-  "./scripts/motif-ui-lambda/motif-ui-components"
+  "./motif-ui-lambda/motif-ui-components"
 );
 const localScreenshots = path.resolve(
   __dirname,
-  "./scripts/motif-ui-lambda/screenshots"
+  "./motif-ui-lambda/screenshots"
 );
 const pathToMotifUiRepo = path.resolve(__dirname, "../../motif-ui/src");
 const pathToMotifUIScreenshots = path.resolve(
