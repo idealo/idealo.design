@@ -4,26 +4,48 @@
 }
 
 .SubmitButton {
-  background-color:  #0A3761;
-  border: none;
-  color: white;
   padding: 10px 30px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  border-color: #0771D0;
+  letter-spacing: 0.2px;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  height: 40px;
+  border-radius: 4px;
+  background-color: white;
+  color: #0771D0;
+  background-blend-mode: normal;
+}
+
+.SubmitButton:hover{
+  background: #2196F3;
+  color: white;
 }
 
 .CancelButton {
   margin-left: 1rem;
-  background-color:  #0A3761;
-  border: none;
-  color: white;
-  padding: 10px 30px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  padding: 10px 30px;
+  border-color: #0771D0;
+  letter-spacing: 0.2px;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  height: 40px;
+  border-radius: 4px;
+  background-color: white;
+  color: #0771D0;
+  background-blend-mode: normal;
+}
+
+.CancelButton:hover{
+  background: #2196F3;
+  color: white;
 }
 
 /**
@@ -152,4 +174,28 @@
       border: 3px solid;
     }
   }
+}
+
+.promptMessage{
+  text-align: center;
+}
+
+.buttonDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons{
+  background-color: #0771D0;
+  background-blend-mode: normal;
+  height: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: white;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  border: 1px;
+  border-radius: 4px;
+  margin: 0 5px;
 }

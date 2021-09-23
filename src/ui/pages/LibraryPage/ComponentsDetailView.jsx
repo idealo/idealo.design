@@ -132,42 +132,40 @@ export class ComponentsDetailView extends React.Component {
         this.setState({ result: usageAsHtml });
     }
 
-    render() {
-        return (
-            <div>
-                <div className={s.headerNav}>
-                    <h1 title={this.state.component.title}>
-                        {this.state.component.title}
-                    </h1>
-                    <hr/>
-                    <ul>
-                        {this.state.links.map((link, key) => (
-                            <li key={key}>
-                                <a title={link} href={`#${link}`}>
-                                    {link}
-                                </a>
-                            </li>
-                        ))}
-                        {this.state.component.readme? (
-                            <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
-                                <a
-                                    title="linkToBitbucket"
-                                    className={s.LinkToBitbucket}
-                                    target="_blank"
-                                    href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.component.title}/src/`}
-                                >
-                                    Link to Bitbucket
-                                </a>
-                            </button>
-                        ):(<div/>)}
-                    </ul>
-                </div>
-                <div>
-                    <code>{this.state.result}</code>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <div className={s.headerNav}>
+          <h1 className={s.titleDetailView} title={this.state.component.title}>
+            {this.state.titleAfterBackslash}
+          </h1>
+          <hr></hr>
+          <ul>
+            {this.state.links.map((link, key) => (
+              <li key={key}>
+                <a title={link} href={`#${link}`}>
+                  {link}
+                </a>
+              </li>
+            ))}
+            <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
+              <a
+                title="linkToBitbucket"
+                className={s.LinkToBitbucket}
+                target="_blank"
+                href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}
+              >
+                Link to Bitbucket
+              </a>
+            </button>
+          </ul>
+        </div>
+        <div>
+          <code>{this.state.result}</code>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default withRouter(ComponentsDetailView);

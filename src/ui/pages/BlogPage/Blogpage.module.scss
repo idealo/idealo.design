@@ -1,11 +1,5 @@
 @import "Styles/colors";
 
-.List {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 auto;
-}
-
 .Content {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -45,20 +39,22 @@
 }
 
 .ContentBox {
-  // padding: 1rem;
-  margin: 1rem;
-  margin-right: 2.5rem;
+  padding: 1rem;
   overflow: hidden;
 
   button {
-    background-color: #0A3761;
-    border: none;
-    color: white;
-    padding: 10px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    border-color: #0771D0;
+    letter-spacing: 0.2px;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
     font-size: 16px;
+    height: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 4px;
+    background-color: white;
+    color: #0771D0;
+    background-blend-mode: normal;
   }
 
   .blogpostTitle {
@@ -93,14 +89,18 @@
   display: flex;
 
   button {
-    background-color:  #0A3761;
-    border: none;
-    color: white;
-    padding: 10px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    border-color: #0771D0;
+    letter-spacing: 0.2px;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
     font-size: 16px;
+    height: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 4px;
+    background-color: white;
+    color: #0771D0;
+    background-blend-mode: normal;
 
     &:last-child {
       margin-left: auto;
@@ -110,36 +110,57 @@
       margin-left: auto;
     }
   }
+
+  button:hover{
+    background: #2196F3;
+    color: white;
+  }
 }
 
 .ContentDetailView {
+}
+
+.headline{
+  display: inline-block;
+}
+
+.NewPostButton {
+  float: right;
+  border-color: #0771D0;
+  letter-spacing: 0.2px;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  font-size: 16px;
+  height: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 4px;
+  background-color: white;
+  color: #0771D0;
+  background-blend-mode: normal;
+}
+
+.NewPostButton:hover {
+  background: #2196F3;
+  color: white;
 }
 
 .ButtonNavigation {
   display: flex;
   margin-top: 2rem;
 
-  .ButtonPrevious {
-    background-color:  #0A3761;
-    border: none;
+  .ButtonPrevious:hover {
+    background: #2196F3;
     color: white;
-    padding: 10px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
   }
 
   .ButtonNext {
-    background-color:  #0A3761;
     margin-left: auto;
-    border: none;
+  }
+
+  .ButtonNextOnHover:hover {
+    background: #2196F3;
     color: white;
-    padding: 10px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
   }
 }
 
@@ -157,14 +178,15 @@
 
 .container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 
 .item {
   background: $color_gray_200;
-  width: 40%;
-  margin: 7px 2px;
+  width: 45%;
+  margin-right: 15px;
+  margin-bottom: 30px;
   padding: 10px;
   height: 100%;
   box-shadow: 5px 5px 5px silver;

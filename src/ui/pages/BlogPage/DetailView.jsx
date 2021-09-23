@@ -10,6 +10,7 @@ import {
   deleteSinglePost,
   fetchSinglePost,
   fetchUserInfo,
+  fetchPrevSlugAndNextSlugById
 } from "./data";
 
 import { withRouter } from "react-router";
@@ -24,6 +25,8 @@ export class DetailView extends React.Component {
       userInfo: [],
       blogpost: {},
       slug: null,
+      slugPreviouspost: null,
+      slugNextpost: null,
       isPromptOpen: false,
     };
     this.handlePostEdit = this.handlePostEdit.bind(this);
@@ -46,6 +49,18 @@ export class DetailView extends React.Component {
       userInfo: await fetchUserInfo(),
     });
     ReactModal.setAppElement("body");
+
+    const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
+    if(slugsPreviousAndNextPost[0]!==null){
+      this.setState({
+        slugPreviouspost: slugsPreviousAndNextPost[0].slug,
+      })
+    }
+    if(slugsPreviousAndNextPost[1]!==null){
+      this.setState({
+        slugNextpost: slugsPreviousAndNextPost[1].slug,
+      })
+    }
   }
 
   async componentDidUpdate(prevProps) {
@@ -213,22 +228,23 @@ export class DetailView extends React.Component {
 
         <div className={s.ButtonNavigation}>
           {this.state.blogpost.previouspost && (
-            <a
-              href={`/blog/${this.state.blogpost.previouspost}`}
-              onClick={this.scrollToTop}
-              className={s.ButtonPrevious}
-            >
-              <span>Previous</span>
-            </a>
+              <a
+                  title="prevPost"
+                  href={`/blog/${this.state.slugPreviouspost}`}
+                  onClick={this.scrollToTop}
+              >
+                <button className={s.ButtonPrevious}>Previous</button>
+              </a>
           )}
           {this.state.blogpost.nextpost && (
-            <a
-              href={`/blog/${this.state.blogpost.nextpost}`}
-              onClick={this.scrollToTop}
-              className={s.ButtonNext}
-            >
-              <span>Next</span>
-            </a>
+              <a
+                  title="nextPost"
+                  href={`/blog/${this.state.slugNextpost}`}
+                  onClick={this.scrollToTop}
+                  className={s.ButtonNext}
+              >
+                <button className={s.ButtonNextOnHover}>Next</button>
+              </a>
           )}
         </div>
 

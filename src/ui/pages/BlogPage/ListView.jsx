@@ -71,25 +71,13 @@ export class ListView extends React.Component {
   render() {
     return (
       <div>
-          <h1>BlogPage</h1>
+          <h1 className={s.headline}>BlogPage</h1>
         {this.state.userInfo.status === "LOGGED_IN" ? (
           <button
-            style={{
-              float: "right",
-              marginBottom: "1rem",
-              marginRight: "1rem",
-              backgroundColor: "#0A3761",
-              border: "none",
-              color: "white",
-              padding: "10px 30px",
-              textAlign: "center",
-              fontSize: "14px",
-            }}
+            className={s.NewPostButton}
             onClick={this.handleNewPost}
             title="newPostButton"
-          >
-            New Post
-          </button>
+          >New Post</button>
         ) : (
           <div></div>
         )}
