@@ -20,7 +20,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 13
-      - run: |
+      - name: ci for ui
+        run: |
+          npm ci
+          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:unit
+          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:consumer
+          DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:provider
+          npm run build
+      - name: test for importer
+        run: |
           cd ./scripts
-          npm i
+          npm ci
           npm run test
