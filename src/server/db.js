@@ -338,6 +338,10 @@ export async function fetchSingleComponent({ slug }) {
 
 export async function importSingleComponent(screenshotPaths, componentData) {
   return sql.begin(async (sql) => {
+    componentData.name = componentData.name.substr(
+        componentData.name.indexOf("/") + 1,
+        componentData.name.length
+    )
     await sql`delete from components where title=${componentData.name}`;
     const slug = slugify(componentData.name);
     await sql`insert into components (title, readme, slug) values (${componentData.name},${componentData.readme},${slug});`;
