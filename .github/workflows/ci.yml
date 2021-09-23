@@ -22,5 +22,5 @@ jobs:
           node-version: 13
       - run: |
           cd ./scripts
-          npm ci
+          npm i
           npm run test
