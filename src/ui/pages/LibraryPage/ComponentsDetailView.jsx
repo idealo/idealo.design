@@ -17,6 +17,7 @@ export class ComponentsDetailView extends React.Component {
             links: [],
             URLOptions: "",
             result: "",
+            titleAfterBackslash: ""
         };
     }
 
@@ -31,6 +32,13 @@ export class ComponentsDetailView extends React.Component {
             if (window.location.href.includes("#")) {
                 await this.updateComponentDetailView();
             }
+            const titleAfterBackslash = this.state.component.title.substr(
+                this.state.component.title.indexOf("/") + 1,
+                this.state.component.title.length
+            );
+            this.setState({
+                titleAfterBackslash: titleAfterBackslash,
+            });
         }
     }
 
