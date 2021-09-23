@@ -1,13 +1,17 @@
-const mock = require("mock-fs");
-const path = require("path");
-const importer = require("../../scripts");
-'use strict'
+import mock from "mock-fs";
+import path from "path";
+import {
+  extractComponents,
+  storeNameOfScreenshots,
+  storeScreenshotFolderName,
+  createFormDataForComponents
+} from "./motif-ui-importer-local";
 
 const __dirname = path.resolve("./")
 
 describe("tests for the motif-ui importer script", () => {
-  afterEach(async () => {
-    await mock.restore;
+  afterEach( () => {
+    mock.restore();
   });
 
   beforeEach(function () {
@@ -147,28 +151,28 @@ describe("tests for the motif-ui importer script", () => {
   ];
 
   test("initiates the components array for all components", async () => {
-    let resultAfterFunction = await importer.extractComponents(
+    let resultAfterFunction = await extractComponents(
       mockedSubdirectories
     );
     expect(resultAfterFunction).toEqual(arrayWithNameKeywordsReadme);
   });
 
   test("adds the screenshot folder name for each component", async () => {
-    let resultAfterFunction = await importer.storeScreenshotFolderName(
+    let resultAfterFunction = await storeScreenshotFolderName(
       ArrayWithPathToStoryfile
     );
     expect(resultAfterFunction).toEqual(ArrayWithScreenshotFolderName);
   });
 
   test("adds names of the screenshots for each component", async () => {
-    let resultAfterFunction = await importer.storeNameOfScreenshots(
+    let resultAfterFunction = await storeNameOfScreenshots(
       ArrayWithScreenshotFolderName
     );
     expect(resultAfterFunction).toEqual(ArrayWithScreenshotsNames);
   });
 
   test("adds formData for each component", async () => {
-    let resultAfterFunction = await importer.createFormDataForComponents(
+    let resultAfterFunction = await createFormDataForComponents(
       ArrayWithScreenshotsNames
     );
     const partOfWithFormDataArray = {
