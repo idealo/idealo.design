@@ -5,7 +5,8 @@
   "main": "motifuiImporter.js",
   "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "jest importer-functions.test.js",
+    "import:motifui": "node ./motif-ui-importer-local.js"
   },
   "jest": {
     "verbose": true,

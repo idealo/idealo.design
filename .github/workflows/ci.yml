@@ -23,7 +23,9 @@ jobs:
       - run: |
           npm ci
           DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:unit
-          npm run test:scripts
           DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:consumer
           DANGEROUS_TEST_MODE_ARGUMENT=true npm run test:provider
           npm run build
+          cd ./scripts
+          npm ci
+          npm run test
