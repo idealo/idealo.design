@@ -116,7 +116,8 @@ export class Blog extends Model {
                                           slug,
                                           image = "",
                                           blogpostcontent,
-                                          isArchived = 0
+                                          isArchived = 0,
+                                          autor
                                       }){
         const ta = await sequelize.transaction()
         try {
@@ -129,6 +130,7 @@ export class Blog extends Model {
                 image: image,
                 blogpostcontent: blogpostcontent,
                 isarchived: isArchived,
+                autor: autor,
                 nextpost: await Blog.findOne({
                     attributes: ['id'],
                     where: {
