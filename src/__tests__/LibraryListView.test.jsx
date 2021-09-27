@@ -20,85 +20,36 @@ jest.mock("../ui/pages/LibraryPage/component_data", () => {
   };
 });
 
-jest.mock("../ui/components/LoginMessage", () => () => <div></div>);
+jest.mock("../ui/components/LoginMessage", () => () => <div/>);
 
-test("ComponentsListView gets rendered with user logged in", async () => {
+describe("test ListView", () => {
+
   const mockupComponent = [
     {
       component_id: 1,
-      title: "@motif/button",
-      screenshots: [1, 2, 3],
-      tags: ["motif", "button"],
-    },
-  ];
-
-  const mockupTags = [
-    { tag_name: "motif" },
-    { tag_name: "motif-ui" },
-    { tag_name: "button" },
-    { tag_name: "react" },
-  ];
-
-  const userInfo = {
-    status: "LOGGED_IN",
-    user: {
-      "@odata.context": null,
-      businessPhones: [],
-      displayName: null,
-      givenName: null,
-      jobTitle: null,
-      mail: null,
-      mobilePhone: null,
-      officeLocation: null,
-      preferredLanguage: null,
-      surname: null,
-      userPrincipalName: null,
-      id: null,
-    },
-  };
-
-  fetchUserInfo.mockReturnValue(userInfo);
-  fetchComponents.mockReturnValue(mockupComponent);
-  fetchTags.mockReturnValue(mockupTags);
-
-  render(<ComponentsListView />);
-
-  await waitFor(() => {
-    const componentTitle = screen.getByTitle("componentTitle");
-    expect(componentTitle).toBeInTheDocument();
-
-    const componentTags = screen.getByText("#motif");
-    expect(componentTags).toBeInTheDocument();
-  });
-});
-
-test("ComponentsListView filter", async () => {
-  const mockupComponent = [
-    {
-      component_id: 1,
-      title: "@motif/button",
+      title: "button",
       screenshots: [1, 2, 3],
       tags: ["motif", "button"],
     },
     {
       component_id: 2,
-      title: "@motif/pl-button",
+      title: "pl-button",
       screenshots: [5, 6, 7],
       tags: ["motif", "button", "motif-ui"],
     },
     {
       component_id: 3,
-      title: "@motif/checkbox",
+      title: "checkbox",
       screenshots: [4],
       tags: ["motif", "checkbox"],
-    },
+    }
   ];
 
   const mockupTags = [
-    { tag_name: "motif" },
-    { tag_name: "motif-ui" },
-    { tag_name: "button" },
-    { tag_name: "checkbox" },
+    {tag_name: "motif"},
+    {tag_name: "motif-ui"},
+    {tag_name: "button"},
+    {tag_name: "react"},
   ];
 
   const userInfo = {
@@ -119,19 +70,37 @@ test("ComponentsListView filter", async () => {
     },
   };
 
-  fetchUserInfo.mockReturnValue(userInfo);
-  fetchComponents.mockReturnValue(mockupComponent);
-  fetchTags.mockReturnValue(mockupTags);
+  test("ComponentsListView gets rendered with user logged in", async () => {
+    fetchUserInfo.mockReturnValue(userInfo);
+    fetchComponents.mockReturnValue([mockupComponent[0]]);
+    fetchTags.mockReturnValue(mockupTags);
 
-  delete window.location;
-  window.location = new URL("http://localhost:8080/components?query=button");
+    render(<ComponentsListView/>);
 
-  render(<ComponentsListView />);
+    await waitFor(() => {
+      const componentTitle = screen.getByTitle("componentTitle");
+      expect(componentTitle).toBeInTheDocument();
 
-  await waitFor(() => {
-    const componentTag = screen.getAllByTitle("componentTitle");
-    expect(componentTag).toHaveLength(2);
-    const componentScreenshot = screen.getAllByTitle("componentScreenshot")[0];
-    expect(componentScreenshot).toBeInTheDocument();
+      const componentTags = screen.getByText("#motif");
+      expect(componentTags).toBeInTheDocument();
+    });
+  });
+
+  test("ComponentsListView filter with user logged in", async () => {
+    fetchUserInfo.mockReturnValue(userInfo);
+    fetchComponents.mockReturnValue(mockupComponent);
+    fetchTags.mockReturnValue(mockupTags);
+
+    delete window.location;
+    window.location = new URL("http://localhost:8080/components?query=button");
+
+    render(<ComponentsListView/>);
+
+    await waitFor(() => {
+      const componentTag = screen.getAllByTitle("componentTitle");
+      expect(componentTag).toHaveLength(2);
+      const componentScreenshot = screen.getAllByTitle("componentScreenshot")[0];
+      expect(componentScreenshot).toBeInTheDocument();
+    });
   });
 });

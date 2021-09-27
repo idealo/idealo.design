@@ -15,7 +15,7 @@ import "~/draft-js/dist/Draft.css";
 import s from "./Editor.module.scss";
 import Prompt from "../Prompt";
 import {
-  fetchDistinctCategories,
+  fetchAllCategories,
   fetchSinglePost,
   updateSinglePost,
 } from "../data";
@@ -75,7 +75,7 @@ export class RichTextEditor extends React.Component {
       return true;
     });
 
-    this.setState({ cats: await fetchDistinctCategories() });
+    this.setState({ cats: await fetchAllCategories() });
 
     if (this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });

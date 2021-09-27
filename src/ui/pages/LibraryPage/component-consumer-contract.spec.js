@@ -1,6 +1,5 @@
 import {Pact, Matchers} from '@pact-foundation/pact'
 import {
-    fetchMap,
     fetchTags,
     fetchComponents,
     fetchSingleComponent
@@ -46,27 +45,6 @@ describe('Component consumer contract', () => {
     afterAll(() => provider.finalize());
     beforeAll(() => provider.setup());
     afterEach(() => provider.removeInteractions())
-
-    describe('Given a get call to the component-tags endpoint', () => {
-        test('should return a component with tags', async () => {
-            await provider.addInteraction({
-                uponReceiving: 'a request to list all components with tags',
-                withRequest: {
-                    method: 'GET',
-                    path: '/api/map',
-                },
-                willRespondWith: {
-                    status: 200,
-                    body: eachLike(mockupMap, {min: 1})
-                }
-            })
-
-            const response = await fetchMap(provider.mockService.baseUrl);
-            expect(response[0].component_id).toBe(4);
-            expect(response[0].title).toBe('@motif/button');
-            expect(response[0].tag_name).toBe('button');
-        });
-    })
 
     describe('Given a get call to the tags endpoint', () => {
         test('should return a tag', async () => {

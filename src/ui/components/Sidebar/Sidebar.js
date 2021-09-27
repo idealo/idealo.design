@@ -17,7 +17,7 @@ import MoleculesIcon from './atomicons_beta_molecule.svg'
 import OrganismsIcon from './atomicons_beta_organism.svg'
 
 import * as Elems from './../../../../data/__generated__elements__'
-import { fetchDistinctCategories } from "../../pages/BlogPage/data"
+import { fetchAllCategories } from "../../pages/BlogPage/data"
 
 function createSections(addedData) {
     const {cats} = addedData;
@@ -227,7 +227,7 @@ class Sidebar extends React.Component {
             this.setState({isStickyMode: false})
         })
 
-        const cats = await fetchDistinctCategories();
+        const cats = await fetchAllCategories();
         this.setState({sections: createSections({cats})});
     }
 

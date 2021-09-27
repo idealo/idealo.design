@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 
 const API_BASE = "";
 
-export async function fetchList(base_url = API_BASE) {
+export async function fetchAllBlogposts(base_url = API_BASE) {
   const resp = await fetch(`${base_url}/api/blogposts`);
   return resp.json();
 }
@@ -52,16 +52,6 @@ export async function fetchAllCategories(base_url = API_BASE) {
 
 export async function fetchPrevSlugAndNextSlugById({id},base_url = API_BASE) {
   const resp = await fetch(`${base_url}/api/blogpostPrevSlugAndNextSlug/${id}`);
-  return resp.json();
-}
-
-export async function fetchDistinctCategories(base_url = API_BASE) {
-  const resp = await fetch(`${base_url}/api/distinctCategories`);
-  return resp.json();
-}
-
-export async function fetchAllTitles(base_url = API_BASE) {
-  const resp = await fetch(`${base_url}/api/title`);
   return resp.json();
 }
 

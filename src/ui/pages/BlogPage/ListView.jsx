@@ -1,6 +1,6 @@
 import React from "react";
 
-import {fetchList, fetchPostsByCategorySlug, fetchUserInfo} from "./data";
+import {fetchAllBlogposts, fetchPostsByCategorySlug, fetchUserInfo} from "./data";
 import s from "./Blogpage.module.scss";
 import draftToHtml from "../../../vendor/draftjs-to-html";
 import {htmlToText} from "html-to-text";
@@ -41,7 +41,7 @@ export class ListView extends React.Component {
                 });
             } else {
                 this.setState({
-                    list: await fetchList(),
+                    list: await fetchAllBlogposts(),
                 });
             }
         } catch (error) {

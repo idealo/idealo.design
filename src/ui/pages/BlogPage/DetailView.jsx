@@ -29,6 +29,7 @@ export class DetailView extends React.Component {
       slugNextpost: null,
       isPromptOpen: false,
     };
+
     this.handlePostEdit = this.handlePostEdit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.handlePopup = this.handlePopup.bind(this);
@@ -41,7 +42,7 @@ export class DetailView extends React.Component {
     const slug = this.props.match.params.slug;
     if (slug) {
       this.setState({
-        blogpost: await fetchSinglePost({ slug }),
+        blogpost: await fetchSinglePost({ slug: slug }),
         slug: slug,
       });
     }
@@ -202,7 +203,7 @@ export class DetailView extends React.Component {
               Edit
             </button>
           ) : (
-            <div></div>
+            <div/>
           )}
         </div>
 
