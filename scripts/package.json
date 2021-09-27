@@ -5,8 +5,8 @@
   "main": "motifuiImporter.js",
   "type": "module",
   "scripts": {
-    "test:functions": "jest ./motifUiImporter.test.jsx",
-    "import:motifui": "node ./motifuiImporter"
+    "test": "jest importer-functions.test.js",
+    "import:motifui": "node ./motif-ui-importer-local.js"
   },
   "jest": {
     "verbose": true,
@@ -18,9 +18,12 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.14.5",
-    "mock-fs": "^5.0.0"
+    "cross-env": "^7.0.3",
+    "mock-fs": "^5.0.0",
+    "jest": "^26.6.3"
   },
   "dependencies": {
-    "jsonmark": "0.0.1"
+    "jsonmark": "0.0.1",
+    "node-fetch": "^2.6.1"
   }
 }

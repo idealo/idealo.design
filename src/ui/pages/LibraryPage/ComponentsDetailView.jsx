@@ -7,134 +7,138 @@ import { withRouter } from "react-router";
 import { fetchSingleComponent } from "./component_data";
 
 export class ComponentsDetailView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.copyTextToClipboard = this.copyTextToClipboard.bind(this);
+    constructor(props) {
+        super(props);
+        this.copyTextToClipboard = this.copyTextToClipboard.bind(this);
 
-    this.state = {
-      slug: "",
-      component: {},
-      links: [],
-      URLOptions: "",
-      result: "",
-      titleAfterBackslash: "",
-    };
-  }
-
-  async componentDidMount() {
-    const slug = this.props.match.params.slug;
-    if (slug) {
-      this.setState({
-        component: await fetchSingleComponent({ slug }),
-        slug: slug,
-        links: ["Design", "Installation", "Usage"],
-      });
-      if (window.location.href.includes("#")) {
-        await this.updateComponentDetailView();
-      }
-      const titleAfterBackslash = this.state.component.title.substr(
-        this.state.component.title.indexOf("/") + 1,
-        this.state.component.title.length
-      );
-      this.setState({
-        titleAfterBackslash: titleAfterBackslash,
-      });
+        this.state = {
+            slug: "",
+            component: {},
+            links: [],
+            URLOptions: "",
+            result: "",
+            titleAfterBackslash: ""
+        };
     }
-  }
 
-  async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (window.location.href.includes("#")) {
-      await this.updateComponentDetailView();
+    async componentDidMount() {
+        const slug = this.props.match.params.slug;
+        if (slug) {
+            this.setState({
+                component: await fetchSingleComponent({ slug }),
+                slug: slug,
+                links: ["Design", "Installation", "Usage"],
+            });
+            if (window.location.href.includes("#")) {
+                await this.updateComponentDetailView();
+            }
+            const titleAfterBackslash = this.state.component.title.substr(
+                this.state.component.title.indexOf("/") + 1,
+                this.state.component.title.length
+            );
+            this.setState({
+                titleAfterBackslash: titleAfterBackslash,
+            });
+        }
     }
-  }
 
-  async updateComponentDetailView() {
-    try {
-      const slug = window.location.href;
-      if (slug.includes("Installation")) {
-        this.showInstallation();
-      } else if (slug.includes("Usage")) {
-        this.showUsage();
-      } else if (slug.includes("Design")) {
-        this.showDesign();
-      } else {
-        this.setState({
-          result: "",
-        });
-      }
-    } catch (e) {}
-  }
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        if (window.location.href.includes("#")) {
+            await this.updateComponentDetailView();
+        }
+    }
 
-  copyTextToClipboard() {
-    const copiedText = document.getElementById("toBeCopiedCode").innerText;
-    const el = document.createElement("textarea");
-    el.value = copiedText.toString();
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.getElementById("copyInstallation").innerText = "copied";
-    setTimeout(function () {
-      document.getElementById("copyInstallation").innerText = "copy";
-    }, 1000);
-    document.body.removeChild(el);
-  }
+    async updateComponentDetailView() {
+        try {
+            const slug = window.location.href;
+            if (slug.includes("Installation")) {
+                this.showInstallation();
+            } else if (slug.includes("Usage")) {
+                this.showUsage();
+            } else if (slug.includes("Design")) {
+                this.showDesign();
+            } else {
+                this.setState({
+                    result: "",
+                });
+            }
+        } catch (e) {}
+    }
 
-  showInstallation() {
-    const installation = this.state.component.readme.content.Installation.body;
-    const installationAsHtml = (
-      <div>
-        <button
-          title="copyInstallation"
-          id="copyInstallation"
-          className={s.copyButton}
-          onClick={this.copyTextToClipboard}
-        >
-          copy
-        </button>
-        <Markdown className={s.code} id="toBeCopiedCode">
-          {installation}
-        </Markdown>
-      </div>
-    );
-    this.setState({ result: installationAsHtml });
-  }
+    copyTextToClipboard() {
+        const copiedText = document.getElementById("toBeCopiedCode").innerText;
+        const el = document.createElement("textarea");
+        el.value = copiedText.toString();
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.getElementById("copyInstallation").innerText = "copied";
+        setTimeout(function () {
+            document.getElementById("copyInstallation").innerText = "copy";
+        }, 1000);
+        document.body.removeChild(el);
+    }
 
-  showDesign() {
-    const design = (
-      <div>
-        {this.state.component.screenshots.map((screenshot) => (
-          <div className={s.screenshot} key={screenshot}>
-            <img
-              title={screenshot}
-              src={`https://917999261651-idealo-design-assets.s3.eu-central-1.amazonaws.com/${screenshot}`}
-              alt="image"
-            />
-          </div>
-        ))}
-      </div>
-    );
-    this.setState({ result: design });
-  }
+    showInstallation() {
+        let installation;
+        if(this.state.component.readme){
+            installation = this.state.component.readme.content.Installation.body
+        }
+        const installationAsHtml =
+            <div>
+                {this.state.component.readme ? (
+                    <div>
+                        <button title='copyInstallation' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+                        <Markdown
+                            className={s.code}
+                            id="toBeCopiedCode">{installation}
+                        </Markdown>
+                    </div>
+                ): (
+                    <div/>
+                )}
+            </div>
+        this.setState({ result: installationAsHtml });
+    }
 
-  showUsage() {
-    const usage = this.state.component.readme.content.Usage.body;
-    const usageAsHtml = (
-      <div>
-        <button
-          title="copyUsage"
-          id="copyInstallation"
-          className={s.copyButton}
-          onClick={this.copyTextToClipboard}
-        >
-          copy
-        </button>
-        <Markdown className={s.code} id="toBeCopiedCode">
-          {usage}
-        </Markdown>
-      </div>
-    );
-    this.setState({ result: usageAsHtml });
-  }
+    showDesign() {
+        const design = (
+            <div>
+                {this.state.component.screenshots.map((screenshot) => (
+                    <div className={s.screenshot} key={screenshot}>
+                        <img
+                            title={screenshot}
+                            src={`https://917999261651-idealo-design-assets.s3.eu-central-1.amazonaws.com/${screenshot}`}
+                            alt="image"
+                        />
+                    </div>
+                ))}
+            </div>
+        );
+        this.setState({ result: design });
+    }
+
+    showUsage() {
+        let usage
+        if(this.state.component.readme){
+            usage = this.state.component.readme.content.Usage.body;
+        }
+        const usageAsHtml =
+            <div>
+                {this.state.component.readme ? (
+                    <div>
+                        <button title='copyUsage' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
+                        <Markdown
+                            className={s.code}
+                            id="toBeCopiedCode">{usage}
+                        </Markdown>
+                    </div>
+                ): (
+                    <div/>
+                )}
+            </div>
+        this.setState({ result: usageAsHtml });
+    }
 
   render() {
     return (
@@ -143,7 +147,7 @@ export class ComponentsDetailView extends React.Component {
           <h1 className={s.titleDetailView} title={this.state.component.title}>
             {this.state.titleAfterBackslash}
           </h1>
-          <hr></hr>
+          <hr/>
           <ul>
             {this.state.links.map((link, key) => (
               <li key={key}>
