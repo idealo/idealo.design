@@ -456,7 +456,7 @@ export class RichTextEditor extends React.Component {
           show={this.state.isPromptOpen}
           onHide={this.onModalCancel}
           onLeave={this.onModalLeave}
-          message="Are you sure you want to leave?"
+          message="Are you sure you want to leave without saving your changes?"
         />
         <PromptSuccess
           show={this.state.isSubmitPromptOpen}

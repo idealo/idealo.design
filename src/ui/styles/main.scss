@@ -16,6 +16,9 @@ $color_gray_50: #fafafa;
 
 body {
     font-family: 'Roboto', sans-serif;
+    front-weight: 500;
+    front-style: normal;
+    letter-spacing: 0.2px;
 
     background-color: $color_gray_200;
     padding: 0;
@@ -39,3 +42,8 @@ body {
 }
 
 // end: prevent overscroll
+
+/*
+h1 {
+    margin-left: 3.5%;
+}*/

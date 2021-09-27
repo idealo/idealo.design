@@ -140,7 +140,7 @@ export class ComponentsDetailView extends React.Component {
     return (
       <div>
         <div className={s.headerNav}>
-          <h1 title={this.state.component.title}>
+          <h1 className={s.titleDetailView} title={this.state.component.title}>
             {this.state.titleAfterBackslash}
           </h1>
           <hr></hr>
