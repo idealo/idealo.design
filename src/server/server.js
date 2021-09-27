@@ -284,7 +284,7 @@ app.post("/api/blogposts", isAuthenticated, async (req, res) => {
   return res.json(createdBlogpost);
 });
 
-app.get("/api/categories", isAuthenticated, async (req, res) => {
+app.get("/api/categories", async (req, res) => {
   const categories = await Blog.fetchAllCategories();
   return res.json(categories);
 });
@@ -299,11 +299,6 @@ app.get("/api/title", isAuthenticated, async (req, res) => {
   const titles = await Blog.fetchAllBlogpostTitles();
   console.log(titles)
   return res.json(titles);
-});
-
-app.get("/api/distinctCategories", async (req, res) => {
-  const categories = await Blog.fetchAllCategories();
-  return res.json(categories);
 });
 
 app.get("/*", (req, res) => {

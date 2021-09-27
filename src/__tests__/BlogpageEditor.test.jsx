@@ -8,7 +8,7 @@ jest.mock("../ui/pages/BlogPage/data", () => {
   return {
     fetchUserInfo: jest.fn(),
     fetchSinglePost: jest.fn(),
-    fetchDistinctCategories: jest.fn(),
+    fetchAllCategories: jest.fn(),
   };
 });
 

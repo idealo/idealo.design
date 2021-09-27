@@ -6,7 +6,6 @@ import {
     deleteSinglePost,
     archiveSinglePost,
     fetchPostsByCategorySlug,
-    fetchDistinctCategories,
     fetchAllCategories,
     fetchSinglePost
 } from './data'
@@ -257,7 +256,7 @@ describe("all Tests", () => {
         uponReceiving: "a request to fetch distinct categories",
         withRequest: {
           method: "GET",
-          path: "/api/distinctCategories",
+          path: "/api/categories",
         },
         willRespondWith: {
           status: 200,
@@ -271,37 +270,11 @@ describe("all Tests", () => {
         },
       });
 
-      const response = await fetchDistinctCategories(
+      const response = await fetchAllCategories(
         provider.mockService.baseUrl
       );
       expect(response[0].categorydisplayvalue).toBe("Testing Category");
       expect(response[0].categoryslug).toBe("testing-category");
-    });
-  });
-
-  describe("When a request to list all categories is made", () => {
-    test("should return categories", async () => {
-      await provider.addInteraction({
-        uponReceiving: "a request to list all categories",
-        withRequest: {
-          method: "GET",
-          path: "/api/categories",
-        },
-        willRespondWith: {
-          status: 200,
-          body: eachLike(
-            {
-              categoryslug: like("new-category"),
-              sum: 4,
-            },
-            { min: 4 }
-          ),
-        },
-      });
-
-      const response = await fetchAllCategories(provider.mockService.baseUrl);
-      expect(response[0].categoryslug).toBe("new-category");
-      expect(response[0].sum).toBe(4);
     });
   });
 
