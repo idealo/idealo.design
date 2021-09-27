@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 
 const API_BASE = "";
 
-export async function fetchList(base_url = API_BASE) {
+export async function fetchAllBlogposts(base_url = API_BASE) {
   const resp = await fetch(`${base_url}/api/blogposts`);
   return resp.json();
 }

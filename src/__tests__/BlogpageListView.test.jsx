@@ -1,6 +1,6 @@
 import {
   fetchUserInfo,
-  fetchList,
+  fetchAllBlogposts,
   fetchPostsByCategorySlug,
 } from "../ui/pages/BlogPage/data";
 import { render, screen, waitFor } from "@testing-library/react";
@@ -11,7 +11,7 @@ import React from "react";
 jest.mock("../ui/pages/BlogPage/data", () => {
   return {
     fetchUserInfo: jest.fn(),
-    fetchList: jest.fn(),
+    fetchAllBlogposts: jest.fn(),
     fetchPostsByCategorySlug: jest.fn(),
   };
 });
@@ -71,7 +71,7 @@ test("listView gets rendered with user logged in", async () => {
   };
 
   fetchPostsByCategorySlug.mockReturnValue([mockupBlogpost]);
-  fetchList.mockReturnValue([mockupBlogpost]);
+  fetchAllBlogposts.mockReturnValue([mockupBlogpost]);
   fetchUserInfo.mockReturnValue(userInfo);
 
   render(<ListView {...mockedParams} />);
@@ -145,7 +145,7 @@ test("listView gets rendered with user not logged in", async () => {
   };
 
   fetchPostsByCategorySlug.mockReturnValue([mockupBlogpost]);
-  fetchList.mockReturnValue([mockupBlogpost]);
+  fetchAllBlogposts.mockReturnValue([mockupBlogpost]);
   fetchUserInfo.mockReturnValue(userInfo);
 
   render(<ListView {...mockedParams} />);

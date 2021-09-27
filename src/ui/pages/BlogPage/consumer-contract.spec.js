@@ -1,6 +1,6 @@
 import {Pact, Matchers} from '@pact-foundation/pact'
 import {
-    fetchList,
+    fetchAllBlogposts,
     fetchUserInfo,
     updateSinglePost,
     deleteSinglePost,
@@ -125,7 +125,7 @@ describe("all Tests", () => {
         },
       });
 
-      const response = await fetchList(provider.mockService.baseUrl);
+      const response = await fetchAllBlogposts(provider.mockService.baseUrl);
       expect(response[0].title).toBe("Mocked Blogpost");
       expect(response[0].categoryslug).toBe("test");
       expect(response[0].categorydisplayvalue).toBe("Test");

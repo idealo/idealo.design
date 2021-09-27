@@ -58,7 +58,8 @@ export class Blog extends Model {
                         attributes: ['slug'],
                         where: {
                             nextpost: id
-                        }
+                        },
+                        transaction: ta,
                     }).then(slug => {
                         if (slug) {
                             return slug.getDataValue('slug')
@@ -83,7 +84,7 @@ export class Blog extends Model {
                         attributes: ['slug'],
                         where: {
                             previouspost: id
-                        }
+                        },transaction: ta
                     }).then(slug => {
                         if (slug) {
                             return slug.getDataValue('slug')
@@ -136,7 +137,7 @@ export class Blog extends Model {
                             attributes: [[sequelize.fn('max', sequelize.col('date')), 'date']],
                             where: {
                                 isarchived: 0
-                            }
+                            },transaction: ta
                         }).then(date => {
                             return date.getDataValue('date')
                         })
@@ -152,7 +153,7 @@ export class Blog extends Model {
                         attributes: ['id'],
                         where: {
                             slug: slug
-                        }
+                        },transaction: ta
                     }).then(id => {
                         return id.getDataValue('id')
                     }),
@@ -298,7 +299,7 @@ export class Blog extends Model {
                 },{
                     where: {
                         nextpost: blog.id
-                    }
+                    }, transaction: ta
                 })
 
                 await Blog.update({
