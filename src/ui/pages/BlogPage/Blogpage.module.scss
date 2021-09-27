@@ -205,11 +205,11 @@
 .titleListView{
   margin-top: 3px;
   line-height: 25px;
+  color: black;
 }
 
 .LinkToDetailView{
   text-decoration: none;
-  color: inherit;
 }
 
 .textListView{
@@ -236,9 +236,24 @@
 .contentListView{
   padding: 0px 20px 5px;
   font-family: Roboto, sans-serif;
+
+  hr{
+  color: grey;
+  }
 }
 
 .dateListView{
   color: grey;
   float:right;
+}
+
+//Prompt
+.promptMessage{
+  text-align: center;
+}
+
+.promptButtonDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

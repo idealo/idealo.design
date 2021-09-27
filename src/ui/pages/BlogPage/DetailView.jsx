@@ -2,7 +2,7 @@ import React from "react";
 import ReactModal from "react-modal";
 import draftToHtml from "../../../vendor/draftjs-to-html";
 import HtmlToReact from "html-to-react";
-import Prompt from "./Editor/Prompt";
+import Prompt from "./Prompt";
 
 import s from "./Blogpage.module.scss";
 import {
@@ -48,7 +48,6 @@ export class DetailView extends React.Component {
     this.setState({
       userInfo: await fetchUserInfo(),
     });
-    ReactModal.setAppElement("body");
 
     const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
     if(slugsPreviousAndNextPost[0]!==null){
@@ -123,7 +122,7 @@ export class DetailView extends React.Component {
   }
 
   render() {
-    let facebookLink;
+    /*let facebookLink;
     let instagramLink;
     let twitterLink;
     let emailLink;
@@ -179,7 +178,7 @@ export class DetailView extends React.Component {
           />
         </a>
       );
-    }
+    }*/
 
     const htmlBlogContent = draftToHtml(this.state.blogpost.blogpostcontent);
     const HtmlToReactParser = HtmlToReact.Parser;
@@ -196,7 +195,7 @@ export class DetailView extends React.Component {
               Delete
             </button>
           ) : (
-            <div></div>
+            <div/>
           )}
           {this.state.userInfo.status === "LOGGED_IN" ? (
             <button onClick={this.handlePostEdit} title="editButton">
@@ -208,13 +207,13 @@ export class DetailView extends React.Component {
         </div>
 
         <div className={s.ContentDetailView}>
-          <div className={s.SocialMediaIcons}>
+          {/*<div className={s.SocialMediaIcons}>
             {instagramLink}
             {twitterLink}
             {facebookLink}
             {emailLink}
             {githubLink}
-          </div>
+          </div>*/}
           <h2 className={s.blogpostTitle}>{this.state.blogpost.title}</h2>
           <div className={s.Autor}>{this.state.blogpost.autor}</div>
           <h5 className={s.blogpostDate}>{datetime}</h5>
