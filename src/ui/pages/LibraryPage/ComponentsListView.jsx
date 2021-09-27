@@ -42,7 +42,6 @@ export class ComponentsListView extends React.Component {
     try {
       const pathname = window.location.pathname
       this.fillFilterComponents(pathname)
-      this.setState({filterValue: []})
     } catch (error) {
       console.log(error)
     }

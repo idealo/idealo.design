@@ -70,12 +70,19 @@ describe("test ListView", () => {
     },
   };
 
+  const mockedParams = {
+    location: { pathname: "/library" },
+  };
+
   test("ComponentsListView gets rendered with user logged in", async () => {
     fetchUserInfo.mockReturnValue(userInfo);
     fetchComponents.mockReturnValue([mockupComponent[0]]);
     fetchTags.mockReturnValue(mockupTags);
 
-    render(<ComponentsListView/>);
+    delete window.location;
+    window.location = new URL("http://localhost:8080/library");
+
+    render(<ComponentsListView {...mockedParams}/>);
 
     await waitFor(() => {
       const componentTitle = screen.getByTitle("componentTitle");
@@ -91,10 +98,10 @@ describe("test ListView", () => {
     fetchComponents.mockReturnValue(mockupComponent);
     fetchTags.mockReturnValue(mockupTags);
 
-    delete window.location;
-    window.location = new URL("http://localhost:8080/components?query=button");
+    render(<ComponentsListView {...mockedParams}/>);
 
-    render(<ComponentsListView/>);
+    delete window.location;
+    window.location = new URL("http://localhost:8080/library?query=button");
 
     await waitFor(() => {
       const componentTag = screen.getAllByTitle("componentTitle");
