@@ -1,9 +1,9 @@
 import React from "react";
-import { withRouter } from "react-router";
+import {withRouter} from "react-router";
 import s from "./ComponentsPage.module.scss";
 import Select from "react-select";
 import { fetchComponents, fetchTags } from "./component_data";
-import { fetchUserInfo } from "../BlogPage/data";
+import {fetchUserInfo} from "../BlogPage/data";
 import LoginMessage from "../../components/LoginMessage/LoginMessage";
 
 export class ComponentsListView extends React.Component {
@@ -16,18 +16,36 @@ export class ComponentsListView extends React.Component {
       filteredComponents: [],
       URLOptions: [],
       userInfo: {},
+      view: ""
     };
   }
 
   async componentDidMount() {
+    await this.updateListView();
     this.setState({
       components: await fetchComponents(),
       availableTags: await fetchTags(),
       userInfo: await fetchUserInfo(),
     });
     this.fillFilterWithTags();
-    this.fillFilterComponents();
+    this.fillFilterComponents(window.location.pathname);
     this.checkURL();
+  }
+
+  async componentDidUpdate(prevProps, prevState, snapshot){
+    if (prevProps.location.pathname !== this.props.location.pathname){
+      await this.updateListView();
+    }
+  }
+
+  async updateListView() {
+    try {
+      const pathname = window.location.pathname
+      this.fillFilterComponents(pathname)
+      this.setState({filterValue: []})
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   fillFilterWithTags() {
@@ -41,22 +59,45 @@ export class ComponentsListView extends React.Component {
     this.setState({ availableTags: options });
   }
 
-  fillFilterComponents() {
-    if (this.state.filterValue.length < 1) {
-      this.setState({ filteredComponents: this.state.components });
-    } else {
-      this.setState({ filteredComponents: [] });
-      const filteredComponents = [];
+  fillFilterComponents(pathname) {
+    let filteredCompos = []
+    if(pathname === "/library") {
+      if (this.state.filterValue.length < 1) {
+        this.setState({view: "Library"})
+        this.setState({filteredComponents: this.state.components});
+      } else {
+        this.setState({filteredComponents: []});
+        const filteredComponents = [];
 
-      for (let component of this.state.components) {
-        const check = this.state.filterValue.every((el) => {
-          return component.tags.indexOf(el) !== -1;
-        });
-        if (check) {
-          filteredComponents.push(component);
+        for (let component of this.state.components) {
+          const check = this.state.filterValue.every((el) => {
+            return component.tags.indexOf(el) !== -1;
+          });
+          if (check) {
+            filteredComponents.push(component);
+          }
+        }
+        this.setState({filteredComponents: [...new Set(filteredComponents)]});
+      }
+    }else {
+      if (pathname.includes('for-classic-stacks')) {
+        this.setState({view: "Classic Stacks"})
+        for (let component of this.state.components) {
+          if (!component.tags.includes("react")) {
+            filteredCompos.push(component);
+          }
         }
       }
-      this.setState({ filteredComponents: [...new Set(filteredComponents)] });
+
+      if (pathname.includes('for-react-stacks')) {
+        this.setState({view: "React Stacks"})
+        for (let component of this.state.components) {
+          if (component.tags.includes("react")) {
+            filteredCompos.push(component);
+          }
+        }
+      }
+      this.setState({filteredComponents: filteredCompos})
     }
   }
 
@@ -67,7 +108,7 @@ export class ComponentsListView extends React.Component {
     searchParams.set("query", filterValue.toString());
     this.props.history.push(`?${searchParams.toString()}`);
     this.state.filterValue = filterValue;
-    this.fillFilterComponents();
+    this.fillFilterComponents(window.location.pathname);
     this.checkURL();
   }
 
@@ -86,26 +127,27 @@ export class ComponentsListView extends React.Component {
       }
     }
     this.setState({ filterValue: filterValue, URLOptions: URLOptions });
-    this.fillFilterComponents();
+    this.fillFilterComponents(window.location.pathname);
   }
 
   render() {
-    const library = " Library";
     return (
         <div>
-          <h1>{library}</h1>
+          <h1>{this.state.view}</h1>
           {this.state.userInfo.status === "LOGGED_IN" ? (
               <div>
                 <React.Fragment>
-                  <div className={s.multiselect}>
-                    <Select
-                        isMulti
-                        className="basic-multi-select"
-                        value={this.state.URLOptions}
-                        onChange={(selectedTags) => this.handleChange(selectedTags)}
-                        options={this.state.availableTags}
-                    />
-                  </div>
+                  {this.state.view === "Library" ? (
+                      <div className={s.multiselect}>
+                        <Select
+                            isMulti
+                            className="basic-multi-select"
+                            value={this.state.URLOptions}
+                            onChange={(selectedTags) => this.handleChange(selectedTags)}
+                            options={this.state.availableTags}
+                        />
+                      </div>
+                  ):<div></div>}
                 </React.Fragment>
                 <div className={s.container}>
                   {this.state.filteredComponents.map((component) => (
@@ -138,7 +180,7 @@ export class ComponentsListView extends React.Component {
                 </div>
               </div>
           ) : (
-              <LoginMessage children={library} />
+              <LoginMessage children={this.state.view} />
           )}
         </div>
     );

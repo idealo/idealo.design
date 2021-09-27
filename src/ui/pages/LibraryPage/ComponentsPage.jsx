@@ -4,8 +4,6 @@ import { Route, Switch } from "react-router-dom";
 
 import ComponentView from "./ComponentsListView";
 import { fetchUserInfo } from "../BlogPage/data";
-import ReactStackView from "./ReactStackView";
-import ClassicStackView from "./ClassicStackView";
 import ComponentsDetailView from "./ComponentsDetailView";
 
 export default function ComponentsPage({ match }) {
@@ -22,10 +20,10 @@ export default function ComponentsPage({ match }) {
           <ComponentView />
         </Route>
         <Route exact path="/library/for-react-stacks">
-          <ReactStackView />
+          <ComponentView />
         </Route>
         <Route exact path="/library/for-classic-stacks">
-          <ClassicStackView />
+          <ComponentView />
         </Route>
         <Route path="/library/:slug">
           <ComponentsDetailView />
