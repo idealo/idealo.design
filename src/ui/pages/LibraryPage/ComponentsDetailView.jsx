@@ -147,7 +147,7 @@ export class ComponentsDetailView extends React.Component {
           <h1 className={s.titleDetailView} title={this.state.component.title}>
             {this.state.titleAfterBackslash}
           </h1>
-          <hr></hr>
+          <hr/>
           <ul>
             {this.state.links.map((link, key) => (
               <li key={key}>

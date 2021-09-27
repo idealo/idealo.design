@@ -12,16 +12,6 @@ export async function fetchTags(base_url = API_BASE) {
     return await resp.json();
 }
 
-export async function fetchMap(base_url = API_BASE) {
-    const resp = await fetch(`${base_url}/api/map`);
-    return await resp.json();
-}
-
-export async function fetchReadMe({slug}) {
-    const resp = await fetch(`${API_BASE}/api/read/${slug}`);
-    return await resp.json();
-}
-
 export async function fetchSingleComponent({ slug },base_url = API_BASE) {
   const resp = await fetch(`${base_url}/api/components/${slug}`);
   return resp.json();

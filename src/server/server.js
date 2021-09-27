@@ -16,28 +16,8 @@ import { OAuth2Strategy } from "passport-oauth";
 
 import Renderer from "./renderer";
 
-import {
-  fetchAllCategories,
-  fetchList,
-  fetchPostsByCategorySlug,
-  fetchSinglePost,
-  storeSinglePost,
-  updateSinglePost,
-  fetchDistinctCategories,
-  fetchPrevSlugAndNextSlugById,
-  deleteSinglePost,
-  archiveSinglePost,
-  fetchAllTitles,
-  fetchComponents,
-  fetchTags,
-  fetchMap,
-  updateSingleComponent,
-  fetchSingleComponent,
-  deleteSingleComponent,
-  importSingleComponent,
-  fetchScreenshots,
-  fetchReadMe,
-} from "./db";
+import {Library, Tags} from "./models/Library"
+import {Blog} from "./models/Blog"
 
 const dangerousTestModeArgument =
   !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false;
@@ -212,34 +192,13 @@ app.get("/logout", function (req, res) {
 });
 
 app.get("/api/components", isAuthenticated, async (req, res) => {
-  const components = await fetchComponents();
+  const components = await Library.fetchAllComponents();
   return res.json(components);
 });
 
-app.get(
-  "/api/screenshots/:screenshot_id?",
-  isAuthenticated,
-  async (req, res) => {
-    const screenshot_id = req.params;
-    const screenshots = await fetchScreenshots(screenshot_id);
-    return res.json(screenshots[0].screenshot);
-  }
-);
-
 app.get("/api/tags", isAuthenticated, async (req, res) => {
-  const tags = await fetchTags();
+  const tags = await Tags.fetchTags();
   return res.json(tags);
-});
-
-app.get("/api/map", isAuthenticated, async (req, res) => {
-  const map = await fetchMap();
-  return res.json(map);
-});
-
-app.get("/api/read/:slug?", isAuthenticated, async (req, res) => {
-  const { slug } = req.params;
-  const readme = await fetchReadMe({ slug });
-  return res.json(readme);
 });
 
 app.put("/api/components/update", isBasicAuthenticated, async (req, res) => {
@@ -262,10 +221,10 @@ app.put("/api/components/update", isBasicAuthenticated, async (req, res) => {
 
     const componentData = req.body;
 
-    res.status(200).send({
+    /*res.status(200).send({
       message: "Uploaded component successfully!",
       component: await importSingleComponent(screenshotPaths, componentData),
-    });
+    });*/
   } catch (err) {
     res.status(500).send({
       message: "Could not upload the screenshots." + err,
@@ -274,14 +233,14 @@ app.put("/api/components/update", isBasicAuthenticated, async (req, res) => {
 });
 
 app.put("/api/components/:component_id?", isAuthenticated, async (req, res) => {
-  const component = req.body;
+  /*const component = req.body;
   const updatedComponent = await updateSingleComponent(component);
-  return res.json(updatedComponent);
+  return res.json(updatedComponent);*/
 });
 
 app.get("/api/components/:slug?", isAuthenticated, async (req, res) => {
   const { slug } = req.params;
-  const singleComponent = await fetchSingleComponent({ slug });
+  const singleComponent = await Library.fetchSingleComponent({ slug });
   return res.json(singleComponent);
 });
 
@@ -289,11 +248,11 @@ app.delete(
   "/api/components/:component_id?",
   isAuthenticated,
   async (req, res) => {
-    const { component_id } = req.params;
+    /*const { component_id } = req.params;
     const deletedSingleComponent = await deleteSingleComponent({
       component_id,
     });
-    return res.json(deletedSingleComponent);
+    return res.json(deletedSingleComponent);*/
   }
 );
 
@@ -304,14 +263,14 @@ app.get("/api/blogposts/:slug?", async (req, res) => {
     let posts = [];
 
     if (categorySlug) {
-      posts = await fetchPostsByCategorySlug({ categorySlug });
+      posts = await Blog.fetchAllBlogpostsByCategorySlug({ categorySlug });
     } else {
-      posts = await fetchList();
+      posts = await Blog.fetchAllBlogposts();
     }
     return res.json(posts);
   }
 
-  const blogpost = await fetchSinglePost({ slug });
+  const blogpost = await Blog.fetchSingleBlogpost({ slug });
   return res.json(blogpost);
 });
 
@@ -319,31 +278,27 @@ app.post("/api/blogposts", isAuthenticated, async (req, res) => {
   const newBlogpost = req.body;
   newBlogpost.slug = slugify(newBlogpost.title);
   newBlogpost.date = new Date().toISOString();
-  newBlogpost.blogpostcontent = req.body.blogpostcontent;
-  const createdBlogpost = await storeSinglePost(newBlogpost);
+  newBlogpost.blogpostcontent = JSON.parse(req.body.blogpostcontent);
+  const createdBlogpost = await Blog.insertSingleBlogpost(newBlogpost);
 
   return res.json(createdBlogpost);
 });
 
-app.get("/api/categories", isAuthenticated, async (req, res) => {
-  const categories = await fetchAllCategories();
+app.get("/api/categories", async (req, res) => {
+  const categories = await Blog.fetchAllCategories();
   return res.json(categories);
 });
 
 app.get("/api/blogpostPrevSlugAndNextSlug/:id?", async (req, res) => {
-  const { id } = req.params;
-  const categories = await fetchPrevSlugAndNextSlugById({id});
+  const {id} = req.params;
+  const categories = await Blog.fetchPrevAndNextSlugByBlogpostId({id: id});
   return res.json(categories);
-});
+})
 
 app.get("/api/title", isAuthenticated, async (req, res) => {
-  const titles = await fetchAllTitles();
+  const titles = await Blog.fetchAllBlogpostTitles();
+  console.log(titles)
   return res.json(titles);
-});
-
-app.get("/api/distinctCategories", async (req, res) => {
-  const categories = await fetchDistinctCategories();
-  return res.json(categories);
 });
 
 app.get("/*", (req, res) => {
@@ -355,20 +310,20 @@ app.put("/api/blogposts", isAuthenticated, async (req, res) => {
   updatedBlogpost.slug = slugify(updatedBlogpost.title);
   updatedBlogpost.date = new Date().toISOString();
 
-  const createdBlogpost = await updateSinglePost(updatedBlogpost);
+  const createdBlogpost = await Blog.updateBlogpost(updatedBlogpost);
 
   return res.json(createdBlogpost);
 });
 
 app.put("/api/blogposts/archive", isAuthenticated, async (req, res) => {
   const blogpost = req.body;
-  const archiveBlogpost = await archiveSinglePost(blogpost);
+  const archiveBlogpost = Blog.archiveSingleBlogpost(blogpost);
   return res.json(archiveBlogpost);
 });
 
 app.put("/api/blogposts/delete", isAuthenticated, async (req, res) => {
   const blogpost = req.body;
-  await deleteSinglePost(blogpost);
+  await Blog.deleteSingleBlogpost(blogpost);
   return res.json("successfully deleted blogpost");
 });
 

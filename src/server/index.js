@@ -1,4 +1,4 @@
-import { app } from "./server.js";
+import { app } from "./server";
 
 const PORT = process.env.HTTP_PORT || 8080;
 app.listen(PORT, "0.0.0.0", () => {

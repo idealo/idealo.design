@@ -1,16 +1,8 @@
 import { Verifier } from "@pact-foundation/pact";
 import path from "path";
 import { app } from "./server";
-import {
-  fetchList,
-  updateSinglePost,
-  deleteSinglePost,
-  archiveSinglePost,
-  fetchPostsByCategorySlug,
-  fetchDistinctCategories,
-  fetchAllCategories,
-  fetchSinglePost,
-} from "./db";
+import { Blog } from "./models/Blog";
+
 import "@testing-library/jest-dom/extend-expect";
 import {
   mockedArchivedBlogpost,
@@ -18,26 +10,35 @@ import {
   mockedUpdatedBlogpost,
 } from "../ui/pages/BlogPage/consumer-contract.spec";
 
-jest.mock("./db", () => {
+jest.mock("./models/Blog", () => {
   return {
-    fetchList: jest.fn(),
-    updateSinglePost: jest.fn(),
-    archiveSinglePost: jest.fn(),
-    fetchPostsByCategorySlug: jest.fn(),
-    fetchDistinctCategories: jest.fn(),
-    fetchAllCategories: jest.fn(),
-    fetchSinglePost: jest.fn(),
-    deleteSinglePost: jest.fn(),
+    Blog: {
+      fetchAllBlogposts: jest.fn(),
+      updateBlogpost: jest.fn(),
+      archiveSingleBlogpost: jest.fn(),
+      fetchAllBlogpostsByCategorySlug: jest.fn(),
+      fetchAllCategories: jest.fn(),
+      fetchSingleBlogpost: jest.fn(),
+      deleteSingleBlogpost: jest.fn(),
+    }
   };
 });
+
+jest.mock('./models/Library', () => {
+  return {
+    Library: {
+      fetchAllComponents: jest.fn(),
+      fetchSingleComponent: jest.fn(),
+    },
+    Tags: {
+      fetchTags: jest.fn()
+    }
+  }
+})
 
 const distinctCategories = {
   categorydisplayvalue: "Testing Category",
   categoryslug: "testing-category",
-};
-const allCategories = {
-  categoryslug: "new-category",
-  sum: 4,
 };
 
 describe("Pact Verification", () => {
@@ -46,24 +47,18 @@ describe("Pact Verification", () => {
   );
 
   test("should validate the expectations of our consumer", () => {
-    fetchList.mockReturnValue([mockedBlogpost, mockedBlogpost, mockedBlogpost]);
-    updateSinglePost.mockReturnValue(mockedUpdatedBlogpost);
-    fetchSinglePost.mockReturnValue([mockedBlogpost]);
-    fetchPostsByCategorySlug.mockReturnValue(mockedBlogpost);
-    archiveSinglePost.mockReturnValue(mockedArchivedBlogpost);
-    fetchDistinctCategories.mockReturnValue([
+    Blog.fetchAllBlogposts.mockReturnValue([mockedBlogpost, mockedBlogpost, mockedBlogpost]);
+    Blog.updateBlogpost.mockReturnValue(mockedUpdatedBlogpost);
+    Blog.fetchSingleBlogpost.mockReturnValue([mockedBlogpost]);
+    Blog.fetchAllBlogpostsByCategorySlug.mockReturnValue(mockedBlogpost);
+    Blog.archiveSingleBlogpost.mockReturnValue(mockedArchivedBlogpost);
+    Blog.fetchAllCategories.mockReturnValue([
       distinctCategories,
       distinctCategories,
       distinctCategories,
       distinctCategories,
     ]);
-    fetchAllCategories.mockReturnValue([
-      allCategories,
-      allCategories,
-      allCategories,
-      allCategories,
-    ]);
-    deleteSinglePost.mockReturnValue("successfully deleted blogpost");
+    Blog.deleteSingleBlogpost.mockReturnValue("successfully deleted blogpost");
 
     const opts = {
       provider: "BlogTestingProvider",
