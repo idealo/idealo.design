@@ -78,7 +78,8 @@ export class RichTextEditor extends React.Component {
       return true;
     });
 
-    this.setState({ cats: await fetchAllCategories(), author: await fetchUserInfo().then(user => {return user.user.displayName})});
+    const user = await fetchUserInfo()
+    this.setState({ cats: await fetchAllCategories(), author: user.user.displayName});
 
     if (this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
