@@ -8,7 +8,7 @@ create table if not exists blogposts (
     categorySlug VARCHAR (255) NOT NULL,
     slug VARCHAR (255) NOT NULL,
     date TIMESTAMP NOT NULL,
-    image VARCHAR (255) NOT NULL,
+    image VARCHAR (255),
     text text NOT NULL,
     PRIMARY KEY (id)
     );
