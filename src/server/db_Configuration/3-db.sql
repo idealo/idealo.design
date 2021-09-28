@@ -29,7 +29,7 @@ UPDATE blogposts SET
                      categorySlug = 'Docker',
                      slug = 'Einstieg-in-die-Welt-der-Datenbanken',
                      date = '2021-01-28T14:45:45.351Z',
-                     image = 'https://engineering.nordeus.com/content/images/2018/09/postgresql-cover-3.jpg',
+                     image = 'https://www.thesmbguide.com/images/postgresql-1024x512-20190322.png',
                      text = 'Für das Erstellen des Weblogs war der nächste Punkt auf der Agenda eine Datenbank einzurichten, ' ||
                             'sodass die Blogposts und Informationen zu den Autoren unabhängig vom Standort aufgerufen werden können. ' ||
                             'Eine Aufgabe, welche viele Fragezeichen bei uns Entwicklerinnen aufrief, da es schon eine Weile her war, seitdem wir Datenbanken belegt hatten. ' ||
@@ -90,7 +90,7 @@ UPDATE blogposts SET
                      categorySlug = 'Git',
                      slug = 'Versionskontrolle',
                      date = '2021-01-21T14:45:45.351Z',
-                     image = 'https://s20.directupload.net/images/210212/zhmkr8zv.png',
+                     image = 'https://phoenixweb.com.au/wp-content/uploads/2016/11/GitHub-wide-logo-1024x219.png',
                      text = 'Versionskontroll-Systeme ermöglichen übersichtliches und effizientes Arbeiten an Web-Projekten. Ein moderner Standard für die Softwareentwicklung ' ||
                             'ist dabei das kostenlose Open-Source Versionskontrollsystem Git mit der dazugehörigen Online-Plattform GitHub. Auf GitHub werden Projekte in ' ||
                             'Repositories organisiert, die die jeweiligen Bestandteile wie HTML-, JavaScript und CSS-Dateien beinhalten. Die am Projekt beteiligten User ' ||
