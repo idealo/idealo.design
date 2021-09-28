@@ -29,7 +29,7 @@ UPDATE blogposts SET
                      categorySlug = 'Docker',
                      slug = 'Einstieg-in-die-Welt-der-Datenbanken',
                      date = '2021-01-28T14:45:45.351Z',
-                     image = 'https://s12.directupload.net/images/210212/bd5j6kn8.jpg',
+                     image = 'https://engineering.nordeus.com/content/images/2018/09/postgresql-cover-3.jpg',
                      text = 'Für das Erstellen des Weblogs war der nächste Punkt auf der Agenda eine Datenbank einzurichten, ' ||
                             'sodass die Blogposts und Informationen zu den Autoren unabhängig vom Standort aufgerufen werden können. ' ||
                             'Eine Aufgabe, welche viele Fragezeichen bei uns Entwicklerinnen aufrief, da es schon eine Weile her war, seitdem wir Datenbanken belegt hatten. ' ||
@@ -111,12 +111,12 @@ WHERE id = 4;
 
 UPDATE blogposts SET
                      title = 'Draft JS als Open Source Editor',
-                     nextpost = Versionskontrolle,
+                     nextpost = 'Versionskontrolle',
                      previouspost = NULL,
                      categoryDisplayValue ='Draft JS',
                      categorySlug = 'Draft-JS',
                      slug = 'Draft-JS-als-Open-Source-Editor',
-                     date = '2023-01-21T14:45:45.351Z',
+                     date = '2021-01-21T14:45:45.351Z',
                      image ='https://miro.medium.com/max/700/1*MNBn-6DkW-RnIsZgO_bP3Q.png',
                      text = 'Was ist Draft.js? Draft.js ist ein sogenanntes Rich Text Editor Framework, welches von Facebook entwickelt wurde und 2016 von Isaac Salier-Hellendag ' ||
                             'auf der React.js Conf vorgestellt wurde. Draft.js kann nur in Verbindung mit React und React DOM genutzt werden und wurde speziell für React entwickelt. ' ||
