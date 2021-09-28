@@ -1,4 +1,4 @@
-create table if not exists blogposts (
+CREATE TABLE if NOT EXISTS blogposts (
     id SERIAL,
     title VARCHAR (255) NOT NULL,
     autor VARCHAR (255),
@@ -17,12 +17,12 @@ INSERT INTO  blogposts (id, title, nextpost, previouspost, categoryDisplayValue,
 VALUES (
         1,
         'Der Weihnachtsmann',
-        'rudolf-the-red-nose-reindeer',
+        'Rudolf-the-Red-Nose-Reindeer',
         NULL,
         'Kategorie 1',
-        'kategorie-1',
-        'der-weihnachtsmann',
-        '2020-11-26T14:45:45.351Z',
+        'Kategorie-1',
+        'Der-Weihnachtsmann',
+        '2020-11-26T14:40:45.351Z',
         'https://i.pinimg.com/originals/a6/e7/ac/a6e7ac7ece3b2a567d5073af84013cf6.jpg',
         'Der Weihnachtsmann ist eine Symbolfigur weihnachtlichen Schenkens, die in Deutschland vor allem in Nord-, Mittel- und Ostdeutschland sowie in der übrigen Welt ' ||
         'besonders in evangelisch geprägten Regionen, wie in der französischsprachigen Westschweiz (Père Noël), den Niederlanden, Skandinavien, Estland, Lettland, ' ||
@@ -34,12 +34,12 @@ VALUES (
        (
         2,
         'Rudolf the Red Nose Reindeer',
-        'bitte-nicht-die-cookies-löschen',
-        'der-weihnachtsmann',
+        'Bitte-nicht-die-Cookies-loeschen',
+        'Der-Weihnachtsmann',
         'Kategorie 2',
-        'kategorie-2',
-        'rudolf-the-red-nose-reindeer',
-        '2020-11-27T14:45:45.351Z',
+        'Kategorie-2',
+        'Rudolf-the-Red-Nose-Reindeer',
+        '2020-11-27T14:41:45.351Z',
         'https://st3.depositphotos.com/1832477/13417/v/450/depositphotos_134170294-stock-illustration-funny-reindeer-holding-balls-for.jpg',
         'Die Kaufhauskette Montgomery Ward aus Chicago verkaufte Malbücher verschiedener fremder Buchverlage. Die Unternehmensleitung entschied im Jahre 1939, ' ||
         'aus Kostengründen auch ein eigenes Malbuch herauszugeben, das als Anzeigen-Kampagne gedacht war. Der mit Kinderliedern vertraute Autor Robert Lewis May, ' ||
@@ -53,12 +53,12 @@ VALUES (
        (
         3,
         'Bitte nicht die Cookies löschen',
-        'über-den-weihnachtsbaum',
-        'rudolf-the-red-nose-reindeer',
+        'Ueber-den-Weihnachtsbaum',
+        'Rudolf-the-Red-Nose-Reindeer',
         'Kategorie 3',
-        'kategorie-3',
-        'bitte-nicht-die-cookies-löschen',
-        '2020-11-28T14:45:45.351Z',
+        'Kategorie-3',
+        'Bitte-nicht-die-Cookies-loeschen',
+        '2020-11-28T14:42:45.351Z',
         'https://images-na.ssl-images-amazon.com/images/I/51TpeQ5tTPL._AC_.jpg',
         'Als Plätzchen (Diminutiv von mundartlich Platz, „flach geformter Kuchen”, nach der flachen Form übertragen von Platz aus altfranzösisch place) ' ||
         'bezeichnet man allgemein zu den Feinbackwaren gehörendes süßes Kleingebäck wie Kekse, Konfekt und Ähnliches. Plätzchen sind ein beliebtes Weihnachtsgebäck.' ||
@@ -71,12 +71,12 @@ VALUES (
        (
         4,
         'Über Weihnachten',
-        'bunte-luftballons',
-        'bitte-nicht-die-cookies-löschen',
+        'Bunte-Luftballons',
+        'Bitte-nicht-die-Cookies-loeschen',
         'Kategorie 4',
-        'kategorie-4',
-        'über-weihnachten',
-        '2020-11-26T14:45:45.351Z',
+        'Kategorie-4',
+        'Ueber-Weihnachten',
+        '2020-11-26T14:43:45.351Z',
         'https://img.favpng.com/6/10/10/balloon-clip-art-png-favpng-pMsmfEyLkSHHwrmsDuTebXD5z.jpg',
         'Ein Weihnachtsbaum, auch Christbaum (in Österreich, Altbayern, der deutschsprachigen Schweiz und Liechtenstein ausschließlich, im Rheinland häufig) ' ||
         'oder Tannenbaum ist ein geschmückter Nadelbaum, der zur Weihnachtszeit in einem Gebäude oder im Freien aufgestellt wird. ' ||
@@ -86,12 +86,12 @@ VALUES (
        (
         5,
         'Bunte Luftballons',
-        'hurrah',
-        'über-den-weihnachtsbaum',
+        'Hurrah',
+        'Ueber-den-Weihnachtsbaum',
         'Kategorie 5',
-        'kategorie-5',
-        'bunte-luftballons',
-        '2020-11-26T14:45:45.351Z',
+        'Kategorie-5',
+        'bBnte-Luftballons',
+        '2020-11-26T14:44:45.351Z',
         'https://img.favpng.com/6/10/10/balloon-clip-art-png-favpng-pMsmfEyLkSHHwrmsDuTebXD5z.jpg',
         'Der erste Gummiballon wurde im Jahre 1824 in London von Michael Faraday im Rahmen seiner Experimente mit Wasserstoff an der Royal Institution in London hergestellt. ' ||
         'Er verwendete Rohgummi, aus dem er zwei runde Flächen schnitt, diese aufeinander legte und an den Rändern zusammendrückte. Innen war der Ballon mit Mehl bestäubt, ' ||
@@ -104,10 +104,10 @@ VALUES (
         6,
         'Hurrah',
         NULL,
-        'bunte-luftballons',
+        'Bunte-Luftballons',
         'Kategorie 1',
-        'kategorie-1',
-        'hurrah',
+        'Kategorie-1',
+        'Hurrah',
         '2020-11-26T14:45:45.351Z',
         'https://e7.pngegg.com/pngimages/701/109/png-clipart-celebrate-celebrate-float-thumbnail.png',
         'Die Herkunft des Wortes ist ungeklärt. Es wird heute meist mit dem Imperativ hurra von mittelhochdeutsch hurren, „sich schnell bewegen“ ' ||

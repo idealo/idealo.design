@@ -53,7 +53,7 @@ WHERE id = 2;
 UPDATE blogposts SET
                      title = 'Mein erstes Mal mit React',
                      nextpost = 'Einstieg-in-die-Welt-der-Datenbanken',
-                     previouspost = 'Versionskontrolle',
+                     previouspost = 'Versionskontrolle-mit-Git-und_GitHub',
                      categoryDisplayValue = 'React',
                      categorySlug = 'React',
                      slug = 'Mein-erstes-Mal-mit-React',
@@ -88,7 +88,7 @@ UPDATE blogposts SET
                      previouspost = 'Draft-JS-als-Open-Source-Editor',
                      categoryDisplayValue = 'Git',
                      categorySlug = 'Git',
-                     slug = 'Versionskontrolle',
+                     slug = 'Versionskontrolle-mit-Git-und_GitHub',
                      date = '2021-01-21T14:43:45.351Z',
                      image = 'https://phoenixweb.com.au/wp-content/uploads/2016/11/GitHub-wide-logo-1024x219.png',
                      text = 'Versionskontroll-Systeme ermöglichen übersichtliches und effizientes Arbeiten an Web-Projekten. Ein moderner Standard für die Softwareentwicklung ' ||
@@ -111,10 +111,10 @@ WHERE id = 4;
 
 UPDATE blogposts SET
                      title = 'Draft JS als Open Source Editor',
-                     nextpost = 'Versionskontrolle',
+                     nextpost = 'Versionskontrolle-mit-Git-und_GitHub',
                      previouspost = NULL,
-                     categoryDisplayValue ='Draft JS',
-                     categorySlug = 'Draft-JS',
+                     categoryDisplayValue ='Draft.js',
+                     categorySlug = 'Draft-js',
                      slug = 'Draft-JS-als-Open-Source-Editor',
                      date = '2021-01-21T14:44:45.351Z',
                      image ='https://miro.medium.com/max/700/1*MNBn-6DkW-RnIsZgO_bP3Q.png',
