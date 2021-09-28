@@ -1,12 +1,11 @@
 ALTER TABLE blogposts
-    ADD email varchar(255),
-    ADD instagram varchar(255),
-    ADD twitter varchar(255),
-    ADD github varchar(255),
-    ADD facebook varchar(255);
+    ADD email VARCHAR (255),
+    ADD instagram VARCHAR (255),
+    ADD twitter VARCHAR (255),
+    ADD github VARCHAR (255),
+    ADD facebook VARCHAR (255);
 
 UPDATE blogposts SET
-                     autor = 'Eda Güngör',
                      email = 'eg@gmail.com',
                      instagram = NULL,
                      twitter = 'https://twitter.com/donaldtrump',
@@ -15,7 +14,6 @@ UPDATE blogposts SET
 WHERE id = 1;
 
 UPDATE blogposts SET
-                     autor = 'Hai Trang Vu Thi',
                      email = 'ht@gmail.com',
                      instagram = NULL,
                      twitter = 'https://twitter.com/donaldtrump',
@@ -24,7 +22,6 @@ UPDATE blogposts SET
 WHERE id = 2;
 
 UPDATE blogposts SET
-                     autor = 'Mahulomé Pede',
                      email = 'mp@gmail.com',
                      instagram = NULL,
                      twitter = 'https://twitter.com/donaldtrump',
@@ -33,7 +30,6 @@ UPDATE blogposts SET
 WHERE id = 3;
 
 UPDATE blogposts SET
-                     autor = 'Julia Schafferus',
                      email = 'js@gmail.com',
                      instagram = NULL,
                      twitter = 'https://twitter.com/donaldtrump',
@@ -42,7 +38,6 @@ UPDATE blogposts SET
 WHERE id = 4;
 
 UPDATE blogposts SET
-                     autor = 'Bettina Müller',
                      email = 'bm@gmail.com',
                      instagram = NULL,
                      twitter = 'https://twitter.com/donaldtrump',

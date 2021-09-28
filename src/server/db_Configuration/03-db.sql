@@ -24,7 +24,7 @@ WHERE id = 1;
 UPDATE blogposts SET
                      title = 'Einstieg in die Welt der Datenbanken',
                      nextpost = 'Docker',
-                     previouspost = 'Mein-rstes-Mal-mit-React',
+                     previouspost = 'Mein-erstes-Mal-mit-React',
                      categoryDisplayValue = 'Docker',
                      categorySlug = 'Docker',
                      slug = 'Einstieg-in-die-Welt-der-Datenbanken',
