@@ -1,0 +1,1 @@
+ALTER DATABASE blog RENAME TO idealodesign;
