@@ -234,11 +234,13 @@
 }
 
 .contentListView{
-  padding: 0px 20px 5px;
+  padding: 0 20px 5px;
   font-family: Roboto, sans-serif;
-
   hr{
-  color: grey;
+    color: grey;
+    border: none;
+    border-top: medium double #333;
+    text-align: center;
   }
 }
 

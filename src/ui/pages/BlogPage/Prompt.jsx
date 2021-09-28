@@ -6,6 +6,7 @@ export default function PromptSuccess(props) {
     return (
         <ReactModal
             isOpen={props.show}
+            ariaHideApp={false}
             style={{
                 overlay: {
                     backgroundColor: "rgba( 190, 190, 190, 0.75)",

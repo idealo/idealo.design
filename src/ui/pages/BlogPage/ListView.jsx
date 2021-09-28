@@ -96,7 +96,7 @@ export class ListView extends React.Component {
                                     <h5 className={s.categoryListView}>{blogpost.categorydisplayvalue}</h5>
                                     <h2 className={s.titleListView} title="blogpostTitle">{blogpost.title}</h2>
                                     <p className={s.textListView}>{this.getReactElement(blogpost.blogpostcontent)}</p>
-                                    <hr></hr>
+                                    <hr/>
                                     <h5 className={s.authorListView}>by {blogpost.autor}</h5>
                                     <h5 className={s.dateListView}>{this.toDateFormat_de(blogpost.date)}</h5>
                                 </div>
