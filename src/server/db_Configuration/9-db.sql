@@ -2,7 +2,8 @@ CREATE TABLE if NOT EXISTS components (
     component_id SERIAL,
     slug VARCHAR (255) NOT NULL,
     title VARCHAR (255) NOT NULL,
-    readme JSONB NOT NULL,
+    readme JSONB,
+    figma_usage JSONB,
     updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (component_id)
     );
