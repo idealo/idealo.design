@@ -25,15 +25,15 @@ export default function PromptSuccess(props) {
                 <footer>
                     {props.message === "Do you want to delete or archive that post?" ? (
                         <div className={s.promptButtonDiv}>
-                            <button onClick={props.onCancel} className={s.buttons}>Close</button>
-                            <button onClick={props.onArchive} className={s.buttons}>Archive</button>
-                            <button onClick={props.onDelete} title="promptDeleteButton" className={s.buttons}>Delete
+                            <button onClick={props.onCancel} className={s.promptButton}>Close</button>
+                            <button onClick={props.onArchive} className={s.promptButton}>Archive</button>
+                            <button onClick={props.onDelete} title="promptDeleteButton" className={s.promptButton}>Delete
                             </button>
                         </div>
                     ) : (
                         <div className={s.promptButtonDiv} >
-                            <button onClick={props.onHide} className={s.buttons}>Close</button>
-                            <button onClick={props.onLeave} className={s.buttons}>Yes</button>
+                            <button onClick={props.onHide} className={s.promptButton}>Close</button>
+                            <button onClick={props.onLeave} className={s.promptButton}>Yes</button>
                         </div>
                     )}
                 </footer>
