@@ -134,7 +134,7 @@ export class Blog extends Model {
                     where: {
                         isarchived: 0,
                         date: await Blog.findOne({
-                            attributes: [Sequelize.fn('max', sequelize.col('date')), 'date'],
+                            attributes: [Sequelize.fn('max', Sequelize.col('date')), 'date'],
                             where: {
                                 isarchived: 0
                             },transaction: ta
@@ -162,14 +162,14 @@ export class Blog extends Model {
                     where: {
                         isarchived: 0,
                         date: await Blog.findOne({
-                            attributes: [Sequelize.fn('max', sequelize.col('date')), 'date'],
+                            attributes: [Sequelize.fn('max', Sequelize.col('date')), 'date'],
                             where: {
                                 [Op.and]: [
                                     {isarchived: 0},
                                     {
                                         date: {
                                             [Op.lt]: await Blog.findOne({
-                                                attributes: [Sequelize.fn('max', sequelize.col('date')), 'date']
+                                                attributes: [Sequelize.fn('max', Sequelize.col('date')), 'date']
                                             }).then(date => {
                                                 return date.getDataValue('date')
                                             })
