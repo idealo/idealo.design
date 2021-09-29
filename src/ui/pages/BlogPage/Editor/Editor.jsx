@@ -268,11 +268,13 @@ export class RichTextEditor extends React.Component {
       return;
     }
 
+    const blogpostcontent = this.renderContentAsRawJs()
+
     const body = {
       title: this.state.title,
       categoryDisplayValue: this.state.categoryDisplayValue,
       categorySlug: this.state.categorySlug,
-      blogpostcontent: this.renderContentAsRawJs(),
+      blogpostcontent: JSON.parse(blogpostcontent),
     };
 
     console.log('body: ', body)

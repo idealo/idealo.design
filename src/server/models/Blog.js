@@ -109,12 +109,12 @@ export class Blog extends Model {
     }
 
     static async insertSingleBlogpost({
-                                          title,
+                                          title = "",
                                           date,
-                                          categoryDisplayValue,
-                                          categorySlug,
+                                          categoryDisplayValue = "",
+                                          categorySlug = "",
                                           slug,
-                                          image,
+                                          image = "",
                                           blogpostcontent,
                                           isArchived = 0
                                       }){
