@@ -109,13 +109,13 @@ export class Blog extends Model {
     }
 
     static async insertSingleBlogpost({
-                                          title = "",
+                                          title,
                                           date,
-                                          categoryDisplayValue = "",
-                                          categorySlug = "",
+                                          categoryDisplayValue,
+                                          categorySlug,
                                           slug,
-                                          image = "",
-                                          blogpostcontent,
+                                          image,
+                                          blogpostcontent='',
                                           isArchived = 0
                                       }){
         const ta = await sequelize.transaction()
@@ -127,7 +127,7 @@ export class Blog extends Model {
                 categoryslug: categorySlug,
                 slug: slug,
                 image: image,
-                blogpostcontent: blogpostcontent,
+                //blogpostcontent: blogpostcontent,
                 isarchived: isArchived,
                 nextpost: await Blog.findOne({
                     attributes: ['id'],

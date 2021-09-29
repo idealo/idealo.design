@@ -279,7 +279,7 @@ app.post("/api/blogposts", isAuthenticated, async (req, res) => {
   const newBlogpost = req.body;
   newBlogpost.slug = slugify(newBlogpost.title);
   newBlogpost.date = new Date().toISOString();
-  newBlogpost.blogpostcontent = JSON.parse(req.body.blogpostcontent);
+  //newBlogpost.blogpostcontent = JSON.parse(req.body.blogpostcontent);
   const createdBlogpost = await Blog.insertSingleBlogpost(newBlogpost);
 
   return res.json(createdBlogpost);

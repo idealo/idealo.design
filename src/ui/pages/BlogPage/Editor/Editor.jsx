@@ -272,7 +272,7 @@ export class RichTextEditor extends React.Component {
       title: this.state.title,
       categoryDisplayValue: this.state.categoryDisplayValue,
       categorySlug: this.state.categorySlug,
-      blogpostcontent: this.renderContentAsRawJs(),
+      //blogpostcontent: this.renderContentAsRawJs(),
     });
 
     fetch("/api/blogposts", {
