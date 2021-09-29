@@ -275,10 +275,12 @@ export class RichTextEditor extends React.Component {
       blogpostcontent: this.renderContentAsRawJs(),
     };
 
+    console.log('body: ', body)
+
     await insertSinglePost({post: body},
         () => {
           this.showSubmitPrompt();
-        })
+        }).then((result) => console.log('r',result))
 
     this.props.history.block(() => {
       return true;
