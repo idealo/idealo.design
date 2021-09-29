@@ -17,7 +17,7 @@ import Prompt from "./Prompt";
 import PromptSuccess from "./PromptSuccess";
 import {
   fetchAllCategories,
-  fetchSinglePost,
+  fetchSinglePost, insertSinglePost,
   updateSinglePost,
 } from "../data";
 import CreatableSelect from "react-select/creatable";
@@ -217,7 +217,7 @@ export class RichTextEditor extends React.Component {
     }, 1500);
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     if (!this.handleValidation() && this.state.error["title-value"]) {
       alert("Title is invalid. Please choose a different title!");
@@ -268,27 +268,21 @@ export class RichTextEditor extends React.Component {
       return;
     }
 
-    const body = JSON.stringify({
+    const body = {
       title: this.state.title,
       categoryDisplayValue: this.state.categoryDisplayValue,
       categorySlug: this.state.categorySlug,
-      //blogpostcontent: this.renderContentAsRawJs(),
-    });
+      blogpostcontent: this.renderContentAsRawJs(),
+    };
 
-    fetch("/api/blogposts", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body,
-    }).then(function (response) {
-      return response.json();
-    });
+    await insertSinglePost({post: body},
+        () => {
+          this.showSubmitPrompt();
+        })
+
     this.props.history.block(() => {
       return true;
     });
-    this.showSubmitPrompt();
   }
 
   onModalCancel() {
