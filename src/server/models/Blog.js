@@ -118,8 +118,8 @@ export class Blog extends Model {
                                           blogpostcontent,
                                           isArchived = 0
                                       }){
-        /*const ta = await sequelize.transaction()
-        try {*/
+        const ta = await sequelize.transaction()
+        try {
             await Blog.create({
                 title: title,
                 date: date,
@@ -129,31 +129,31 @@ export class Blog extends Model {
                 image: image,
                 blogpostcontent: blogpostcontent,
                 isarchived: isArchived,
-                /*nextpost: await Blog.findOne({
+                nextpost: await Blog.findOne({
                     attributes: ['id'],
                     where: {
                         isarchived: 0,
                         date: await Blog.findOne({
-                            attributes: [[sequelize.fn('max', sequelize.col('date')), 'date']],
+                            attributes: [Sequelize.fn('max', sequelize.col('date')), 'date'],
                             where: {
                                 isarchived: 0
-                            }/!*,transaction: ta*!/
+                            },transaction: ta
                         }).then(date => {
                             return date.getDataValue('date')
                         })
                     },
-                   /!* transaction: ta*!/
+                   transaction: ta
                 }).then(id => {
                     return id.getDataValue('id')
-                })*/
+                })
             })
 
-            /*await Blog.update({
+            await Blog.update({
                     previouspost: await Blog.findOne({
                         attributes: ['id'],
                         where: {
                             slug: slug
-                        }/!*,transaction: ta*!/
+                        },transaction: ta
                     }).then(id => {
                         return id.getDataValue('id')
                     }),
@@ -162,14 +162,14 @@ export class Blog extends Model {
                     where: {
                         isarchived: 0,
                         date: await Blog.findOne({
-                            attributes: [[sequelize.fn('max', sequelize.col('date')), 'date']],
+                            attributes: [Sequelize.fn('max', sequelize.col('date')), 'date'],
                             where: {
                                 [Op.and]: [
                                     {isarchived: 0},
                                     {
                                         date: {
                                             [Op.lt]: await Blog.findOne({
-                                                attributes: [[sequelize.fn('max', sequelize.col('date')), 'date']]
+                                                attributes: [Sequelize.fn('max', sequelize.col('date')), 'date']
                                             }).then(date => {
                                                 return date.getDataValue('date')
                                             })
@@ -177,17 +177,17 @@ export class Blog extends Model {
                                     }
                                 ]
                             },
-                            /!*transaction: ta*!/
+                            transaction: ta
                         }).then(date => {
                             return date.getDataValue('date')
                         })
                     }
-                })*/
-            /*await ta.commit()*/
-        /*}catch (e) {
+                })
+            await ta.commit()
+        }catch (e) {
             console.error(e)
-            /!*await ta.rollback()*!/
-        }*/
+            await ta.rollback()
+        }
     }
 
     static updateBlogpost(blog){
