@@ -129,7 +129,7 @@ export class Blog extends Model {
                 image: image,
                 blogpostcontent: blogpostcontent,
                 isarchived: isArchived,
-                nextpost: await Blog.findOne({
+                /*nextpost: await Blog.findOne({
                     attributes: ['id'],
                     where: {
                         isarchived: 0,
@@ -137,15 +137,15 @@ export class Blog extends Model {
                             attributes: [[sequelize.fn('max', sequelize.col('date')), 'date']],
                             where: {
                                 isarchived: 0
-                            }/*,transaction: ta*/
+                            }/!*,transaction: ta*!/
                         }).then(date => {
                             return date.getDataValue('date')
                         })
                     },
-                   /* transaction: ta*/
+                   /!* transaction: ta*!/
                 }).then(id => {
                     return id.getDataValue('id')
-                })
+                })*/
             })
 
             /*await Blog.update({
