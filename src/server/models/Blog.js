@@ -147,12 +147,10 @@ export class Blog extends Model {
                         date: latestDate
                     },
                    transaction: ta
-                }).then(id => {
-                    return id.getDataValue('id')
                 })
             })
 
-            /*await Blog.update({
+            await Blog.update({
                     previouspost: await Blog.findOne({
                         attributes: ['id'],
                         where: {
@@ -190,7 +188,7 @@ export class Blog extends Model {
                             return date.getDataValue('date')
                         })
                     }
-                })*/
+                })
             await ta.commit()
         }catch (e) {
             console.error(e)
