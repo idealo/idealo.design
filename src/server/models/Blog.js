@@ -1,4 +1,4 @@
-import {DataTypes, Model, Op, Sequelize} from "sequelize";
+import {DataTypes, Model, Sequelize} from "sequelize";
 import {sequelize} from "../sequelizer"
 
 export class Blog extends Model {
@@ -355,7 +355,7 @@ Blog.init({
         allowNull: false
     },
     date: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     blogpostcontent: DataTypes.JSONB,
