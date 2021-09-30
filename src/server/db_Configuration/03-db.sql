@@ -5,7 +5,7 @@ UPDATE blogposts SET
                      categoryDisplayValue = 'Docker',
                      categorySlug = 'Docker',
                      slug = 'Docker',
-                     date = '2021-01-20T14:40:45.351Z',
+                     date = '2021-01-20 16:22:54.333+02',
                      image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/2000px-Docker_%28container_engine%29_logo.svg.png',
                      text = 'Hallo zusammen! In diesem Blogpost erkläre ich euch was  Docker ist =) Was ist eigentlich Docker? ' ||
                             'Docker ist eine Softwareplattform in dem ihr Anwendungen schnell erstellen, testen und bereitstellen könnt. ' ||
@@ -28,7 +28,7 @@ UPDATE blogposts SET
                      categoryDisplayValue = 'Docker',
                      categorySlug = 'Docker',
                      slug = 'Einstieg-in-die-Welt-der-Datenbanken',
-                     date = '2021-01-28T14:41:45.351Z',
+                     date = '2021-01-21 16:22:54.333+02',
                      image = 'https://www.thesmbguide.com/images/postgresql-1024x512-20190322.png',
                      text = 'Für das Erstellen des Weblogs war der nächste Punkt auf der Agenda eine Datenbank einzurichten, ' ||
                             'sodass die Blogposts und Informationen zu den Autoren unabhängig vom Standort aufgerufen werden können. ' ||
@@ -57,7 +57,7 @@ UPDATE blogposts SET
                      categoryDisplayValue = 'React',
                      categorySlug = 'React',
                      slug = 'Mein-erstes-Mal-mit-React',
-                     date = '2021-01-21T14:42:45.351Z',
+                     date = '2021-01-22 16:22:54.333+02',
                      image = 'https://miro.medium.com/max/3600/1*HSisLuifMO6KbLfPOKtLow.jpeg',
                      text = 'React ist eine JavaScript-Softwarebibliothek die verwendet wird um professionelle Benutzeroberflächen zu erstellen. ' ||
                             'Sie wurde im Jahr 2013 von Facebook unter BSD-Lizenz veröffentlicht und ist seitdem sehr beliebt und hat eine starke Beeinflussung in der ' ||
@@ -89,7 +89,7 @@ UPDATE blogposts SET
                      categoryDisplayValue = 'Git',
                      categorySlug = 'Git',
                      slug = 'Versionskontrolle-mit-Git-und_GitHub',
-                     date = '2021-01-21T14:43:45.351Z',
+                     date = '2021-01-23 16:22:54.333+02',
                      image = 'https://phoenixweb.com.au/wp-content/uploads/2016/11/GitHub-wide-logo-1024x219.png',
                      text = 'Versionskontroll-Systeme ermöglichen übersichtliches und effizientes Arbeiten an Web-Projekten. Ein moderner Standard für die Softwareentwicklung ' ||
                             'ist dabei das kostenlose Open-Source Versionskontrollsystem Git mit der dazugehörigen Online-Plattform GitHub. Auf GitHub werden Projekte in ' ||
@@ -116,7 +116,7 @@ UPDATE blogposts SET
                      categoryDisplayValue ='Draft.js',
                      categorySlug = 'Draft-js',
                      slug = 'Draft-JS-als-Open-Source-Editor',
-                     date = '2021-01-21T14:44:45.351Z',
+                     date = '2021-01-24 16:22:54.333+02',
                      image ='https://miro.medium.com/max/700/1*MNBn-6DkW-RnIsZgO_bP3Q.png',
                      text = 'Was ist Draft.js? Draft.js ist ein sogenanntes Rich Text Editor Framework, welches von Facebook entwickelt wurde und 2016 von Isaac Salier-Hellendag ' ||
                             'auf der React.js Conf vorgestellt wurde. Draft.js kann nur in Verbindung mit React und React DOM genutzt werden und wurde speziell für React entwickelt. ' ||
