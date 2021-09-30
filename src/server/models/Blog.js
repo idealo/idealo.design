@@ -131,6 +131,17 @@ export class Blog extends Model {
                 return date.getDataValue('date')
             })
 
+            const idNextPost = await Blog.findOne({
+                attributes: ['id'],
+                where: {
+                    isarchived: 0,
+                    date: latestDate
+                },
+                transaction: ta
+            }).then((id) => {
+                return id.getDataValue('id')
+            })
+
             await Blog.create({
                 title: title,
                 date: date,
@@ -140,14 +151,17 @@ export class Blog extends Model {
                 image: image,
                 blogpostcontent: blogpostcontent,
                 isarchived: isArchived,
-                nextpost: await Blog.findOne({
-                    attributes: ['id'],
-                    where: {
-                        isarchived: 0,
-                        date: latestDate
-                    },
-                   transaction: ta
-                })
+                nextpost: idNextPost
+            }, {transaction: ta})
+
+            const maxDate = await Blog.findOne({
+                attributes: [
+                    [Sequelize.fn('MAX', Sequelize.col('date')), 'date']
+                ], where: {
+                    isarchived: 0
+                }
+            }).then(date => {
+                return date.getDataValue('date')
             })
 
             await Blog.update({
@@ -163,30 +177,7 @@ export class Blog extends Model {
                 {
                     where: {
                         isarchived: 0,
-                        date: await Blog.findOne({
-                            attributes: [
-                                    [Sequelize.fn('MAX', Sequelize.col('date')), 'date']
-                                ],
-                            where: {
-                                [Op.and]: [
-                                    {isarchived: 0},
-                                    {
-                                        date: {
-                                            [Op.lt]: await Blog.findOne({
-                                                attributes: [
-                                                        [Sequelize.fn('MAX', Sequelize.col('date')), 'date']
-                                                    ]
-                                            }).then(date => {
-                                                return date.getDataValue('date')
-                                            })
-                                        }
-                                    }
-                                ]
-                            },
-                            transaction: ta
-                        }).then(date => {
-                            return date.getDataValue('date')
-                        })
+                        date: maxDate
                     }
                 })
             await ta.commit()
