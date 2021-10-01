@@ -253,17 +253,17 @@ export class RichTextEditor extends React.Component {
       this.props.history.block(() => true);
       this.blog.title = this.state.title;
       this.blog.blogpostcontent = this.renderContentAsRawJs();
-      this.blog.categoryDisplayValue = this.state.categoryDisplayValue;
-      this.blog.categorySlug = this.state.categorySlug;
+      this.blog.categorydisplayvalue = this.state.categoryDisplayValue;
+      this.blog.categoryslug = this.state.categorySlug;
       this.blog.slug = slugify(this.state.title)
-      updateSinglePost(
-        {
-          slug: this.slug,
-          post: this.blog,
-        },
-        () => {
-          this.showSubmitPrompt();
-        }
+      await updateSinglePost(
+          {
+            slug: this.slug,
+            post: this.blog,
+          },
+          () => {
+            this.showSubmitPrompt();
+          }
       );
       return;
     }
