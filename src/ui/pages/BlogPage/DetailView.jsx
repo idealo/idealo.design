@@ -79,7 +79,7 @@ export class DetailView extends React.Component {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    const hour = date.getHours() + 2;
+    const hour = date.getHours();
     const minute = String(date.getMinutes()).padStart(2, "0");
 
     return `${day}.${month}.${year} um ${hour}:${minute} Uhr`;
