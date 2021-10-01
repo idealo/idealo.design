@@ -86,22 +86,23 @@ export class ListView extends React.Component {
 
                 <div className={s.container}>
                     {this.state.list.map((blogpost) => (
-                        <div className={s.item} key={blogpost.id}>
-                            <div>
-                                <img className={s.imageListView} title="blogpostPreview" alt="" src={blogpost.image}/>
+
+                            <div className={s.item} key={blogpost.id}>
+                                <a className={s.LinkToDetailView} href={`/blog/${blogpost.slug}`}>
+                                <div>
+                                    <img className={s.imageListView} title="blogpostPreview" alt="" src={blogpost.image}/>
+                                </div>
+                                <div className={s.contentListView}>
+                                    <h5 className={s.categoryListView}>{blogpost.categorydisplayvalue}</h5>
+                                    <h2 className={s.titleListView} title="blogpostTitle">{blogpost.title}</h2>
+                                    <p className={s.textListView}>{this.getReactElement(blogpost.blogpostcontent)}</p>
+                                    <hr/>
+                                    <h5 className={s.authorListView}>by {blogpost.autor}</h5>
+                                    <h5 className={s.dateListView}>{this.toDateFormat_de(blogpost.date)}</h5>
+                                </div>
+                                </a>
                             </div>
-                            <div className={s.contentListView}>
-                                <h5 className={s.categoryListView}>{blogpost.categorydisplayvalue}</h5>
-                                <h2 className={s.titleListView} title="blogpostTitle">
-                                    <a className={s.LinkToDetailView}
-                                       href={`/blog/${blogpost.slug}`}>{blogpost.title}</a>
-                                </h2>
-                                <p className={s.textListView}>{this.getReactElement(blogpost.blogpostcontent)}</p>
-                                <hr></hr>
-                                <h5 className={s.authorListView}>by {blogpost.autor}</h5>
-                                <h5 className={s.dateListView}>{this.toDateFormat_de(blogpost.date)}</h5>
-                            </div>
-                        </div>
+
                     ))}
                 </div>
             </div>

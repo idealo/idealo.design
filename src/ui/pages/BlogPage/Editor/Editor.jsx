@@ -13,8 +13,7 @@ import {
 } from "draft-js";
 import "~/draft-js/dist/Draft.css";
 import s from "./Editor.module.scss";
-import Prompt from "./Prompt";
-import PromptSuccess from "./PromptSuccess";
+import Prompt from "../Prompt";
 import {
   fetchAllCategories,
   fetchSinglePost, insertSinglePost,
@@ -452,7 +451,7 @@ export class RichTextEditor extends React.Component {
           onLeave={this.onModalLeave}
           message="Are you sure you want to leave without saving your changes?"
         />
-        <PromptSuccess
+        <Prompt
           show={this.state.isSubmitPromptOpen}
           onLeave={this.onModalLeave}
           message="Your blogpost has been saved successfully."

@@ -1,8 +1,7 @@
 import React from "react";
-import ReactModal from "react-modal";
 import draftToHtml from "../../../vendor/draftjs-to-html";
 import HtmlToReact from "html-to-react";
-import Prompt from "./Editor/Prompt";
+import Prompt from "./Prompt";
 
 import s from "./Blogpage.module.scss";
 import {
@@ -49,7 +48,6 @@ export class DetailView extends React.Component {
     this.setState({
       userInfo: await fetchUserInfo(),
     });
-    ReactModal.setAppElement("body");
 
     const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
     if(slugsPreviousAndNextPost[0]!==null){
@@ -124,64 +122,6 @@ export class DetailView extends React.Component {
   }
 
   render() {
-    let facebookLink;
-    let instagramLink;
-    let twitterLink;
-    let emailLink;
-    let githubLink;
-    if (this.state.blogpost.facebook !== null) {
-      facebookLink = (
-        <a href={this.state.blogpost.facebook}>
-          <img
-            alt=""
-            src="https://img.icons8.com/dusk/64/000000/facebook.png"
-          />
-        </a>
-      );
-    }
-    if (this.state.blogpost.instagram !== null) {
-      instagramLink = (
-        <a href={this.state.blogpost.instagram}>
-          <img
-            alt=""
-            src="https://img.icons8.com/doodle/48/000000/instagram-new.png"
-          />
-        </a>
-      );
-    }
-    if (this.state.blogpost.twitter !== null) {
-      twitterLink = (
-        <a href={this.state.blogpost.twitter}>
-          <img
-            alt=""
-            src="https://img.icons8.com/doodle/48/000000/twitter--v1.png"
-          />
-        </a>
-      );
-    }
-
-    if (this.state.blogpost.email !== null) {
-      emailLink = (
-        <a href={"mailto:" + this.state.blogpost.email}>
-          <img
-            alt=""
-            src="https://img.icons8.com/doodle/48/000000/email-sign.png"
-          />
-        </a>
-      );
-    }
-
-    if (this.state.blogpost.github !== null) {
-      githubLink = (
-        <a href={this.state.blogpost.github}>
-          <img
-            alt=""
-            src="https://maxcdn.icons8.com/Share/icon/Logos/github_filled1600.png"
-          />
-        </a>
-      );
-    }
-
     const htmlBlogContent = draftToHtml(this.state.blogpost.blogpostcontent);
     const HtmlToReactParser = HtmlToReact.Parser;
     const htmlToReactParser = new HtmlToReactParser();
@@ -209,13 +149,6 @@ export class DetailView extends React.Component {
         </div>
 
         <div className={s.ContentDetailView}>
-          <div className={s.SocialMediaIcons}>
-            {instagramLink}
-            {twitterLink}
-            {facebookLink}
-            {emailLink}
-            {githubLink}
-          </div>
           <h2 className={s.blogpostTitle}>{this.state.blogpost.title}</h2>
           <div className={s.Autor}>{this.state.blogpost.autor}</div>
           <h5 className={s.blogpostDate}>{datetime}</h5>
