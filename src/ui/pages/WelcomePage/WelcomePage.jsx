@@ -26,17 +26,11 @@ export default function WelcomePage(props) {
 
     const {elements} = content
 
-    function redirectToCurrentPage() {
-        let item = '/'
-        if (typeof window !== 'undefined') {
-            item = localStorage.getItem('lastVisitedPage')
-        }
-        return item
-    }
-
     if (typeof window !== 'undefined') {
-        window.location.pathname = redirectToCurrentPage();
-        localStorage.removeItem('lastVisitedPage')
+        if (localStorage.getItem('lastVisitedPage') !== null){
+            window.location.pathname = localStorage.getItem('lastVisitedPage');
+            localStorage.removeItem('lastVisitedPage')
+        }
     }
 
     return (
