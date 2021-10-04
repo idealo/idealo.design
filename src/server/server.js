@@ -297,7 +297,6 @@ app.get("/api/blogpostPrevSlugAndNextSlug/:id?", async (req, res) => {
 
 app.get("/api/title", isAuthenticated, async (req, res) => {
   const titles = await Blog.fetchAllBlogpostTitles();
-  console.log(titles)
   return res.json(titles);
 });
 
