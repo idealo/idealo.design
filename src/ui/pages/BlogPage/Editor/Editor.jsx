@@ -18,6 +18,7 @@ import {
   fetchAllCategories,
   fetchSinglePost, insertSinglePost,
   updateSinglePost,
+  fetchUserInfo
 } from "../data";
 import CreatableSelect from "react-select/creatable";
 import slugify from "slugify";
@@ -42,6 +43,7 @@ export class RichTextEditor extends React.Component {
       cats: [],
       error: [],
       existingTitle: [],
+      author: "",
       titleInDatabase: ''
     };
 
@@ -75,7 +77,7 @@ export class RichTextEditor extends React.Component {
       return true;
     });
 
-    this.setState({ cats: await fetchAllCategories() });
+    this.setState({ cats: await fetchAllCategories(), author: await fetchUserInfo()});
 
     if (this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
@@ -271,6 +273,7 @@ export class RichTextEditor extends React.Component {
       title: this.state.title,
       categoryDisplayValue: this.state.categoryDisplayValue,
       categorySlug: this.state.categorySlug,
+      autor: this.state.author.user.displayName,
       blogpostcontent: JSON.parse(this.renderContentAsRawJs()),
     };
 
