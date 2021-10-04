@@ -5,6 +5,7 @@ import s from "./ComponentsPage.module.scss";
 
 import { withRouter } from "react-router";
 import { fetchSingleComponent } from "./component_data";
+import {requiredAuthentication} from "../BlogPage/requiredAuthentication"
 
 export class ComponentsDetailView extends React.Component {
     constructor(props) {
