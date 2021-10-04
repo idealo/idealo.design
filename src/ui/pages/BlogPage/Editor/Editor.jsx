@@ -77,8 +77,7 @@ export class RichTextEditor extends React.Component {
       return true;
     });
 
-    const user = await fetchUserInfo()
-    this.setState({ cats: await fetchAllCategories(), author: user.user.displayName});
+    this.setState({ cats: await fetchAllCategories(), author: await fetchUserInfo()});
 
     if (this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
@@ -274,7 +273,7 @@ export class RichTextEditor extends React.Component {
       title: this.state.title,
       categoryDisplayValue: this.state.categoryDisplayValue,
       categorySlug: this.state.categorySlug,
-      autor: this.state.author,
+      autor: this.state.author.user.displayName,
       blogpostcontent: JSON.parse(this.renderContentAsRawJs()),
     };
 
