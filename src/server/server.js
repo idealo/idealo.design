@@ -18,6 +18,7 @@ import Renderer from "./renderer";
 
 import {Library, Tags} from "./models/Library"
 import {Blog} from "./models/Blog"
+import {importSingleComponent} from "./db";
 
 const dangerousTestModeArgument =
   !!process.env.DANGEROUS_TEST_MODE_ARGUMENT || false;
@@ -221,10 +222,10 @@ app.put("/api/components/update", isBasicAuthenticated, async (req, res) => {
 
     const componentData = req.body;
 
-    /*res.status(200).send({
+    res.status(200).send({
       message: "Uploaded component successfully!",
       component: await importSingleComponent(screenshotPaths, componentData),
-    });*/
+    });
   } catch (err) {
     res.status(500).send({
       message: "Could not upload the screenshots." + err,
@@ -278,7 +279,6 @@ app.post("/api/blogposts", isAuthenticated, async (req, res) => {
   const newBlogpost = req.body;
   newBlogpost.slug = slugify(newBlogpost.title);
   newBlogpost.date = new Date().toISOString();
-  newBlogpost.blogpostcontent = JSON.parse(req.body.blogpostcontent);
   const createdBlogpost = await Blog.insertSingleBlogpost(newBlogpost);
 
   return res.json(createdBlogpost);

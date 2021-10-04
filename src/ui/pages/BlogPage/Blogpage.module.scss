@@ -205,11 +205,11 @@
 .titleListView{
   margin-top: 3px;
   line-height: 25px;
+  color: black;
 }
 
 .LinkToDetailView{
   text-decoration: none;
-  color: inherit;
 }
 
 .textListView{
@@ -234,11 +234,42 @@
 }
 
 .contentListView{
-  padding: 0px 20px 5px;
+  padding: 0 20px 5px;
   font-family: Roboto, sans-serif;
+  hr{
+    color: grey;
+    border: none;
+    border-top: medium double #333;
+    text-align: center;
+  }
 }
 
 .dateListView{
   color: grey;
   float:right;
+}
+
+//Prompt
+.promptMessage{
+  text-align: center;
+}
+
+.promptButtonDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.promptButton{
+  background-color: #0771D0;
+  background-blend-mode: normal;
+  height: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: white;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  border: 1px;
+  border-radius: 4px;
+  margin: 0 5px;
 }

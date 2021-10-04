@@ -13,11 +13,10 @@ import {
 } from "draft-js";
 import "~/draft-js/dist/Draft.css";
 import s from "./Editor.module.scss";
-import Prompt from "./Prompt";
-import PromptSuccess from "./PromptSuccess";
+import Prompt from "../Prompt";
 import {
   fetchAllCategories,
-  fetchSinglePost,
+  fetchSinglePost, insertSinglePost,
   updateSinglePost,
   fetchUserInfo
 } from "../data";
@@ -220,7 +219,7 @@ export class RichTextEditor extends React.Component {
     }, 1500);
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     if (!this.handleValidation() && this.state.error["title-value"]) {
       alert("Title is invalid. Please choose a different title!");
@@ -256,43 +255,37 @@ export class RichTextEditor extends React.Component {
       this.props.history.block(() => true);
       this.blog.title = this.state.title;
       this.blog.blogpostcontent = this.renderContentAsRawJs();
-      this.blog.categoryDisplayValue = this.state.categoryDisplayValue;
-      this.blog.categorySlug = this.state.categorySlug;
+      this.blog.categorydisplayvalue = this.state.categoryDisplayValue;
+      this.blog.categoryslug = this.state.categorySlug;
       this.blog.slug = slugify(this.state.title)
-      updateSinglePost(
-        {
-          slug: this.slug,
-          post: this.blog,
-        },
-        () => {
-          this.showSubmitPrompt();
-        }
+      await updateSinglePost(
+          {
+            slug: this.slug,
+            post: this.blog,
+          },
+          () => {
+            this.showSubmitPrompt();
+          }
       );
       return;
     }
 
-    const body = JSON.stringify({
+    const body = {
       title: this.state.title,
       categoryDisplayValue: this.state.categoryDisplayValue,
       categorySlug: this.state.categorySlug,
       autor: this.state.author,
-      blogpostcontent: this.renderContentAsRawJs(),
-    });
+      blogpostcontent: JSON.parse(this.renderContentAsRawJs()),
+    };
 
-    fetch("/api/blogposts", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body,
-    }).then(function (response) {
-      return response.json();
-    });
+    await insertSinglePost({post: body},
+        () => {
+          this.showSubmitPrompt();
+        })
+
     this.props.history.block(() => {
       return true;
     });
-    this.showSubmitPrompt();
   }
 
   onModalCancel() {
@@ -462,7 +455,7 @@ export class RichTextEditor extends React.Component {
           onLeave={this.onModalLeave}
           message="Are you sure you want to leave without saving your changes?"
         />
-        <PromptSuccess
+        <Prompt
           show={this.state.isSubmitPromptOpen}
           onLeave={this.onModalLeave}
           message="Your blogpost has been saved successfully."

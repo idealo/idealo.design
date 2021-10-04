@@ -31,14 +31,14 @@ const s3Storage = multerS3({
 });
 
 
-/*const screenshotStorage = multer.diskStorage({
+const screenshotStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.resolve(__dirname,'../resources/static/assets/uploads/'+req.body.screenshotFolderName));
+        cb(null, path.resolve(__dirname,'../scripts/resources/static/assets/uploads/'+req.body.screenshotFolderName));
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     },
-});*/
+});
 
 const uploadFile = multer({
   storage: s3Storage,

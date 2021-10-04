@@ -25,6 +25,18 @@ export async function updateSinglePost(
   return resp
 }
 
+export async function insertSinglePost({post}, cb, base_url = API_BASE){
+  const body = JSON.stringify(post);
+
+  return await fetch(`${base_url}/api/blogposts`, {
+    method: "POST",
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+    body,
+  }).then(()=> {
+    cb();
+  });
+}
+
 export async function fetchSinglePost({ slug }, base_url = API_BASE) {
   if (!slug) return null;
 
