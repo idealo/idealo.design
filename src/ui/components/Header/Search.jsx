@@ -10,7 +10,6 @@ class Search extends React.Component {
         super(props)
 
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this)
-        this.handleLoginLogout = this.handleLoginLogout.bind(this)
 
         this.state = {
             isLoggedIn: false,
@@ -48,18 +47,6 @@ class Search extends React.Component {
         }
     }
 
-    handleLoginLogout(){
-        if (typeof window !== 'undefined') {
-            localStorage.setItem('lastVisitedPage', window.location.pathname)
-        }
-        /*if (typeof window !== 'undefined') {
-            const name = "lastVisitedPage"
-            const value = window.location.pathname
-            document.cookie = name + "=" + value + ";"
-            console.log(document)
-        }*/
-    }
-
     render() {
         const searchInputStyle = {
             visibility: this.props.isOpen ? 'visible' : 'hidden',
@@ -88,12 +75,12 @@ class Search extends React.Component {
                     <div className={s.loginLogout} style={{display:'flex'}}>
                         <button style={{margin:'10px'}} className={s.initialsStyle}>{this.state.initialString}</button>
                         <a href="/logout">
-                            <button onClick={this.handleLoginLogout} className={s.button} title="logoutButton"><span>Logout</span></button>
+                            <button className={s.button} title="logoutButton"><span>Logout</span></button>
                         </a>
                     </div> :
                     <div className={s.loginLogout}>
                         <a href="/auth/provider">
-                            <button onClick={this.handleLoginLogout} className={s.button} title="loginButton"><span>Login</span></button>
+                            <button className={s.button} title="loginButton"><span>Login</span></button>
                         </a>
                     </div>
                 }

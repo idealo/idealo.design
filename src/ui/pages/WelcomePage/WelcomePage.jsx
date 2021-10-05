@@ -26,13 +26,6 @@ export default function WelcomePage(props) {
 
     const {elements} = content
 
-    if (typeof window !== 'undefined') {
-        if (localStorage.getItem('lastVisitedPage') !== null){
-            window.location.pathname = localStorage.getItem('lastVisitedPage');
-            localStorage.removeItem('lastVisitedPage')
-        }
-    }
-
     return (
         <>
             {elements.map((elem, idx) => <RenderElement key={idx} elem={elem}/>)}
