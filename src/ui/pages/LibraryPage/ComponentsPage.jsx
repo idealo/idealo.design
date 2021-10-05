@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import ComponentView from "./ComponentsListView";
-import { fetchUserInfo } from "../BlogPage/data";
-import ComponentsDetailView from "./ComponentsDetailView";
+import {Redirect} from "react-router";
+import ComponentsView from "./ComponentsView";
 
 export default function ComponentsPage({ match }) {
   const [userInfo, setUserInfo] = useState([]);
@@ -25,8 +25,13 @@ export default function ComponentsPage({ match }) {
         <Route exact path="/library/for-classic-stacks">
           <ComponentView />
         </Route>
-        <Route path="/library/:slug">
-          <ComponentsDetailView />
+        <Route exact path="/library/:slug">
+          {userInfo.status === "NOT_LOGGED_IN" ? (
+              <Redirect to="/library" />
+          ) : (
+              <ComponentsView />
+          )}
+          <Route />
         </Route>
       </Switch>
     </>
