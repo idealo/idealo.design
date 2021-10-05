@@ -151,19 +151,24 @@ function isAuthenticated(req, res, next) {
 
 app.use("/public", express.static(path.join(__dirname, "public")));
 
+let redirectedUrl = "/"
+
 app.get(
-  "/auth/provider",
-  passport.authenticate("provider", {
-    scope: "openid",
-  })
+  "/auth/provider", function (req, res, next){
+    redirectedUrl = req.headers.referer
+      passport.authenticate("provider", {
+        scope: "openid",
+      })(req, res, next)
+    }
 );
 
 app.get(
-  "/auth/provider/callback",
-  passport.authenticate("provider", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-  })
+  "/auth/provider/callback", function (req, res, next){
+      passport.authenticate("provider", {
+        successRedirect: redirectedUrl,
+        failureRedirect: "/login",
+      })(req, res, next)
+    }
 );
 
 app.get("/api/me", (req, res) => {
@@ -188,7 +193,7 @@ app.get("/api/me", (req, res) => {
 app.get("/logout", function (req, res) {
   req.session.destroy(() => {
     req.logout();
-    res.redirect("/");
+    res.redirect(req.headers.referer);
   });
 });
 
