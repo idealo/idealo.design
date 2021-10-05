@@ -95,11 +95,11 @@ if (CLIENT_ID) {
         passReqToCallback: true,
       },
       async (req, accessToken, refreshToken, profile, done) => {
-        /*console.log("PASSPORT::");
+        console.log("PASSPORT::");
         console.log("accessToken:", accessToken);
         console.log("refreshToken:", refreshToken);
         console.log("done:", done);
-        console.log("req: ", req);*/
+        console.log("req: ", req);
 
         let user;
 

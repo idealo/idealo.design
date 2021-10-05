@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
 
 import ComponentView from "./ComponentsListView";
-import { fetchUserInfo } from "../BlogPage/data";
-import ComponentsDetailView from "./ComponentsDetailView";
-import EditorView from "../BlogPage/EditorView";
 import ComponentsView from "./ComponentsView";
 
 export default function ComponentsPage({ match }) {
