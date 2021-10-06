@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
-
+import React from "react";
 import { Route, Switch } from "react-router-dom";
 
 import ComponentView from "./ComponentsListView";
-import {Redirect} from "react-router";
 import ComponentsView from "./ComponentsView";
 
-export default function ComponentsPage({ match }) {
-  const [userInfo, setUserInfo] = useState([]);
-
-  // useEffect(() => {
-  //   fetchUserInfo().then(setUserInfo);
-  // }, [userInfo]);
+export default function ComponentsPage() {
 
   return (
     <>
@@ -26,12 +19,7 @@ export default function ComponentsPage({ match }) {
           <ComponentView />
         </Route>
         <Route exact path="/library/:slug">
-          {userInfo.status === "NOT_LOGGED_IN" ? (
-              <Redirect to="/library" />
-          ) : (
-              <ComponentsView />
-          )}
-          <Route />
+            <ComponentsView />
         </Route>
       </Switch>
     </>

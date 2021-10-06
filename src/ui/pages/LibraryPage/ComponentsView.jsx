@@ -1,7 +1,7 @@
 import React from "react";
 
 import ComponentsDetailView from "./ComponentsDetailView";
-import requiredAuthentication from "../BlogPage/requiredAuthentication";
+import requiredAuthentication from "../requiredAuthentication";
 
 function ComponentsView() {
     return <ComponentsDetailView />;

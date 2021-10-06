@@ -1,5 +1,6 @@
 import React from "react";
-import { fetchUserInfo } from "./data";
+import { fetchUserInfo } from "./BlogPage/data";
+import LoginMessage from "../components/LoginMessage";
 
 export function requiredAuthentication(Component) {
   return class AuthenticatedComponent extends React.Component {
@@ -19,7 +20,7 @@ export function requiredAuthentication(Component) {
 
     render() {
       const loginErrorMessage = (
-        <div>Please login in order to view this part of the application.</div>
+          <LoginMessage children='page'/>
       );
       return (
         <div>
