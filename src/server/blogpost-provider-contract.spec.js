@@ -49,7 +49,7 @@ describe("Pact Verification", () => {
   test("should validate the expectations of our consumer", () => {
     Blog.fetchAllBlogposts.mockReturnValue([mockedBlogpost, mockedBlogpost, mockedBlogpost]);
     Blog.updateBlogpost.mockReturnValue(mockedUpdatedBlogpost);
-    Blog.fetchSingleBlogpost.mockReturnValue([mockedBlogpost]);
+    Blog.fetchSingleBlogpost.mockReturnValue(mockedBlogpost);
     Blog.fetchAllBlogpostsByCategorySlug.mockReturnValue(mockedBlogpost);
     Blog.archiveSingleBlogpost.mockReturnValue(mockedArchivedBlogpost);
     Blog.fetchAllCategories.mockReturnValue([
