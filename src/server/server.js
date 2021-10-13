@@ -242,6 +242,7 @@ app.put("/api/components/:component_id?", isAuthenticated, async (req, res) => {
 app.get("/api/components/:slug?", isAuthenticated, async (req, res) => {
   const { slug } = req.params;
   const singleComponent = await Library.fetchSingleComponent({ slug });
+  console.log('single Component: ',singleComponent)
   return res.json(singleComponent);
 });
 
