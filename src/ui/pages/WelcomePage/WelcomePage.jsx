@@ -1,6 +1,5 @@
 import React from 'react'
 import content from './content.json'
-import s from './WelcomePage.module.scss';
 
 function RenderElement(props) {
     const elem = props.elem
