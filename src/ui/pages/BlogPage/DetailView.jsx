@@ -142,14 +142,14 @@ export class DetailView extends React.Component {
       <div className={s.ContentBox}>
         <div className={s.Menu}>
           <button onClick={this.goBack}>Go Back</button>
-          {this.state.userInfo.status === "LOGGED_IN" ? (
+          {this.state.userInfo.status === "LOGGED_IN" && this.state.blogpost ? (
             <button onClick={this.handlePopup} title="deleteButton">
               Delete
             </button>
           ) : (
             <div/>
           )}
-          {this.state.userInfo.status === "LOGGED_IN" ? (
+          {this.state.userInfo.status === "LOGGED_IN" && this.state.blogpost ? (
             <button onClick={this.handlePostEdit} title="editButton">
               Edit
             </button>
