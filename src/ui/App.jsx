@@ -10,7 +10,8 @@ import {
     OrganismsPage,
     FoundationsPage,
     OtherPage,
-    WelcomePage
+    WelcomePage,
+    LandingPage
 } from './pages'
 import PageLayout from './components/PageLayout'
 import s from './styles/main.scss'
@@ -44,8 +45,11 @@ function App() {
                 <Route path="/other/:slug?">
                     <OtherPage/>
                 </Route>
-                <Route path="/">
+                <Route path="/welcome">
                     <WelcomePage/>
+                </Route>
+                <Route path="/">
+                    <LandingPage/>
                 </Route>
             </Switch>
             <CookieConsent enableDeclineButton flipButtons

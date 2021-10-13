@@ -1,5 +1,6 @@
 import React from 'react'
 import content from './content.json'
+import s from './WelcomePage.module.scss';
 
 function RenderElement(props) {
     const elem = props.elem
@@ -28,7 +29,9 @@ export default function WelcomePage(props) {
 
     return (
         <>
-            {elements.map((elem, idx) => <RenderElement key={idx} elem={elem}/>)}
+            <div className={s.smallBlock1}><div className={s.smallBlock2}/></div>
+            <div className={s.bigBlock}/>
+            <div className={s.text}>{elements.map((elem, idx) => <RenderElement key={idx} elem={elem}/>)}</div>
         </>
     )
 }

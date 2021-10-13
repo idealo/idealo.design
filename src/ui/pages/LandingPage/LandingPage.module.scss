@@ -1,0 +1,37 @@
+@import "Styles/colors";
+
+.imgOne {
+  float: right;
+  width: 30%;
+}
+
+.paragraphOne::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.imgTwo {
+  float: left;
+  width: 30%;
+}
+
+.paragraphTwo::after {
+  content: "";
+  clear: both;
+  display: table;
+
+}
+
+.imgThree {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+
+.paragraphThree::after {
+  content: "";
+  clear: both;
+  display: table;
+}
