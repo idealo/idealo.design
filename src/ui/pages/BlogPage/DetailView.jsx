@@ -7,12 +7,13 @@ import s from "./Blogpage.module.scss";
 import {
   archiveSinglePost,
   deleteSinglePost,
+  fetchPrevSlugAndNextSlugById,
   fetchSinglePost,
-  fetchUserInfo,
-  fetchPrevSlugAndNextSlugById
+  fetchUserInfo
 } from "./data";
 
-import { withRouter } from "react-router";
+import {withRouter} from "react-router";
+import ErrorPage from "../../components/ErrorPage/ErrorPage";
 
 export class DetailView extends React.Component {
   constructor(props) {
@@ -35,6 +36,8 @@ export class DetailView extends React.Component {
     this.handleDeletion = this.handleDeletion.bind(this);
     this.handleArchive = this.handleArchive.bind(this);
     this.onModalLeave = this.onModalLeave.bind(this);
+    this.convertToHtml = this.convertToHtml.bind(this);
+    this.convertDatetime = this.convertDatetime.bind(this);
   }
 
   async componentDidMount() {
@@ -49,16 +52,18 @@ export class DetailView extends React.Component {
       userInfo: await fetchUserInfo(),
     });
 
-    const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
-    if(slugsPreviousAndNextPost[0]!==null){
-      this.setState({
-        slugPreviouspost: slugsPreviousAndNextPost[0].slug,
-      })
-    }
-    if(slugsPreviousAndNextPost[1]!==null){
-      this.setState({
-        slugNextpost: slugsPreviousAndNextPost[1].slug,
-      })
+    if(this.state.blogpost){
+      const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
+      if(slugsPreviousAndNextPost[0]!==null){
+        this.setState({
+          slugPreviouspost: slugsPreviousAndNextPost[0].slug,
+        })
+      }
+      if(slugsPreviousAndNextPost[1]!==null){
+        this.setState({
+          slugNextpost: slugsPreviousAndNextPost[1].slug,
+        })
+      }
     }
   }
 
@@ -121,13 +126,18 @@ export class DetailView extends React.Component {
     this.setState({ isPromptOpen: true });
   }
 
-  render() {
-    const htmlBlogContent = draftToHtml(this.state.blogpost.blogpostcontent);
+  convertToHtml(content){
+    const htmlBlogContent = draftToHtml(content);
     const HtmlToReactParser = HtmlToReact.Parser;
     const htmlToReactParser = new HtmlToReactParser();
-    const reactElement = htmlToReactParser.parse(htmlBlogContent);
+    return htmlToReactParser.parse(htmlBlogContent)
+  }
 
-    const datetime = this.toDateFormat_de(this.state.blogpost.date);
+  convertDatetime(date){
+    return this.toDateFormat_de(date);
+  }
+
+  render() {
     return (
       <div className={s.ContentBox}>
         <div className={s.Menu}>
@@ -149,36 +159,42 @@ export class DetailView extends React.Component {
         </div>
 
         <div className={s.ContentDetailView}>
-          <h2 className={s.blogpostTitle}>{this.state.blogpost.title}</h2>
-          <div className={s.Autor}>{this.state.blogpost.autor}</div>
-          <h5 className={s.blogpostDate}>{datetime}</h5>
-          {reactElement}
-          <img
-            aria-label="blogpostImage"
-            alt=""
-            src={this.state.blogpost.image}
-          />
-        </div>
+          {!this.state.blogpost ? (
+              <ErrorPage errorCode = '404'/>
+          ) : (
+              <div>
+                <h2 className={s.blogpostTitle}>{this.state.blogpost.title}</h2>
+                <div className={s.Autor}>{this.state.blogpost.autor}</div>
+                <h5 className={s.blogpostDate}>{this.convertDatetime(this.state.blogpost.date)}</h5>
+                {this.convertToHtml(this.state.blogpost.blogpostcontent)}
+                <img
+                    aria-label="blogpostImage"
+                    alt=""
+                    src={this.state.blogpost.image}
+                />
 
-        <div className={s.ButtonNavigation}>
-          {this.state.blogpost.previouspost && (
-              <a
-                  title="prevPost"
-                  href={`/blog/${this.state.slugPreviouspost}`}
-                  onClick={this.scrollToTop}
-              >
-                <button className={s.ButtonPrevious}>Previous</button>
-              </a>
-          )}
-          {this.state.blogpost.nextpost && (
-              <a
-                  title="nextPost"
-                  href={`/blog/${this.state.slugNextpost}`}
-                  onClick={this.scrollToTop}
-                  className={s.ButtonNext}
-              >
-                <button className={s.ButtonNextOnHover}>Next</button>
-              </a>
+                <div className={s.ButtonNavigation}>
+                  {this.state.blogpost.previouspost && (
+                      <a
+                          title="prevPost"
+                          href={`/blog/${this.state.slugPreviouspost}`}
+                          onClick={this.scrollToTop}
+                      >
+                        <button className={s.ButtonPrevious}>Previous</button>
+                      </a>
+                  )}
+                  {this.state.blogpost.nextpost && (
+                      <a
+                          title="nextPost"
+                          href={`/blog/${this.state.slugNextpost}`}
+                          onClick={this.scrollToTop}
+                          className={s.ButtonNext}
+                      >
+                        <button className={s.ButtonNextOnHover}>Next</button>
+                      </a>
+                  )}
+                </div>
+              </div>
           )}
         </div>
 
