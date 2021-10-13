@@ -122,6 +122,22 @@
   color: inherit;
 }
 
+.goBackButton{
+  border-color: #0771D0;
+  letter-spacing: 0.2px;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  font-size: 16px;
+  height: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 4px;
+  background-color: white;
+  color: #0771D0;
+  background-blend-mode: normal;
+  cursor: pointer;
+}
+
 .LinkToBitbucket{
   text-decoration: none;
   color: white;

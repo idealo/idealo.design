@@ -5,11 +5,13 @@ import s from "./ComponentsPage.module.scss";
 
 import { withRouter } from "react-router";
 import { fetchSingleComponent } from "./component_data";
+import ErrorPage from "../../components/ErrorPage/ErrorPage";
 
 export class ComponentsDetailView extends React.Component {
     constructor(props) {
         super(props);
         this.copyTextToClipboard = this.copyTextToClipboard.bind(this);
+        this.goBack = this.goBack.bind(this)
 
         this.state = {
             slug: "",
@@ -29,16 +31,18 @@ export class ComponentsDetailView extends React.Component {
                 slug: slug,
                 links: ["Design", "Installation", "Usage"],
             });
-            if (window.location.href.includes("#")) {
-                await this.updateComponentDetailView();
+            if(this.state.component){
+                if (window.location.href.includes("#")) {
+                    await this.updateComponentDetailView();
+                }
+                const titleAfterBackslash = this.state.component.title.substr(
+                    this.state.component.title.indexOf("/") + 1,
+                    this.state.component.title.length
+                );
+                this.setState({
+                    titleAfterBackslash: titleAfterBackslash,
+                });
             }
-            const titleAfterBackslash = this.state.component.title.substr(
-                this.state.component.title.indexOf("/") + 1,
-                this.state.component.title.length
-            );
-            this.setState({
-                titleAfterBackslash: titleAfterBackslash,
-            });
         }
     }
 
@@ -140,40 +144,55 @@ export class ComponentsDetailView extends React.Component {
         this.setState({ result: usageAsHtml });
     }
 
-  render() {
-    return (
-      <div>
-        <div className={s.headerNav}>
-          <h1 className={s.titleDetailView} title={this.state.component.title}>
-            {this.state.titleAfterBackslash}
-          </h1>
-          <hr/>
-          <ul>
-            {this.state.links.map((link, key) => (
-              <li key={key}>
-                <a title={link} href={`#${link}`}>
-                  {link}
-                </a>
-              </li>
-            ))}
-            <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
-              <a
-                title="linkToBitbucket"
-                className={s.LinkToBitbucket}
-                target="_blank"
-                href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}
-              >
-                Link to Bitbucket
-              </a>
-            </button>
-          </ul>
-        </div>
-        <div>
-          <code>{this.state.result}</code>
-        </div>
-      </div>
-    );
-  }
+    goBack() {
+        this.props.history.push({
+            pathname: `/library`,
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                {this.state.component ? (
+                    <div className={s.headerNav}>
+                        <div>
+                            <h1 className={s.titleDetailView} title={this.state.component.title}>
+                                {this.state.titleAfterBackslash}
+                            </h1>
+                            <hr/>
+                            <ul>
+                                {this.state.links.map((link, key) => (
+                                    <li key={key}>
+                                        <a title={link} href={`#${link}`}>
+                                            {link}
+                                        </a>
+                                    </li>
+                                ))}
+                                <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
+                                    <a
+                                        title="linkToBitbucket"
+                                        className={s.LinkToBitbucket}
+                                        target="_blank"
+                                        href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}
+                                    >
+                                        Link to Bitbucket
+                                    </a>
+                                </button>
+                            </ul>
+                        </div>
+                        <div>
+                            <code>{this.state.result}</code>
+                        </div>
+                    </div>
+                ): (
+                    <div>
+                        <button className={s.goBackButton} onClick={this.goBack}>Go Back</button>
+                        <ErrorPage errorCode = '404'/>
+                    </div>
+                )}
+            </div>
+        );
+    }
 }
 
 export default withRouter(ComponentsDetailView);
