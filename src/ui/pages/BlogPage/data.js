@@ -42,7 +42,7 @@ export async function fetchSinglePost({ slug }, base_url = API_BASE) {
 
   const resp = await fetch(`${base_url}/api/blogposts/${slug}`);
   const data = await resp.json();
-  return data.pop();
+  return data;
 }
 
 export async function fetchPostsByCategorySlug(

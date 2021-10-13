@@ -20,7 +20,7 @@ export class Blog extends Model {
     }
 
     static fetchSingleBlogpost({slug}){
-        return Blog.findAll({
+        return Blog.findOne({
             where: {
                 slug: slug,
             }
