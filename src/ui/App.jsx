@@ -16,10 +16,14 @@ import PageLayout from './components/PageLayout'
 import s from './styles/main.scss'
 import './styles/colors.scss'
 import CookieConsent from "react-cookie-consent";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
 function App() {
     return (
         <PageLayout>
             <Switch>
+                <Route path="/error" >
+                    <ErrorPage/>
+                </Route>
                 <Route path="/foundations/:slug?">
                     <FoundationsPage/>
                 </Route>
