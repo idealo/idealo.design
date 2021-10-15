@@ -20,24 +20,36 @@ export class DetailView extends React.Component {
     super(props);
     this.state = {
       isBlogpostLoaded: false,
+      blogpost: null,
+      error: null,
     }
   }
 
-
   async componentDidMount() {
+    this.setState({ isBlogpostLoaded: true });
     const blogpost = await fetchSinglePost({slug: this.props.match.params.slug})
+
     if(blogpost){
       this.setState({
-        isBlogpostLoaded: true,
+        blogpost: blogpost,
+        isBlogpostLoaded: false
+      });
+    }else{
+      this.setState({
+        error: '404',
+        isBlogpostLoaded: false
       })
     }
   }
 
   render() {
-    const isRendered = false
-    return !isRendered || this.state.isBlogpostLoaded ?
-        <Blogpost {...this.props}/> :
-        <Error/>
+    if(this.state.blogpost){
+      return <Blogpost {...this.props}/>
+    }else if(this.state.error){
+      return <ErrorPage errorCode ={this.state.error}/>
+    }else{
+      return <h2>Loading...</h2>
+    }
   }
 }
 
@@ -182,10 +194,6 @@ class Blogpost extends React.Component {
             </div>
 
             <div className={s.ContentDetailView}>
-              {!this.state.blogpost ? (
-                  <ErrorPage errorCode = '404'/>
-              ) : (
-                  <div>
                     <h2 className={s.blogpostTitle}>{this.state.blogpost.title}</h2>
                     <div className={s.Autor}>{this.state.blogpost.autor}</div>
                     <h5 className={s.blogpostDate}>{this.convertDatetime(this.state.blogpost.date)}</h5>
@@ -218,8 +226,6 @@ class Blogpost extends React.Component {
                       )}
                     </div>
                   </div>
-              )}
-            </div>
 
             <Prompt
                 show={this.state.isPromptOpen}
@@ -230,16 +236,6 @@ class Blogpost extends React.Component {
             />
           </div>
     )
-  }
-}
-
-class Error extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-      return <ErrorPage errorCode = "404"/>
   }
 }
 
