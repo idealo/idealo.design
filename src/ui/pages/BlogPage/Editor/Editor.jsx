@@ -22,6 +22,8 @@ import {
 } from "../data";
 import CreatableSelect from "react-select/creatable";
 import slugify from "slugify";
+import axios from "axios";
+const FormData = require("form-data");
 
 export class RichTextEditor extends React.Component {
   constructor(props) {
@@ -44,7 +46,8 @@ export class RichTextEditor extends React.Component {
       error: [],
       existingTitle: [],
       author: "",
-      titleInDatabase: ''
+      titleInDatabase: '',
+      file: null,
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -66,6 +69,7 @@ export class RichTextEditor extends React.Component {
     this.handleSelectCreate = this.handleSelectCreate.bind(this);
     this.handleValidation = this.handleValidation.bind(this);
     this.showSubmitPrompt = this.showSubmitPrompt.bind(this);
+    this.uploadImage = this.uploadImage.bind(this);
   }
 
   async componentDidMount() {
@@ -257,6 +261,7 @@ export class RichTextEditor extends React.Component {
       this.blog.categorydisplayvalue = this.state.categoryDisplayValue;
       this.blog.categoryslug = this.state.categorySlug;
       this.blog.slug = slugify(this.state.title)
+      this.blog.image = this.state.file
       await updateSinglePost(
           {
             slug: this.slug,
@@ -339,6 +344,15 @@ export class RichTextEditor extends React.Component {
     });
   }
 
+  async uploadImage(e){
+    const image = e.target.files[0]
+    if (image) {
+      this.setState({
+        file: image
+      })
+    }
+  }
+
   render() {
     const { editorState } = this.state;
     // If the user changes block type before entering any text, we can
@@ -401,6 +415,14 @@ export class RichTextEditor extends React.Component {
               }
             />
           </form>
+        </div>
+
+        <div className={s.InputFields}>
+          <input type="file"
+                 id="image" name="image"
+                 accept="image/*"
+                 onChange={this.uploadImage}
+          />
         </div>
 
         <div

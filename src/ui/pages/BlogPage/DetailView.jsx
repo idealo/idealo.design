@@ -12,8 +12,7 @@ import {
   fetchUserInfo
 } from "./data";
 
-import {withRouter} from "react-router";
-import ErrorPage from "../../components/ErrorPage/ErrorPage";
+import {withRouter, Redirect} from "react-router";
 
 export class DetailView extends React.Component {
   constructor(props) {
@@ -46,7 +45,7 @@ export class DetailView extends React.Component {
     if(this.state.blogpost){
       return <Blogpost {...this.props}/>
     }else if(this.state.error){
-      return <ErrorPage errorCode ={this.state.error}/>
+      return <Redirect to="/error"/>
     }else{
       return <h2>Loading...</h2>
     }
