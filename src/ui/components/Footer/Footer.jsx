@@ -19,9 +19,9 @@ class Footer extends React.Component {
                     <a href="https://www.idealo.co.uk/terms.html">About/Terms & Conditions</a>
                 </div>
                 <div className={s.SocialMedia}>
-                    <a href="https://www.facebook.com/idealo/"><IconFacebook class={s.icon}/></a>
-                    <a href="https://www.instagram.com/idealo/?hl=en"><IconInstagram class={s.icon}/></a>
-                    <a href="https://twitter.com/idealo_uk"><IconTwitter class={s.icon}/></a>
+                    <a href="https://www.facebook.com/idealo/"><IconFacebook className={s.icon}/></a>
+                    <a href="https://www.instagram.com/idealo/?hl=en"><IconInstagram className={s.icon}/></a>
+                    <a href="https://twitter.com/idealo_uk"><IconTwitter className={s.icon}/></a>
                 </div>
             </footer>
         )
