@@ -7,6 +7,41 @@ import {fetchUserInfo} from "../BlogPage/data";
 import LoginMessage from "../../components/LoginMessage/LoginMessage";
 
 export class ComponentsListView extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+      error: null,
+    }
+  }
+
+  async componentDidMount() {
+    const user = await fetchUserInfo()
+
+    if(user.user){
+      this.setState({
+        user: user,
+      });
+    }else{
+      this.setState({
+        error: '401',
+      })
+    }
+  }
+
+  render() {
+    if(this.state.user){
+      return <ListedComponents {...this.props}/>
+    }else if(this.state.error){
+      return <LoginMessage children="Library"/>
+    }else{
+      return <h2>Loading...</h2>
+    }
+  }
+}
+
+class ListedComponents extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,7 +50,6 @@ export class ComponentsListView extends React.Component {
       availableTags: [],
       filteredComponents: [],
       URLOptions: [],
-      userInfo: {},
       view: ""
     };
   }
@@ -25,7 +59,6 @@ export class ComponentsListView extends React.Component {
     this.setState({
       components: await fetchComponents(),
       availableTags: await fetchTags(),
-      userInfo: await fetchUserInfo(),
     });
     this.fillFilterWithTags();
     this.fillFilterComponents(window.location.pathname);
@@ -133,54 +166,48 @@ export class ComponentsListView extends React.Component {
     return (
         <div>
           <h1>{this.state.view}</h1>
-          {this.state.userInfo.status === "LOGGED_IN" ? (
-              <div>
-                <React.Fragment>
-                  {this.state.view === "Library" ? (
-                      <div className={s.multiselect}>
-                        <Select
-                            isMulti
-                            className="basic-multi-select"
-                            value={this.state.URLOptions}
-                            onChange={(selectedTags) => this.handleChange(selectedTags)}
-                            options={this.state.availableTags}
-                        />
-                      </div>
-                  ):<div></div>}
-                </React.Fragment>
-                <div className={s.container}>
-                  {this.state.filteredComponents.map((component) => (
-                      <div className={s.item} key={component.component_id}>
-                        <a
-                            className={s.linkToDetailView}
-                            href={`/library/${component.slug}#Design`}
-                        >
-                          {component.screenshots.length>0 ? (
-                              <img
-                                  title="componentScreenshot"
-                                  className={s.logo}
-                                  src={`https://917999261651-idealo-design-assets.s3.eu-central-1.amazonaws.com/${component.screenshots[0]}`}
-                                  alt="image"
-                              />
-                          ):(<div/>)}
-                          <h1 className={s.title} title="componentTitle">
-                            {component.title}
-                          </h1>
-                          {component.tags.map((tag, key) => (
-                              <p
-                                  className={s.tags}
-                                  key={key}
-                                  title="componentTags"
-                              >{`#${tag}`}</p>
-                          ))}
-                        </a>
-                      </div>
-                  ))}
+          <React.Fragment>
+            {this.state.view === "Library" ? (
+                <div className={s.multiselect}>
+                  <Select
+                      isMulti
+                      className="basic-multi-select"
+                      value={this.state.URLOptions}
+                      onChange={(selectedTags) => this.handleChange(selectedTags)}
+                      options={this.state.availableTags}
+                  />
                 </div>
-              </div>
-          ) : (
-              <LoginMessage children={this.state.view} />
-          )}
+            ):<div/>}
+          </React.Fragment>
+          <div className={s.container}>
+            {this.state.filteredComponents.map((component) => (
+                <div className={s.item} key={component.component_id}>
+                  <a
+                      className={s.linkToDetailView}
+                      href={`/library/${component.slug}#Design`}
+                  >
+                    {component.screenshots.length>0 ? (
+                        <img
+                            title="componentScreenshot"
+                            className={s.logo}
+                            src={`https://917999261651-idealo-design-assets.s3.eu-central-1.amazonaws.com/${component.screenshots[0]}`}
+                            alt="image"
+                        />
+                    ):(<div/>)}
+                    <h1 className={s.title} title="componentTitle">
+                      {component.title}
+                    </h1>
+                    {component.tags.map((tag, key) => (
+                        <p
+                            className={s.tags}
+                            key={key}
+                            title="componentTags"
+                        >{`#${tag}`}</p>
+                    ))}
+                  </a>
+                </div>
+            ))}
+          </div>
         </div>
     );
   }
