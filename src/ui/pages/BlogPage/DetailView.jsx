@@ -79,6 +79,7 @@ class Blogpost extends React.Component {
     if (slug) {
       this.setState({
         blogpost: await fetchSinglePost({ slug: slug }),
+        slug: slug,
       });
       if(this.state.blogpost){
         const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
