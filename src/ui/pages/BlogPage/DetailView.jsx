@@ -18,25 +18,21 @@ export class DetailView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isBlogpostLoaded: false,
       blogpost: null,
       error: null,
     }
   }
 
   async componentDidMount() {
-    this.setState({ isBlogpostLoaded: true });
     const blogpost = await fetchSinglePost({slug: this.props.match.params.slug})
 
     if(blogpost){
       this.setState({
         blogpost: blogpost,
-        isBlogpostLoaded: false
       });
     }else{
       this.setState({
         error: '404',
-        isBlogpostLoaded: false
       })
     }
   }

@@ -5,31 +5,26 @@ import s from "./ComponentsPage.module.scss";
 
 import {Redirect, withRouter} from "react-router";
 import { fetchSingleComponent } from "./component_data";
-import {fetchSinglePost} from "../BlogPage/data";
 
 export class ComponentsDetailView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isComponentLoaded: false,
             component: null,
             error: null,
         }
     }
 
     async componentDidMount() {
-        this.setState({ isComponentLoaded: true });
         const component = await fetchSingleComponent({slug: this.props.match.params.slug})
 
         if(component){
             this.setState({
                 component: component,
-                isComponentLoaded: false
             });
         }else{
             this.setState({
                 error: '404',
-                isComponentLoaded: false
             })
         }
     }

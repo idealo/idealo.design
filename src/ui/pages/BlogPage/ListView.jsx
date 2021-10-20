@@ -10,6 +10,32 @@ export class ListView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            blogposts: null,
+        }
+    }
+
+    async componentDidMount() {
+        const blogposts = await fetchAllBlogposts()
+        if (blogposts){
+            this.setState({
+                blogposts: blogposts,
+            })
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                {this.state.blogposts ? <ListedBlogposts {...this.props}/> : <h1>Loading...</h1>}
+            </div>
+        );
+    }
+}
+
+class ListedBlogposts extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             userInfo: {},
             list: [],
         };
@@ -68,27 +94,27 @@ export class ListView extends React.Component {
         return htmlToText(plainText);
     }
 
-  render() {
-    return (
-      <div>
-          <h1 className={s.headline}>BlogPage</h1>
-        {this.state.userInfo.status === "LOGGED_IN" ? (
-          <button
-            className={s.NewPostButton}
-            onClick={this.handleNewPost}
-            title="newPostButton"
-          >New Post</button>
-        ) : (
-          <div></div>
-        )}
+    render() {
+        return (
+            <div>
+                <h1 className={s.headline}>BlogPage</h1>
+                {this.state.userInfo.status === "LOGGED_IN" ? (
+                    <button
+                        className={s.NewPostButton}
+                        onClick={this.handleNewPost}
+                        title="newPostButton"
+                    >New Post</button>
+                ) : (
+                    <div/>
+                )}
 
                 <div style={{clear: "both"}}/>
 
                 <div className={s.container}>
                     {this.state.list.map((blogpost) => (
 
-                            <div className={s.item} key={blogpost.id}>
-                                <a className={s.LinkToDetailView} href={`/blog/${blogpost.slug}`}>
+                        <div className={s.item} key={blogpost.id}>
+                            <a className={s.LinkToDetailView} href={`/blog/${blogpost.slug}`}>
                                 <div>
                                     <img className={s.imageListView} title="blogpostPreview" alt="" src={blogpost.image}/>
                                 </div>
@@ -100,8 +126,8 @@ export class ListView extends React.Component {
                                     <h5 className={s.authorListView}>by {blogpost.autor}</h5>
                                     <h5 className={s.dateListView}>{this.toDateFormat_de(blogpost.date)}</h5>
                                 </div>
-                                </a>
-                            </div>
+                            </a>
+                        </div>
 
                     ))}
                 </div>
