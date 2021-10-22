@@ -63,7 +63,7 @@ test("verify that the user sees the login button", async () => {
   };
   fetchUserInfo.mockResolvedValueOnce({ results: userInfo });
 
-  render(<Search />);
+  render(<Login/>);
 
   expect(screen.getByTitle("loginButton")).toBeInTheDocument();
 });
