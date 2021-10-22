@@ -16,11 +16,19 @@ import AtomsIcon from './atomicons_beta_atom.svg'
 import MoleculesIcon from './atomicons_beta_molecule.svg'
 import OrganismsIcon from './atomicons_beta_organism.svg'
 
-import * as Elems from './../../../../data/__generated__elements__'
 import { fetchAllCategories } from "../../pages/BlogPage/data"
+import { fetchComponents } from "../../pages/LibraryPage/component_data";
+import { fetchUserInfo } from "../../pages/BlogPage/data";
 
-function createSections(addedData) {
-    const {cats} = addedData;
+function createSections(catsData, componentsData) {
+    const {cats} = catsData;
+    let components;
+    if(componentsData){
+        components = componentsData;
+    }else {
+        components = []
+    }
+
     return [
       /*  {
             icon: 'foundationsIcon',
@@ -31,7 +39,7 @@ function createSections(addedData) {
                 {title: 'Typography', href: '/foundations/typography'},
             ]
         },*/
-        {
+        /*{
             icon: 'AtomsIcon',
             title: 'Atoms',
             children: [{title: 'Overview', href: '/atoms/overview'}]
@@ -42,8 +50,8 @@ function createSections(addedData) {
                 //         href: `/atoms/${elem.slug}`
                 //     }
                 // })),
-        },
-        {
+        },*/
+        /*{
             icon: 'MoleculesIcon',
             title: 'Molecules',
             children: [
@@ -52,8 +60,8 @@ function createSections(addedData) {
                 // {title: 'Footer', href: '/compounds/footer'},
                 // {title: 'International Prices', href: '/compounds/international-prices'},
             ]
-        },
-        {
+        },*/
+        /*{
             icon: 'OrganismsIcon',
             title: 'Organisms',
             children: [
@@ -62,20 +70,26 @@ function createSections(addedData) {
                 // {title: 'Footer', href: '/compounds/footer'},
                 // {title: 'International Prices', href: '/compounds/international-prices'},
             ]
-        },
+        },*/
         {
             icon: 'componentsIcon',
-            title: 'Library',
+            title: 'Component Library',
             children: [
                 {title: 'Overview', href: '/library'},
-                {title: 'For react stacks', href: '/library/for-react-stacks'},
-                {title: 'For classic stacks', href: '/library/for-classic-stacks'},
-            ]
+                /*{title: 'For react stacks', href: '/library/for-react-stacks'},
+                {title: 'For classic stacks', href: '/library/for-classic-stacks'},*/
+            ].concat(Object.keys(components).map(key => {
+                const component = components[key]
+                return {
+                    title: component.title,
+                    href: `/library/${component.slug}`
+                }
+            }))
         },
         {
             icon: 'otherIcon',
-            title: 'Blog',
-            children: [{title: 'Overview', href: '/blog'}]
+            title: 'Activities',
+            children: [{title: 'Blog', href: '/blog'}]
                 .concat(Object.keys(cats).map(key => {
                     const cat = cats[key]
                     return {
@@ -92,13 +106,13 @@ function createSections(addedData) {
                 {title: 'Sketch', href: '/assets/sketch'},
             ]
         },*/
-        {
+        /*{
             icon: 'otherIcon',
             title: 'Other',
             children: [
                 {title: 'Scratchpad', href: '/scratchpad'},
             ]
-        },
+        },*/
     ];
 }
 
@@ -214,8 +228,11 @@ class Sidebar extends React.Component {
 
         this.state = {
             isStickyModel: false,
-            sections: []
+            sections: [],
+            components: [],
+            user: null
         }
+
     }
 
     async componentDidMount() {
@@ -228,7 +245,15 @@ class Sidebar extends React.Component {
         })
 
         const cats = await fetchAllCategories();
-        this.setState({sections: createSections({cats})});
+        this.setState({user: await fetchUserInfo()})
+        let components;
+        if(this.state.user.user){
+            components = await fetchComponents();
+            this.setState({sections: createSections({cats}, components)});
+        }else{
+            this.setState({sections: createSections({cats})});
+
+        }
     }
 
     render() {
