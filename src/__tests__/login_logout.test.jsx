@@ -6,8 +6,8 @@ import {
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import Search from "../ui/components/Header/Search";
 import { fetchUserInfo } from "../ui/pages/BlogPage/data";
+import Login from "../ui/components/Header/Login";
 
 jest.mock("../ui/pages/BlogPage/data", () => {
   return { fetchUserInfo: jest.fn() };
@@ -33,7 +33,7 @@ test("the user can see the logout button when logged in", async () => {
   };
   fetchUserInfo.mockReturnValue(userInfo);
 
-  render(<Search />);
+  render(<Login/>);
 
   await waitForElementToBeRemoved(() => screen.getByTitle("loginButton"));
   expect(screen.getByTitle("logoutButton")).toBeInTheDocument();
@@ -63,7 +63,7 @@ test("verify that the user sees the login button", async () => {
   };
   fetchUserInfo.mockResolvedValueOnce({ results: userInfo });
 
-  render(<Search />);
+  render(<Login/>);
 
   expect(screen.getByTitle("loginButton")).toBeInTheDocument();
 });

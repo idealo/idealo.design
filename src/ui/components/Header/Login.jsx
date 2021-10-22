@@ -1,10 +1,8 @@
 import React from "react";
 import s from "./Header.module.scss";
-import CloseIco from "./ico_cross_circle_outline.svg";
-import MagnifierIco from "./ico_search.svg";
 import {fetchUserInfo} from "../../pages/BlogPage/data";
 
-class Search extends React.Component {
+class Login extends React.Component {
 
     constructor(props) {
         super(props)
@@ -57,23 +55,23 @@ class Search extends React.Component {
 
         return (
             <>
-                <input
-                    style={searchInputStyle}
-                    className={s.SearchInput}
-                    onTransitionEnd={event => {
-                        event.persist()
-                        event.target.focus()
-                        event.target.value = ''
-                    }}
-                    autoFocus/>
-
-                {this.props.isOpen ?
-                    <CloseIco className={s.SearchToggle} onClick={this.props.onClick}/> :
-                    <MagnifierIco className={s.SearchToggle} onClick={this.props.onClick}/>}
+                {this.state.isLoggedIn ?
+                    <div className={s.loginLogout} style={{display: 'flex'}}>
+                        <button style={{margin: '10px'}} className={s.initialsStyle}>{this.state.initialString}</button>
+                        <a href="/logout">
+                            <button className={s.button} title="logoutButton"><span>Logout</span></button>
+                        </a>
+                    </div> :
+                    <div className={s.loginLogout}>
+                        <a href="/auth/provider">
+                            <button className={s.button} title="loginButton"><span>Login</span></button>
+                        </a>
+                    </div>
+                }
             </>
         )
     }
 }
 
-export default Search;
+export default Login;
 export {s as styles};

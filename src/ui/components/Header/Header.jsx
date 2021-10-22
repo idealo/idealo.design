@@ -8,6 +8,7 @@ import BtnIco from './ico_hamburger.svg'
 
 import {getElementBySlug} from '../../../../data/elements'
 import {default as Search} from '../Header/Search'
+import {default as Login} from '../Header/Login'
 
 class StickyMenu extends React.Component {
 
@@ -135,6 +136,7 @@ class Header extends React.Component {
                     onClick={this.toggleSearchInput}
                     closeSearchInput={this.closeSearchInput}
                     isOpen={this.state.isSearchInputOpen}/>
+                <Login/>
             </header>
         )
     }
