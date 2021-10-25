@@ -20,6 +20,20 @@
   }
 }
 
+.NewComponentButton{
+  float: right;
+  border-color: #0771D0;
+  letter-spacing: 0.2px;
+  font-size: 16px;
+  height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 4px;
+  background-color: white;
+  color: #0771D0;
+  cursor: pointer;
+}
+
 .code {
   font-family: monospace;
   padding: 7px;

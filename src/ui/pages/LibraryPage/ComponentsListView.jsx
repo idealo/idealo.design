@@ -32,7 +32,7 @@ export class ComponentsListView extends React.Component {
 
   render() {
     if(this.state.user){
-      return <ListedComponents {...this.props}/>
+      return <ListedComponents user = {this.state.user} {...this.props}/>
     }else if(this.state.error){
       return <LoginMessage children="Library"/>
     }else{
@@ -52,6 +52,7 @@ class ListedComponents extends React.Component {
       URLOptions: [],
       view: ""
     };
+    this.handleNewComponent = this.handleNewComponent.bind(this)
   }
 
   async componentDidMount() {
@@ -162,10 +163,23 @@ class ListedComponents extends React.Component {
     this.fillFilterComponents(window.location.pathname);
   }
 
+  handleNewComponent(){
+    this.props.history.push("/library/new-component")
+  }
+
   render() {
     return (
         <div>
           <h1>{this.state.view}</h1>
+          {this.props.user.status === "LOGGED_IN" ? (
+              <button
+                  className={s.NewComponentButton}
+                  onClick={this.handleNewComponent}
+                  title="newComponentButton"
+              >New Component</button>
+          ) : (
+              <div/>
+          )}
           <React.Fragment>
             {this.state.view === "Library" ? (
                 <div className={s.multiselect}>

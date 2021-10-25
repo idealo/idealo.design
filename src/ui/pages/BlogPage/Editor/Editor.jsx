@@ -518,7 +518,7 @@ const BLOCK_TYPES = [
   { label: "Code Block", style: "code-block" },
 ];
 
-const BlockStyleControls = (props) => {
+export const BlockStyleControls = (props) => {
   const { editorState } = props;
   const selection = editorState.getSelection();
   const blockType = editorState
@@ -548,7 +548,7 @@ var INLINE_STYLES = [
   { label: "Monospace", style: "CODE" },
 ];
 
-const InlineStyleControls = (props) => {
+export const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();
 
   return (
