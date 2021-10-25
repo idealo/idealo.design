@@ -186,6 +186,11 @@ class Sidebar extends React.Component {
         let components;
         if(this.state.user.user){
             components = await fetchComponents();
+            for(const component of components){
+                if(component.title.includes("/")){
+                    component.title = component.title.split("/")[1]
+                }
+            }
             this.setState({sections: createSections({cats}, components)});
         }else{
             this.setState({sections: createSections({cats})});
