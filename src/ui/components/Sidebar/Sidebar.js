@@ -1,6 +1,6 @@
 import React from 'react'
 import withStyles from 'isomorphic-style-loader/withStyles'
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 import s from './Sidebar.module.scss'
 
@@ -8,7 +8,6 @@ import ChevronIcon from '../../../../public/ico_chevron_right.svg'
 import FoundationsIcon from './ico_foundations.svg'
 import ElementsIcon from './ico_elements.svg'
 import CompoundsIcon from './ico_components.svg'
-import ComponentsIcon from './ico_components.svg'
 import AssetsIcon from './ico_assets.svg'
 import OtherIcon from './ico_datasheet_outline.svg'
 
@@ -16,9 +15,8 @@ import AtomsIcon from './atomicons_beta_atom.svg'
 import MoleculesIcon from './atomicons_beta_molecule.svg'
 import OrganismsIcon from './atomicons_beta_organism.svg'
 
-import { fetchAllCategories } from "../../pages/BlogPage/data"
+import { fetchAllCategories, fetchUserInfo } from "../../pages/BlogPage/data"
 import { fetchComponents } from "../../pages/LibraryPage/component_data";
-import { fetchUserInfo } from "../../pages/BlogPage/data";
 
 function createSections(catsData, componentsData) {
     const {cats} = catsData;
@@ -30,47 +28,6 @@ function createSections(catsData, componentsData) {
     }
 
     return [
-      /*  {
-            icon: 'foundationsIcon',
-            title: 'Foundations',
-            children: [
-                {title: 'Overview', href: '/foundations'},
-                {title: 'Colors', href: '/foundations/colors'},
-                {title: 'Typography', href: '/foundations/typography'},
-            ]
-        },*/
-        /*{
-            icon: 'AtomsIcon',
-            title: 'Atoms',
-            children: [{title: 'Overview', href: '/atoms/overview'}]
-                // .concat(Object.keys(Elems).map(key => {
-                //     const elem = Elems[key]
-                //     return {
-                //         title: elem.title,
-                //         href: `/atoms/${elem.slug}`
-                //     }
-                // })),
-        },*/
-        /*{
-            icon: 'MoleculesIcon',
-            title: 'Molecules',
-            children: [
-                {title: 'Overview', href: '/molecules'},
-                // {title: 'Header', href: '/compounds/header'},
-                // {title: 'Footer', href: '/compounds/footer'},
-                // {title: 'International Prices', href: '/compounds/international-prices'},
-            ]
-        },*/
-        /*{
-            icon: 'OrganismsIcon',
-            title: 'Organisms',
-            children: [
-                {title: 'Overview', href: '/organisms'},
-                // {title: 'Header', href: '/compounds/header'},
-                // {title: 'Footer', href: '/compounds/footer'},
-                // {title: 'International Prices', href: '/compounds/international-prices'},
-            ]
-        },*/
         {
             icon: 'componentsIcon',
             title: 'Component Library',
@@ -98,21 +55,6 @@ function createSections(catsData, componentsData) {
                     }
                 })),
         },
-    /*    {
-            icon: 'assetsIcon',
-            title: 'Assets',
-            children: [
-                {title: 'Overview', href: '/assets'},
-                {title: 'Sketch', href: '/assets/sketch'},
-            ]
-        },*/
-        /*{
-            icon: 'otherIcon',
-            title: 'Other',
-            children: [
-                {title: 'Scratchpad', href: '/scratchpad'},
-            ]
-        },*/
     ];
 }
 
@@ -122,10 +64,8 @@ function RenderIcon({name}) {
             return <OtherIcon className={s.VerticalNav__TopLevelIcon}/>
         case 'assetsIcon':
             return <AssetsIcon className={s.VerticalNav__TopLevelIcon}/>
-        case 'compoundsIcon':
-            return <CompoundsIcon className={s.VerticalNav__TopLevelIcon}/>
         case 'componentsIcon':
-            return <ComponentsIcon className={s.VerticalNav__TopLevelIcon}/>
+            return <CompoundsIcon className={s.VerticalNav__TopLevelIcon}/>
         case 'elementsIcon':
             return <ElementsIcon className={s.VerticalNav__TopLevelIcon}/>
         case 'foundationsIcon':
@@ -193,19 +133,16 @@ class NavSection extends React.Component {
 
                     this.toggleState()
                 }}>
-        <span>
-        {this.props.section.icon &&
-        <RenderIcon name={this.props.section.icon}/>}
-      </span>
-
+                    <span>
+                        {this.props.section.icon && <RenderIcon name={this.props.section.icon}/>}
+                    </span>
                     {this.props.isSidebarOpen && (
                         <>
-          <span className={s.VerticalNav__TopLevelTitle}>
-          {this.props.section.title}
-        </span>
+                            <span className={s.VerticalNav__TopLevelTitle}>
+                                {this.props.section.title}
+                            </span>
                             <ChevronIcon style={{transform}} className={s.VerticalNav__TopLevelAngle}/>
                         </>)}
-
                 </div>
                 <ul style={{height}}>
                     {this.props.section.children && this.props.section.children.map((item, idx) => (
