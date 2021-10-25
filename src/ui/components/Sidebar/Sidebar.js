@@ -1,6 +1,6 @@
 import React from 'react'
 import withStyles from 'isomorphic-style-loader/withStyles'
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 import s from './Sidebar.module.scss'
 
@@ -209,11 +209,11 @@ class NavSection extends React.Component {
                 </div>
                 <ul style={{height}}>
                     {this.props.section.children && this.props.section.children.map((item, idx) => (
-                        <Link to={`${item.href}`} key={idx} as={item.href}>
-                            <li style={{visibility}}>
-                                {item.title}
-                            </li>
-                        </Link>
+                        <li key={idx}>
+                        <NavLink style={{visibility}} to={`${item.href}`} exact activeClassName={s.active} as={item.href}>
+                            {item.title}
+                        </NavLink>
+                        </li>
                     ))}
                 </ul>
             </>
