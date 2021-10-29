@@ -22,7 +22,7 @@ export default function PromptSuccess(props) {
             <header>
                 <h2 className={s.promptMessage}>{props.message}</h2>
             </header>
-            {props.message !== "Your blogpost has been saved successfully." ?(
+            {props.type !== "really_save" ?(
                 <footer>
                     {props.message === "Do you want to delete or archive that post?" ? (
                         <div className={s.promptButtonDiv}>

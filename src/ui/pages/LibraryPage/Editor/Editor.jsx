@@ -12,8 +12,43 @@ import {fetchComponents, fetchSingleComponent} from "../component_data";
 import slugify from "slugify";
 import Prompt from "../../BlogPage/Prompt";
 import s from "../../BlogPage/Editor/Editor.module.scss";
+import {fetchUserInfo} from "../../BlogPage/data";
+import LoginMessage from "../../../components/LoginMessage";
 
 export class RichTextEditor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: null,
+            error: null,
+        }
+    }
+
+    async componentDidMount() {
+        const user = await fetchUserInfo()
+        if(user.status === "LOGGED_IN"){
+            this.setState({
+                user: user,
+            });
+        }else{
+            this.setState({
+                error: '401',
+            })
+        }
+    }
+
+    render() {
+        if(this.state.user){
+            return <EditorView {...this.props}/>
+        }else if(this.state.error){
+            return <LoginMessage children="Library"/>
+        }else{
+            return <h2>Loading...</h2>
+        }
+    }
+}
+
+class EditorView extends React.Component {
     constructor(props) {
         super(props);
         const {match} = props;
@@ -187,12 +222,12 @@ export class RichTextEditor extends React.Component {
                     .toLowerCase()
             ) {
                 formIsValid = false;
-                errors["title-value"] = 'Title can not be "new post"';
+                errors["title-value"] = 'Title can not be "new component"';
             }
         });
 
         titles.map((title) => {
-            if(title === this.state.title){
+            if(title !== this.state.title){
                 if(
                     slugify(title)
                         .replace(/^\s+|\s+$/g, "")
@@ -210,12 +245,12 @@ export class RichTextEditor extends React.Component {
 
         if (!this.state.anatomy.getCurrentContent().getPlainText()) {
             formIsValid = false;
-            errors["editorState"] = 1;
+            errors["editorStateAnatomy"] = 1;
         }
 
         if (!this.state.guidelines.getCurrentContent().getPlainText()) {
             formIsValid = false;
-            errors["editorState"] = 1;
+            errors["editorStateGuidelines"] = 1;
         }
         this.setState({ error: errors });
 
@@ -226,12 +261,12 @@ export class RichTextEditor extends React.Component {
         this.setState({ isSubmitPromptOpen: true });
         setTimeout(() => {
             this.setState({ isSubmitPromptOpen: false }, () => {
-                this.props.history.push("/blog");
+                this.props.history.push("/library");
             });
         }, 1500);
     }
 
-    handleSubmit(e){
+    async handleSubmit(e){
         e.preventDefault();
         if (!this.handleValidation() && this.state.error["title-value"]) {
             alert("Title is invalid. Please choose a different title!");
@@ -253,7 +288,12 @@ export class RichTextEditor extends React.Component {
             return;
         }
 
-        if (!this.handleValidation() && this.state.error["editorState"]) {
+        if (!this.handleValidation() && this.state.error["editorStateGuidelines"]) {
+            alert("Please write something!");
+            return;
+        }
+
+        if (!this.handleValidation() && this.state.error["editorStateAnatomy"]) {
             alert("Please write something!");
             return;
         }
@@ -270,6 +310,8 @@ export class RichTextEditor extends React.Component {
             this.component.definition = this.state.definition;
             this.component.usage = this.state.usage;
             this.component.slug = slugify(this.state.title);
+            this.showSubmitPrompt()
+            return;
         }
         const implementation = {}
         implementation.anatomy = JSON.parse(this.renderContentAsRawJs(this.state.anatomy))
@@ -281,7 +323,6 @@ export class RichTextEditor extends React.Component {
             implementation: implementation,
             design: this.state.design,
         }
-        console.log('body',body)
     }
 
     onModalCancel() {
@@ -334,10 +375,12 @@ export class RichTextEditor extends React.Component {
         return (
             <>
                 {this.mode === "EDIT" ?
-                    <h1>Edit Blogpost</h1>
+                    <h1>Edit Component</h1>
                     :
-                    <h1>Create Blogpost</h1>}
+                    <h1>Create Component</h1>}
                 <div className={styles.InputFields}>
+                    Title:
+                    <br/>
                     <input
                         name="title"
                         className={
@@ -352,6 +395,8 @@ export class RichTextEditor extends React.Component {
                         value={this.state.title}
                         onChange={this.handleChange}
                         placeholder="component"/>
+                    <br/>
+                    Definition:
                     <textarea
                         name="definition"
                         rows="5"
@@ -359,6 +404,8 @@ export class RichTextEditor extends React.Component {
                         value={definition}
                         placeholder="Definition"
                     />
+                    <br/>
+                    Usage:
                     <textarea
                         name="usage"
                         rows="5"
@@ -441,7 +488,8 @@ export class RichTextEditor extends React.Component {
                 <Prompt
                     show={this.state.isSubmitPromptOpen}
                     onLeave={this.onModalLeave}
-                    message="Your blogpost has been saved successfully."
+                    message="Your component has been saved successfully."
+                    type = "really_save"
                 />
             </>
 

@@ -458,6 +458,7 @@ export class RichTextEditor extends React.Component {
           show={this.state.isSubmitPromptOpen}
           onLeave={this.onModalLeave}
           message="Your blogpost has been saved successfully."
+          type = "really_save"
         />
       </>
     );
