@@ -16,6 +16,7 @@ export default function PromptSuccess(props) {
                     left: "30%",
                     right: "30%",
                     bottom: "45%",
+                    height: "100px",
                 },
             }}
         >

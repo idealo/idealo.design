@@ -8,7 +8,7 @@ import {
     getBlockStyle, InlineStyleControls,
     styleMap
 } from "../../../components/DraftJsEditor/DraftJsEditorData";
-import {fetchComponents, fetchSingleComponent} from "../component_data";
+import {fetchSingleComponent} from "../component_data";
 import slugify from "slugify";
 import Prompt from "../../../components/Prompt";
 import s from "../../BlogPage/Editor/Editor.module.scss";
@@ -66,10 +66,14 @@ class EditorView extends React.Component {
             isPromptOpen: false,
             lastHistoryLocation: "",
             isSubmitPromptOpen: false,
-            error: []
+            error: [],
+            existingTitles: [],
+            titleInDatabase: "",
         }
 
-        this.guidelinesFocus = () => this.refs.guidelines.focus();
+        this.guidelinesFocus = () => {
+            this.refs.guidelines.focus();
+        }
         this.anatomyFocus = () => this.refs.anatomy.focus();
         this.onChangeGuide = (editorState) => {
             this.setState({ guidelines: editorState, isEdited: true });
@@ -120,6 +124,7 @@ class EditorView extends React.Component {
             title: this.component.title,
             definition: this.component.definition,
             usage: this.component.usage,
+            titleInDatabase: this.component.title,
         })
         }
     }
@@ -198,15 +203,18 @@ class EditorView extends React.Component {
         }
     }
 
-    async handleValidation(){
+    handleValidation(){
         const titles = []
         const errors = {}
         const blacklist = ['new-component']
         let formIsValid = true;
-        await fetchComponents().then((components) => {
+        fetch("/api/components").then((response) => {
+            return response.json()
+        }).then((components) => {
             for(const component of components){
                 titles.push(component.title)
             }
+            this.setState({existingTitles: titles})
         })
 
         if (!this.state.title) {
@@ -226,8 +234,8 @@ class EditorView extends React.Component {
             }
         });
 
-        titles.map((title) => {
-            if(title !== this.state.title){
+        this.state.existingTitles.map((title) => {
+            if(title !== this.state.titleInDatabase){
                 if(
                     slugify(title)
                         .replace(/^\s+|\s+$/g, "")
@@ -243,14 +251,9 @@ class EditorView extends React.Component {
             }
         })
 
-        if (!this.state.anatomy.getCurrentContent().getPlainText()) {
+        if(!this.state.definition){
             formIsValid = false;
-            errors["editorStateAnatomy"] = 1;
-        }
-
-        if (!this.state.guidelines.getCurrentContent().getPlainText()) {
-            formIsValid = false;
-            errors["editorStateGuidelines"] = 1;
+            errors["definition-empty"] = 1;
         }
         this.setState({ error: errors });
 
@@ -273,6 +276,10 @@ class EditorView extends React.Component {
             return;
         }
 
+        if(!this.handleValidation() && this.state.error["definition-empty"]){
+            alert("Please write content in definition field.")
+        }
+
         if (!this.handleValidation() && this.state.error["existing-title-value"]) {
             alert("Title already exists. Please choose a different title!");
             return;
@@ -288,16 +295,6 @@ class EditorView extends React.Component {
             return;
         }
 
-        if (!this.handleValidation() && this.state.error["editorStateGuidelines"]) {
-            alert("Please write something!");
-            return;
-        }
-
-        if (!this.handleValidation() && this.state.error["editorStateAnatomy"]) {
-            alert("Please write something!");
-            return;
-        }
-
         if (!this.handleValidation()) {
             alert("Form has errors. All fields must be completed.");
             return;
@@ -310,6 +307,7 @@ class EditorView extends React.Component {
             this.component.definition = this.state.definition;
             this.component.usage = this.state.usage;
             this.component.slug = slugify(this.state.title);
+            console.log("edited component", this.component)
             this.showSubmitPrompt()
             return;
         }
@@ -323,6 +321,8 @@ class EditorView extends React.Component {
             implementation: implementation,
             design: this.state.design,
         }
+
+        console.log('inserted component', body)
     }
 
     onModalCancel() {
@@ -384,13 +384,9 @@ class EditorView extends React.Component {
                     <input
                         name="title"
                         className={
-                            this.state.error["title-empty"]
+                            this.state.error["title-empty"] || this.state.error["title-value"] || this.state.error["existing-title-value"]
                                 ? s.empty
-                                : "" || this.state.error["title-value"]
-                                    ? s.empty
-                                    : "" || this.state.error["existing-title-value"]
-                                        ? s.empty
-                                        : ""
+                                : ""
                         }
                         value={this.state.title}
                         onChange={this.handleChange}
@@ -398,6 +394,7 @@ class EditorView extends React.Component {
                     <br/>
                     Definition:
                     <textarea
+                        className={this.state.error["definition-empty"] ? s.empty : ""}
                         name="definition"
                         rows="5"
                         onChange={this.handleChange}
