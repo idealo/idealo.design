@@ -7,10 +7,10 @@ import {
     BlockStyleControls,
     getBlockStyle, InlineStyleControls,
     styleMap
-} from "../../BlogPage/Editor/Editor";
+} from "../../../components/DraftJsEditor/DraftJsEditorData";
 import {fetchComponents, fetchSingleComponent} from "../component_data";
 import slugify from "slugify";
-import Prompt from "../../BlogPage/Prompt";
+import Prompt from "../../../components/Prompt";
 import s from "../../BlogPage/Editor/Editor.module.scss";
 import {fetchUserInfo} from "../../BlogPage/data";
 import LoginMessage from "../../../components/LoginMessage";
@@ -489,7 +489,7 @@ class EditorView extends React.Component {
                     show={this.state.isSubmitPromptOpen}
                     onLeave={this.onModalLeave}
                     message="Your component has been saved successfully."
-                    type = "really_save"
+                    type = "prompt_of_saving_dataset"
                 />
             </>
 

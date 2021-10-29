@@ -1,7 +1,7 @@
 import React from "react";
 import draftToHtml from "../../../vendor/draftjs-to-html";
 import HtmlToReact from "html-to-react";
-import Prompt from "./Prompt";
+import Prompt from "../../components/Prompt";
 
 import s from "./Blogpage.module.scss";
 import {
