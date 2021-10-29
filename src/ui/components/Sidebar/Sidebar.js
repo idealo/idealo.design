@@ -18,14 +18,14 @@ import OrganismsIcon from './atomicons_beta_organism.svg'
 import { fetchAllCategories, fetchUserInfo } from "../../pages/BlogPage/data"
 import { fetchComponents } from "../../pages/LibraryPage/component_data";
 
-function createSections(catsData, componentsData) {
-    const {cats} = catsData;
+function createSections(data) {
+    /*const {cats} = catsData;
     let components;
     if(componentsData){
         components = componentsData;
     }else {
         components = []
-    }
+    }*/
 
     return [
         {
@@ -33,8 +33,8 @@ function createSections(catsData, componentsData) {
             title: 'Component Library',
             children: [
                 {title: 'Overview', href: '/library'}
-            ].concat(Object.keys(components).map(key => {
-                const component = components[key]
+            ].concat(Object.keys(data.components).map(key => {
+                const component = data.components[key]
                 return {
                     title: component.title,
                     href: `/library/${component.slug}`
@@ -45,8 +45,8 @@ function createSections(catsData, componentsData) {
             icon: 'otherIcon',
             title: 'Activities',
             children: [{title: 'Blog', href: '/blog'}]
-                .concat(Object.keys(cats).map(key => {
-                    const cat = cats[key]
+                .concat(Object.keys(data.cats).map(key => {
+                    const cat = data.cats[key]
                     return {
                         title: cat.categorydisplayvalue,
                         href: `/blog/categories/${cat.categoryslug}`
@@ -189,9 +189,9 @@ class Sidebar extends React.Component {
                     component.title = component.title.split("/")[1]
                 }
             }
-            this.setState({sections: createSections({cats}, components)});
+            this.setState({sections: createSections({cats: cats, components: components})});
         }else{
-            this.setState({sections: createSections({cats})});
+            this.setState({sections: createSections({cats: cats, components: []})});
 
         }
     }
