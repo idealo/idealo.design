@@ -111,7 +111,7 @@ class ListedComponents extends React.Component {
         }
         this.setState({filteredComponents: [...new Set(filteredComponents)]});
       }
-    }else {
+    }/*else {
       if (pathname.includes('for-classic-stacks')) {
         this.setState({view: "Classic Stacks"})
         for (let component of this.state.components) {
@@ -119,18 +119,18 @@ class ListedComponents extends React.Component {
             filteredCompos.push(component);
           }
         }
-      }
+      }*/
 
-      if (pathname.includes('for-react-stacks')) {
+      /*if (pathname.includes('for-react-stacks')) {
         this.setState({view: "React Stacks"})
         for (let component of this.state.components) {
           if (component.tags.includes("react")) {
             filteredCompos.push(component);
           }
         }
-      }
-      this.setState({filteredComponents: filteredCompos})
-    }
+      }*/
+      /*this.setState({filteredComponents: filteredCompos})
+    }*/
   }
 
   handleChange(selectedTags) {

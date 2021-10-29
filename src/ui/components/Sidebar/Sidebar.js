@@ -32,9 +32,7 @@ function createSections(catsData, componentsData) {
             icon: 'componentsIcon',
             title: 'Component Library',
             children: [
-                {title: 'Overview', href: '/library'},
-                /*{title: 'For react stacks', href: '/library/for-react-stacks'},
-                {title: 'For classic stacks', href: '/library/for-classic-stacks'},*/
+                {title: 'Overview', href: '/library'}
             ].concat(Object.keys(components).map(key => {
                 const component = components[key]
                 return {
