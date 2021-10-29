@@ -190,6 +190,9 @@ class Component extends React.Component {
                                 </a>
                             </li>
                         ))}
+                        <button className={s.EditButton}>
+                            <a href={`/library/${this.state.component.slug}/edit`}>edit</a>
+                        </button>
                         <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
                             <a
                                 title="linkToBitbucket"

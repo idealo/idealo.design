@@ -123,6 +123,9 @@ Library.init({
         allowNull: false
     },
     readme: DataTypes.JSONB,
+    implementation: DataTypes.JSONB,
+    definition: DataTypes.JSONB,
+    design: DataTypes.JSONB,
     figma_usage: DataTypes.JSONB,
     updated_on: DataTypes.DATE
 }, {

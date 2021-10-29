@@ -465,7 +465,7 @@ export class RichTextEditor extends React.Component {
 }
 
 // Custom overrides for "code" style.
-const styleMap = {
+export const styleMap = {
   CODE: {
     backgroundColor: "rgba(0, 0, 0, 0.05)",
     fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
@@ -474,7 +474,7 @@ const styleMap = {
   },
 };
 
-function getBlockStyle(block) {
+export function getBlockStyle(block) {
   if (block.getType()) {
     return "RichEditor-blockquote";
   } else {
@@ -482,7 +482,7 @@ function getBlockStyle(block) {
   }
 }
 
-class StyleButton extends React.Component {
+export class StyleButton extends React.Component {
   constructor() {
     super();
     this.onToggle = (e) => {
@@ -505,7 +505,7 @@ class StyleButton extends React.Component {
   }
 }
 
-const BLOCK_TYPES = [
+export const BLOCK_TYPES = [
   { label: "H1", style: "header-one" },
   { label: "H2", style: "header-two" },
   { label: "H3", style: "header-three" },
@@ -518,7 +518,7 @@ const BLOCK_TYPES = [
   { label: "Code Block", style: "code-block" },
 ];
 
-export const BlockStyleControls = (props) => {
+const BlockStyleControls = (props) => {
   const { editorState } = props;
   const selection = editorState.getSelection();
   const blockType = editorState
@@ -541,14 +541,14 @@ export const BlockStyleControls = (props) => {
   );
 };
 
-var INLINE_STYLES = [
+export const INLINE_STYLES = [
   { label: "Bold", style: "BOLD" },
   { label: "Italic", style: "ITALIC" },
   { label: "Underline", style: "UNDERLINE" },
   { label: "Monospace", style: "CODE" },
 ];
 
-export const InlineStyleControls = (props) => {
+const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();
 
   return (
