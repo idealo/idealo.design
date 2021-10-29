@@ -110,22 +110,22 @@ class EditorView extends React.Component {
         });
         if(this.slug){
             this.component= await fetchSingleComponent({slug: this.slug})
-            if(this.component.implementation){
-                if(this.component.implementation.guidelines){
-                    const contentStateGuide = convertFromRaw(this.component.implementation.guidelines)
-                    this.setState({guidelines: EditorState.createWithContent(contentStateGuide)})
-                }
-                if(this.component.implementation.anatomy){
-                    const contentStateAna = convertFromRaw(this.component.implementation.anatomy)
-                    this.setState({anatomy: EditorState.createWithContent(contentStateAna)})
-                }
+
+            if(this.component.implementation.guidelines){
+                const contentStateGuide = convertFromRaw(this.component.implementation.guidelines)
+                this.setState({guidelines: EditorState.createWithContent(contentStateGuide)})
             }
-        this.setState({
-            title: this.component.title,
-            definition: this.component.definition,
-            usage: this.component.usage,
-            titleInDatabase: this.component.title,
-        })
+            if(this.component.implementation.anatomy){
+                const contentStateAna = convertFromRaw(this.component.implementation.anatomy)
+                this.setState({anatomy: EditorState.createWithContent(contentStateAna)})
+            }
+
+            this.setState({
+                title: this.component.title,
+                definition: this.component.definition,
+                usage: this.component.usage,
+                titleInDatabase: this.component.title,
+            })
         }
     }
 
@@ -344,33 +344,21 @@ class EditorView extends React.Component {
         this.handleValidation()
     }
 
-    render() {
-        let usage = "";
-        if(this.state.usage){
-            usage = this.state.usage
-        }
-        let definition = "";
-        if(this.state.definition){
-            definition = this.state.definition
-        }
-        const {guidelines} = this.state
-        const {anatomy} = this.state
+    getDraftJsContent(currentContent){
+        const contentState = currentContent.getCurrentContent();
         let className = styles["RichEditor-editor"];
-        let contentStateAna = ""
-        if(anatomy){
-            contentStateAna = anatomy.getCurrentContent();
-            if (!contentStateAna.hasText()) {
-                if (contentStateAna.getBlockMap().first().getType() !== "unstyled") {
-                    className += " " + styles["RichEditor-hidePlaceholder"];
-                }
-            }
-        }
-        const contentStateGuide = guidelines.getCurrentContent();
-        if (!contentStateGuide.hasText()) {
-            if (contentStateGuide.getBlockMap().first().getType() !== "unstyled") {
+        if (!contentState.hasText()) {
+            if (contentState.getBlockMap().first().getType() !== "unstyled") {
                 className += " " + styles["RichEditor-hidePlaceholder"];
             }
         }
+    }
+
+    render() {
+        const {guidelines} = this.state
+        const {anatomy} = this.state
+        this.getDraftJsContent(anatomy)
+        this.getDraftJsContent(guidelines)
 
         return (
             <>
@@ -398,7 +386,7 @@ class EditorView extends React.Component {
                         name="definition"
                         rows="5"
                         onChange={this.handleChange}
-                        value={definition}
+                        value={this.state.definition || ''}
                         placeholder="Definition"
                     />
                     <br/>
@@ -407,7 +395,7 @@ class EditorView extends React.Component {
                         name="usage"
                         rows="5"
                         onChange={this.handleChange}
-                        value={usage}
+                        value={this.state.usage || ''}
                         placeholder="Usage"
                     />
                     Anatomy:
