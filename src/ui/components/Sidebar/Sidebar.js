@@ -19,14 +19,6 @@ import { fetchAllCategories, fetchUserInfo } from "../../pages/BlogPage/data"
 import { fetchComponents } from "../../pages/LibraryPage/component_data";
 
 function createSections(data) {
-    /*const {cats} = catsData;
-    let components;
-    if(componentsData){
-        components = componentsData;
-    }else {
-        components = []
-    }*/
-
     return [
         {
             icon: 'componentsIcon',
