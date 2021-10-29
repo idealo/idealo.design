@@ -4,14 +4,14 @@ import styles from "./Editor.module.scss"
 import {convertFromRaw, convertToRaw, Editor, EditorState, getDefaultKeyBinding, RichUtils} from "draft-js";
 import "~/draft-js/dist/Draft.css";
 import {
-    BLOCK_TYPES,
-    getBlockStyle, INLINE_STYLES, StyleButton,
+    BlockStyleControls,
+    getBlockStyle, InlineStyleControls,
     styleMap
 } from "../../BlogPage/Editor/Editor";
-import {fetchSingleComponent} from "../component_data";
+import {fetchComponents, fetchSingleComponent} from "../component_data";
 import slugify from "slugify";
-import s from "../../BlogPage/Editor/Editor.module.scss";
 import Prompt from "../../BlogPage/Prompt";
+import s from "../../BlogPage/Editor/Editor.module.scss";
 
 export class RichTextEditor extends React.Component {
     constructor(props) {
@@ -31,12 +31,19 @@ export class RichTextEditor extends React.Component {
             isPromptOpen: false,
             lastHistoryLocation: "",
             isSubmitPromptOpen: false,
+            error: []
         }
 
-        this.focus = () => this.refs.editor.focus();
-        this.onChange = (editorStateGuide, editorStateAna) => {
-            this.setState({ guidelines: editorStateGuide, anatomy: editorStateAna, isEdited: true });
-            //this.handleValidation();
+        this.guidelinesFocus = () => this.refs.guidelines.focus();
+        this.anatomyFocus = () => this.refs.anatomy.focus();
+        this.onChangeGuide = (editorState) => {
+            this.setState({ guidelines: editorState, isEdited: true });
+            this.handleValidation();
+        };
+
+        this.onChangeAna = (editorState) => {
+            this.setState({ anatomy: editorState, isEdited: true });
+            this.handleValidation();
         };
 
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
@@ -51,15 +58,13 @@ export class RichTextEditor extends React.Component {
         this.onModalCancel = this.onModalCancel.bind(this);
         this.onModalLeave = this.onModalLeave.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleChangeImplementation = this.handleChangeImplementation.bind(this);
         this.showSubmitPrompt = this.showSubmitPrompt.bind(this);
     }
 
     async componentDidMount() {
-
         this.props.history.block((tx) => {
             if (this.state.isEdited) {
-                //this.setState({ lastHistoryLocation: tx.pathname, isPromptOpen: true });
+                this.setState({ lastHistoryLocation: tx.pathname, isPromptOpen: true });
                 return !this.state.isEdited;
             }
             return true;
@@ -76,13 +81,11 @@ export class RichTextEditor extends React.Component {
                     this.setState({anatomy: EditorState.createWithContent(contentStateAna)})
                 }
             }
-        //console.log(this.component)
         this.setState({
             title: this.component.title,
             definition: this.component.definition,
-            usage: this.component.implementation.usage
+            usage: this.component.usage,
         })
-            console.log(this.state)
         }
     }
 
@@ -95,7 +98,7 @@ export class RichTextEditor extends React.Component {
     _handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
-            this.onChange(newState);
+            this.onChangeGuide(newState);
             return true;
         }
         return false;
@@ -109,7 +112,7 @@ export class RichTextEditor extends React.Component {
                 4 /* maxDepth */
             );
             if (newEditorState !== this.state.guidelines) {
-                this.onChange(newEditorState);
+                this.onChangeGuide(newEditorState);
             }
             return null;
         }
@@ -125,7 +128,7 @@ export class RichTextEditor extends React.Component {
                 4 /* maxDepth */
             );
             if (newEditorState !== this.state.anatomy) {
-                this.onChange(newEditorState);
+                this.onChangeAna(newEditorState);
             }
             return null;
         }
@@ -134,20 +137,20 @@ export class RichTextEditor extends React.Component {
     }
 
     _toggleBlockTypeGuide(blockType) {
-        this.onChange(RichUtils.toggleBlockType(this.state.guidelines, blockType));
+        this.onChangeGuide(RichUtils.toggleBlockType(this.state.guidelines, blockType));
     }
 
     _toggleBlockTypeAna(blockType) {
-        this.onChange(RichUtils.toggleBlockType(this.state.anatomy, blockType));
+        this.onChangeAna(RichUtils.toggleBlockType(this.state.anatomy, blockType));
     }
 
     _toggleInlineStyleGuide(inlineStyle) {
-        this.onChange(
+        this.onChangeGuide(
             RichUtils.toggleInlineStyle(this.state.guidelines, inlineStyle)
         );
     }
     _toggleInlineStyleAna(inlineStyle) {
-        this.onChange(
+        this.onChangeAna(
             RichUtils.toggleInlineStyle(this.state.anatomy, inlineStyle)
         );
     }
@@ -160,6 +163,65 @@ export class RichTextEditor extends React.Component {
         }
     }
 
+    async handleValidation(){
+        const titles = []
+        const errors = {}
+        const blacklist = ['new-component']
+        let formIsValid = true;
+        await fetchComponents().then((components) => {
+            for(const component of components){
+                titles.push(component.title)
+            }
+        })
+
+        if (!this.state.title) {
+            formIsValid = false;
+            errors["title-empty"] = 1;
+        }
+
+        blacklist.map((word) => {
+            if (
+                word ===
+                slugify(this.state.title)
+                    .replace(/^\s+|\s+$/g, "")
+                    .toLowerCase()
+            ) {
+                formIsValid = false;
+                errors["title-value"] = 'Title can not be "new post"';
+            }
+        });
+
+        titles.map((title) => {
+            if(title === this.state.title){
+                if(
+                    slugify(title)
+                        .replace(/^\s+|\s+$/g, "")
+                        .toLowerCase() ===
+                    slugify(this.state.title)
+                        .replace(/^\s+|\s+$/g, "")
+                        .toLowerCase()
+                ) {
+                    formIsValid = false;
+                    errors["existing-title-value"] =
+                        "Title can not be that, because we already have a blogpost with that title";
+                }
+            }
+        })
+
+        if (!this.state.anatomy.getCurrentContent().getPlainText()) {
+            formIsValid = false;
+            errors["editorState"] = 1;
+        }
+
+        if (!this.state.guidelines.getCurrentContent().getPlainText()) {
+            formIsValid = false;
+            errors["editorState"] = 1;
+        }
+        this.setState({ error: errors });
+
+        return formIsValid;
+    }
+
     showSubmitPrompt() {
         this.setState({ isSubmitPromptOpen: true });
         setTimeout(() => {
@@ -170,26 +232,56 @@ export class RichTextEditor extends React.Component {
     }
 
     handleSubmit(e){
+        e.preventDefault();
+        if (!this.handleValidation() && this.state.error["title-value"]) {
+            alert("Title is invalid. Please choose a different title!");
+            return;
+        }
+
+        if (!this.handleValidation() && this.state.error["existing-title-value"]) {
+            alert("Title already exists. Please choose a different title!");
+            return;
+        }
+
+        if (!this.handleValidation() && this.state.error["title-empty"]) {
+            alert("Please choose a title!");
+            return;
+        }
+
+        if (!this.handleValidation() && this.state.error["categoryDisplayValue"]) {
+            alert("Please choose a category!");
+            return;
+        }
+
+        if (!this.handleValidation() && this.state.error["editorState"]) {
+            alert("Please write something!");
+            return;
+        }
+
+        if (!this.handleValidation()) {
+            alert("Form has errors. All fields must be completed.");
+            return;
+        }
         if(this.mode === "EDIT"){
             this.props.history.block(()=> true);
             this.component.title = this.state.title;
             this.component.implementation.guidelines = this.renderContentAsRawJs(this.state.guidelines);
             this.component.implementation.anatomy = this.renderContentAsRawJs(this.state.anatomy);
             this.component.definition = this.state.definition;
-            this.component.implementation.usage = this.state.usage;
+            this.component.usage = this.state.usage;
             this.component.slug = slugify(this.state.title);
         }
         const implementation = {}
         implementation.anatomy = JSON.parse(this.renderContentAsRawJs(this.state.anatomy))
         implementation.guidelines = JSON.parse(this.renderContentAsRawJs(this.state.guidelines))
         const body = {
-            title: this.state.component.title,
-            slug: slugify(this.state.component.title),
-            definition: this.state.component.definition,
+            title: this.state.title,
+            slug: slugify(this.state.title),
+            definition: this.state.definition,
             implementation: implementation,
-            design: this.state.component.design,
+            design: this.state.design,
         }
-        console.log(body)
+        console.log('body',body)
     }
 
     onModalCancel() {
@@ -208,31 +300,34 @@ export class RichTextEditor extends React.Component {
         this.setState({
             [content]: value,
         });
-    }
-
-    handleChangeImplementation(e){
-        const content = e.target.name
-        const value=e.target.value
-        this.setState({[content]: value})
+        this.handleValidation()
     }
 
     render() {
+        let usage = "";
+        if(this.state.usage){
+            usage = this.state.usage
+        }
+        let definition = "";
+        if(this.state.definition){
+            definition = this.state.definition
+        }
         const {guidelines} = this.state
         const {anatomy} = this.state
-        let className = s["RichEditor-editor"];
+        let className = styles["RichEditor-editor"];
         let contentStateAna = ""
         if(anatomy){
             contentStateAna = anatomy.getCurrentContent();
             if (!contentStateAna.hasText()) {
                 if (contentStateAna.getBlockMap().first().getType() !== "unstyled") {
-                    className += " " + s["RichEditor-hidePlaceholder"];
+                    className += " " + styles["RichEditor-hidePlaceholder"];
                 }
             }
         }
         const contentStateGuide = guidelines.getCurrentContent();
         if (!contentStateGuide.hasText()) {
             if (contentStateGuide.getBlockMap().first().getType() !== "unstyled") {
-                className += " " + s["RichEditor-hidePlaceholder"];
+                className += " " + styles["RichEditor-hidePlaceholder"];
             }
         }
 
@@ -242,83 +337,83 @@ export class RichTextEditor extends React.Component {
                     <h1>Edit Blogpost</h1>
                     :
                     <h1>Create Blogpost</h1>}
-                <div>
+                <div className={styles.InputFields}>
                     <input
                         name="title"
+                        className={
+                            this.state.error["title-empty"]
+                                ? s.empty
+                                : "" || this.state.error["title-value"]
+                                    ? s.empty
+                                    : "" || this.state.error["existing-title-value"]
+                                        ? s.empty
+                                        : ""
+                        }
                         value={this.state.title}
-                        className={styles.empty}
                         onChange={this.handleChange}
                         placeholder="component"/>
                     <textarea
                         name="definition"
                         rows="5"
                         onChange={this.handleChange}
-                        value={this.state.definition}
+                        value={definition}
                         placeholder="Definition"
                     />
                     <textarea
                         name="usage"
                         rows="5"
-                        onChange={this.handleChangeImplementation}
-                        value={this.state.usage}
+                        onChange={this.handleChange}
+                        value={usage}
                         placeholder="Usage"
                     />
                     Anatomy:
                     <div
-                        /*className={
-                            this.state.error["editorState"]
-                                ? s.empty + " " + s["RichEditor-root"]
-                                : s["RichEditor-root"]
-                        }*/
+                        className={styles["RichEditor-root"]}
                     >
-                        <BlockStyleControlsAna
-                            editorState={anatomy}
+                        <BlockStyleControls
+                            anatomy={anatomy}
                             onToggle={this.toggleBlockTypeAna}
                         />
-                        <InlineStyleControlsAna
-                            editorState={anatomy}
+                        <InlineStyleControls
+                            anatomy={anatomy}
                             onToggle={this.toggleInlineStyleAna}
                         />
-                        <div onClick={this.focus} title="anatomyInputField">
+                        <div onClick={this.anatomyFocus} title="anatomyInputField">
                             <Editor
                                 blockStyleFn={getBlockStyle}
                                 customStyleMap={styleMap}
                                 editorState={anatomy}
                                 handleKeyCommand={this.handleKeyCommand}
                                 keyBindingFn={this.mapKeyToEditorCommandAna}
-                                onChange={this.onChange}
+                                onChange={this.onChangeAna}
                                 placeholder="Tell a story..."
-                                ref="editor"
+                                ref="anatomy"
                                 spellCheck={true}
                             />
                         </div>
                     </div>
                     Guidelines:
                     <div
-                        /*className={
-                            this.state.error["editorState"]
-                                ? s.empty + " " + s["RichEditor-root"]
-                                : s["RichEditor-root"]
-                        }*/
+                        className={styles["RichEditor-root"]}
                     >
-                        <BlockStyleControlsGuide
-                            editorState={guidelines}
+                        <BlockStyleControls
+                            guidelines={guidelines}
                             onToggle={this.toggleBlockTypeGuide}
                         />
-                        <InlineStyleControlsGuide
-                            editorState={guidelines}
+                        <InlineStyleControls
+                            guidelines={guidelines}
                             onToggle={this.toggleInlineStyleGuide}
                         />
-                        <div onClick={this.focus} title="guidelinesInputField">
+                        <div onClick={this.guidelinesFocus} title="guidelinesInputField">
                             <Editor
                                 blockStyleFn={getBlockStyle}
                                 customStyleMap={styleMap}
                                 editorState={guidelines}
                                 handleKeyCommand={this.handleKeyCommand}
                                 keyBindingFn={this.mapKeyToEditorCommandGuide}
-                                onChange={this.onChange}
+                                onChange={this.onChangeGuide}
                                 placeholder="Tell a story..."
-                                ref="editor"
+                                ref="guidelines"
                                 spellCheck={true}
                             />
                         </div>
@@ -331,7 +426,7 @@ export class RichTextEditor extends React.Component {
                     </button>
                     <button
                         title="cancelButton"
-                        className={s["CancelButton"]}
+                        className={styles["CancelButton"]}
                         onClick={this.handleCancellation}
                     >
                         Cancel
@@ -353,114 +448,5 @@ export class RichTextEditor extends React.Component {
         );
     }
 }
-
-const InlineStyleControlsGuide = (props) => {
-    let currentStyle = ""
-    if(props.guidelines){
-        currentStyle = props.guidelines.getCurrentInlineStyle();
-    }
-
-    return (
-        <div className="RichEditor-controls">
-            {currentStyle ? (
-                <div>
-                    {INLINE_STYLES.map((type) => (
-                        <StyleButton
-                            key={type.label}
-                            active={currentStyle.has(type.style)}
-                            label={type.label}
-                            onToggle={props.onToggle}
-                            style={type.style}
-                        />
-                    ))}
-                </div>
-
-            ):(<div/>)}
-        </div>
-    );
-};
-
-const InlineStyleControlsAna = (props) => {
-    let currentStyle = ""
-    if(props.anatomy){
-        currentStyle = props.anatomy.getCurrentInlineStyle();
-    }
-
-    return (
-        <div className="RichEditor-controls">
-            {currentStyle ? (
-                <div>
-                    {INLINE_STYLES.map((type) => (
-                        <StyleButton
-                            key={type.label}
-                            active={currentStyle.has(type.style)}
-                            label={type.label}
-                            onToggle={props.onToggle}
-                            style={type.style}
-                        />
-                    ))}
-                </div>
-
-            ):(<div/>)}
-
-        </div>
-    );
-};
-
-const BlockStyleControlsGuide = (props) => {
-    const { guidelines } = props;
-    let selection = ""
-    let blockType = ""
-    if(guidelines){
-        selection = guidelines.getSelection();
-        blockType = guidelines
-            .getCurrentContent()
-            .getBlockForKey(selection.getStartKey())
-            .getType();
-    }
-
-
-    return (
-        <div className={s["RichEditor-controls"]}>
-            {BLOCK_TYPES.map((type) => (
-                <StyleButton
-                    key={type.label}
-                    active={type.style === blockType}
-                    label={type.label}
-                    onToggle={props.onToggle}
-                    style={type.style}
-                />
-            ))}
-        </div>
-    );
-};
-
-const BlockStyleControlsAna = (props) => {
-    const { anatomy } = props;
-    let selection = ""
-    let blockType = ""
-    if(anatomy){
-        selection = anatomy.getSelection();
-        blockType = anatomy
-            .getCurrentContent()
-            .getBlockForKey(selection.getStartKey())
-            .getType();
-    }
-
-
-    return (
-        <div className={s["RichEditor-controls"]}>
-            {BLOCK_TYPES.map((type) => (
-                <StyleButton
-                    key={type.label}
-                    active={type.style === blockType}
-                    label={type.label}
-                    onToggle={props.onToggle}
-                    style={type.style}
-                />
-            ))}
-        </div>
-    );
-};
 
 export default withRouter(RichTextEditor)

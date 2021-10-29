@@ -124,9 +124,9 @@ Library.init({
     },
     readme: DataTypes.JSONB,
     implementation: DataTypes.JSONB,
-    definition: DataTypes.JSONB,
+    definition: DataTypes.STRING,
     design: DataTypes.JSONB,
-    figma_usage: DataTypes.JSONB,
+    usage: DataTypes.STRING,
     updated_on: DataTypes.DATE
 }, {
     tableName: 'components',

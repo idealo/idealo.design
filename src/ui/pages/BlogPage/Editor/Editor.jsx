@@ -518,8 +518,10 @@ export const BLOCK_TYPES = [
   { label: "Code Block", style: "code-block" },
 ];
 
-const BlockStyleControls = (props) => {
-  const { editorState } = props;
+export const BlockStyleControls = (props) => {
+  const editorState = props[Object.keys(props)[0]]
+
+
   const selection = editorState.getSelection();
   const blockType = editorState
     .getCurrentContent()
@@ -548,8 +550,9 @@ export const INLINE_STYLES = [
   { label: "Monospace", style: "CODE" },
 ];
 
-const InlineStyleControls = (props) => {
-  const currentStyle = props.editorState.getCurrentInlineStyle();
+export const InlineStyleControls = (props) => {
+  const editorState = props[Object.keys(props)[0]]
+  const currentStyle = editorState.getCurrentInlineStyle();
 
   return (
     <div className="RichEditor-controls">
