@@ -7,7 +7,7 @@ import s from './Sidebar.module.scss'
 import ChevronIcon from '../../../../public/ico_chevron_right.svg'
 import FoundationsIcon from './ico_foundations.svg'
 import ElementsIcon from './ico_elements.svg'
-import CompoundsIcon from './ico_components.svg'
+import ComponentsIcon from './ico_components.svg'
 import AssetsIcon from './ico_assets.svg'
 import OtherIcon from './ico_datasheet_outline.svg'
 
@@ -55,7 +55,7 @@ function RenderIcon({name}) {
         case 'assetsIcon':
             return <AssetsIcon className={s.VerticalNav__TopLevelIcon}/>
         case 'componentsIcon':
-            return <CompoundsIcon className={s.VerticalNav__TopLevelIcon}/>
+            return <ComponentsIcon className={s.VerticalNav__TopLevelIcon}/>
         case 'elementsIcon':
             return <ElementsIcon className={s.VerticalNav__TopLevelIcon}/>
         case 'foundationsIcon':
