@@ -116,6 +116,14 @@ export class Library extends Model {
             console.error(e)
         }
     }
+
+    static deleteSingleComponent({component}){
+        return Library.destroy({
+            where: {
+                component_id: component.component_id
+            }
+        })
+    }
 }
 
 export class Tags extends Model {

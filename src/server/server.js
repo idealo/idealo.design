@@ -221,6 +221,12 @@ app.put("/api/library", isAuthenticated, async (req, res) => {
   return res.json(createdBlogpost);
 });
 
+app.put("/api/library/delete", isAuthenticated, async (req, res) => {
+  const {component} = req.body;
+  await Library.deleteSingleComponent({component})
+  return res.json("successfully deleted component");
+});
+
 app.get("/api/tags", isAuthenticated, async (req, res) => {
   const tags = await Tags.fetchTags();
   return res.json(tags);

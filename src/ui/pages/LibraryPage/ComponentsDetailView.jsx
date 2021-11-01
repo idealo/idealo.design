@@ -4,7 +4,8 @@ import Markdown from "markdown-to-jsx";
 import s from "./ComponentsPage.module.scss";
 
 import {Redirect, withRouter} from "react-router";
-import { fetchSingleComponent } from "./component_data";
+import {deleteSingleComponent, fetchSingleComponent} from "./component_data";
+import Prompt from "../../components/Prompt";
 
 export class ComponentsDetailView extends React.Component {
     constructor(props) {
@@ -51,8 +52,13 @@ class Component extends React.Component {
             links: [],
             URLOptions: "",
             result: "",
-            titleAfterBackslash: ""
+            titleAfterBackslash: "",
+            isPromptOpen: false
         };
+
+        this.handleDeletion = this.handleDeletion.bind(this);
+        this.handlePopup = this.handlePopup.bind(this);
+        this.onModalLeave = this.onModalLeave.bind(this);
     }
 
     async componentDidMount() {
@@ -179,6 +185,20 @@ class Component extends React.Component {
         this.setState({ result: usageAsHtml });
     }
 
+    handlePopup() {
+        this.setState({ isPromptOpen: true });
+    }
+
+    onModalLeave() {
+        this.setState({ isPromptOpen: false });
+        this.props.history.push(`/library/${this.state.component.slug}`);
+    }
+
+    handleDeletion(){
+        deleteSingleComponent({component: this.state.component})
+            .then(this.props.history.push("/library"))
+    }
+
     render() {
         return (
             <div>
@@ -195,6 +215,10 @@ class Component extends React.Component {
                                 </a>
                             </li>
                         ))}
+                        <button
+                            className={s.DeleteButton}
+                            onClick={this.handlePopup}>delete
+                        </button>
                         <button className={s.EditButton}>
                             <a className={s.LinkToEditButton}
                                href={`/library/${this.state.component.slug}/edit`}>edit</a>
@@ -214,6 +238,13 @@ class Component extends React.Component {
                 <div>
                     <code>{this.state.result}</code>
                 </div>
+
+                <Prompt
+                    show={this.state.isPromptOpen}
+                    onLeave={this.handleDeletion}
+                    onHide={this.onModalLeave}
+                    message="Do you want to delete this component?"
+                />
             </div>
         );
     }

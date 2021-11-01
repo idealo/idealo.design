@@ -34,6 +34,24 @@
   cursor: pointer;
 }
 
+.DeleteButton{
+  float:right;
+  margin: 5px;
+  background-color: #0771D0;
+  background-blend-mode: normal;
+  border-radius: 4px;
+  padding-left: 30px;
+  padding-right: 30px;
+  height: 40px;
+  border: 1px;
+  text-decoration: none;
+  color: white;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+}
+
 .EditButton{
   float:right;
   margin: 5px;
@@ -50,8 +68,6 @@
   text-decoration: none;
   color: white;
   font-family: Roboto, sans-serif;
-  front-weight: 500;
-  front-style: normal;
   font-size: 16px;
   letter-spacing: 0.2px;
 }
