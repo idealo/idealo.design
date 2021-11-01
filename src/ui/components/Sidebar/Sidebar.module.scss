@@ -7,7 +7,6 @@
 
   background-color: $color_white;
   flex-shrink: 0;
-  transition: all 2s;
 
   flex-direction: column;
   user-select: none;
@@ -24,6 +23,18 @@
     &:hover {
       background-color: $color_marine_200;
     }
+
+    span {
+      .notActive {
+        text-decoration: none;
+        color: $color_black;
+      }
+      .active {
+        border-bottom: 3px solid $color_marine_600;
+        text-decoration: none;
+        color: $color_black;
+      }
+    }
   }
 
   ul {
@@ -37,14 +48,18 @@
       color: $color_black;
       text-decoration: none;
       transition: color .1s;
+    }
 
-      li {
-        padding: .4rem 1rem .4rem 6rem;
-        cursor: pointer;
+    li {
+      padding: .4rem 1rem .4rem 6rem;
+      cursor: pointer;
 
-        &:active, &:hover {
-          background-color: $color_marine_200;
-        }
+      .active {
+        border-bottom: 3px solid $color_marine_600;
+      }
+
+      &:hover {
+        background-color: $color_marine_200;
       }
     }
 
