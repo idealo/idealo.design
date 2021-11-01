@@ -211,6 +211,16 @@ app.post("/api/library", isAuthenticated, async (req, res) => {
   return res.json(createdComponent);
 });
 
+app.put("/api/library", isAuthenticated, async (req, res) => {
+  const updatedComponent = req.body;
+  updatedComponent.slug = slugify(updatedComponent.title);
+  updatedComponent.updated_on = new Date().toISOString();
+
+  const createdBlogpost = await Library.updateSingleComponent({component: updatedComponent});
+
+  return res.json(createdBlogpost);
+});
+
 app.get("/api/tags", isAuthenticated, async (req, res) => {
   const tags = await Tags.fetchTags();
   return res.json(tags);

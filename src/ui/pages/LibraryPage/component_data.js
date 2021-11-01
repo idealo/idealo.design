@@ -36,12 +36,16 @@ export async function insertSingleComponent({component}, cb, base_url = API_BASE
     });
 }
 
-export async function updateSingleComponent({ component, component_id }) {
+export async function updateSingleComponent({ component }, cb, base_url = API_BASE) {
   const body = JSON.stringify(component);
 
-  await fetch(`${API_BASE}/api/components/${component_id}`, {
+  const resp = await fetch(`${base_url}/api/library`, {
     method: "PUT",
     headers: { Accept: "application/json", "Content-Type": "application/json" },
     body,
+  }).then(function (response) {
+      cb();
+      return response
   });
+  return resp;
 }

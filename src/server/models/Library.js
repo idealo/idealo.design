@@ -62,21 +62,58 @@ export class Library extends Model {
     }
 
     static async insertSingleComponent({component}) {
-        await Library.create({
-            slug: component.slug,
-            title: component.title,
-            definition: component.definition,
-            usage: component.usage,
-            implementation: component.implementation,
-            design: component.design,
-            updated_on: component.updated_on,
-        })
+        const ta = await sequelize.transaction()
+        try{
+            await Library.create({
+                slug: component.slug,
+                title: component.title,
+                definition: component.definition,
+                usage: component.usage,
+                implementation: component.implementation,
+                design: component.design,
+                updated_on: component.updated_on,
+            }, {transaction: ta})
 
-        const component_id = await Library.fetchSingleComponent({slug: component.slug}).then(component => {return component.component_id})
+            const component_id = await Library.fetchSingleComponent({slug: component.slug}).then(component => {return component.component_id})
 
-        for(let tag of component.tags){
-            const tag_id = await Tags.fetchSingleTagByName(tag)
-            await ComponentTagsMap.insertTagIdComponentIdPairs(tag_id, component_id)
+            for(let tag of component.tags){
+                const tag_id = await Tags.fetchSingleTagByName(tag)
+                await ComponentTagsMap.insertTagIdComponentIdPairs(tag_id, component_id)
+            }
+        }catch (e){
+            console.error(e)
+            await ta.rollback()
+        }
+    }
+
+    static async updateSingleComponent({component}){
+        const ta = await sequelize.transaction()
+        try {
+            await Library.update({
+                title: component.title,
+                slug: component.slug,
+                definition: component.definition,
+                usage: component.usage,
+                updated_on: component.updated_on,
+                implementation: component.implementation,
+            }, {
+                where: {
+                    component_id: component.component_id
+                }
+            }, {transaction: ta})
+
+            await ComponentTagsMap.deleteTagIdComponentIdPairs(component.component_id)
+            const ids = []
+            for(let tag of component.tags){
+                ids.push(await Tags.fetchSingleTagByName(tag.label))
+            }
+
+            for(let id of ids){
+                await ComponentTagsMap.insertTagIdComponentIdPairs(id, component.component_id)
+            }
+        }catch (e) {
+            await ta.rollback()
+            console.error(e)
         }
     }
 }
@@ -134,6 +171,14 @@ export class ComponentTagsMap extends Model {
         return ComponentTagsMap.create({
             component_id: component_id,
             tag_id: tag_id
+        })
+    }
+
+    static deleteTagIdComponentIdPairs(componentId){
+        return ComponentTagsMap.destroy({
+            where: {
+                component_id: componentId
+            }
         })
     }
 }

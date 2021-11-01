@@ -8,7 +8,7 @@ import {
     getBlockStyle, InlineStyleControls,
     styleMap
 } from "../../../components/DraftJsEditor/DraftJsEditorData";
-import {fetchSingleComponent, fetchTags, insertSingleComponent} from "../component_data";
+import {fetchSingleComponent, fetchTags, insertSingleComponent, updateSingleComponent} from "../component_data";
 import slugify from "slugify";
 import Prompt from "../../../components/Prompt";
 import s from "../../BlogPage/Editor/Editor.module.scss";
@@ -323,13 +323,15 @@ class EditorView extends React.Component {
         if(this.mode === "EDIT"){
             this.props.history.block(()=> true);
             this.component.title = this.state.title;
-            this.component.implementation.guidelines = this.renderContentAsRawJs(this.state.guidelines);
-            this.component.implementation.anatomy = this.renderContentAsRawJs(this.state.anatomy);
+            this.component.implementation.guidelines = JSON.parse(this.renderContentAsRawJs(this.state.guidelines));
+            this.component.implementation.anatomy = JSON.parse(this.renderContentAsRawJs(this.state.anatomy));
             this.component.definition = this.state.definition;
             this.component.usage = this.state.usage;
             this.component.slug = slugify(this.state.title);
-            console.log("edited component", this.component)
-            this.showSubmitPrompt()
+            this.component.tags = this.state.tags
+
+            await updateSingleComponent({component: this.component},
+                () => {this.showSubmitPrompt()})
             return;
         }
         const implementation = {}
