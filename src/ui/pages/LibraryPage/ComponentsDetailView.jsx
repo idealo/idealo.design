@@ -117,6 +117,8 @@ class Component extends React.Component {
         let installation;
         if(this.state.component.readme){
             installation = this.state.component.readme.content.Installation.body
+        }else if(this.state.component.definition){
+            installation = this.state.component.definition
         }
         const installationAsHtml =
             <div>
@@ -129,7 +131,7 @@ class Component extends React.Component {
                         </Markdown>
                     </div>
                 ): (
-                    <div/>
+                    <p>{installation}</p>
                 )}
             </div>
         this.setState({ result: installationAsHtml });
@@ -156,7 +158,10 @@ class Component extends React.Component {
         let usage
         if(this.state.component.readme){
             usage = this.state.component.readme.content.Usage.body;
+        }else if(this.state.component.usage){
+            usage = this.state.component.usage
         }
+
         const usageAsHtml =
             <div>
                 {this.state.component.readme ? (
@@ -168,7 +173,7 @@ class Component extends React.Component {
                         </Markdown>
                     </div>
                 ): (
-                    <div/>
+                    <p>{usage}</p>
                 )}
             </div>
         this.setState({ result: usageAsHtml });

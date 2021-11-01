@@ -24,6 +24,18 @@ export async function deleteSingleComponent({ component_id }) {
   });
 }
 
+export async function insertSingleComponent({component}, cb, base_url = API_BASE){
+    const body = JSON.stringify(component);
+
+    return await fetch(`${base_url}/api/library`, {
+        method: "POST",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body,
+    }).then(()=> {
+        cb();
+    });
+}
+
 export async function updateSingleComponent({ component, component_id }) {
   const body = JSON.stringify(component);
 

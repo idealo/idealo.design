@@ -12,7 +12,7 @@ export class Library extends Model {
                     attributes: ['tag_name']
                 }, {
                     model: Screenshots,
-                    required: true,
+                    required: false,
                     attributes: ['screenshot']
                 }]
             }).then(libraries => {
@@ -24,9 +24,11 @@ export class Library extends Model {
                     component.tags.map(tag => {
                         tags.push(tag.tag_name)
                     })
-                    component.screenshots.map(screenshot => {
-                        screenshots.push(screenshot.screenshot)
-                    })
+                    if(component.screenshots){
+                        component.screenshots.map(screenshot => {
+                            screenshots.push(screenshot.screenshot)
+                        })
+                    }
                     component.tags = tags
                     component.screenshots = screenshots
                     components.push(component)
@@ -46,11 +48,36 @@ export class Library extends Model {
             if(component){
                 const singleComponent = component.toJSON()
                 singleComponent.screenshots = await Screenshots.fetchAllScreenshotPaths(singleComponent.component_id)
+                const tagIds = await ComponentTagsMap.fetchTagIdsForSingleComponent(component.component_id)
+                const tagNames = []
+                for(const tagId of tagIds){
+                    tagNames.push(await Tags.fetchSingleTagById(tagId))
+                }
+                singleComponent.tags = tagNames
                 return singleComponent
             }else{
                 return component
             }
         })
+    }
+
+    static async insertSingleComponent({component}) {
+        await Library.create({
+            slug: component.slug,
+            title: component.title,
+            definition: component.definition,
+            usage: component.usage,
+            implementation: component.implementation,
+            design: component.design,
+            updated_on: component.updated_on,
+        })
+
+        const component_id = await Library.fetchSingleComponent({slug: component.slug}).then(component => {return component.component_id})
+
+        for(let tag of component.tags){
+            const tag_id = await Tags.fetchSingleTagByName(tag)
+            await ComponentTagsMap.insertTagIdComponentIdPairs(tag_id, component_id)
+        }
     }
 }
 
@@ -64,9 +91,52 @@ export class Tags extends Model {
             return tag.toJSON()
         }))
     }
+
+    static fetchSingleTagById(id){
+        return Tags.findOne({
+            attributes: ['tag_name'],
+            where: {
+                tag_id: id
+            }
+        }).then(tag => {
+            return tag.getDataValue('tag_name')
+        })
+    }
+
+    static fetchSingleTagByName(name){
+        return Tags.findOne({
+            attributes: ['tag_id'],
+            where: {
+                tag_name: name
+            }
+        }).then(tag => {
+            return tag.getDataValue('tag_id')
+        })
+    }
 }
 
-export class ComponentTagsMap extends Model {}
+export class ComponentTagsMap extends Model {
+    static fetchTagIdsForSingleComponent(componentId){
+        return ComponentTagsMap.findAll({
+            attributes: ['tag_id'],
+            where: {
+                component_id: componentId
+            }
+        }).then(tagIds => {
+            const ids = []
+            tagIds.map(tagId => {
+                ids.push(tagId.getDataValue('tag_id'))
+            })
+            return ids;
+        })
+    }
+    static insertTagIdComponentIdPairs(tag_id, component_id){
+        return ComponentTagsMap.create({
+            component_id: component_id,
+            tag_id: tag_id
+        })
+    }
+}
 
 export class Screenshots extends Model {
     static fetchAllScreenshotPaths(componentId){

@@ -8,12 +8,13 @@ import {
     getBlockStyle, InlineStyleControls,
     styleMap
 } from "../../../components/DraftJsEditor/DraftJsEditorData";
-import {fetchSingleComponent} from "../component_data";
+import {fetchSingleComponent, fetchTags, insertSingleComponent} from "../component_data";
 import slugify from "slugify";
 import Prompt from "../../../components/Prompt";
 import s from "../../BlogPage/Editor/Editor.module.scss";
 import {fetchUserInfo} from "../../BlogPage/data";
 import LoginMessage from "../../../components/LoginMessage";
+import Select from "react-select";
 
 export class RichTextEditor extends React.Component {
     constructor(props) {
@@ -69,6 +70,8 @@ class EditorView extends React.Component {
             error: [],
             existingTitles: [],
             titleInDatabase: "",
+            tags: [],
+            allTags: [],
         }
 
         this.guidelinesFocus = () => {
@@ -120,13 +123,36 @@ class EditorView extends React.Component {
                 this.setState({anatomy: EditorState.createWithContent(contentStateAna)})
             }
 
+            const tagValues = []
+            for(let tag of this.component.tags){
+                tagValues.push({
+                    label: tag,
+                    value: tag,
+                })
+            }
+
             this.setState({
                 title: this.component.title,
                 definition: this.component.definition,
                 usage: this.component.usage,
                 titleInDatabase: this.component.title,
+                tags: tagValues,
             })
+
         }
+
+        const options = [];
+        const tags = await fetchTags()
+        for (let tag of tags) {
+            options.push({
+                label: tag.tag_name,
+                value: tag.tag_name,
+            });
+        }
+        this.setState({
+            allTags: options
+        })
+
     }
 
     renderContentAsRawJs(content) {
@@ -309,15 +335,28 @@ class EditorView extends React.Component {
         const implementation = {}
         implementation.anatomy = JSON.parse(this.renderContentAsRawJs(this.state.anatomy))
         implementation.guidelines = JSON.parse(this.renderContentAsRawJs(this.state.guidelines))
+
+        const tags = []
+        for(let tag of this.state.tags){
+            tags.push(tag.label)
+        }
         const body = {
             title: this.state.title,
-            slug: slugify(this.state.title),
             definition: this.state.definition,
             implementation: implementation,
             design: this.state.design,
+            usage: this.state.usage,
+            tags: tags,
         }
 
-        console.log('inserted component', body)
+        await insertSingleComponent({component: body},
+            () => {
+                this.showSubmitPrompt();
+            })
+
+        this.props.history.block(() => {
+            return true;
+        });
     }
 
     onModalCancel() {
@@ -331,12 +370,18 @@ class EditorView extends React.Component {
     }
 
     handleChange(e){
-        const content = e.target.name
-        const value = e.target.value;
-        this.setState({
-            [content]: value,
-        });
-        this.handleValidation()
+        if(e.constructor.name !== 'Array'){
+            const content = e.target.name
+            const value = e.target.value;
+            this.setState({
+                [content]: value,
+            });
+            this.handleValidation()
+        }else {
+            this.setState({
+                tags: e
+            })
+        }
     }
 
     getDraftJsContent(currentContent){
@@ -375,6 +420,14 @@ class EditorView extends React.Component {
                         onChange={this.handleChange}
                         placeholder="component"/>
                     <br/>
+                    Tags:
+                    <Select
+                        isMulti
+                        className = "basic-multi-select"
+                        onChange = {(selectedTags) => {this.handleChange(selectedTags)}}
+                        options = {this.state.allTags}
+                        value = {this.state.tags}
+                    />
                     Definition:
                     <textarea
                         className={this.state.error["definition-empty"] ? s.empty : ""}
