@@ -2,12 +2,13 @@ import "@testing-library/jest-dom/extend-expect";
 import React from "react";
 import {render, screen, waitFor} from "@testing-library/react";
 import {RichTextEditor} from "../ui/pages/LibraryPage/Editor/Editor";
-import {fetchSingleComponent} from "../ui/pages/LibraryPage/component_data";
+import {fetchSingleComponent, fetchTags} from "../ui/pages/LibraryPage/component_data";
 import {fetchUserInfo} from "../ui/pages/BlogPage/data";
 
 jest.mock("../ui/pages/LibraryPage/component_data", () => {
     return {
         fetchSingleComponent: jest.fn(),
+        fetchTags: jest.fn(),
     };
 });
 
@@ -40,6 +41,23 @@ describe("Tests for the RichtTextEditorView in LibraryPage.", () => {
         history: { block: jest.fn() },
     };
 
+    const allTagsInDatabase = [
+        {
+            tag_id: 1,
+            tag_name: "tag #1"
+        },
+        {
+            tag_id: 2,
+            tag_name: "tag #2"
+        },
+        {
+            tag_id: 3,
+            tag_name: "tag #3"
+        }
+
+    ]
+
+
     const component_NOT_EMPTY = {
         title: "Test-Component",
         definition: "some definitions",
@@ -58,6 +76,7 @@ describe("Tests for the RichtTextEditorView in LibraryPage.", () => {
             ],
             entityMap: {}
         },
+        tags: ['tag #1','tag #2'],
         implementation: {
             anatomy: {
                 blocks: [
@@ -106,6 +125,7 @@ describe("Tests for the RichtTextEditorView in LibraryPage.", () => {
     test("User is logged in and is editing a component", async () => {
         fetchSingleComponent.mockReturnValue(component_NOT_EMPTY);
         fetchUserInfo.mockReturnValue(user);
+        fetchTags.mockReturnValue(allTagsInDatabase);
         render(<RichTextEditor {...mockedParamsWithComponent}/>)
 
         await waitFor(() => {
@@ -133,6 +153,7 @@ describe("Tests for the RichtTextEditorView in LibraryPage.", () => {
 
     test("User is logged in and is creating a new component", async () => {
         fetchUserInfo.mockReturnValue(user);
+        fetchTags.mockReturnValue(allTagsInDatabase);
         render(<RichTextEditor {...mockedParamsWithoutComponent} />)
 
         await waitFor(() => {
