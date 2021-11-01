@@ -23,6 +23,18 @@
     &:hover {
       background-color: $color_marine_200;
     }
+
+    span {
+      .notActive {
+        text-decoration: none;
+        color: $color_black;
+      }
+      .active {
+        border-bottom: 3px solid $color_marine_600;
+        text-decoration: none;
+        color: $color_black;
+      }
+    }
   }
 
   ul {

@@ -23,9 +23,8 @@ function createSections(data) {
         {
             icon: 'componentsIcon',
             title: 'Component Library',
-            children: [
-                {title: 'Overview', href: '/library'}
-            ].concat(Object.keys(data.components).map(key => {
+            href: '/library',
+            children: [].concat(Object.keys(data.components).map(key => {
                 const component = data.components[key]
                 return {
                     title: component.title,
@@ -129,7 +128,13 @@ class NavSection extends React.Component {
                     {this.props.isSidebarOpen && (
                         <>
                             <span className={s.VerticalNav__TopLevelTitle}>
-                                {this.props.section.title}
+                                <NavLink
+                                    className={s.notActive}
+                                    to={this.props.section.href || ''}
+                                    exact activeClassName={s.active}
+                                    as={this.props.section.href}>
+                                    {this.props.section.title}
+                                </NavLink>
                             </span>
                             <ChevronIcon style={{transform}} className={s.VerticalNav__TopLevelAngle}/>
                         </>)}
