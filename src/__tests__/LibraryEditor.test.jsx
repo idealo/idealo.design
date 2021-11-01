@@ -4,7 +4,6 @@ import {render, screen, waitFor} from "@testing-library/react";
 import {RichTextEditor} from "../ui/pages/LibraryPage/Editor/Editor";
 import {fetchSingleComponent} from "../ui/pages/LibraryPage/component_data";
 import {fetchUserInfo} from "../ui/pages/BlogPage/data";
-import {cal} from "react-syntax-highlighter/dist/cjs/languages/hljs";
 
 jest.mock("../ui/pages/LibraryPage/component_data", () => {
     return {
@@ -34,13 +33,11 @@ describe("Tests for the RichtTextEditorView in LibraryPage.", () => {
     const mockedParamsWithComponent = {
         match: { params: { slug: "component"} },
         history: { block: jest.fn() },
-        //location: { pathname: "/library" },
     };
 
     const mockedParamsWithoutComponent = {
         match: { params: { } },
         history: { block: jest.fn() },
-        //location: { pathname: "/library" },
     };
 
     const component_NOT_EMPTY = {
@@ -95,8 +92,6 @@ describe("Tests for the RichtTextEditorView in LibraryPage.", () => {
 
     test("User in not logged in", async () => {
         fetchUserInfo.mockReturnValue(noUser);
-        /*delete window.location;
-        window.location = new URL("http://localhost:8080/library");*/
         render(<RichTextEditor />);
 
         const loadingMessage = screen.getByText("Loading...")
