@@ -5,7 +5,7 @@ class LoginMessage extends React.Component {
   render() {
     return (
       <div className={s.LoginMessage}>
-        <div className={s.pageTitle}>
+        <div className={s.pageTitle} title="loginMessage">
           Please <a href="/auth/provider">log in</a>, in order to see the{" "}
           {this.props.children}
         </div>
