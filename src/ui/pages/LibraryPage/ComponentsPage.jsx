@@ -12,12 +12,6 @@ export default function ComponentsPage() {
         <Route exact path="/library">
           <ComponentView />
         </Route>
-        <Route exact path="/library/for-react-stacks">
-          <ComponentView />
-        </Route>
-        <Route exact path="/library/for-classic-stacks">
-          <ComponentView />
-        </Route>
         <Route exact path="/library/:slug">
             <ComponentsView />
         </Route>

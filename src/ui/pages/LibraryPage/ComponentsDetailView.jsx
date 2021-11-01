@@ -80,6 +80,11 @@ class Component extends React.Component {
         if (window.location.href.includes("#")) {
             await this.updateComponentDetailView();
         }
+
+        if(prevProps.match.params.slug !== this.props.match.params.slug){
+            this.componentDidMount()
+            await this.updateComponentDetailView()
+        }
     }
 
     async updateComponentDetailView() {
