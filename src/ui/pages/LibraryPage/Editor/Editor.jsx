@@ -246,7 +246,7 @@ class EditorView extends React.Component {
                 ) {
                     formIsValid = false;
                     errors["existing-title-value"] =
-                        "Title can not be that, because we already have a blogpost with that title";
+                        "Title can not be that, because we already have a component with that title";
                 }
             }
         })
@@ -287,11 +287,6 @@ class EditorView extends React.Component {
 
         if (!this.handleValidation() && this.state.error["title-empty"]) {
             alert("Please choose a title!");
-            return;
-        }
-
-        if (!this.handleValidation() && this.state.error["categoryDisplayValue"]) {
-            alert("Please choose a category!");
             return;
         }
 
