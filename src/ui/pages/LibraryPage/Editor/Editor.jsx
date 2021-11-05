@@ -14,7 +14,7 @@ import Prompt from "../../../components/Prompt";
 import s from "../../BlogPage/Editor/Editor.module.scss";
 import {fetchUserInfo} from "../../BlogPage/data";
 import LoginMessage from "../../../components/LoginMessage";
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 export class RichTextEditor extends React.Component {
     constructor(props) {
@@ -72,6 +72,7 @@ class EditorView extends React.Component {
             titleInDatabase: "",
             tags: [],
             allTags: [],
+            availableStacks: null,
         }
 
         this.guidelinesFocus = () => {
@@ -148,6 +149,18 @@ class EditorView extends React.Component {
                 label: tag.tag_name,
                 value: tag.tag_name,
             });
+
+            if(tag.tag_name.toLowerCase() === "react"){
+                this.setState({
+                    availableStacks : "React Stack"
+                })
+            }
+        }
+
+        if(!this.state.availableStacks){
+            this.setState({
+                availableStacks: "Classic Stack"
+            })
         }
         this.setState({
             allTags: options
@@ -162,7 +175,7 @@ class EditorView extends React.Component {
     }
 
     _handleKeyCommand(command, editorState) {
-        const newState = RichUtils.handleKeyCommand(editorState, command);
+        const newState = RichUtils.handleKeyCommand(editorState, command) || TableUtils.handleKeyCommand(editorState, command);
         if (newState) {
             this.onChangeGuide(newState);
             return true;
@@ -277,6 +290,11 @@ class EditorView extends React.Component {
             }
         })
 
+        if(!this.state.tags.length){
+            formIsValid = false;
+            errors["tags-empty"] = 1;
+        }
+
         if(!this.state.definition){
             formIsValid = false;
             errors["definition-empty"] = 1;
@@ -316,10 +334,21 @@ class EditorView extends React.Component {
             return;
         }
 
+        if(!this.handleValidation() && this.state.error["tags-empty"]) {
+            alert("Please choose at least one tag!");
+            return;
+        }
+
         if (!this.handleValidation()) {
             alert("Form has errors. All fields must be completed.");
             return;
         }
+
+        const tags = []
+        for(let tag of this.state.tags){
+            tags.push(tag.label)
+        }
+
         if(this.mode === "EDIT"){
             this.props.history.block(()=> true);
             this.component.title = this.state.title;
@@ -328,7 +357,7 @@ class EditorView extends React.Component {
             this.component.definition = this.state.definition;
             this.component.usage = this.state.usage;
             this.component.slug = slugify(this.state.title);
-            this.component.tags = this.state.tags
+            this.component.tags = tags
 
             await updateSingleComponent({component: this.component},
                 () => {this.showSubmitPrompt()})
@@ -338,10 +367,6 @@ class EditorView extends React.Component {
         implementation.anatomy = JSON.parse(this.renderContentAsRawJs(this.state.anatomy))
         implementation.guidelines = JSON.parse(this.renderContentAsRawJs(this.state.guidelines))
 
-        const tags = []
-        for(let tag of this.state.tags){
-            tags.push(tag.label)
-        }
         const body = {
             title: this.state.title,
             definition: this.state.definition,
@@ -380,6 +405,11 @@ class EditorView extends React.Component {
             });
             this.handleValidation()
         }else {
+            for(const tag of e){
+                if(tag.__isNew__){
+                    delete tag.__isNew__
+                }
+            }
             this.setState({
                 tags: e
             })
@@ -422,14 +452,20 @@ class EditorView extends React.Component {
                         onChange={this.handleChange}
                         placeholder="component"/>
                     <br/>
-                    Tags:
-                    <Select
+                    <label>Tags:</label>
+                    <CreatableSelect
                         isMulti
-                        className = "basic-multi-select"
+                        className = {this.state.error["tags-empty"] ? s.empty : "basic-multi-select"}
                         onChange = {(selectedTags) => {this.handleChange(selectedTags)}}
                         options = {this.state.allTags}
                         value = {this.state.tags}
                     />
+                    <label>Available Stack: </label>
+                    <select required={true} onChange={this.handleChange}>
+                        <option value="React Stack">React Stack</option>
+                        <option value="Classic Stack">Classic Stack</option>
+                    </select>
+                    <br/>
                     Definition:
                     <textarea
                         className={this.state.error["definition-empty"] ? s.empty : ""}

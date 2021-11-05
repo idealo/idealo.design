@@ -1,5 +1,6 @@
 import {DataTypes, Model, Sequelize} from "sequelize";
 import {sequelize} from "../sequelizer";
+import {returnFocus} from "react-modal/lib/helpers/focusManager";
 
 export class Library extends Model {
     static fetchAllComponents(){
@@ -64,7 +65,7 @@ export class Library extends Model {
     static async insertSingleComponent({component}) {
         const ta = await sequelize.transaction()
         try{
-            await Library.create({
+            const newComponentId = await Library.create({
                 slug: component.slug,
                 title: component.title,
                 definition: component.definition,
@@ -72,13 +73,17 @@ export class Library extends Model {
                 implementation: component.implementation,
                 design: component.design,
                 updated_on: component.updated_on,
-            }, {transaction: ta})
-
-            const component_id = await Library.fetchSingleComponent({slug: component.slug}).then(component => {return component.component_id})
+            }).then(result => {
+                return result.getDataValue('component_id')
+            })
 
             for(let tag of component.tags){
+                const existingTagId = await Tags.fetchSingleTagByName(tag)
+                if(!existingTagId){
+                    await Tags.createSingleTag(tag)
+                }
                 const tag_id = await Tags.fetchSingleTagByName(tag)
-                await ComponentTagsMap.insertTagIdComponentIdPairs(tag_id, component_id)
+                await ComponentTagsMap.insertTagIdComponentIdPairs(tag_id, newComponentId)
             }
         }catch (e){
             console.error(e)
@@ -105,11 +110,24 @@ export class Library extends Model {
             await ComponentTagsMap.deleteTagIdComponentIdPairs(component.component_id)
             const ids = []
             for(let tag of component.tags){
-                ids.push(await Tags.fetchSingleTagByName(tag.label))
+                const existingTagId = await Tags.fetchSingleTagByName(tag)
+                if(!existingTagId){
+                    await Tags.createSingleTag(tag)
+                }
+                ids.push(await Tags.fetchSingleTagByName(tag))
             }
 
             for(let id of ids){
                 await ComponentTagsMap.insertTagIdComponentIdPairs(id, component.component_id)
+            }
+
+            const tags = await Tags.fetchTags()
+            const distinctTags = await ComponentTagsMap.fetchDistinctTagIds()
+
+            for(const tag of tags){
+                if(!distinctTags.includes(tag.tag_id)){
+                    await Tags.deleteSingleTagByTagId(tag.tag_id)
+                }
             }
         }catch (e) {
             await ta.rollback()
@@ -130,11 +148,17 @@ export class Tags extends Model {
     static fetchTags(){
         return Tags.findAll({
             attributes: [
-                [Sequelize.fn('DISTINCT', Sequelize.col('tag_id')) ,'tag_name'], 'tag_name'
+                [Sequelize.fn('DISTINCT', Sequelize.col('tag_id')) ,'tag_name'], 'tag_id','tag_name'
             ]
         }).then(tags => tags.map(tag => {
             return tag.toJSON()
         }))
+    }
+
+    static createSingleTag(tagName){
+        return Tags.create({
+            tag_name: tagName
+        })
     }
 
     static fetchSingleTagById(id){
@@ -155,7 +179,19 @@ export class Tags extends Model {
                 tag_name: name
             }
         }).then(tag => {
-            return tag.getDataValue('tag_id')
+            if(!tag){
+                return false;
+            }else{
+                return tag.getDataValue('tag_id')
+            }
+        })
+    }
+
+    static deleteSingleTagByTagId(tag_id){
+        return Tags.destroy({
+            where: {
+                tag_id: tag_id
+            }
         })
     }
 }
@@ -170,9 +206,15 @@ export class ComponentTagsMap extends Model {
         }).then(tagIds => {
             const ids = []
             tagIds.map(tagId => {
-                ids.push(tagId.getDataValue('tag_id'))
+                if(tagId){
+                    ids.push(tagId.getDataValue('tag_id'))
+                }
             })
-            return ids;
+            if(ids.length){
+                return ids;
+            }else{
+                return false;
+            }
         })
     }
     static insertTagIdComponentIdPairs(tag_id, component_id){
@@ -188,6 +230,16 @@ export class ComponentTagsMap extends Model {
                 component_id: componentId
             }
         })
+    }
+
+    static fetchDistinctTagIds(){
+        return ComponentTagsMap.findAll({
+            attributes: [
+                [Sequelize.fn('DISTINCT', Sequelize.col('tag_id')) ,'component_id'], 'tag_id'
+            ]
+        }).then(idPairs => idPairs.map(idPair => {
+            return idPair.getDataValue('tag_id')
+        }))
     }
 }
 
