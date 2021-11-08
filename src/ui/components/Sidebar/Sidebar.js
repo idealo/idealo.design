@@ -35,6 +35,7 @@ function createSections(data) {
         {
             icon: 'otherIcon',
             title: 'Activities',
+            href: '/activities',
             children: [{title: 'Blog', href: '/blog'}]
                 .concat(Object.keys(data.cats).map(key => {
                     const cat = data.cats[key]
