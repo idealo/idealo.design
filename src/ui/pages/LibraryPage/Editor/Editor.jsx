@@ -175,7 +175,7 @@ class EditorView extends React.Component {
     }
 
     _handleKeyCommand(command, editorState) {
-        const newState = RichUtils.handleKeyCommand(editorState, command) || TableUtils.handleKeyCommand(editorState, command);
+        const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
             this.onChangeGuide(newState);
             return true;

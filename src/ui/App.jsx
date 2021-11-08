@@ -5,10 +5,10 @@ import {
     AssetsPage,
     BlogPage,
     LibraryPage,
-    MoleculesPage,
+    /*MoleculesPage,
     AtomsPage,
     OrganismsPage,
-    FoundationsPage,
+    FoundationsPage,*/
     OtherPage,
     WelcomePage
 } from './pages'
@@ -24,7 +24,7 @@ function App() {
                 <Route path="/error" >
                     <ErrorPage/>
                 </Route>
-                <Route path="/foundations/:slug?">
+                {/*<Route path="/foundations/:slug?">
                     <FoundationsPage/>
                 </Route>
                 <Route path="/atoms/:slug?">
@@ -35,7 +35,7 @@ function App() {
                 </Route>
                 <Route path="/organisms/:slug?">
                     <OrganismsPage/>
-                </Route>
+                </Route>*/}
                 <Route path="/library/:slug?">
                     <LibraryPage/>
                 </Route>
