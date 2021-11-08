@@ -1,11 +1,10 @@
 import React from "react";
-import Markdown from "markdown-to-jsx";
-
 import s from "./ComponentsPage.module.scss";
 
 import {Redirect, withRouter} from "react-router";
 import {deleteSingleComponent, fetchSingleComponent} from "./component_data";
 import Prompt from "../../components/Prompt";
+import {BodyOfDetailView} from "./BodyOfDetailView";
 
 export class ComponentsDetailView extends React.Component {
     constructor(props) {
@@ -44,14 +43,12 @@ export class ComponentsDetailView extends React.Component {
 class Component extends React.Component {
     constructor(props) {
         super(props);
-        this.copyTextToClipboard = this.copyTextToClipboard.bind(this);
 
         this.state = {
             slug: "",
             component: {},
             links: [],
             URLOptions: "",
-            result: "",
             titleAfterBackslash: "",
             isPromptOpen: false
         };
@@ -59,6 +56,7 @@ class Component extends React.Component {
         this.handleDeletion = this.handleDeletion.bind(this);
         this.handlePopup = this.handlePopup.bind(this);
         this.onModalLeave = this.onModalLeave.bind(this);
+        this.handleActiveLink = this.handleActiveLink.bind(this);
     }
 
     async componentDidMount() {
@@ -67,11 +65,9 @@ class Component extends React.Component {
             this.setState({
                 component: await fetchSingleComponent({ slug }),
                 slug: slug,
-                links: ["Design", "Installation", "Usage"],
+                links: ["Design", "Implementation"],
             });
-            if (window.location.href.includes("#")) {
-                await this.updateComponentDetailView();
-            }
+
             const titleAfterBackslash = this.state.component.title.substr(
                 this.state.component.title.indexOf("/") + 1,
                 this.state.component.title.length
@@ -84,110 +80,12 @@ class Component extends React.Component {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         if (window.location.href.includes("#")) {
-            await this.updateComponentDetailView();
+            this.handleActiveLink(window.location.href)
         }
 
         if(prevProps.match.params.slug !== this.props.match.params.slug){
             this.componentDidMount()
-            await this.updateComponentDetailView()
         }
-    }
-
-    async updateComponentDetailView() {
-        try {
-            const slug = window.location.href;
-            if (slug.includes("Installation")) {
-                this.showInstallation();
-            } else if (slug.includes("Usage")) {
-                this.showUsage();
-            } else if (slug.includes("Design")) {
-                this.showDesign();
-            } else {
-                this.setState({
-                    result: "",
-                });
-            }
-        } catch (e) {}
-    }
-
-    copyTextToClipboard() {
-        const copiedText = document.getElementById("toBeCopiedCode").innerText;
-        const el = document.createElement("textarea");
-        el.value = copiedText.toString();
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand("copy");
-        document.getElementById("copyInstallation").innerText = "copied";
-        setTimeout(function () {
-            document.getElementById("copyInstallation").innerText = "copy";
-        }, 1000);
-        document.body.removeChild(el);
-    }
-
-    showInstallation() {
-        let installation;
-        if(this.state.component.readme){
-            installation = this.state.component.readme.content.Installation.body
-        }else if(this.state.component.definition){
-            installation = this.state.component.definition
-        }
-        const installationAsHtml =
-            <div>
-                {this.state.component.readme ? (
-                    <div>
-                        <button title='copyInstallation' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
-                        <Markdown
-                            className={s.code}
-                            id="toBeCopiedCode">{installation}
-                        </Markdown>
-                    </div>
-                ): (
-                    <p>{installation}</p>
-                )}
-            </div>
-        this.setState({ result: installationAsHtml });
-    }
-
-    showDesign() {
-        const design = (
-            <div>
-                {this.state.component.screenshots.map((screenshot) => (
-                    <div className={s.screenshot} key={screenshot}>
-                        <img
-                            title={screenshot}
-                            src={`https://917999261651-idealo-design-assets.s3.eu-central-1.amazonaws.com/${screenshot}`}
-                            alt="image"
-                        />
-                    </div>
-                ))}
-            </div>
-        );
-        this.setState({ result: design });
-    }
-
-    showUsage() {
-        let usage
-        if(this.state.component.readme){
-            usage = this.state.component.readme.content.Usage.body;
-        }else if(this.state.component.usage){
-            usage = this.state.component.usage
-        }
-
-        const usageAsHtml =
-            <div>
-                {this.state.component.readme ? (
-                    <div>
-                        <button title='copyUsage' id='copyInstallation' className={s.copyButton} onClick={this.copyTextToClipboard}>copy</button>
-                        <Markdown
-                            className={s.code}
-                            id="toBeCopiedCode">{usage}
-                        </Markdown>
-                    </div>
-                ): (
-                    <p>{usage}</p>
-                )}
-            </div>
-        this.setState({ result: usageAsHtml });
     }
 
     handlePopup() {
@@ -204,6 +102,23 @@ class Component extends React.Component {
             .then(this.props.history.push("/library"))
     }
 
+    handleActiveLink(e) {
+        const targetOfLink = e.split('#')[1]
+        const links = document.getElementsByTagName('a')
+        const classOfActiveLink = s.activeLink
+        for (let link of links) {
+            const splitLink = link.href.split('#')
+            if(splitLink.length===2){
+                if (splitLink[1] === targetOfLink) {
+                    link.classList.add(classOfActiveLink);
+                }else{
+                    link.classList.remove(classOfActiveLink)
+                }
+            }
+        }
+    }
+
+
     render() {
         return (
             <div>
@@ -212,11 +127,13 @@ class Component extends React.Component {
                         {this.state.titleAfterBackslash}
                     </h1>
                     <hr/>
+                    <p>{this.state.component.definition}</p>
                     <ul>
                         {this.state.links.map((link, key) => (
                             <li key={key}>
-                                <a title={link} href={`#${link}`}>
-                                    {link}
+                                <a id="link"
+                                   className={s.links}
+                                   title={link} href={`#${link}`}>{link}
                                 </a>
                             </li>
                         ))}
@@ -240,10 +157,7 @@ class Component extends React.Component {
                         </button>
                     </ul>
                 </div>
-                <div>
-                    <code>{this.state.result}</code>
-                </div>
-
+                <BodyOfDetailView {...this.props}/>
                 <Prompt
                     show={this.state.isPromptOpen}
                     onLeave={this.handleDeletion}
