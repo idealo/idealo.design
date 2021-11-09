@@ -13,12 +13,12 @@ import {
 } from "draft-js";
 import "~/draft-js/dist/Draft.css";
 import s from "./Editor.module.scss";
-import Prompt from "./Prompt";
-import PromptSuccess from "./PromptSuccess";
+import Prompt from "../Prompt";
 import {
   fetchAllCategories,
   fetchSinglePost, insertSinglePost,
   updateSinglePost,
+  fetchUserInfo
 } from "../data";
 import CreatableSelect from "react-select/creatable";
 import slugify from "slugify";
@@ -43,6 +43,7 @@ export class RichTextEditor extends React.Component {
       cats: [],
       error: [],
       existingTitle: [],
+      author: "",
       titleInDatabase: ''
     };
 
@@ -76,7 +77,7 @@ export class RichTextEditor extends React.Component {
       return true;
     });
 
-    this.setState({ cats: await fetchAllCategories() });
+    this.setState({ cats: await fetchAllCategories(), author: await fetchUserInfo()});
 
     if (this.slug) {
       this.blog = await fetchSinglePost({ slug: this.slug });
@@ -253,17 +254,17 @@ export class RichTextEditor extends React.Component {
       this.props.history.block(() => true);
       this.blog.title = this.state.title;
       this.blog.blogpostcontent = this.renderContentAsRawJs();
-      this.blog.categoryDisplayValue = this.state.categoryDisplayValue;
-      this.blog.categorySlug = this.state.categorySlug;
+      this.blog.categorydisplayvalue = this.state.categoryDisplayValue;
+      this.blog.categoryslug = this.state.categorySlug;
       this.blog.slug = slugify(this.state.title)
-      updateSinglePost(
-        {
-          slug: this.slug,
-          post: this.blog,
-        },
-        () => {
-          this.showSubmitPrompt();
-        }
+      await updateSinglePost(
+          {
+            slug: this.slug,
+            post: this.blog,
+          },
+          () => {
+            this.showSubmitPrompt();
+          }
       );
       return;
     }
@@ -272,6 +273,7 @@ export class RichTextEditor extends React.Component {
       title: this.state.title,
       categoryDisplayValue: this.state.categoryDisplayValue,
       categorySlug: this.state.categorySlug,
+      autor: this.state.author.user.displayName,
       blogpostcontent: JSON.parse(this.renderContentAsRawJs()),
     };
 
@@ -452,7 +454,7 @@ export class RichTextEditor extends React.Component {
           onLeave={this.onModalLeave}
           message="Are you sure you want to leave without saving your changes?"
         />
-        <PromptSuccess
+        <Prompt
           show={this.state.isSubmitPromptOpen}
           onLeave={this.onModalLeave}
           message="Your blogpost has been saved successfully."

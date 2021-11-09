@@ -94,7 +94,7 @@
   padding: .5rem;
   transition: background-color .4s;
   border-radius: 2rem;
-
+  visibility: hidden; // remove it to see the searchbar
   &:hover {
     background-color: $color_marine_600;
   }
@@ -114,6 +114,13 @@
 
 .Logo {
   transition: color .2s;
+}
+
+.IconGitHub {
+  height: 35px;
+  width: 35px;
+  margin-right: 25px;
+  margin-left: 5px;
 }
 
 .StickyMenu {

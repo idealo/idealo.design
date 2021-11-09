@@ -1,66 +1,99 @@
 import React from "react";
-import ReactModal from "react-modal";
 import draftToHtml from "../../../vendor/draftjs-to-html";
 import HtmlToReact from "html-to-react";
-import Prompt from "./Editor/Prompt";
+import Prompt from "./Prompt";
 
 import s from "./Blogpage.module.scss";
 import {
   archiveSinglePost,
   deleteSinglePost,
+  fetchPrevSlugAndNextSlugById,
   fetchSinglePost,
-  fetchUserInfo,
-  fetchPrevSlugAndNextSlugById
+  fetchUserInfo
 } from "./data";
 
-import { withRouter } from "react-router";
+import {withRouter, Redirect} from "react-router";
 
 export class DetailView extends React.Component {
   constructor(props) {
     super(props);
-    const { history } = props;
-
     this.state = {
-      history: history,
+      blogpost: null,
+      error: null,
+    }
+  }
+
+  async componentDidMount() {
+    const blogpost = await fetchSinglePost({slug: this.props.match.params.slug})
+
+    if(blogpost){
+      this.setState({
+        blogpost: blogpost,
+      });
+    }else{
+      this.setState({
+        error: '404',
+      })
+    }
+  }
+
+  render() {
+    if(this.state.blogpost){
+      return <Blogpost {...this.props}/>
+    }else if(this.state.error){
+      return <Redirect to="/error"/>
+    }else{
+      return <h2>Loading...</h2>
+    }
+  }
+}
+
+class Blogpost extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       userInfo: [],
       blogpost: {},
       slug: null,
       slugPreviouspost: null,
       slugNextpost: null,
       isPromptOpen: false,
-    };
+    }
 
-    this.handlePostEdit = this.handlePostEdit.bind(this);
-    this.goBack = this.goBack.bind(this);
-    this.handlePopup = this.handlePopup.bind(this);
     this.handleDeletion = this.handleDeletion.bind(this);
     this.handleArchive = this.handleArchive.bind(this);
+    this.handlePostEdit = this.handlePostEdit.bind(this);
+    this.handlePopup = this.handlePopup.bind(this);
     this.onModalLeave = this.onModalLeave.bind(this);
+    this.convertToHtml = this.convertToHtml.bind(this);
+    this.convertDatetime = this.convertDatetime.bind(this);
+    this.goBack = this.goBack.bind(this);
+
   }
 
   async componentDidMount() {
+    this.setState({
+      userInfo: await fetchUserInfo(),
+    });
     const slug = this.props.match.params.slug;
     if (slug) {
       this.setState({
         blogpost: await fetchSinglePost({ slug: slug }),
         slug: slug,
       });
-    }
-    this.setState({
-      userInfo: await fetchUserInfo(),
-    });
-    ReactModal.setAppElement("body");
-
-    const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
-    if(slugsPreviousAndNextPost[0]!==null){
-      this.setState({
-        slugPreviouspost: slugsPreviousAndNextPost[0].slug,
-      })
-    }
-    if(slugsPreviousAndNextPost[1]!==null){
-      this.setState({
-        slugNextpost: slugsPreviousAndNextPost[1].slug,
-      })
+      if(this.state.blogpost){
+        const slugsPreviousAndNextPost = await fetchPrevSlugAndNextSlugById({id: this.state.blogpost.id })
+        if(slugsPreviousAndNextPost[0]!==null){
+          this.setState({
+            slugPreviouspost: slugsPreviousAndNextPost[0].slug,
+          })
+        }
+        if(slugsPreviousAndNextPost[1]!==null){
+          this.setState({
+            slugNextpost: slugsPreviousAndNextPost[1].slug,
+          })
+        }
+      }
     }
   }
 
@@ -68,25 +101,32 @@ export class DetailView extends React.Component {
     if (prevProps.match.params.slug !== this.props.match.params.slug) {
       this.setState({
         blogpost: await fetchSinglePost({ slug: this.props.match.params.slug }),
-        slug: this.props.match.params.slug,
       });
     }
   }
 
+  goBack() {
+    this.props.history.push({
+      pathname: `/blog`,
+    });
+  }
+
   toDateFormat_de(inp) {
-    let date = inp ? new Date(inp) : new Date();
+    if(inp){
+      let date = inp ? new Date(inp) : new Date();
 
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hour = date.getHours() + 2;
-    const minute = String(date.getMinutes()).padStart(2, "0");
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hour = date.getHours();
+      const minute = String(date.getMinutes()).padStart(2, "0");
 
-    return `${day}.${month}.${year} um ${hour}:${minute} Uhr`;
+      return `${day}.${month}.${year} um ${hour}:${minute} Uhr`;
+    }
   }
 
   handlePostEdit() {
-    this.state.history.push({
+    this.props.history.push({
       pathname: `/blog/${this.state.slug}/edit`,
       search: `?slug=${this.state.slug}`,
     });
@@ -96,169 +136,103 @@ export class DetailView extends React.Component {
     document.body.scrollTop = 0;
   }
 
-  goBack() {
-    this.state.history.push({
-      pathname: `/blog/`,
-    });
-  }
-
-  handleDeletion() {
-    deleteSinglePost(this.state.blogpost).then(
-      this.state.history.push("/blog")
-    );
-  }
-
-  handleArchive() {
-    archiveSinglePost(this.state.blogpost).then(
-      this.state.history.push("/blog")
-    );
-  }
-
   onModalLeave() {
     this.setState({ isPromptOpen: false });
-    this.state.history.push(`/blog/${this.state.slug}`);
+    this.props.history.push(`/blog/${this.state.blogpost.slug}`);
   }
 
   handlePopup() {
     this.setState({ isPromptOpen: true });
   }
 
-  render() {
-    let facebookLink;
-    let instagramLink;
-    let twitterLink;
-    let emailLink;
-    let githubLink;
-    if (this.state.blogpost.facebook !== null) {
-      facebookLink = (
-        <a href={this.state.blogpost.facebook}>
-          <img
-            alt=""
-            src="https://img.icons8.com/dusk/64/000000/facebook.png"
-          />
-        </a>
-      );
-    }
-    if (this.state.blogpost.instagram !== null) {
-      instagramLink = (
-        <a href={this.state.blogpost.instagram}>
-          <img
-            alt=""
-            src="https://img.icons8.com/doodle/48/000000/instagram-new.png"
-          />
-        </a>
-      );
-    }
-    if (this.state.blogpost.twitter !== null) {
-      twitterLink = (
-        <a href={this.state.blogpost.twitter}>
-          <img
-            alt=""
-            src="https://img.icons8.com/doodle/48/000000/twitter--v1.png"
-          />
-        </a>
-      );
-    }
-
-    if (this.state.blogpost.email !== null) {
-      emailLink = (
-        <a href={"mailto:" + this.state.blogpost.email}>
-          <img
-            alt=""
-            src="https://img.icons8.com/doodle/48/000000/email-sign.png"
-          />
-        </a>
-      );
-    }
-
-    if (this.state.blogpost.github !== null) {
-      githubLink = (
-        <a href={this.state.blogpost.github}>
-          <img
-            alt=""
-            src="https://maxcdn.icons8.com/Share/icon/Logos/github_filled1600.png"
-          />
-        </a>
-      );
-    }
-
-    const htmlBlogContent = draftToHtml(this.state.blogpost.blogpostcontent);
+  convertToHtml(content){
+    const htmlBlogContent = draftToHtml(content);
     const HtmlToReactParser = HtmlToReact.Parser;
     const htmlToReactParser = new HtmlToReactParser();
-    const reactElement = htmlToReactParser.parse(htmlBlogContent);
+    return htmlToReactParser.parse(htmlBlogContent)
+  }
 
-    const datetime = this.toDateFormat_de(this.state.blogpost.date);
-    return (
-      <div className={s.ContentBox}>
-        <div className={s.Menu}>
-          <button onClick={this.goBack}>Go Back</button>
-          {this.state.userInfo.status === "LOGGED_IN" ? (
-            <button onClick={this.handlePopup} title="deleteButton">
-              Delete
-            </button>
-          ) : (
-            <div/>
-          )}
-          {this.state.userInfo.status === "LOGGED_IN" ? (
-            <button onClick={this.handlePostEdit} title="editButton">
-              Edit
-            </button>
-          ) : (
-            <div/>
-          )}
-        </div>
+  convertDatetime(date){
+    return this.toDateFormat_de(date);
+  }
 
-        <div className={s.ContentDetailView}>
-          <div className={s.SocialMediaIcons}>
-            {instagramLink}
-            {twitterLink}
-            {facebookLink}
-            {emailLink}
-            {githubLink}
-          </div>
-          <h2 className={s.blogpostTitle}>{this.state.blogpost.title}</h2>
-          <div className={s.Autor}>{this.state.blogpost.autor}</div>
-          <h5 className={s.blogpostDate}>{datetime}</h5>
-          {reactElement}
-          <img
-            aria-label="blogpostImage"
-            alt=""
-            src={this.state.blogpost.image}
-          />
-        </div>
-
-        <div className={s.ButtonNavigation}>
-          {this.state.blogpost.previouspost && (
-              <a
-                  title="prevPost"
-                  href={`/blog/${this.state.slugPreviouspost}`}
-                  onClick={this.scrollToTop}
-              >
-                <button className={s.ButtonPrevious}>Previous</button>
-              </a>
-          )}
-          {this.state.blogpost.nextpost && (
-              <a
-                  title="nextPost"
-                  href={`/blog/${this.state.slugNextpost}`}
-                  onClick={this.scrollToTop}
-                  className={s.ButtonNext}
-              >
-                <button className={s.ButtonNextOnHover}>Next</button>
-              </a>
-          )}
-        </div>
-
-        <Prompt
-          show={this.state.isPromptOpen}
-          onDelete={this.handleDeletion}
-          onArchive={this.handleArchive}
-          onCancel={this.onModalLeave}
-          message="Do you want to delete or archive that post?"
-        />
-      </div>
+  handleDeletion() {
+    deleteSinglePost(this.state.blogpost).then(
+        this.props.history.push("/blog")
     );
+  }
+
+  handleArchive() {
+    archiveSinglePost(this.state.blogpost).then(
+        this.props.history.push("/blog")
+    );
+  }
+
+  render() {
+    return (
+        <div className={s.ContentBox}>
+          <div className={s.Menu}>
+            <button onClick={this.goBack}>Go Back</button>
+            {this.state.userInfo.status === "LOGGED_IN" && this.state.blogpost ? (
+                  <button onClick={this.handlePopup} title="deleteButton">
+                    Delete
+                  </button>
+              ) : (
+                  <div/>
+              )}
+              {this.state.userInfo.status === "LOGGED_IN" && this.state.blogpost ? (
+                  <button onClick={this.handlePostEdit} title="editButton">
+                    Edit
+                  </button>
+              ) : (
+                  <div/>
+              )}
+            </div>
+
+            <div className={s.ContentDetailView}>
+                    <h2 className={s.blogpostTitle}>{this.state.blogpost.title}</h2>
+                    <div className={s.Autor}>{this.state.blogpost.autor}</div>
+                    <h5 className={s.blogpostDate}>{this.convertDatetime(this.state.blogpost.date)}</h5>
+                    {this.convertToHtml(this.state.blogpost.blogpostcontent)}
+                    <img
+                        aria-label="blogpostImage"
+                        alt=""
+                        src={this.state.blogpost.image}
+                    />
+
+                    <div className={s.ButtonNavigation}>
+                      {this.state.blogpost.previouspost && (
+                          <a
+                              title="prevPost"
+                              href={`/blog/${this.state.slugPreviouspost}`}
+                              onClick={this.scrollToTop}
+                          >
+                            <button className={s.ButtonPrevious}>Previous</button>
+                          </a>
+                      )}
+                      {this.state.blogpost.nextpost && (
+                          <a
+                              title="nextPost"
+                              href={`/blog/${this.state.slugNextpost}`}
+                              onClick={this.scrollToTop}
+                              className={s.ButtonNext}
+                          >
+                            <button className={s.ButtonNextOnHover}>Next</button>
+                          </a>
+                      )}
+                    </div>
+                  </div>
+
+            <Prompt
+                show={this.state.isPromptOpen}
+                onDelete={this.handleDeletion}
+                onArchive={this.handleArchive}
+                onCancel={this.onModalLeave}
+                message="Do you want to delete or archive that post?"
+            />
+          </div>
+    )
   }
 }
 
-export default withRouter(DetailView);
+export default withRouter(DetailView)

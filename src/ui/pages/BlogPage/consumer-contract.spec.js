@@ -142,7 +142,7 @@ describe("all Tests", () => {
         },
         willRespondWith: {
           status: 200,
-          body: eachLike(mockedBlogpost),
+          body: mockedBlogpost,
         },
       });
 

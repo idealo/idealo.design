@@ -3,10 +3,44 @@ import Markdown from "markdown-to-jsx";
 
 import s from "./ComponentsPage.module.scss";
 
-import { withRouter } from "react-router";
+import {Redirect, withRouter} from "react-router";
 import { fetchSingleComponent } from "./component_data";
 
 export class ComponentsDetailView extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            component: null,
+            error: null,
+        }
+    }
+
+    async componentDidMount() {
+        const component = await fetchSingleComponent({slug: this.props.match.params.slug})
+
+        if(component){
+            this.setState({
+                component: component,
+            });
+        }else{
+            this.setState({
+                error: '404',
+            })
+        }
+    }
+
+    render() {
+        if(this.state.component){
+            return <Component {...this.props}/>
+        }else if(this.state.error){
+            return <Redirect to="/error"/>
+        }else{
+            return <h2>Loading...</h2>
+        }
+    }
+}
+
+class Component extends React.Component {
     constructor(props) {
         super(props);
         this.copyTextToClipboard = this.copyTextToClipboard.bind(this);
@@ -45,6 +79,11 @@ export class ComponentsDetailView extends React.Component {
     async componentDidUpdate(prevProps, prevState, snapshot) {
         if (window.location.href.includes("#")) {
             await this.updateComponentDetailView();
+        }
+
+        if(prevProps.match.params.slug !== this.props.match.params.slug){
+            this.componentDidMount()
+            await this.updateComponentDetailView()
         }
     }
 
@@ -140,40 +179,40 @@ export class ComponentsDetailView extends React.Component {
         this.setState({ result: usageAsHtml });
     }
 
-  render() {
-    return (
-      <div>
-        <div className={s.headerNav}>
-          <h1 className={s.titleDetailView} title={this.state.component.title}>
-            {this.state.titleAfterBackslash}
-          </h1>
-          <hr/>
-          <ul>
-            {this.state.links.map((link, key) => (
-              <li key={key}>
-                <a title={link} href={`#${link}`}>
-                  {link}
-                </a>
-              </li>
-            ))}
-            <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
-              <a
-                title="linkToBitbucket"
-                className={s.LinkToBitbucket}
-                target="_blank"
-                href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}
-              >
-                Link to Bitbucket
-              </a>
-            </button>
-          </ul>
-        </div>
-        <div>
-          <code>{this.state.result}</code>
-        </div>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <div className={s.headerNav}>
+                    <h1 className={s.titleDetailView} title={this.state.component.title}>
+                        {this.state.titleAfterBackslash}
+                    </h1>
+                    <hr/>
+                    <ul>
+                        {this.state.links.map((link, key) => (
+                            <li key={key}>
+                                <a title={link} href={`#${link}`}>
+                                    {link}
+                                </a>
+                            </li>
+                        ))}
+                        <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
+                            <a
+                                title="linkToBitbucket"
+                                className={s.LinkToBitbucket}
+                                target="_blank"
+                                href={`https://code.eu.idealo.com/projects/SFECO/repos/motif-ui/browse/src/${this.state.titleAfterBackslash}/src/`}
+                            >
+                                Link to Bitbucket
+                            </a>
+                        </button>
+                    </ul>
+                </div>
+                <div>
+                    <code>{this.state.result}</code>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default withRouter(ComponentsDetailView);

@@ -6,7 +6,9 @@ const sequelize = new Sequelize (
     "postgres://database-idealo-design.c9fyhsob8bxc.eu-central-1.rds.amazonaws.com",
     {
         dialectOptions: {
-            useUTC: false
+            useUTC: false,
+            dateStrings: true,
+            typeCast: true
         },
         timezone: '+02:00'
     }

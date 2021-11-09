@@ -8,6 +8,8 @@ import BtnIco from './ico_hamburger.svg'
 
 import {getElementBySlug} from '../../../../data/elements'
 import {default as Search} from '../Header/Search'
+import {default as Login} from '../Header/Login'
+import IconGitHub from "./ico_github.svg"
 
 class StickyMenu extends React.Component {
 
@@ -135,6 +137,8 @@ class Header extends React.Component {
                     onClick={this.toggleSearchInput}
                     closeSearchInput={this.closeSearchInput}
                     isOpen={this.state.isSearchInputOpen}/>
+                <a href="https://github.com/idealo/idealo.design" target="_blank"><IconGitHub className={s.IconGitHub}/></a>
+                <Login/>
             </header>
         )
     }

@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 
 import ListView from "./ListView";
 import DetailView from "./DetailView";
 import EditorView from "./EditorView";
-import { fetchUserInfo } from "./data";
 
-export default function BlogPage({ match }) {
-  const [userInfo, setUserInfo] = useState([]);
-
-  useEffect(() => {
-    fetchUserInfo().then(setUser);
-  });
-
-  const setUser = (user) => {
-    setUserInfo(user);
-  };
+export default function BlogPage() {
 
   return (
     <>
@@ -27,18 +17,10 @@ export default function BlogPage({ match }) {
           <ListView />
         </Route>
         <Route exact path="/blog/new-post">
-          {userInfo.status === "NOT_LOGGED_IN" ? (
-            <Redirect to="/blog" />
-          ) : (
-            <EditorView />
-          )}
+          <EditorView />
         </Route>
         <Route exact path="/blog/:slug/edit">
-          {userInfo.status === "NOT_LOGGED_IN" ? (
-            <Redirect to="/blog" />
-          ) : (
-            <EditorView />
-          )}
+          <EditorView />
         </Route>
         <Route path="/blog/:slug">
           <DetailView />

@@ -43,9 +43,13 @@ export class Library extends Model {
                 slug: slug
             }
         }).then(async component => {
-            const singleComponent = component.toJSON()
-            singleComponent.screenshots = await Screenshots.fetchAllScreenshotPaths(singleComponent.component_id)
-            return singleComponent
+            if(component){
+                const singleComponent = component.toJSON()
+                singleComponent.screenshots = await Screenshots.fetchAllScreenshotPaths(singleComponent.component_id)
+                return singleComponent
+            }else{
+                return component
+            }
         })
     }
 }

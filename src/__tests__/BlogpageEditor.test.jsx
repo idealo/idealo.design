@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/extend-expect";
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { RichTextEditor } from "../ui/pages/BlogPage/Editor/Editor";
-import { fetchSinglePost } from "../ui/pages/BlogPage/data";
+import {fetchSinglePost, fetchUserInfo} from "../ui/pages/BlogPage/data";
 
 jest.mock("../ui/pages/BlogPage/data", () => {
   return {
@@ -21,6 +21,15 @@ jest.mock("../ui/pages/BlogPage/Editor/Editor", () => {
 });
 
 test("editor is rendered correctly when the mode is create", () => {
+  const userInfo = {
+    status: "LOGGED_IN",
+    user: {
+      displayName: "Testuser",
+    },
+  };
+
+  fetchUserInfo.mockReturnValue(userInfo)
+
   const mockedParams = {
     match: { params: { slug: "" } },
     history: { block: jest.fn() },
@@ -67,6 +76,15 @@ test("editor is rendered with filled in fields and buttons in the edit mode", as
       entityMap: {},
     },
   };
+
+  const userInfo = {
+    status: "LOGGED_IN",
+    user: {
+      displayName: "Testuser",
+    },
+  };
+
+  fetchUserInfo.mockReturnValue(userInfo)
   fetchSinglePost.mockReturnValue(post);
 
   const mockedParams = {
