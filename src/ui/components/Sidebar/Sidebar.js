@@ -142,11 +142,11 @@ class NavSection extends React.Component {
                 </div>
                 <ul style={{height}}>
                     {this.props.section.children && this.props.section.children.map((item, idx) => (
-                        <li key={idx}>
-                        <NavLink style={{visibility}} to={`${item.href}`} exact activeClassName={s.active} as={item.href}>
-                            {item.title}
-                        </NavLink>
-                        </li>
+                       <NavLink style={{visibility}} to={`${item.href}`} exact activeClassName={s.active} as={item.href} key={idx}>
+                           <li>
+                                {item.title}
+                           </li>
+                       </NavLink>
                     ))}
                 </ul>
             </>
