@@ -131,6 +131,10 @@ section
   animation-delay: 5.5s;
 }
 
+.pointerLink {
+  cursor: pointer;
+}
+
 @keyframes fadeInBottom
 {
   0%
@@ -165,8 +169,8 @@ section
   position: absolute;
   bottom: -50px;
   right: 40%;
-  width: 150px;
-  height: 150px;
+  width: 125px;
+  height: 125px;
   background-color: $color_orange;
   border: 20px solid $color_orange;
   animation: rotate 40s linear infinite, fadeIn 1s linear forwards;

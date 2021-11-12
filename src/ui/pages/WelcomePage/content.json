@@ -4,10 +4,7 @@
       "type": "p",
       "content": "<i>iDS</i> is idealo's Design System (iDS) for products and experiences. With our Design Language as its foundation, the system consists of working code, design tools and resources, human interface guidelines, and a community of contributors."
     },
-    {
-      "type": "h2",
-      "content": "Why"
-    },
+
     {
       "type": "p",
       "content": "Development of digital products is getting more and more complex. Engineering, Designer, Product Owners and Business Owners all have their own perspective on the product they're working on together. In order to efficiently tackle cross-cutting concerns like Accessibility, Performance, Visual Consistency and Information Sharing it is helpful to define and curate a common mental model of the ongoings."

@@ -9,8 +9,6 @@ function RenderElement(props) {
             return <p dangerouslySetInnerHTML={{__html: elem.content}}/>
         case 'h1':
             return <h1 dangerouslySetInnerHTML={{__html: elem.content}}/>
-        case 'h2':
-            return <h2 dangerouslySetInnerHTML={{__html: elem.content}}/>
         case 'h3':
             return <h3 dangerouslySetInnerHTML={{__html: elem.content}}/>
         case 'h4':

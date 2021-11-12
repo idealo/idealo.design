@@ -25,7 +25,7 @@ export default function LandingPage() {
                         and reassembled Components are never set in stone,
                         some will stay, some will change over time.
                     </p>
-                    <a onClick={redirect}>Get started</a>
+                    <div className={s.pointerLink}><a onClick={redirect}>Get started</a></div>
                 </div>
                 <div className={s.element1}/>
                 <div className={s.element2}/>
