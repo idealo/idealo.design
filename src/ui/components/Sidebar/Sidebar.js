@@ -28,7 +28,7 @@ function createSections(data) {
                 const component = data.components[key]
                 return {
                     title: component.title,
-                    href: `/library/${component.slug}`
+                    href: `/library/${component.slug}#Design`
                 }
             }))
         },
