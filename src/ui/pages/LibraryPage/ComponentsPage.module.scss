@@ -97,17 +97,15 @@
     padding: 14px 16px;
     text-decoration: none;
   }
-
-  li a:hover:not(.active) {
-    color: #0771D0;
-  }
-
-  .active {
-    color: #0771D0;
-  }
 }
 
-.copyButton {
+.activeLink {
+  color: #0771D0;
+  //border-bottom: 3px solid $color_marine_600;
+  border-bottom: 3px solid white;
+}
+
+.copyButton{
   float:right;
   margin: 10px;
   background: $color_marine_600;
@@ -133,13 +131,25 @@
 }
 
 .buttonToBitbucket{
-  float:right;
-  margin: 5px;
+  float: right;
   background-color: #0771D0;
-  background-blend-mode: normal;
-  border-radius: 4px;
+  border: 1px;
+}
+
+.button {
+  font-size: 16px;
+  height: 40px;
   padding-left: 30px;
   padding-right: 30px;
-  height: 40px;
-  border: 1px;
+  letter-spacing: 0.2px;
+  background-blend-mode: normal;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.goBackButton{
+  border-color: #0771D0;
+  background-color: white;
+  color: #0771D0;
+  margin: 5px;
 }

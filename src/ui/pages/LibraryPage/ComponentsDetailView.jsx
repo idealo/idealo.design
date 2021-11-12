@@ -44,6 +44,7 @@ class Component extends React.Component {
     constructor(props) {
         super(props);
         this.copyTextToClipboard = this.copyTextToClipboard.bind(this);
+        this.goBack = this.goBack.bind(this);
 
         this.state = {
             slug: "",
@@ -79,11 +80,28 @@ class Component extends React.Component {
     async componentDidUpdate(prevProps, prevState, snapshot) {
         if (window.location.href.includes("#")) {
             await this.updateComponentDetailView();
+            this.handleActiveLink(window.location.href);
         }
 
         if(prevProps.match.params.slug !== this.props.match.params.slug){
             this.componentDidMount()
             await this.updateComponentDetailView()
+        }
+    }
+
+    handleActiveLink(e) {
+        const targetOfLink = e.split('#')[1]
+        const links = document.getElementsByTagName('a')
+        const classOfActiveLink = s.activeLink
+        for (let link of links) {
+            const splitLink = link.href.split('#')
+            if (splitLink.length === 2) {
+                if (splitLink[1] === targetOfLink) {
+                    link.classList.add(classOfActiveLink);
+                } else {
+                    link.classList.remove(classOfActiveLink)
+                }
+            }
         }
     }
 
@@ -179,9 +197,16 @@ class Component extends React.Component {
         this.setState({ result: usageAsHtml });
     }
 
+    goBack() {
+        this.props.history.push({
+            pathname: `/library`,
+        });
+    }
+
     render() {
         return (
             <div>
+                <button onClick={this.goBack} className= {`${s.button} ${s.goBackButton}`}>Go Back</button>
                 <div className={s.headerNav}>
                     <h1 className={s.titleDetailView} title={this.state.component.title}>
                         {this.state.titleAfterBackslash}
@@ -195,7 +220,7 @@ class Component extends React.Component {
                                 </a>
                             </li>
                         ))}
-                        <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
+                        <button title="buttonToBitbucket" className={`${s.button} ${s.buttonToBitbucket}`}>
                             <a
                                 title="linkToBitbucket"
                                 className={s.LinkToBitbucket}
