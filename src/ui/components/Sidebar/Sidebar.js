@@ -45,6 +45,11 @@ function createSections(data) {
                     }
                 })),
         },
+        {
+            icon: 'OrganismsIcon',
+            title: 'Get started',
+            href: '/welcome',
+        },
     ];
 }
 
@@ -108,6 +113,7 @@ class NavSection extends React.Component {
         })
     }
 
+
     render() {
         const visibility = this.state.isClosed ? 'hidden' : 'visible'
         const height = this.state.isClosed ? 0 : 'auto'
@@ -137,19 +143,22 @@ class NavSection extends React.Component {
                                     {this.props.section.title}
                                 </NavLink>
                             </span>
-                            <ChevronIcon style={{transform}} className={s.VerticalNav__TopLevelAngle}/>
+                            {this.props.section.title !== 'Get started' &&
+                                <ChevronIcon style={{transform}} className={s.VerticalNav__TopLevelAngle}/>
+                            }
+
                         </>)}
                 </div>
                 <ul style={{height}}>
                     {this.props.section.children && this.props.section.children.map((item, idx) => (
-                       <NavLink style={{visibility}} to={`${item.href}`} exact activeStyle={{
-                           textDecoration: "underline 3px #0A3761",
-                           textUnderlineOffset: "3px",
-                       }} as={item.href} key={idx}>
-                           <li>
+                        <NavLink style={{visibility}} to={`${item.href}`} exact activeStyle={{
+                            textDecoration: "underline 3px #0A3761",
+                            textUnderlineOffset: "3px",
+                        }} as={item.href} key={idx}>
+                            <li>
                                 {item.title}
-                           </li>
-                       </NavLink>
+                            </li>
+                        </NavLink>
                     ))}
                 </ul>
             </>
