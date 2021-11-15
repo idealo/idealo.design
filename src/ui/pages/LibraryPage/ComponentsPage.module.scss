@@ -157,7 +157,7 @@
   border-bottom: 3px solid white;
 }
 
-.copyButton {
+.copyButton{
   float:right;
   margin: auto;
   background: $color_marine_600;
@@ -187,13 +187,26 @@
 }
 
 .buttonToBitbucket{
-  float:right;
-  margin: 5px;
+  float: right;
   background-color: #0771D0;
-  background-blend-mode: normal;
-  border-radius: 4px;
+  border: 1px;
+}
+
+.button {
+  font-size: 16px;
+  height: 40px;
   padding-left: 30px;
   padding-right: 30px;
-  height: 40px;
-  border: 1px;
+  letter-spacing: 0.2px;
+  background-blend-mode: normal;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.goBackButton{
+  border-color: #0771D0;
+  background-color: white;
+  color: #0771D0;
+  margin-bottom: 5px;
+  margin-left: 0;
 }

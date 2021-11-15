@@ -53,6 +53,7 @@ class Component extends React.Component {
             isPromptOpen: false
         };
 
+        this.goBack = this.goBack.bind(this);
         this.handleDeletion = this.handleDeletion.bind(this);
         this.handlePopup = this.handlePopup.bind(this);
         this.onModalLeave = this.onModalLeave.bind(this);
@@ -91,6 +92,22 @@ class Component extends React.Component {
     handlePopup() {
         this.setState({ isPromptOpen: true });
     }
+  
+    handleActiveLink(e) {
+        const targetOfLink = e.split('#')[1]
+        const links = document.getElementsByTagName('a')
+        const classOfActiveLink = s.activeLink
+        for (let link of links) {
+            const splitLink = link.href.split('#')
+            if (splitLink.length === 2) {
+                if (splitLink[1] === targetOfLink) {
+                    link.classList.add(classOfActiveLink);
+                } else {
+                    link.classList.remove(classOfActiveLink)
+                }
+            }
+        }
+    }
 
     onModalLeave() {
         this.setState({ isPromptOpen: false });
@@ -117,11 +134,17 @@ class Component extends React.Component {
             }
         }
     }
-
+    
+    goBack() {
+        this.props.history.push({
+            pathname: `/library`,
+        });
+    }
 
     render() {
         return (
             <div>
+                <button onClick={this.goBack} className= {`${s.button} ${s.goBackButton}`}>Go Back</button>
                 <div className={s.headerNav}>
                     <h1 className={s.titleDetailView} title={this.state.component.title}>
                         {this.state.titleAfterBackslash}
@@ -145,7 +168,7 @@ class Component extends React.Component {
                             <a className={s.LinkToEditButton}
                                href={`/library/${this.state.component.slug}/edit`}>edit</a>
                         </button>
-                        <button title="buttonToBitbucket" className={s.buttonToBitbucket}>
+                        <button title="buttonToBitbucket" className={`${s.button} ${s.buttonToBitbucket}`}>
                             <a
                                 title="linkToBitbucket"
                                 className={s.LinkToBitbucket}

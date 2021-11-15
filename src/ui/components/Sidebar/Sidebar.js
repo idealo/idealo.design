@@ -28,13 +28,14 @@ function createSections(data) {
                 const component = data.components[key]
                 return {
                     title: component.title,
-                    href: `/library/${component.slug}`
+                    href: `/library/${component.slug}#Design`
                 }
             }))
         },
         {
             icon: 'otherIcon',
             title: 'Activities',
+            href: '/blog',
             children: [{title: 'Blog', href: '/blog'}]
                 .concat(Object.keys(data.cats).map(key => {
                     const cat = data.cats[key]
@@ -141,11 +142,14 @@ class NavSection extends React.Component {
                 </div>
                 <ul style={{height}}>
                     {this.props.section.children && this.props.section.children.map((item, idx) => (
-                        <li key={idx}>
-                        <NavLink style={{visibility}} to={`${item.href}`} exact activeClassName={s.active} as={item.href}>
-                            {item.title}
-                        </NavLink>
-                        </li>
+                       <NavLink style={{visibility}} to={`${item.href}`} exact activeStyle={{
+                           textDecoration: "underline 3px #0A3761",
+                           textUnderlineOffset: "3px",
+                       }} as={item.href} key={idx}>
+                           <li>
+                                {item.title}
+                           </li>
+                       </NavLink>
                     ))}
                 </ul>
             </>
