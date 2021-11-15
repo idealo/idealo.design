@@ -92,22 +92,6 @@ class Component extends React.Component {
     handlePopup() {
         this.setState({ isPromptOpen: true });
     }
-  
-    handleActiveLink(e) {
-        const targetOfLink = e.split('#')[1]
-        const links = document.getElementsByTagName('a')
-        const classOfActiveLink = s.activeLink
-        for (let link of links) {
-            const splitLink = link.href.split('#')
-            if (splitLink.length === 2) {
-                if (splitLink[1] === targetOfLink) {
-                    link.classList.add(classOfActiveLink);
-                } else {
-                    link.classList.remove(classOfActiveLink)
-                }
-            }
-        }
-    }
 
     onModalLeave() {
         this.setState({ isPromptOpen: false });
