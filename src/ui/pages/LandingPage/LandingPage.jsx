@@ -27,8 +27,17 @@ export default function LandingPage() {
                     </p>
                     <div className={s.pointerLink}><a onClick={redirect}>Get started</a></div>
                 </div>
-                <div className={s.element1}/>
-                <div className={s.element2}/>
+                <div className={s.gears} id="one-gear">
+                    <div className={s.gearsContainer}>
+                        <div className={s.gearRotate}/>
+                    </div>
+                </div>
+                <div className={s.gears} id="two-gears">
+                    <div className={s.gearsContainer2}>
+                        <div className={s.gearRotate}/>
+                        <div className={s.gearRotateLeft}/>
+                    </div>
+                </div>
             </section>
         </div>
     )
