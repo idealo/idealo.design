@@ -35,6 +35,7 @@ export default function LandingPage() {
                 <div className={s.gears} id="two-gears">
                     <div className={s.gearsContainer2}>
                         <div className={s.gearRotate}/>
+                        <div className={s.gearRotate2}/>
                         <div className={s.gearRotateLeft}/>
                     </div>
                 </div>
