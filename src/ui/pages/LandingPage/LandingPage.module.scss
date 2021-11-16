@@ -163,7 +163,6 @@ section
   width: 48%;
   display: inline-block;
 }
-
 .gears:first-child{
   margin-right: 1%;
 }
@@ -202,6 +201,21 @@ section
   margin-top: -1em;
   margin-left: -1em;
   background: #EBB23A;
+  position: absolute;
+  border-radius: 1em;
+  -webkit-animation: 1s gear-rotate linear infinite;
+  -moz-animation: 1s gear-rotate linear infinite;
+  animation: 1s gear-rotate linear infinite;
+}
+
+.gearRotate2{
+  width: 1em;
+  height: 1em;
+  top: 64%;
+  left: 58%;
+  margin-top: -1em;
+  margin-left: -1em;
+  background: #e4913b;
   position: absolute;
   border-radius: 1em;
   -webkit-animation: 1s gear-rotate linear infinite;
@@ -252,7 +266,7 @@ section
 .gearRotate::after, .gearRotateLeft::after {
   width: 2em;
   height: 2em;
-  background: #E4913B;
+  background: #EBB23A;
   position: absolute;
   content:"";
   border-radius: 1em;
