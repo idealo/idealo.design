@@ -7,6 +7,11 @@
     {
       "type": "p",
       "content": "As a developer, if you are interested in helping us improving our Design System and Community Page even further, feel free to share your ideas and thoughts in these following meetings:"
+    },
+    {
+      "name": "Confluence Page: Pattern Library",
+      "type": "link",
+      "href": "https://confluence.eu.idealo.com/display/GRAFIK/Pattern+Library"
     }
   ]
 }

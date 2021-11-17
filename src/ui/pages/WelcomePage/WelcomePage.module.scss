@@ -1,0 +1,17 @@
+@import "Styles/colors";
+
+.a {
+  text-decoration: none;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+a:link {
+  color: $color_marine_600;
+}
+
+a:visited {
+  color: $color_marine_600;
+}
