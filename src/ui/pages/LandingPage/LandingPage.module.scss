@@ -204,27 +204,102 @@ section
   left: 50%;
   margin-top: -1em;
   margin-left: -1em;
-  background: #EBB23A;
+  background: #FF9B59;
   position: absolute;
   border-radius: 1em;
-  -webkit-animation: 1s gear-rotate linear infinite;
-  -moz-animation: 1s gear-rotate linear infinite;
-  animation: 1s gear-rotate linear infinite;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
 }
 
-.gearRotate2{
+.gearRotate_Circle{
   width: 1em;
   height: 1em;
-  top: 64%;
+  top: 64.5%;
   left: 58%;
   margin-top: -1em;
   margin-left: -1em;
-  background: #e4913b;
+  background: #FF9B59;
   position: absolute;
   border-radius: 1em;
-  -webkit-animation: 1s gear-rotate linear infinite;
-  -moz-animation: 1s gear-rotate linear infinite;
-  animation: 1s gear-rotate linear infinite;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_LeftCircle{
+  width: 1em;
+  height: 1em;
+  top: 30%;
+  left: 23.5%;
+  margin-top: -1em;
+  margin-left: -1em;
+  background: #47749E;
+  position: absolute;
+  border-radius: 1em;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_tinyCircle{
+  width: 1em;
+  height: 1em;
+  top: 54%;
+  left: 53.5%;
+  margin-top: -1em;
+  margin-left: -1em;
+  background: #FF9B59;
+  position: absolute;
+  border-radius: 1em;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_bigRing{
+  width: 2em;
+  height: 2em;
+  top: 44%;
+  left: 46.7%;
+  margin-top: -1em;
+  margin-left: -1em;
+  position: absolute;
+  border-radius: 2em;
+  border: 9px solid #FF9B59;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_LeftRing{
+  width: 2em;
+  height: 2em;
+  top: 9%;
+  left: 12.5%;
+  margin-top: -1em;
+  margin-left: -1em;
+  position: absolute;
+  border-radius: 2em;
+  border: 9px solid #44749E;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_tinyRing{
+  width: 2em;
+  height: 2em;
+  top: 48.2%;
+  left: 48%;
+  margin-top: -1em;
+  margin-left: -1em;
+  position: absolute;
+  border-radius: 2em;
+  border: 6px solid #FF9B59;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
 }
 
 .gearRotateLeft{
@@ -232,34 +307,34 @@ section
   top: 50%;
   width: 2em;
   height: 2em;
-  background: #EBB23A;
+  background: #47749E;
   position: absolute;
   border-radius: 1em;
-  -webkit-animation: 1s gear-rotate-left linear infinite;
-  -moz-animation: 1s gear-rotate-left linear infinite;
-  animation: 1s gear-rotate-left linear infinite;
+  -webkit-animation: 2s gear-rotate-left linear infinite;
+  -moz-animation: 2s gear-rotate-left linear infinite;
+  animation: 2s gear-rotate-left linear infinite;
 }
 
-.gearRotate::before, .gearRotateLeft::before {
+.gearRotate::before, {
   width: 2.8em;
   height: 2.8em;
   background:
-          -webkit-linear-gradient(0deg,transparent 39%,#EBB23A 39%, #EBB23A 61%, transparent 61%),
-          -webkit-linear-gradient(60deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%),
-          -webkit-linear-gradient(120deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%);
+          -webkit-linear-gradient(0deg,transparent 39%,$color_orange 39%, $color_orange 61%, transparent 61%),
+          -webkit-linear-gradient(60deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%),
+          -webkit-linear-gradient(120deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%);
   background:
-          -moz-linear-gradient(0deg,transparent 39%,#EBB23A 39%,#EBB23A 61%, transparent 61%),
-          -moz-linear-gradient(60deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%),
-          -moz-linear-gradient(120deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%);
+          -moz-linear-gradient(0deg,transparent 39%,$color_orange 39%,$color_orange 61%, transparent 61%),
+          -moz-linear-gradient(60deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%),
+          -moz-linear-gradient(120deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%);
   background:
-          -o-linear-gradient(0deg,transparent 39%,#EBB23A 39%,#EBB23A 61%, transparent 61%),
-          -o-linear-gradient(60deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%),
-          -o-linear-gradient(120deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%);
-  background: -ms-linear-gradient(0deg,transparent 39%,#EBB23A 39%,#EBB23A 61%, transparent 61%),-ms-linear-gradient(60deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%),-ms-linear-gradient(120deg,transparent 42%,#E9E581 42%,#E9E581 58%, transparent 58%);
+          -o-linear-gradient(0deg,transparent 39%,$color_orange 39%,$color_orange 61%, transparent 61%),
+          -o-linear-gradient(60deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%),
+          -o-linear-gradient(120deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%);
+  background: -ms-linear-gradient(0deg,transparent 39%,$color_orange 39%,$color_orange 61%, transparent 61%),-ms-linear-gradient(60deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%),-ms-linear-gradient(120deg,transparent 42%,#E9E581 42%,#E9E581 58%, transparent 58%);
   background:
-          linear-gradient(0deg,transparent 39%,#EBB23A 39%,#EBB23A 61%, transparent 61%),
-          linear-gradient(60deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%),
-          linear-gradient(120deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%);
+          linear-gradient(0deg,transparent 39%,$color_orange 39%,$color_orange 61%, transparent 61%),
+          linear-gradient(60deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%),
+          linear-gradient(120deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%);
   position: absolute;
   content:"";
   top: -.4em;
@@ -267,10 +342,46 @@ section
   border-radius:1.4em;
 }
 
-.gearRotate::after, .gearRotateLeft::after {
+.gearRotateLeft::before {
+  width: 2.8em;
+  height: 2.8em;
+  background:
+          -webkit-linear-gradient(0deg,transparent 39%,$color_marine_600 39%, $color_marine_600 61%, transparent 61%),
+          -webkit-linear-gradient(60deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%),
+          -webkit-linear-gradient(120deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%);
+  background:
+          -moz-linear-gradient(0deg,transparent 39%,$color_marine_600 39%,$color_marine_600 61%, transparent 61%),
+          -moz-linear-gradient(60deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%),
+          -moz-linear-gradient(120deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%);
+  background:
+          -o-linear-gradient(0deg,transparent 39%,$color_marine_600 39%,$color_marine_600 61%, transparent 61%),
+          -o-linear-gradient(60deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%),
+          -o-linear-gradient(120deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%);
+  background: -ms-linear-gradient(0deg,transparent 39%,$color_marine_600 39%,$color_marine_600 61%, transparent 61%),-ms-linear-gradient(60deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%),-ms-linear-gradient(120deg,transparent 42%,#E9E581 42%,#E9E581 58%, transparent 58%);
+  background:
+          linear-gradient(0deg,transparent 39%,$color_marine_600 39%,$color_marine_600 61%, transparent 61%),
+          linear-gradient(60deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%),
+          linear-gradient(120deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%);
+  position: absolute;
+  content:"";
+  top: -.4em;
+  left: -.4em;
+  border-radius:1.4em;
+}
+
+.gearRotate::after{
   width: 2em;
   height: 2em;
-  background: #EBB23A;
+  background: $color_orange;
+  position: absolute;
+  content:"";
+  border-radius: 1em;
+}
+
+.gearRotateLeft::after {
+  width: 2em;
+  height: 2em;
+  background: $color_marine_600;
   position: absolute;
   content:"";
   border-radius: 1em;

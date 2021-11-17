@@ -29,14 +29,21 @@ export default function LandingPage() {
                 </div>
                 <div className={s.gears} id="one-gear">
                     <div className={s.gearsContainer}>
+                        <div className={s.gearRotate_tinyRing}/>
                         <div className={s.gearRotate}/>
+                        <div className={s.gearRotate_tinyCircle}/>
+                        
                     </div>
                 </div>
                 <div className={s.gears} id="two-gears">
                     <div className={s.gearsContainer2}>
+                        <div className={s.gearRotate_bigRing}/>
                         <div className={s.gearRotate}/>
-                        <div className={s.gearRotate2}/>
+                        <div className={s.gearRotate_Circle}/>
+
+                        <div className={s.gearRotate_LeftRing}/>
                         <div className={s.gearRotateLeft}/>
+                        <div className={s.gearRotate_LeftCircle}/>
                     </div>
                 </div>
             </section>
