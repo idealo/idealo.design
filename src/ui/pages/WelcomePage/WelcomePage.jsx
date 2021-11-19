@@ -57,7 +57,7 @@ function RenderElement(props) {
         case 'h5':
             return <h5 dangerouslySetInnerHTML={{__html: elem.content}}/>
         case 'link':
-            return <a className={s.link} href={elem.href}>{elem.name}</a>
+            return <><a className={s.link} href={elem.href}>{elem.name}</a><br/></>
         case 'img':
             return <img src={elem.src}/>
     }

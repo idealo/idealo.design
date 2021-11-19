@@ -1,7 +1,9 @@
 @import "Styles/colors";
 
 .link {
+  color: #0771D0;
   text-decoration: none;
+  font-weight: bold;
 }
 
 link:hover {
@@ -9,9 +11,9 @@ link:hover {
 }
 
 link:link {
-  color: $color_marine_600;
+  color: #0771D0;
 }
 
 link:visited {
-  color: $color_marine_600;
+  color: #0771D0;
 }
