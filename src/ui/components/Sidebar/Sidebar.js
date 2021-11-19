@@ -28,13 +28,14 @@ function createSections(data) {
                 const component = data.components[key]
                 return {
                     title: component.title,
-                    href: `/library/${component.slug}`
+                    href: `/library/${component.slug}#Design`
                 }
             }))
         },
         {
             icon: 'otherIcon',
             title: 'Activities',
+            href: '/blog',
             children: [{title: 'Blog', href: '/blog'}]
                 .concat(Object.keys(data.cats).map(key => {
                     const cat = data.cats[key]
@@ -43,6 +44,11 @@ function createSections(data) {
                         href: `/blog/categories/${cat.categoryslug}`
                     }
                 })),
+        },
+        {
+            icon: 'OrganismsIcon',
+            title: 'Get started',
+            href: '/welcome',
         },
     ];
 }
@@ -107,6 +113,7 @@ class NavSection extends React.Component {
         })
     }
 
+
     render() {
         const visibility = this.state.isClosed ? 'hidden' : 'visible'
         const height = this.state.isClosed ? 0 : 'auto'
@@ -136,16 +143,22 @@ class NavSection extends React.Component {
                                     {this.props.section.title}
                                 </NavLink>
                             </span>
-                            <ChevronIcon style={{transform}} className={s.VerticalNav__TopLevelAngle}/>
+                            {this.props.section.title !== 'Get started' &&
+                                <ChevronIcon style={{transform}} className={s.VerticalNav__TopLevelAngle}/>
+                            }
+
                         </>)}
                 </div>
                 <ul style={{height}}>
                     {this.props.section.children && this.props.section.children.map((item, idx) => (
-                        <li key={idx}>
-                        <NavLink style={{visibility}} to={`${item.href}`} exact activeClassName={s.active} as={item.href}>
-                            {item.title}
+                        <NavLink style={{visibility}} to={`${item.href}`} exact activeStyle={{
+                            textDecoration: "underline 3px #0A3761",
+                            textUnderlineOffset: "3px",
+                        }} as={item.href} key={idx}>
+                            <li>
+                                {item.title}
+                            </li>
                         </NavLink>
-                        </li>
                     ))}
                 </ul>
             </>
