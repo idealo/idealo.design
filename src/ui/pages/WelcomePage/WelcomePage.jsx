@@ -33,7 +33,7 @@ export class WelcomePage extends React.Component {
         if(this.state.user){
             return <WelcomePageContent {...this.props}/>
         }else if(this.state.error){
-            return <LoginMessage children="Library"/>
+            return <LoginMessage children="Welcome Page"/>
         }else{
             return <h2>Loading...</h2>
         }
@@ -57,7 +57,7 @@ function RenderElement(props) {
         case 'h5':
             return <h5 dangerouslySetInnerHTML={{__html: elem.content}}/>
         case 'link':
-            return <a className={s.a} href={elem.href}>{elem.name}</a>
+            return <a className={s.link} href={elem.href}>{elem.name}</a>
         case 'img':
             return <img src={elem.src}/>
     }

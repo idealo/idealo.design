@@ -122,6 +122,9 @@ class NavSection extends React.Component {
         return (
             <>
                 <div className={s.VerticalNav__TopLevel} onClick={() => {
+                    if (this.props.section.title === 'Get started') {
+                        window.location.assign(this.props.section.href)
+                    }
                     if (!this.props.isSidebarOpen) {
                         const toggleSidebarEvent = new Event('click:toggleSidebar')
                         window.document.dispatchEvent(toggleSidebarEvent)

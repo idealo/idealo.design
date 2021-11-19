@@ -1,17 +1,17 @@
 @import "Styles/colors";
 
-.a {
+.link {
   text-decoration: none;
 }
 
-a:hover {
+link:hover {
   cursor: pointer;
 }
 
-a:link {
+link:link {
   color: $color_marine_600;
 }
 
-a:visited {
+link:visited {
   color: $color_marine_600;
 }
