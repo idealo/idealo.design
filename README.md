@@ -76,7 +76,9 @@ Use `docker run -d -p 6379:6379 -t redis` to run redis key-value database.
 
 - nagivate into the */dist* directory
 
-- run the node server: `POSTGRES_URL=postgres://postgres@localhost:5432/idealodesign node server.js`
+- run the node server: `OAUTH2_CLIENT_ID=XXX OAUTH2_CLIENT_SECRET=XXX OAUTH2_TENANT_ID=XXX CALLBACK_URL=http://localhost:8080/auth/provider/callback POSTGRES_URL=postgres://postgres@localhost:5432/idealodesign S3_BUCKET=mybucket node server.js`
+
+- instead of XXX use the secret values you will find on AWS https://eu-central-1.console.aws.amazon.com/secretsmanager/home?region=eu-central-1#!/secret?name=idealo-design-local-oauth-keys
 
 **Success!** - **You can now find idealo Design System under `localhost:8080`**
 
