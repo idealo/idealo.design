@@ -68,6 +68,12 @@ Install docker by following instructions found on the official docker website ht
 
 Use `docker run -d -p 6379:6379 -t redis` to run redis key-value database.
 
+#### 4.1. create database and its tables
+
+- go into your docker container postgres and run `CREATE DATABASE idealodesign;`
+- go into database idealodesign and run all .sql - files according the order, which you can find in the directory */src/server/db_Configuration*
+
+
 ### 5. Compiling with webpack
 
 - run `npx webpack`
