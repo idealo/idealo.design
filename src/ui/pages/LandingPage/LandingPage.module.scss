@@ -1,0 +1,442 @@
+@import "Styles/colors";
+
+section
+{
+  position: absolute;
+  width: 80%;
+  height: 82%;
+  margin: -2rem;
+  background: $color_white;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.bannerText
+{
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  max-width: 700px;
+}
+
+.bannerText h2,
+.bannerText h3
+{
+  position: relative;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  transform-origin: left;
+  text-transform: uppercase;
+  transform: scaleX(0);
+  animation: revealTextReverse 1s ease-in-out forwards;
+}
+
+.bannerText h2
+{
+  font-size: 6em;
+  animation-delay: 2s;
+  color: $color_marine_600;
+}
+
+.bannerText h3
+{
+  font-size: 3em;
+  animation-delay: 3s;
+  color: $color_orange;
+}
+
+.bannerText h2:before,
+.bannerText h3:before
+{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $color_gray_200;
+  width: 100%;
+  height: 100%;
+  transform-origin: right;
+  animation: revealText 1s ease-in-out forwards;
+  animation-delay: 3s;
+}
+
+.bannerText h3:before
+{
+  animation-delay: 4s;
+}
+
+@keyframes revealText
+{
+  0%
+  {
+    transform: scaleX(1);
+  }
+  100%
+  {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes revealTextReverse
+{
+  0%
+  {
+    transform: scaleX(0);
+  }
+  100%
+  {
+    transform: scaleX(1);
+  }
+}
+
+.bannerText p
+{
+  opacity: 0;
+  font-weight: 400;
+  font-size: 1.2em;
+  animation: fadeIn 1s linear forwards;
+  animation-delay: 5s;
+  color: $color_black;
+}
+
+@keyframes fadeIn
+{
+  0%
+  {
+    opacity: 0;
+  }
+  100%
+  {
+    opacity: 1;
+  }
+}
+
+.bannerText a
+{
+  opacity: 0;
+  display: inline-block;
+  margin: 20px 0 0;
+  padding: 10px 20px;
+  background:  $color_marine_600;
+  color: $color_white;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+  animation: fadeInBottom 0.5s linear forwards;
+  animation-delay: 5.5s;
+}
+
+.pointerLink {
+  cursor: pointer;
+}
+
+@keyframes fadeInBottom
+{
+  0%
+  {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100%
+  {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInRight
+{
+  0%
+  {
+    transform: translateX(150px);
+    opacity: 0;
+  }
+  100%
+  {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.gears {
+  width: 48%;
+  display: inline-block;
+}
+.gears:first-child{
+  margin-right: 1%;
+}
+
+.gearsContainer2{
+  opacity: 0;
+  position: absolute;
+  bottom: -5px;
+  right: 10%;
+  width: 280px;
+  height: 150px;
+  animation: gearRotate 40s linear infinite, fadeIn 1s linear forwards;
+  animation-delay: 7s;
+  font-size:44px;
+}
+
+.gearsContainer{
+  opacity: 0;
+  position: absolute;
+  left: -120px;
+  top: 40%;
+  width: 50px;
+  height: 50px;
+  animation: gearRotate 30s linear infinite, fadeIn 1s linear forwards;
+  animation-delay: 7s;
+  font-size:24px;
+  padding: 9%;
+  margin: 0 auto;
+}
+
+.gearRotate{
+  width: 2em;
+  height: 2em;
+  top: 50%;
+  left: 50%;
+  margin-top: -1em;
+  margin-left: -1em;
+  background: #FF9B59;
+  position: absolute;
+  border-radius: 1em;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_Circle{
+  width: 1em;
+  height: 1em;
+  top: 64.5%;
+  left: 58%;
+  margin-top: -1em;
+  margin-left: -1em;
+  background: #FF9B59;
+  position: absolute;
+  border-radius: 1em;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_LeftCircle{
+  width: 1em;
+  height: 1em;
+  top: 30%;
+  left: 23.5%;
+  margin-top: -1em;
+  margin-left: -1em;
+  background: #47749E;
+  position: absolute;
+  border-radius: 1em;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_tinyCircle{
+  width: 1em;
+  height: 1em;
+  top: 54%;
+  left: 53.5%;
+  margin-top: -1em;
+  margin-left: -1em;
+  background: #FF9B59;
+  position: absolute;
+  border-radius: 1em;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_bigRing{
+  width: 2em;
+  height: 2em;
+  top: 44%;
+  left: 46.7%;
+  margin-top: -1em;
+  margin-left: -1em;
+  position: absolute;
+  border-radius: 2em;
+  border: 9px solid #FF9B59;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_LeftRing{
+  width: 2em;
+  height: 2em;
+  top: 9%;
+  left: 12.5%;
+  margin-top: -1em;
+  margin-left: -1em;
+  position: absolute;
+  border-radius: 2em;
+  border: 9px solid #44749E;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotate_tinyRing{
+  width: 2em;
+  height: 2em;
+  top: 48.2%;
+  left: 48%;
+  margin-top: -1em;
+  margin-left: -1em;
+  position: absolute;
+  border-radius: 2em;
+  border: 6px solid #FF9B59;
+  -webkit-animation: 2s gear-rotate linear infinite;
+  -moz-animation: 2s gear-rotate linear infinite;
+  animation: 2s gear-rotate linear infinite;
+}
+
+.gearRotateLeft{
+  margin-top: -2.2em;
+  top: 50%;
+  width: 2em;
+  height: 2em;
+  background: #47749E;
+  position: absolute;
+  border-radius: 1em;
+  -webkit-animation: 2s gear-rotate-left linear infinite;
+  -moz-animation: 2s gear-rotate-left linear infinite;
+  animation: 2s gear-rotate-left linear infinite;
+}
+
+.gearRotate::before, {
+  width: 2.8em;
+  height: 2.8em;
+  background:
+          -webkit-linear-gradient(0deg,transparent 39%,$color_orange 39%, $color_orange 61%, transparent 61%),
+          -webkit-linear-gradient(60deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%),
+          -webkit-linear-gradient(120deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%);
+  background:
+          -moz-linear-gradient(0deg,transparent 39%,$color_orange 39%,$color_orange 61%, transparent 61%),
+          -moz-linear-gradient(60deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%),
+          -moz-linear-gradient(120deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%);
+  background:
+          -o-linear-gradient(0deg,transparent 39%,$color_orange 39%,$color_orange 61%, transparent 61%),
+          -o-linear-gradient(60deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%),
+          -o-linear-gradient(120deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%);
+  background: -ms-linear-gradient(0deg,transparent 39%,$color_orange 39%,$color_orange 61%, transparent 61%),-ms-linear-gradient(60deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%),-ms-linear-gradient(120deg,transparent 42%,#E9E581 42%,#E9E581 58%, transparent 58%);
+  background:
+          linear-gradient(0deg,transparent 39%,$color_orange 39%,$color_orange 61%, transparent 61%),
+          linear-gradient(60deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%),
+          linear-gradient(120deg,transparent 42%,$color_orange 42%,$color_orange 58%, transparent 58%);
+  position: absolute;
+  content:"";
+  top: -.4em;
+  left: -.4em;
+  border-radius:1.4em;
+}
+
+.gearRotateLeft::before {
+  width: 2.8em;
+  height: 2.8em;
+  background:
+          -webkit-linear-gradient(0deg,transparent 39%,$color_marine_600 39%, $color_marine_600 61%, transparent 61%),
+          -webkit-linear-gradient(60deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%),
+          -webkit-linear-gradient(120deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%);
+  background:
+          -moz-linear-gradient(0deg,transparent 39%,$color_marine_600 39%,$color_marine_600 61%, transparent 61%),
+          -moz-linear-gradient(60deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%),
+          -moz-linear-gradient(120deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%);
+  background:
+          -o-linear-gradient(0deg,transparent 39%,$color_marine_600 39%,$color_marine_600 61%, transparent 61%),
+          -o-linear-gradient(60deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%),
+          -o-linear-gradient(120deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%);
+  background: -ms-linear-gradient(0deg,transparent 39%,$color_marine_600 39%,$color_marine_600 61%, transparent 61%),-ms-linear-gradient(60deg,transparent 42%,#EBB23A 42%,#EBB23A 58%, transparent 58%),-ms-linear-gradient(120deg,transparent 42%,#E9E581 42%,#E9E581 58%, transparent 58%);
+  background:
+          linear-gradient(0deg,transparent 39%,$color_marine_600 39%,$color_marine_600 61%, transparent 61%),
+          linear-gradient(60deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%),
+          linear-gradient(120deg,transparent 42%,$color_marine_600 42%,$color_marine_600 58%, transparent 58%);
+  position: absolute;
+  content:"";
+  top: -.4em;
+  left: -.4em;
+  border-radius:1.4em;
+}
+
+.gearRotate::after{
+  width: 2em;
+  height: 2em;
+  background: $color_orange;
+  position: absolute;
+  content:"";
+  border-radius: 1em;
+}
+
+.gearRotateLeft::after {
+  width: 2em;
+  height: 2em;
+  background: $color_marine_600;
+  position: absolute;
+  content:"";
+  border-radius: 1em;
+}
+
+@-webkit-keyframes gear-rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-180deg);
+  }
+}
+
+@-moz-keyframes gear-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-180deg);
+  }
+}
+
+@keyframes gear-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-180deg);
+  }
+}
+
+@-webkit-keyframes gear-rotate-left {
+  0% {
+    -webkit-transform: rotate(30deg);
+  }
+  100% {
+    -webkit-transform: rotate(210deg);
+  }
+}
+
+@-moz-keyframes gear-rotate-left {
+  0% {
+    -webkit-transform: rotate(30deg);
+  }
+  100% {
+    -webkit-transform: rotate(210deg);
+  }
+}
+
+@keyframes gear-rotate-left {
+  0% {
+    -webkit-transform: rotate(30deg);
+  }
+  100% {
+    -webkit-transform: rotate(210deg);
+  }
+}
