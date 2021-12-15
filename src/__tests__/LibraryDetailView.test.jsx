@@ -53,7 +53,7 @@ describe("test detailview", () => {
     },
   };
 
-  const links = ["Design", "Installation", "Usage"];
+  const links = ["Design", "Implementation"];
 
   const mockedParams = {
     match: { params: { slug: "button" } },
@@ -85,40 +85,27 @@ describe("test detailview", () => {
     });
   });
 
-  test("ComponentDetailView for Usage gets rendered with user logged in", async () => {
+  test("ComponentDetailView for Design gets rendered with user logged in", async () => {
     Object.defineProperty(window, "location", {
       get() {
-        return { href: "#Usage" };
+        return { href: "#Design" };
       },
     });
     render(<ComponentsDetailView {...mockedParams} />);
 
     await waitFor(() => {
+      screen.getByText(mockupComponent.readme.content.Installation.body)
+      expect(screen.getByTitle("copyInstallation")).toBeInTheDocument();
+
       expect(screen.getByText(mockupComponent.readme.content.Usage.body));
       expect(screen.getByTitle("copyUsage")).toBeInTheDocument();
     });
   });
 
-  test("ComponentDetailView for Installation gets rendered with user logged in", async () => {
+  test("ComponentDetailView for Implementation gets rendered with user logged in", async () => {
     Object.defineProperty(window, "location", {
       get() {
-        return { href: "#Installation" };
-      },
-    });
-    render(<ComponentsDetailView {...mockedParams} />);
-
-    await waitFor(() => {
-      expect(
-          screen.getByText(mockupComponent.readme.content.Installation.body)
-      );
-      expect(screen.getByTitle("copyInstallation")).toBeInTheDocument();
-    });
-  });
-
-  test("ComponentDetailView for Design gets rendered with user logged in", async () => {
-    Object.defineProperty(window, "location", {
-      get() {
-        return { href: "#Design" };
+        return { href: "#Implementation" };
       },
     });
     render(<ComponentsDetailView {...mockedParams} />);

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactModal from "react-modal";
-import s from "./Blogpage.module.scss";
+import s from "../pages/BlogPage/Blogpage.module.scss";
 
 export default function PromptSuccess(props) {
     return (
@@ -16,13 +16,14 @@ export default function PromptSuccess(props) {
                     left: "30%",
                     right: "30%",
                     bottom: "45%",
+                    height: "100px",
                 },
             }}
         >
             <header>
                 <h2 className={s.promptMessage}>{props.message}</h2>
             </header>
-            {props.message !== "Your blogpost has been saved successfully." ?(
+            {props.type !== "prompt_of_saving_dataset" ?(
                 <footer>
                     {props.message === "Do you want to delete or archive that post?" ? (
                         <div className={s.promptButtonDiv}>
